@@ -34,6 +34,7 @@ jobs:
       hasCombinedArtifacts: ${{ steps.check.outputs.hasCombinedArtifacts }}
     steps:
       - name: 安装 GitHub CLI
+        run: sudo apt-get install gh -y
 
       - name: 检查 GitHub 发布与产物
         id: check
