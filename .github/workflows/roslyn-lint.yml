@@ -1,0 +1,67 @@
+name: 📈 Roslyn 代码规范检查（CSharpier）
+
+on:
+  workflow_call:
+    inputs:
+      allowAutofix:
+        description: "是否允许自动格式化并提交"
+        required: false
+        default: false
+        type: boolean
+      allowFailure:
+        description: "是否允许格式化失败"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  roslyn-lint:
+    name: C# 代码规范检查
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出项目
+        uses: actions/checkout@v4
+
+      - name: 安装 CSharpier
+        run: |
+          dotnet tool install -g csharpier
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: 检查 C# 格式（CSharpier）
+        id: csharpier
+        run: |
+          echo "📂 正在检查 Assets/ 目录下的代码格式..."
+          if ! dotnet csharpier --check Assets; then
+            echo "FORMAT_FAILED=true" >> $GITHUB_ENV
+          fi
+
+      - name: 若发现格式问题且不允许失败则失败
+        if: inputs.allowFailure == false
+        run: |
+          echo "❌ 检测到格式问题且 allowFailure 为 false，作业失败。"
+          exit 1
+
+      - name: 自动格式化 C# 文件（CSharpier）
+        if: ${{ inputs.allowAutofix == true }}
+        run: |
+          echo "🛠️ 允许自动格式化，正在应用更改..."
+          dotnet csharpier Assets
+
+      - name: 运行 Unity 风格修复器
+        if: ${{ inputs.allowAutofix == true }}
+        run: bash .github/scripts/analyze/csharpier-addon.sh
+
+      - name: 提交格式化修复
+        if: ${{ inputs.allowAutofix == true }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add Assets
+          git diff --cached --quiet || git commit -m "ROSLYN-AUTOFIX: auto-format C# files with CSharpier"
+          git push || echo "⚠️ 无法推送更改（可能是 PR 或无权限）"
+
+      - name: 添加汇总
+        if: failure()
+        run: |
+          echo "❌ **检测到 CSharpier 格式问题**" >> $GITHUB_STEP_SUMMARY
+          echo "请本地运行 \`dotnet csharpier .\` 或重新运行并设置 \`allowAutofix: true\`。" >> $GITHUB_STEP_SUMMARY

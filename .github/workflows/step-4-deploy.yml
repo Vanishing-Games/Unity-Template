@@ -1,0 +1,306 @@
+name: 🌍 步骤4 - 部署
+
+on:
+  workflow_call:
+    inputs:
+      buildType:
+        type: string
+        required: true
+      buildVersion:
+        description: "版本/标签名（如：v1.2.3）"
+        type: string
+        required: true
+      projectName:
+        type: string
+        required: true
+      hasCombinedArtifacts:
+        description: "是否已创建合并产物文件夹"
+        required: true
+        default: 'false'
+        type: string
+      deployTargets:
+        description: "部署目标的JSON数组（如 ['itch.io','appcenter','firebase','s3','gh-pages']）"
+        required: false
+        default: '[]'
+        type: string
+      buildTargets:
+        description: "构建目标的JSON数组（如 [\"WebGL\",\"iOS\"]）"
+        required: true
+        default: '[]'
+        type: string
+      artifactSource:
+        description: "部署产物来源（build 或 release）"
+        required: false
+        default: 'build'
+        type: string
+    secrets:
+      CICD_PAT: { required: true }
+      BUTLER_API_KEY: { required: false }
+      DEPLOY_API_KEY: { required: false }
+      ITCH_USERNAME: { required: false }
+      ITCH_PROJECT: { required: false }
+      APPCENTER_OWNER_NAME: { required: false }
+      FIREBASE_TOKEN: { required: false }
+      AWS_ACCESS_KEY_ID: { required: false }
+      AWS_SECRET_ACCESS_KEY: { required: false }
+      S3_BUCKET: { required: false }
+      STEAM_USERNAME: { required: false }
+      STEAM_PASSWORD: { required: false }
+      STEAM_APP_ID: { required: false }
+      STEAM_DEPOT_VDF_PATH: { required: false }
+      APPSTORE_API_KEY_ID: { required: false }
+      APPSTORE_API_ISSUER_ID: { required: false }
+      APPSTORE_API_PRIVATE_KEY: { required: false }
+      CUSTOM_SERVER_HOST: { required: false }
+      CUSTOM_SERVER_USER: { required: false }
+      CUSTOM_SERVER_KEY: { required: false }
+
+jobs:
+  resolve_deploy_matrix:
+    uses: ./.github/workflows/resolve-deploy-matrix.yml
+    with:
+      validTargets: ${{ inputs.deployTargets }}
+
+  deploy:
+    name: 🚀 部署 ${{ matrix.target }} 于 ${{ matrix.os }}
+    needs: resolve_deploy_matrix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.resolve_deploy_matrix.outputs.matrix) }}
+    env:
+      DEPLOY_DIR: deployment-artifacts
+      PROJECT_DIR: ${{ inputs.projectName }}-${{ inputs.buildVersion }}
+      ARTIFACT_DIR: deployment-artifacts/${{ inputs.projectName }}-${{ inputs.buildVersion }}
+    steps:
+      - name: 📥 从Release获取产物
+        uses: avalin/unity-ci-templates/.github/actions/download-from-release@main
+        with:
+          projectName: ${{ inputs.projectName }}
+          version: ${{ inputs.buildVersion }}
+          githubRepository: ${{ github.repository }}
+          githubToken: ${{ secrets.CICD_PAT }}
+          hasCombinedArtifacts: ${{ inputs.hasCombinedArtifacts }}
+          requiredBuildTargetsJson: '${{ toJson(matrix.requiredBuildTargets) }}'
+
+      # 下载合并产物（单一）
+      - name: 📥 从构建获取产物（合并）
+        if: ${{ inputs.artifactSource == 'build' && inputs.hasCombinedArtifacts == 'true' }}
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ env.ARTIFACT_DIR }}
+          name: ${{ env.PROJECT_DIR }}
+
+      - name: 📥 从构建获取产物（按构建目标）
+        if: ${{ inputs.artifactSource == 'build' && inputs.hasCombinedArtifacts == 'false' }}
+        uses: avalin/unity-ci-templates/.github/actions/download-per-build-target-artifacts-from-build@main
+        with:
+          artifactDir: ${{ env.ARTIFACT_DIR }}
+          projectName: ${{ inputs.projectName }}
+          version: ${{ inputs.buildVersion }}
+          requiredBuildTargets: '${{ toJson(matrix.requiredBuildTargets) }}'
+        env:
+          GH_TOKEN: ${{ secrets.CICD_PAT }}
+
+      - name: 🛠️ 规范化产物结构（仅Release按构建目标）
+        if: ${{ inputs.artifactSource == 'release' && inputs.hasCombinedArtifacts == 'false' }}
+        uses: avalin/unity-ci-templates/.github/actions/normalize-artifact-layout@main
+        with:
+          artifactDir: ${{ env.ARTIFACT_DIR }}
+
+      - name: 🧾 列出产物
+        run: ls -R "$DEPLOY_DIR" || echo "未找到产物。"
+
+      # ───── GitHub Pages ─────
+      - name: 🔍 检查WebGL构建是否存在
+        if: matrix.target == 'gh-pages'
+        run: |
+          if [ ! -d "${ARTIFACT_DIR}/WebGL" ]; then
+            echo "❌ 未找到WebGL构建，无法部署到GitHub Pages。"
+            exit 1
+          fi
+
+      - name: 🔎 检测WebGL压缩格式
+        id: detect-compression
+        uses: avalin/unity-ci-templates/.github/actions/detect-webgl-compression@main
+        with:
+          artifactDir: ${{ env.ARTIFACT_DIR }}
+
+      - name: 🩹 修补并解压Unity WebGL以用于GitHub Pages
+        if: ${{ matrix.target == 'gh-pages' && steps.detect-compression.outputs.needs_patch == 'true' }}
+        uses: avalin/unity-ci-templates/.github/actions/patch-webgl-for-gh-pages@main
+        with:
+          artifactDir: ${{ env.ARTIFACT_DIR }}
+
+      - name: 🌍 部署到GitHub Pages
+        if: matrix.target == 'gh-pages'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.CICD_PAT }}
+          publish_dir: "./${{ env.ARTIFACT_DIR }}/WebGL"
+
+      # ───── itch.io ─────
+      - name: 🤵 安装Butler
+        if: matrix.target == 'itch.io'
+        uses: remarkablegames/setup-butler@v1
+
+      - name: 🕹️ 部署到itch.io
+        if: matrix.target == 'itch.io'
+        run: |
+          if [ -z "${{ secrets.ITCH_USERNAME }}" ] || [ -z "${{ secrets.ITCH_PROJECT }}" ]; then
+            echo "⚠️ 缺少itch.io凭据。"; 
+            exit 1;
+          fi
+          butler push "$ARTIFACT_DIR" "${{ secrets.ITCH_USERNAME }}/${{ secrets.ITCH_PROJECT }}:${{ inputs.buildType }}"
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+
+      # ───── App Center ─────
+      - name: 📱 部署到App Center
+        if: matrix.target == 'appcenter'
+        run: |
+          if [ -z "${{ secrets.APPCENTER_OWNER_NAME }}" ] || [ -z "${{ secrets.DEPLOY_API_KEY }}" ]; then
+            echo "⚠️ 缺少App Center凭据。"; 
+            exit 1;
+          fi
+          FILES=$(find "$ARTIFACT_DIR" -type f \( -name "*.apk" -o -name "*.aab" -o -name "*.ipa" \))
+          if [ -z "$FILES" ]; then echo "❌ 未找到移动端产物。"; exit 1; fi
+
+          for file in $FILES; do
+            echo "🚀 正在部署 $file"
+            npx appcenter distribute release \
+              --app "${{ secrets.APPCENTER_OWNER_NAME }}/${{ inputs.projectName }}" \
+              --file "$file" \
+              --group "Testers" \
+              --token "${{ secrets.DEPLOY_API_KEY }}"
+          done
+
+      # ───── Firebase ─────
+      - name: 🔥 部署到Firebase Hosting
+        if: matrix.target == 'firebase'
+        run: |
+          if [ -z "${{ secrets.FIREBASE_TOKEN }}" ]; then
+            echo "⚠️ 缺少Firebase令牌。"; 
+            exit 1;
+          fi
+          cd "${{ env.ARTIFACT_DIR }}/WebGL" || exit 1
+          npm install -g firebase-tools
+          firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
+
+      # ───── AWS S3 ─────
+      - name: ☁️ 部署到AWS S3
+        if: matrix.target == 's3'
+        run: |
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ] || [ -z "${{ secrets.S3_BUCKET }}" ]; then
+            echo "⚠️ 缺少AWS凭据或存储桶。"; 
+            exit 1;
+          fi
+          aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          aws s3 sync "${{ env.ARTIFACT_DIR }}/WebGL" "s3://${{ secrets.S3_BUCKET }}" --delete
+
+      # ───── Steam ─────
+      - name: 🎮 部署到Steam
+        if: matrix.target == 'steam'
+        run: |
+          VDF_PATH="${{ secrets.STEAM_DEPOT_VDF_PATH }}"
+          if [ -z "$VDF_PATH" ]; then
+            VDF_PATH="$ARTIFACT_DIR/steam/app_build.vdf"
+          fi
+
+          if [ -z "${{ secrets.STEAM_USERNAME }}" ] || [ -z "${{ secrets.STEAM_PASSWORD }}" ] || [ -z "${{ secrets.STEAM_APP_ID }}" ]; then
+            echo "⚠️ 缺少Steam凭据或App ID。"; 
+            exit 1;
+          fi
+
+          echo "🛠️ 安装SteamCMD..."
+          mkdir -p ~/steamcmd && cd ~/steamcmd
+          curl -sSL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xz
+
+          echo "🔑 登录Steam并触发构建..."
+          ./steamcmd.sh +login "${{ secrets.STEAM_USERNAME }}" "${{ secrets.STEAM_PASSWORD }}" +run_app_build "$VDF_PATH" +quit
+
+      # ───── 自定义服务器 ─────
+      - name: 🖥️ 部署到自定义服务器（通过SCP或Rsync）
+        if: matrix.target == 'custom-server'
+        run: |
+          if [ -z "${{ secrets.CUSTOM_SERVER_HOST }}" ] || [ -z "${{ secrets.CUSTOM_SERVER_USER }}" ] || [ -z "${{ secrets.CUSTOM_SERVER_KEY }}" ]; then
+            echo "⚠️ 缺少自定义服务器凭据。"; 
+            exit 1;
+          fi
+
+          echo "➡️ 正在部署到自定义服务器..."
+          mkdir -p ~/.ssh
+          echo "${{ secrets.CUSTOM_SERVER_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.CUSTOM_SERVER_HOST }}" >> ~/.ssh/known_hosts
+
+          rsync -avz "$ARTIFACT_DIR/" "${{ secrets.CUSTOM_SERVER_USER }}@${{ secrets.CUSTOM_SERVER_HOST }}:/var/www/mygame/"
+        env:
+          CUSTOM_SERVER_HOST: ${{ secrets.CUSTOM_SERVER_HOST }}
+          CUSTOM_SERVER_USER: ${{ secrets.CUSTOM_SERVER_USER }}
+          CUSTOM_SERVER_KEY: ${{ secrets.CUSTOM_SERVER_KEY }}
+
+      # ───── TestFlight ─────
+      - name: 🍏 部署.ipa到TestFlight
+        if: matrix.target == 'testflight'
+        run: |
+          if [ -z "${{ secrets.APPSTORE_API_KEY_ID }}" ] || [ -z "${{ secrets.APPSTORE_API_ISSUER_ID }}" ] || [ -z "${{ secrets.APPSTORE_API_PRIVATE_KEY }}" ]; then
+            echo "⚠️ 缺少App Store Connect API凭据。"; 
+            exit 1;
+          fi
+
+          FILE=$(find "$ARTIFACT_DIR" -type f -name "*.ipa" | head -n 1)
+          if [ -z "$FILE" ]; then echo "❌ 未找到可上传的.ipa。"; exit 1; fi
+
+          echo "${{ secrets.APPSTORE_API_PRIVATE_KEY }}" > private_key.p8
+
+          echo "🚀 正在上传 $FILE 到TestFlight..."
+          xcrun altool \
+            --upload-app \
+            --type ios \
+            --file "$FILE" \
+            --apiKey "${{ secrets.APPSTORE_API_KEY_ID }}" \
+            --apiIssuer "${{ secrets.APPSTORE_API_ISSUER_ID }}" \
+            --private-key-path private_key.p8
+          rm private_key.p8
+        env:
+          FASTLANE_DISABLE_COLORS: 1
+
+      # ───── 总结 ─────
+      - name: 📌 存储部署结果
+        if: always()
+        run: |
+          mkdir -p deployment-results
+          RESULT_FILE="deployment-results/${{ matrix.target }}.json"
+
+          STATUS="✅"
+          NOTE="部署成功"
+
+          if [ "${{ job.status }}" != "success" ]; then
+            STATUS="❌"
+            NOTE="部署失败或不完整"
+          elif [ ! -d "$ARTIFACT_DIR" ]; then
+            STATUS="❌"
+            NOTE="未找到部署产物"
+          fi
+
+          echo "{\"status\": \"$STATUS\", \"note\": \"$NOTE\"}" > "$RESULT_FILE"
+
+      - name: 📤 上传部署结果产物
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-results-${{ matrix.target }}
+          path: deployment-results
+          retention-days: 1
+
+  summarize_deploy:
+    if: always()
+    uses: ./.github/workflows/summarize-deploys.yml
+    needs: deploy
+    with:
+      projectName: ${{ inputs.projectName }}
+      buildVersion: ${{ inputs.buildVersion }}
+      buildType: ${{ inputs.buildType }}

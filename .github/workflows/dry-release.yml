@@ -1,0 +1,65 @@
+name: 🌀 干发布（Dry Release）
+
+on:
+  workflow_call:
+    inputs:
+      simulateResult:
+        description: "模拟发布是否成功或失败"
+        required: true
+        default: 'success'
+        type: string
+    outputs:
+      releaseErrorMessage:
+        description: "模拟的发布错误信息"
+        value: ${{ jobs.dry_release.outputs.releaseErrorMessage }}
+
+jobs:
+  dry_release:
+    name: 🧪 模拟发布
+    runs-on: ubuntu-latest
+    outputs:
+      releaseErrorMessage: ${{ steps.simulate.outputs.releaseErrorMessage }}
+    steps:
+      - name: 模拟发布结果
+        id: simulate
+        run: |
+          RESULT="${{ inputs.simulateResult }}"
+          MESSAGE=""
+
+          case "$RESULT" in
+            success)
+              MESSAGE=""
+              echo "✅ 模拟发布成功。"
+              ;;
+            no_artifacts)
+              MESSAGE="未找到产物"
+              echo "❌ 模拟：未找到产物。"
+              ;;
+            api_failure)
+              MESSAGE="创建或获取 GitHub 发布失败"
+              echo "❌ 模拟：API 失败。"
+              ;;
+            upload_failure)
+              MESSAGE="一个或多个上传步骤失败"
+              echo "❌ 模拟：上传失败。"
+              ;;
+            unknown_failure)
+              MESSAGE="未知的发布失败"
+              echo "❌ 模拟：未知失败。"
+              ;;
+            *)
+              MESSAGE="未知的模拟输入"
+              echo "❌ 无效的 simulateResult 输入: $RESULT"
+              ;;
+          esac
+
+          echo "releaseErrorMessage=$MESSAGE" >> $GITHUB_OUTPUT
+
+      - name: 可选摘要输出
+        run: |
+          if [[ -n "${{ steps.simulate.outputs.releaseErrorMessage }}" ]]; then
+            echo "### ❌ 模拟发布失败" >> $GITHUB_STEP_SUMMARY
+            echo "${{ steps.simulate.outputs.releaseErrorMessage }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ✅ 模拟发布成功" >> $GITHUB_STEP_SUMMARY
+          fi

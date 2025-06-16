@@ -1,0 +1,151 @@
+name: 🧪 测试 - 步骤5通知工作流
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildType:
+        description: "构建类型：'preview' 用于手动/开发构建，'release_candidate' 用于预发布（如 v1.2.3-rc.1），'release' 用于正式发布（如 v1.2.3）"
+        required: true
+        default: "release_candidate"
+        type: choice
+        options:
+          - preview
+          - release_candidate
+          - release
+      projectName:
+        description: "产物的项目名称"
+        required: true
+        default: "Unity_CI_Templates"
+      buildVersion:
+        description: "可选的版本号字符串（如 v1.2.3 或 v1.2.3-rc.1）。留空则自动生成（如 PR-0001, manual-main）"
+        required: false
+        default: "v0.0.0"
+        type: string
+      buildTargets:
+        description: "要构建的目标的 JSON 数组"
+        required: true
+        default: '["Android", "WebGL", "StandaloneLinux64-Client", "StandaloneLinux64-Server", "StandaloneWindows", "StandaloneWindows64", "StandaloneOSX", "iOS"]'
+      deployTargets:
+        description: "部署目标的 JSON 数组（如 [\"itch.io\",\"s3\"]）"
+        required: true
+        default: '["itch.io", "appcenter", "firebase", "s3", "gh-pages", "steam", "discord", "testflight", "custom-server"]'
+        type: string
+      deployTargetsSuccessful:
+        description: "部署成功的目标 JSON 数组（如 [\"itch.io\",\"s3\"]）"
+        required: true
+        default: '["itch.io", "appcenter", "firebase", "s3", "gh-pages", "steam", "discord", "testflight", "custom-server"]'
+        type: string
+      editmodeFailedCount:
+        description: "模拟 EditMode 测试失败数"
+        required: false
+        default: '0'
+        type: string
+      playmodeFailedCount:
+        description: "模拟 PlayMode 测试失败数"
+        required: false
+        default: '0'
+        type: string
+      releaseResult:
+        description: "模拟发布结果"
+        required: false
+        default: 'success'
+        type: choice
+        options:
+          - success
+          - no_artifacts
+          - api_failure
+          - upload_failure
+          - unknown_failure
+      quietMode:
+        description: "模拟静默模式"
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  prepare_metadata:
+    name: ⏳ 元数据准备
+    uses: ./.github/workflows/prepare-metadata.yml
+    with:
+      projectName: ${{ inputs.projectName }}
+      unityVersion: ${{ vars.UNITY_VERSION }}
+      skipTests: false
+      testsOnly: false
+      buildTargets: ${{ inputs.buildTargets }}
+      deployTargets: ${{ inputs.deployTargets }}
+      buildType: ${{ inputs.buildType }}
+      buildVersion: ${{ inputs.buildVersion }}
+
+  dry_tests:
+    name: 📋 创建 Dry-Tests
+    needs: 
+        - prepare_metadata
+    uses: ./.github/workflows/dry-tests.yml
+    with:
+      editmodeFailedCount: ${{ inputs.editmodeFailedCount }}
+      editmodeTotalCount: 12
+      playmodeFailedCount: ${{ inputs.playmodeFailedCount }}
+      playmodeTotalCount: 8
+      quietMode: ${{ inputs.quietMode }}
+
+  dry_build:
+    name: 🧩 创建 Dry-Build
+    needs: 
+        - prepare_metadata
+        - dry_tests
+    if: ${{ needs.dry_tests.outputs.hasFails == 'false' }}
+    uses: ./.github/workflows/dry-build.yml
+    with:
+      unityVersion: ${{ needs.prepare_metadata.outputs.unityVersion }}
+      buildVersion: ${{ needs.prepare_metadata.outputs.buildVersion }}
+      buildType: ${{ needs.prepare_metadata.outputs.buildType }}
+      projectName: ${{ needs.prepare_metadata.outputs.projectName }}
+      buildTargets: ${{ needs.prepare_metadata.outputs.buildTargets }}
+      combineArtifacts: ${{ needs.prepare_metadata.outputs.requiresCombined }}
+    secrets: inherit
+
+  dry_release:
+    name: 📦 创建 Dry-Release
+    needs: 
+        - prepare_metadata
+        - dry_build
+    uses: ./.github/workflows/dry-release.yml
+    with:
+      simulateResult: ${{ inputs.releaseResult }}
+
+  dry_deploy:
+    name: 🌍 创建 Dry-Deploy
+    needs: [prepare_metadata, dry_build, dry_tests]
+    uses: ./.github/workflows/dry-deploy.yml
+    with:
+      deployTargets: ${{ inputs.deployTargets }}
+      successfulTargets: ${{ inputs.deployTargetsSuccessful }}
+
+  test_notify:
+    name: 📣 测试通知
+    needs: 
+      - prepare_metadata
+      - dry_tests
+      - dry_build
+      - dry_deploy
+      - dry_release
+    if: always()
+    uses: ./.github/workflows/step-5-notify.yml
+    with:
+      buildVersion: ${{ needs.prepare_metadata.outputs.buildVersion }}
+      releaseResult: ${{ inputs.releaseResult }}
+      releaseErrorMessage: ${{ needs.dry_release.outputs.releaseErrorMessage }}
+      deployResult: ${{ needs.dry_deploy.outputs.deployResult }}
+      testsHasFails: ${{ needs.dry_tests.outputs.hasFails }}
+      testsTotal: ${{ needs.dry_tests.outputs.totalTests }}
+      testsPassed: ${{ needs.dry_tests.outputs.passedTests }}
+      testsFailedNames: ${{ needs.dry_tests.outputs.failedTestNames }}
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

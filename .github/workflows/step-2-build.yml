@@ -1,0 +1,195 @@
+name: 🧩 步骤2 - 构建
+
+on:
+  workflow_call:
+    inputs:
+      projectName:
+        type: string
+        required: false
+      unityVersion:
+        required: true
+        type: string
+      buildVersion:
+        required: true
+        type: string
+      buildType:
+        required: true
+        type: string
+      buildTargets:
+        type: string
+        required: false
+      timeoutMinutes:
+        type: number
+        required: false
+      retentionDays:
+        type: number
+        required: false
+      combineArtifacts:
+        type: string
+        required: false
+    secrets:
+      UNITY_EMAIL: { required: true }
+      UNITY_PASSWORD: { required: true }
+      UNITY_LICENSE: { required: true }
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  group_build_targets:
+    uses: ./.github/workflows/group-build-targets-by-os.yml
+    with:
+      buildTargets: ${{ inputs.buildTargets }}
+
+  generate_matrix:
+    name: 🧮 生成构建矩阵
+    runs-on: ubuntu-latest
+    needs: group_build_targets
+    outputs:
+      matrix: ${{ steps.set_matrix.outputs.matrix }}
+    steps:
+      - name: 🧮 根据分组构建目标创建构建矩阵
+        id: set_matrix
+        shell: bash
+        run: |
+          grouped='${{ needs.group_build_targets.outputs.validBuildTargets }}'
+          echo "📦 分组后的构建目标: $grouped"
+      
+          matrix=$(echo "$grouped" | jq -c '
+            to_entries
+            | map(.value[] as $p | { os: .key, buildTarget: $p })
+          ')
+      
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          echo "$matrix" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+  build_targets:
+    name: 在 ${{ matrix.os }} 上构建 ${{ matrix.buildTarget }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: ${{ inputs.timeoutMinutes }}
+    needs: generate_matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.generate_matrix.outputs.matrix) }}
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 恢复 Unity 缓存（Library + BuildCache）
+        uses: actions/cache@v4
+        with:
+          path: |
+            Library
+            Library/BuildCache
+            Library/Il2cppBuildCache
+          key: Library-${{ matrix.buildTarget }}-${{ github.run_id }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ matrix.buildTarget }}-
+            Library-
+
+      - name: 检查磁盘空间（仅 Android）
+        if: matrix.buildTarget == 'Android'
+        uses: jlumbroso/free-disk-space@v1.3.1
+
+      - name: 解析构建配置
+        id: resolve_build_profile
+        uses: avalin/unity-ci-templates/.github/actions/resolve-build-profile@main
+        with:
+          buildTarget: ${{ matrix.buildTarget }}
+          buildType: ${{ inputs.buildType }}
+          unityVersion: ${{ inputs.unityVersion }}
+
+      - name: 解析 Unity 运行参数
+        id: resolve_run_parameters
+        uses: avalin/unity-ci-templates/.github/actions/resolve-unity-run-parameters@main
+        with:
+          buildTarget: ${{ matrix.buildTarget }}
+
+      - name: 构建 Unity 项目
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          unityVersion: ${{ inputs.unityVersion }}
+          targetPlatform: ${{ steps.resolve_run_parameters.outputs.targetPlatform }}
+          customParameters: >-
+            ${{ steps.resolve_run_parameters.outputs.customParameters }}
+            ${{ steps.resolve_build_profile.outputs.profile && format('-buildProfile {0}', steps.resolve_build_profile.outputs.profile) || '' }}
+
+      - name: 保存 Unity 缓存（构建成功后）
+        uses: actions/cache/save@v4
+        if: success()
+        with:
+          path: |
+            Library
+            Library/BuildCache
+            Library/Il2cppBuildCache
+          key: Library-${{ matrix.buildTarget }}-${{ github.run_id }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+
+      - name: 修复权限（仅 Linux）
+        if: startsWith(matrix.os, 'ubuntu')
+        shell: bash
+        run: sudo chown -R $USER:$USER build/
+
+      - name: 整理构建输出
+        shell: bash
+        run: |
+          VERSION="${{ inputs.buildVersion }}"
+          PLATFORM="${{ steps.resolve_run_parameters.outputs.targetPlatform }}"
+          DEST="${{ inputs.projectName }}-${VERSION}"
+          SOURCE="build/${PLATFORM}"
+
+          while [ -d "$SOURCE/$(basename "$SOURCE")" ]; do
+            SOURCE="$SOURCE/$(basename "$SOURCE")"
+          done
+
+          mkdir -p "$DEST"
+          mv "$SOURCE"/* "$DEST"/
+
+          # ⛔ 移除不应随附的 Burst 调试工件
+          find "$DEST" -name '*BurstDebugInformation_DoNotShip*' -exec rm -rf {} +
+
+      - name: 上传 ${{ matrix.buildTarget }} 平台产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.projectName }}-${{ inputs.buildVersion }}-${{ matrix.buildTarget }}
+          path: ${{ inputs.projectName }}-${{ inputs.buildVersion }}/* # '/*' 确保内容被压缩到文件夹中，而不是整个文件夹
+          retention-days: ${{ inputs.retentionDays }}
+
+  combine_builds:
+    if: ${{ inputs.combineArtifacts == 'true' }}
+    needs: [ build_targets ]
+    uses: ./.github/workflows/combine-builds.yml
+    with:
+      projectName: ${{ inputs.projectName }}
+      buildVersion: ${{ inputs.buildVersion }}
+      retentionDays: ${{ inputs.retentionDays }}
+
+  summarize_builds:
+    needs: [group_build_targets, build_targets, combine_builds]
+    if: always()
+    uses: ./.github/workflows/summarize-builds.yml
+    with:
+      projectName: ${{ inputs.projectName }}
+      buildVersion: ${{ inputs.buildVersion }}
+      groupedBuildTargets: ${{ needs.group_build_targets.outputs.validBuildTargets }}
+      combineRequested: ${{ inputs.combineArtifacts }}
+      combinedCreated: ${{ (needs.combine_builds.result == 'success' && needs.combine_builds.outputs.created) || 'false' }}
+
+  fail_if_builds_failed:
+    name: ⛔ 若有构建失败则终止
+    needs: [summarize_builds]
+    runs-on: ubuntu-latest
+    if: ${{ needs.summarize_builds.outputs.didAnyBuildsFail == 'true' }}
+    steps:
+      - name: ⛔ 终止流水线
+        shell: bash
+        run: |
+          echo "❌ 一个或多个构建失败。终止流水线。"
+          exit 1

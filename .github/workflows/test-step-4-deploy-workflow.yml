@@ -1,0 +1,145 @@
+name: 🧪 测试 - 步骤4部署工作流
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildType:
+        description: "构建类型"
+      artifactSource:
+        description: "产物来源（build 或 release）"
+      buildVersion:
+        description: "版本号"
+        type: string
+      projectName:
+        description: "项目名称"
+        default: "Unity_CI_Templates"
+      buildTargets:
+        description: "构建目标"
+        default: '["Android", "WebGL", "StandaloneLinux64-Client", "StandaloneLinux64-Server", "StandaloneWindows", "StandaloneWindows64", "StandaloneOSX", "iOS"]'
+      deployTargets:
+        description: "部署目标"
+
+permissions:
+  contents: write
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 发布部署准备
+  # ─────────────────────────────────────────────────────────────────────────────
+  validate_release:
+    name: 校验发布标签与产物
+    runs-on: ubuntu-latest
+    if:  ${{ inputs.artifactSource == 'release' }}
+    outputs:
+      hasCombinedArtifacts: ${{ steps.check.outputs.hasCombinedArtifacts }}
+    steps:
+      - name: 安装 GitHub CLI
+
+      - name: 检查 GitHub 发布与产物
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🔍 Checking if release '${{ inputs.buildVersion }}' exists..." | tee -a "$GITHUB_STEP_SUMMARY"
+
+          # Attempt to fetch release data and save to file
+          if ! gh api repos/${{ github.repository }}/releases/tags/${{ inputs.buildVersion }} --jq '.' > release.json; then
+            echo "❌ Release '${{ inputs.buildVersion }}' not found or API call failed." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          echo "✅ Release found. Redeploying: '${{ inputs.buildVersion }}'..." | tee -a "$GITHUB_STEP_SUMMARY"
+
+          # Load release data
+          RELEASE_DATA=$(cat release.json)
+
+          # Check for combined artifact
+          COMBINED_FOUND=$(echo "$RELEASE_DATA" | jq -r '.assets[]?.name' | grep -c 'all-platforms' || true)
+          if [ "$COMBINED_FOUND" -gt 0 ]; then
+            echo "✅ Combined artifact detected." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "hasCombinedArtifacts=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ℹ️ No combined artifact detected." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "hasCombinedArtifacts=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 构建部署准备
+  # ─────────────────────────────────────────────────────────────────────────────
+  prepare_metadata:
+    name: ⏳ 元数据准备
+    if:  ${{ inputs.artifactSource == 'build' }}
+    uses: ./.github/workflows/prepare-metadata.yml
+    with:
+      unityVersion: ${{ vars.UNITY_VERSION }}
+      projectName: ${{ inputs.projectName }}
+      skipTests: true
+      testsOnly: false
+      buildTargets: ${{ inputs.buildTargets }}
+      deployTargets: ${{ inputs.deployTargets }}
+      buildType: ${{ inputs.buildType }}
+      buildVersion: ${{ inputs.buildVersion }}
+
+  dry_build:
+    name: 🧩 创建干构建
+    needs: prepare_metadata
+    if:  ${{ inputs.artifactSource == 'build' }}
+    uses: ./.github/workflows/dry-build.yml
+    with:
+      unityVersion: ${{ needs.prepare_metadata.outputs.unityVersion }}
+      buildVersion: ${{ needs.prepare_metadata.outputs.buildVersion }}
+      buildType: ${{ needs.prepare_metadata.outputs.buildType }}
+      projectName: ${{ needs.prepare_metadata.outputs.projectName }}
+      buildTargets: ${{ inputs.buildTargets }}
+      combineArtifacts: ${{ needs.prepare_metadata.outputs.requiresCombined }}
+    secrets: inherit
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 测试部署步骤
+  # ─────────────────────────────────────────────────────────────────────────────
+  test_deploy_from_build:
+    name: 🌍 测试从构建部署
+    needs: 
+        - prepare_metadata 
+        - dry_build
+    if:  ${{ needs.prepare_metadata.outputs.validDeployTargets != '[]' && inputs.artifactSource == 'build' }}
+    uses: ./.github/workflows/step-4-deploy.yml
+    with:
+      buildType: ${{ inputs.buildType }}
+      buildVersion: ${{ inputs.buildVersion }}
+      projectName: ${{ needs.prepare_metadata.outputs.projectName }}
+      deployTargets: ${{ needs.prepare_metadata.outputs.validDeployTargets }}
+      buildTargets: ${{ inputs.buildTargets }}
+      hasCombinedArtifacts: ${{ needs.prepare_metadata.outputs.requiresCombined }}
+      artifactSource: ${{ inputs.artifactSource }}
+    secrets:
+      CICD_PAT: ${{ secrets.CICD_PAT }}
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
+      ITCH_USERNAME: ${{ secrets.ITCH_USERNAME }}
+      ITCH_PROJECT: ${{ secrets.ITCH_PROJECT }}
+      APPCENTER_OWNER_NAME: ${{ secrets.APPCENTER_OWNER_NAME }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
+      STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
+      STEAM_APP_ID: ${{ secrets.STEAM_APP_ID }}
+      STEAM_DEPOT_VDF_PATH: ${{ secrets.STEAM_DEPOT_VDF_PATH }}
+      APPSTORE_API_KEY_ID: ${{ secrets.APPSTORE_API_KEY_ID }}
+      APPSTORE_API_ISSUER_ID: ${{ secrets.APPSTORE_API_ISSUER_ID }}
+      APPSTORE_API_PRIVATE_KEY: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+      CUSTOM_SERVER_HOST: ${{ secrets.CUSTOM_SERVER_HOST }}
+      CUSTOM_SERVER_USER: ${{ secrets.CUSTOM_SERVER_USER }}
+      CUSTOM_SERVER_KEY: ${{ secrets.CUSTOM_SERVER_KEY }}
+
+  test_deploy_from_release:
+    name: 🌍 测试从发布部署
+    needs: validate_release
+    if:  ${{ inputs.artifactSource == 'release' }}
+    uses: ./.github/workflows/step-4-deploy.yml
+    with:
+      artifactSource: release
+    secrets:
+      CUSTOM_SERVER_KEY: ${{ secrets.CUSTOM_SERVER_KEY }}

@@ -1,0 +1,199 @@
+name: ⏳ 元数据准备
+
+on:
+  workflow_call:
+    inputs:
+      projectName:
+        type: string
+        required: true
+      unityVersion:
+        type: string
+        required: true
+      buildVersion:
+        type: string
+        required: false
+      deployTargets:
+        type: string
+        required: true
+      buildTargets:
+        type: string
+        required: false
+      buildType:
+        type: string
+        required: false
+      skipTests:
+        type: string
+        required: false
+      skipBuild:
+        type: string
+        required: false
+        default: 'false'
+      testsOnly:
+        type: string
+        required: false
+    outputs:
+      projectName:
+        value: ${{ jobs.prepare_metadata.outputs.projectName }}
+      unityVersion:
+        value: ${{ jobs.prepare_metadata.outputs.unityVersion }}
+      buildVersion:
+        value: ${{ jobs.resolve_build_version.outputs.buildVersion }}
+      testsOnly:
+        value: ${{ jobs.prepare_metadata.outputs.testsOnly }}
+      skipTests:
+        value: ${{ jobs.prepare_metadata.outputs.skipTests }}
+      useGitLfs:
+        value: ${{ jobs.prepare_metadata.outputs.useGitLfs }}
+      editModePath:
+        value: ${{ jobs.prepare_metadata.outputs.editModePath }}
+      playModePath:
+        value: ${{ jobs.prepare_metadata.outputs.playModePath }}
+      timeoutMinutesTests:
+        value: ${{ jobs.prepare_metadata.outputs.timeoutMinutesTests }}
+      timeoutMinutesBuild:
+        value: ${{ jobs.prepare_metadata.outputs.timeoutMinutesBuild }}
+      quietMode:
+        value: ${{ jobs.prepare_metadata.outputs.quietMode }}
+      buildType:
+        value: ${{ jobs.prepare_metadata.outputs.buildType }}
+      retentionDays:
+        value: ${{ jobs.prepare_metadata.outputs.retentionDays }}
+      buildTargets:
+        value: ${{ jobs.prepare_metadata.outputs.buildTargets }}
+      validDeployTargets:
+        value: ${{ jobs.prepare_metadata.outputs.deployTargets || '[]' }}
+      requiresCombined:
+        value: ${{ jobs.prepare_metadata.outputs.requiresCombined || false }}
+      skipPerBuildTarget:
+        value: ${{ jobs.prepare_metadata.outputs.skipPerBuildTarget || false }}
+
+jobs:
+  prepare_metadata:
+    name: ⚖️ 元数据准备
+    runs-on: ubuntu-latest
+    outputs:
+      projectName: ${{ steps.metadata.outputs.projectName }}
+      unityVersion: ${{ steps.metadata.outputs.unityVersion }}
+      timeoutMinutesTests: ${{ steps.metadata.outputs.timeoutMinutesTests }}
+      timeoutMinutesBuild: ${{ steps.metadata.outputs.timeoutMinutesBuild }}
+      retentionDays: ${{ steps.metadata.outputs.retentionDays }}
+      buildType: ${{ steps.metadata.outputs.buildType }}
+      buildTargets: ${{ steps.metadata.outputs.buildTargets }}
+      deployTargets: ${{ steps.metadata.outputs.deployTargets }}
+      requiresCombined: ${{ steps.metadata.outputs.requiresCombinedArtifact }}
+      skipPerBuildTarget: ${{ steps.metadata.outputs.skipPerBuildTargetArtifact }}
+      useGitLfs: ${{ steps.metadata.outputs.useGitLfs }}
+      editModePath: ${{ steps.metadata.outputs.editModePath }}
+      playModePath: ${{ steps.metadata.outputs.playModePath }}
+      quietMode: ${{ steps.metadata.outputs.quietMode }}
+      testsOnly: ${{ steps.tests_only.outputs.testsOnly }}
+      skipTests: ${{ steps.skip_tests.outputs.skipTests }}
+      excludeUnityTests: ${{ steps.metadata.outputs.excludeUnityTests }}
+      forceCombineArtifacts: ${{ steps.metadata.outputs.forceCombineArtifacts  }}
+    steps:
+      - name: 📁 仅检出 .github 文件夹
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/*
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: ⏳ 元数据准备
+        id: metadata
+        uses: avalin/unity-ci-templates/.github/actions/prepare-metadata@main
+        with:
+          artifactSource: build
+          projectNameInput: ${{ inputs.projectName }}
+          projectNameRepoVar: ${{ vars.PROJECT_NAME }}
+          unityVersionInput: ${{ inputs.unityVersion }}
+          unityVersionRepoVar: ${{ vars.UNITY_VERSION }}
+          buildTypeInput: ${{ inputs.buildType }}
+          buildTargetsInput: ${{ inputs.buildTargets }}
+          buildTargetsRepoVar: ${{ vars.BUILD_TARGETS }}
+          deployTargetsInput: ${{ inputs.deployTargets }}
+          deployTargetsRepoVar: ${{ vars.DEPLOY_TARGETS }}
+          retentionDaysReleaseRepoVar: ${{ vars.RETENTION_DAYS_RELEASE }}
+          retentionDaysRcRepoVar: ${{ vars.RETENTION_DAYS_RC }}
+          retentionDaysPreviewRepoVar: ${{ vars.RETENTION_DAYS_PREVIEW }}
+          timeoutTestsRepoVar: ${{ vars.TIMEOUT_MINUTES_TESTS }}
+          timeoutBuildRepoVar: ${{ vars.TIMEOUT_MINUTES_BUILD }}
+          useGitLfsRepoVar: ${{ vars.USE_GIT_LFS }}
+          editModePathRepoVar: ${{ vars.UNITY_TESTS_EDITMODE_PATH }}
+          playModePathRepoVar: ${{ vars.UNITY_TESTS_PLAYMODE_PATH }}
+          quietModeRepoVar: ${{ vars.UNITY_TESTS_QUIET_MODE }}
+          excludeUnityTestsRepoVar: ${{ vars.EXCLUDE_UNITY_TESTS }}
+
+      - name: ✅ 校验流水线意图的构建目标
+        env:
+          INPUT_BUILD_TARGETS: ${{ inputs.buildTargets }}
+          REPO_VAR_BUILD_TARGETS: ${{ vars.BUILD_TARGETS }}
+          FINAL_BUILD_TARGETS: ${{ steps.metadata.outputs.buildTargets }}
+        run: |
+          echo "🔍 校验已解析的构建目标..."
+
+          if [[ "$FINAL_BUILD_TARGETS" == "[]" || "$FINAL_BUILD_TARGETS" == "" || "$FINAL_BUILD_TARGETS" == "null" ]]; then
+            echo "📥 原始 input.buildTargets: ${INPUT_BUILD_TARGETS}"
+            echo "🏛️ 仓库变量 BUILD_TARGETS: ${REPO_VAR_BUILD_TARGETS}"
+            echo "🧮 解析后的 buildTargets: ${FINAL_BUILD_TARGETS}"
+            echo ""
+            echo "❌ 未解析到有效的构建目标，且本次运行未标记为 '仅测试'。"
+            echo "💡 解决方法："
+            echo "   • 若为仅测试流程，请设置 'testsOnly: true'。"
+            echo "   • 或以有效 JSON 数组形式提供 'buildTargets' 输入（如 [\"WebGL\"]）。"
+            echo "   • 或在仓库变量中定义 'BUILD_TARGETS' 并赋有效 JSON。"
+            exit 1
+          fi
+
+          echo "✅ 检测到有效构建目标: ${FINAL_BUILD_TARGETS}"
+
+      - name: 🔍 检测仅测试模式
+        id: tests_only
+        uses: avalin/unity-ci-templates/.github/actions/detect-tests-only@main
+        with:
+          testsOnlyInput: ${{ inputs.testsOnly }}
+
+      - name: 🔍 检测跳过测试标志
+        id: skip_tests
+        uses: avalin/unity-ci-templates/.github/actions/detect-skip-tests@main
+        with:
+          skipTestsInput: ${{ inputs.skipTests }}
+          skipTestsRepoVar: ${{ steps.metadata.outputs.excludeUnityTests }}
+          testsOnly: ${{ steps.tests_only.outputs.testsOnly }}
+
+  resolve_build_version:
+    name: 创建构建版本号
+    needs:
+      - prepare_metadata
+    if: needs.prepare_metadata.outputs.testsOnly == 'false' && inputs.skipBuild == 'false'
+    uses: ./.github/workflows/build-version-resolver.yml
+    with:
+      buildType: ${{ needs.prepare_metadata.outputs.buildType }}
+      buildVersion: ${{ inputs.buildVersion }}
+
+  summarize_metadata:
+    name: 📄 元数据汇总
+    needs:
+      - prepare_metadata
+      - resolve_build_version
+    if: always()
+    uses: ./.github/workflows/summarize-metadata.yml
+    with:
+      useGitLfs: ${{ needs.prepare_metadata.outputs.useGitLfs }}
+      excludeUnityTests: ${{ needs.prepare_metadata.outputs.excludeUnityTests }}
+      forceCombineArtifacts: ${{ needs.prepare_metadata.outputs.forceCombineArtifacts  }}
+      quietMode: ${{ needs.prepare_metadata.outputs.quietMode }}
+      unityVersion: ${{ needs.prepare_metadata.outputs.unityVersion }}
+      projectName: ${{ needs.prepare_metadata.outputs.projectName }}
+      editModePath: ${{ needs.prepare_metadata.outputs.editModePath }}
+      playModePath: ${{ needs.prepare_metadata.outputs.playModePath }}
+      buildVersion: ${{ needs.resolve_build_version.outputs.buildVersion }}
+      buildType: ${{ needs.prepare_metadata.outputs.buildType }}
+      skipTests: ${{ needs.prepare_metadata.outputs.skipTests }}
+      testsOnly: ${{ needs.prepare_metadata.outputs.testsOnly }}
+      retentionDays: ${{ needs.prepare_metadata.outputs.retentionDays }}
+      timeoutMinutesTests: ${{ needs.prepare_metadata.outputs.timeoutMinutesTests }}
+      timeoutMinutesBuild: ${{ needs.prepare_metadata.outputs.timeoutMinutesBuild }}
+      buildTargets: ${{ needs.prepare_metadata.outputs.buildTargets }}
+      validDeployTargets: ${{ needs.prepare_metadata.outputs.deployTargets || '[]' }}
+      requiresCombined: ${{ needs.prepare_metadata.outputs.requiresCombined || false }}
+      skipPerBuildTarget: ${{ needs.prepare_metadata.outputs.skipPerBuildTarget || false }}

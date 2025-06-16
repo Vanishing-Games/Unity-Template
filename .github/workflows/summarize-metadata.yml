@@ -1,0 +1,120 @@
+name: 📄 汇总元数据
+
+description: |
+  将解析后的构建元数据汇总写入 GitHub 作业摘要。
+
+on:
+  workflow_call:
+    inputs:
+      useGitLfs:
+        required: true
+        type: string
+      quietMode:
+        required: true
+        type: string
+      excludeUnityTests:
+        required: true
+        type: string
+      forceCombineArtifacts:
+        required: true
+        type: string
+      projectName:
+        required: true
+        type: string
+      playModePath:
+        required: true
+        type: string
+      editModePath:
+        required: true
+        type: string
+      unityVersion:
+        required: true
+        type: string
+      buildVersion:
+        required: true
+        type: string
+      buildType:
+        required: true
+        type: string
+      skipTests:
+        required: true
+        type: string
+      testsOnly:
+        required: true
+        type: string
+      retentionDays:
+        required: true
+        type: string
+      timeoutMinutesTests:
+        required: true
+        type: string
+      timeoutMinutesBuild:
+        required: true
+        type: string
+      buildTargets:
+        required: true
+        type: string
+      validDeployTargets:
+        required: true
+        type: string
+      requiresCombined:
+        required: true
+        type: string
+      skipPerBuildTarget:
+        required: true
+        type: string
+
+jobs:
+  summarize:
+    name: 📄 汇总元数据
+    runs-on: ubuntu-latest
+    steps:
+      - name: 写入汇总
+        run: |
+          BUILD_TARGETS=$(echo '${{ inputs.buildTargets }}' | jq -c '.')
+          DEPLOY_TARGETS=$(echo '${{ inputs.validDeployTargets }}' | jq -c '.')
+      
+          if [[ -z "$DEPLOY_TARGETS" || "$DEPLOY_TARGETS" == 'null' ]]; then
+            DEPLOY_TARGETS='[]'
+          fi
+      
+          if [[ -z "$BUILD_TARGETS" || "$BUILD_TARGETS" == 'null' ]]; then
+            BUILD_TARGETS='[]'
+          fi
+      
+          echo "# ⏳ 最终元数据汇总" >> $GITHUB_STEP_SUMMARY
+
+          echo "## ⚙️ CI 选项汇总" >> $GITHUB_STEP_SUMMARY
+          echo "| 选项                  | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------------------------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 使用 Git LFS             | ${{ inputs.useGitLfs }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 静默模式              | ${{ inputs.quietMode }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 跳过 Unity 测试        | ${{ inputs.excludeUnityTests }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 强制合并产物 | ${{ inputs.forceCombineArtifacts }} |" >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+      
+          echo "## 📋 测试配置汇总" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 键             | 值                      |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------------|----------------------------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| EditMode 路径   | ${{ inputs.editModePath }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| PlayMode 路径   | ${{ inputs.playModePath }} |" >> "$GITHUB_STEP_SUMMARY"
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "## 📋 构建与部署元数据" >> $GITHUB_STEP_SUMMARY
+          echo "| 键                          | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------------------------------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Unity 版本                | ${{ inputs.unityVersion }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目名称                 | ${{ inputs.projectName }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 跳过测试                   | ${{ inputs.skipTests }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 仅测试                   | ${{ inputs.testsOnly }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 测试超时（分钟）      | ${{ inputs.timeoutMinutesTests }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建超时（分钟）      | ${{ inputs.timeoutMinutesBuild }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建版本                | ${{ inputs.buildVersion }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建类型                   | ${{ inputs.buildType }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建目标                | \`$BUILD_TARGETS\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 部署目标               | \`$DEPLOY_TARGETS\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 保留天数               | ${{ inputs.retentionDays }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 是否需要合并产物  | ${{ inputs.requiresCombined }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 跳过每构建目标产物 | ${{ inputs.skipPerBuildTarget }} |" >> $GITHUB_STEP_SUMMARY

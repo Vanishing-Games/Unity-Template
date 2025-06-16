@@ -1,0 +1,139 @@
+name: 📋 步骤1 - 测试
+
+on:
+  workflow_call:
+    inputs:
+      unityVersion:
+        description: "使用的 Unity 版本"
+        required: false
+        default: 'auto'
+        type: string
+      useGitLfs:
+        description: "是否使用 Git LFS（true/false）"
+        required: false
+        default: 'true'
+        type: string
+      editModePath:
+        description: "EditMode 测试文件夹路径"
+        required: false
+        default: 'Assets/Tests/Editor'
+        type: string
+      playModePath:
+        description: "PlayMode 测试文件夹路径"
+        required: false
+        default: 'Assets/Tests/PlayMode'
+        type: string
+      timeoutMinutes:
+        description: "每个测试作业的超时时间（分钟）"
+        required: false
+        default: 15
+        type: number
+      quietMode:
+        description: "启用静默模式，仅在测试失败时上传/输出日志"
+        required: false
+        default: 'false'
+        type: string
+    outputs:
+      hasFails:
+        description: "是否有测试失败"
+        value: ${{ jobs.summarize_tests.outputs.hasFails }}
+      totalTests:
+        description: "运行的测试总数（EditMode + PlayMode）"
+        value: ${{ jobs.summarize_tests.outputs.totalTests }}
+      passedTests:
+        description: "通过的测试总数（EditMode + PlayMode）"
+        value: ${{ jobs.summarize_tests.outputs.passedTests }}
+      failedTestNames:
+        description: "失败测试名称列表（多行字符串，无失败时为 'None'）"
+        value: ${{ jobs.summarize_tests.outputs.failedTestNames }}
+    secrets:
+      UNITY_EMAIL: { required: true }
+      UNITY_PASSWORD: { required: true }
+      UNITY_LICENSE: { required: true }
+
+jobs:
+  upload_unity_license:
+    name: 📥️ 上传 Unity 许可证
+    uses: ./.github/workflows/unity-license-uploader.yml
+    secrets:
+      inherit
+
+  detect_tests:
+    name: 🔍 检测测试
+    runs-on: ubuntu-latest
+    outputs:
+      has_editmode: ${{ steps.detect.outputs.has_editmode }}
+      has_playmode: ${{ steps.detect.outputs.has_playmode }}
+    steps:
+      - id: detect
+        uses: avalin/unity-ci-templates/.github/actions/detect-tests-existence@main
+        with:
+          editModePath: ${{ inputs.editModePath }}
+          playModePath: ${{ inputs.playModePath }}
+
+  run_editmode:
+    name: 🥪 EditMode 测试
+    needs: 
+      - detect_tests
+      - upload_unity_license
+    if: needs.detect_tests.outputs.has_editmode == 'true'
+    uses: ./.github/workflows/unity-tests-runner.yml
+    with:
+      testMode: EditMode
+      unityVersion: ${{ inputs.unityVersion }}
+      useGitLfs: ${{ inputs.useGitLfs }}
+      timeoutMinutes: ${{ inputs.timeoutMinutes }}
+      quietMode: ${{ inputs.quietMode }}
+    secrets: inherit
+
+  run_playmode:
+    name: 🎮 PlayMode 测试
+    needs: 
+      - detect_tests
+      - upload_unity_license
+    if: needs.detect_tests.outputs.has_playmode == 'true'
+    uses: ./.github/workflows/unity-tests-runner.yml
+    with:
+      testMode: PlayMode
+      unityVersion: ${{ inputs.unityVersion }}
+      useGitLfs: ${{ inputs.useGitLfs }}
+      timeoutMinutes: ${{ inputs.timeoutMinutes }}
+      quietMode: ${{ inputs.quietMode }}
+    secrets: inherit
+
+  summarize_tests:
+    name: 📄 测试结果汇总
+    needs: 
+      - run_editmode
+      - run_playmode
+    if: |
+      always() &&
+      (
+        inputs.quietMode == 'false' ||
+        (needs.run_editmode.result == 'success' && needs.run_editmode.outputs.failed == 'true') ||
+        (needs.run_playmode.result == 'success' && needs.run_playmode.outputs.failed == 'true')
+      )
+    uses: ./.github/workflows/summarize-tests.yml
+    with:
+      quietMode: ${{ inputs.quietMode }}
+      editmodeFailed: ${{ needs.run_editmode.outputs.failed }}
+      playmodeFailed: ${{ needs.run_playmode.outputs.failed }}
+      editmodeTotal: ${{ needs.run_editmode.outputs.total }}
+      editmodePassed: ${{ needs.run_editmode.outputs.passed }}
+      editmodeResult: ${{ needs.run_editmode.outputs.result }}
+      editmodeDuration: ${{ needs.run_editmode.outputs.duration }}
+      playmodeTotal: ${{ needs.run_playmode.outputs.total }}
+      playmodePassed: ${{ needs.run_playmode.outputs.passed }}
+      playmodeResult: ${{ needs.run_playmode.outputs.result }}
+      playmodeDuration: ${{ needs.run_playmode.outputs.duration }}
+
+  test_failure_gatekeeper:
+    name: 🛑 测试失败终止流水线
+    needs: summarize_tests
+    runs-on: ubuntu-latest
+    if: ${{ needs.summarize_tests.outputs.hasFails == 'true' }}
+    steps:
+      - name: 强制失败工作流
+        run: |
+          echo "检测到测试失败，强制终止测试流程。"
+          exit 1

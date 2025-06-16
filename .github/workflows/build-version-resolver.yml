@@ -1,0 +1,81 @@
+name: 🔖 版本解析器
+
+on:
+  workflow_call:
+    inputs:
+      buildType:
+        description: "构建类型: preview | release_candidate | release"
+        required: true
+        type: string
+      buildVersion:
+        description: "可选的版本号覆盖，来自工作流输入"
+        required: false
+        type: string
+    outputs:
+      buildVersion:
+        description: "解析后的构建版本字符串"
+        value: ${{ jobs.version_resolver.outputs.buildVersion }}
+
+jobs:
+  version_resolver:
+    name: 生成构建版本号
+    runs-on: ubuntu-latest
+    outputs:
+      buildVersion: ${{ steps.get_version.outputs.version }}
+
+    steps:
+      - name: 📡 配置 Git（拉取标签和默认分支）
+        run: |
+          git init
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git fetch origin --tags --force
+          git fetch origin $(git remote show origin | grep 'HEAD branch' | awk '{print $NF}')
+          git checkout $(git remote show origin | grep 'HEAD branch' | awk '{print $NF}')
+
+      - name: 解析构建版本号
+        id: get_version
+        uses: avalin/unity-ci-templates/.github/actions/resolve-build-version@main
+        with:
+          ref: "${GITHUB_REF}"
+          event: "${GITHUB_EVENT_NAME}"
+          input_version: "${{ inputs.buildVersion }}"
+          build_type: "${{ inputs.buildType }}"
+
+      - name: 📝 检查 Release 版本是否已存在
+        id: check_release
+        uses: avalin/unity-ci-templates/.github/actions/check-release-exists@main
+        with:
+          version: ${{ steps.get_version.outputs.version }}
+          repo: ${{ github.repository }}
+          token: ${{ github.token }}
+
+      - name: 📝 输出构建版本信息
+        if: ${{ always() }}
+        run: |
+          echo "🔖 版本摘要"
+          echo ""
+          echo "- 触发事件: '${{ github.event_name }}' → '${{ github.ref }}'"
+          echo "- 构建类型: '${{ inputs.buildType }}'"
+          echo "- 解析后的版本: '${{ steps.get_version.outputs.version }}'"
+
+          if [[ -z "${{ steps.get_version.outputs.version }}" ]]; then
+            echo "- ⚠️ 未能解析出版本号 - 请检查 '解析版本号' 步骤日志。"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$ ]]; then
+            echo "- 🏷️ 这是一个标签推送 — 标签已存在，属于预期。"
+          else
+            if [[ "${{ steps.check_release.outputs.release_exists }}" == "true" ]]; then
+              echo "- ⚠️ GitHub Release 标签 '${{ steps.get_version.outputs.version }}' 已存在 — 为避免覆盖，流程将故意失败。"
+            else
+              echo "- ✅ 标签 '${{ steps.get_version.outputs.version }}' 尚未存在 — 可以继续！"
+            fi
+          fi
+
+      - name: 🚫 若 Release 已存在则阻止流程
+        if: ${{ inputs.buildType != 'preview' }}
+        run: |
+          if [[ "${{ steps.check_release.outputs.release_exists }}" == "true" ]]; then
+            echo "❌ 版本 '${{ steps.get_version.outputs.version }}' 的 Release 已存在，提前终止流程。"
+            exit 1
+          fi
+
+          echo "✅ 未检测到已存在的 Release — 继续流程。"

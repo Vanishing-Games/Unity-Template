@@ -1,0 +1,74 @@
+name: 🏷️ 版本打标签器
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildType:
+        description: "构建类型: preview | release_candidate | release"
+        type: string
+        required: true
+      buildVersion:
+        description: "标签版本（例如：v1.2.3）"
+        type: string
+        required: true
+  workflow_call:
+    inputs:
+      buildVersion:
+        type: string
+        required: true
+      buildType:
+        type: string
+        required: true
+
+jobs:
+  tag_resolver:
+    name: 🏷️ 解析并创建标签
+    if: ${{ inputs.buildType != 'preview' }}
+    runs-on: ubuntu-latest
+    outputs:
+      buildVersion: ${{ steps.set_version.outputs.version }}
+      tag_existed: ${{ steps.tag_exists.outputs.exists }}
+
+    steps:
+      - name: 检查标签是否存在
+        id: tag_exists
+        uses: avalin/unity-ci-templates/.github/actions/check-tag-exists@v1
+        with:
+          version: ${{ inputs.buildVersion }}
+          repository: ${{ github.repository }}
+          github_token: ${{ github.token }}
+
+      - name: 如标签不存在则创建
+        if: ${{ steps.tag_exists.outputs.exists != 'true' }}
+        uses: avalin/unity-ci-templates/.github/actions/create-tag@v1
+        id: create
+        with:
+          sha: ${{ github.sha }}
+          version: ${{ inputs.buildVersion }}
+          github_token: ${{ github.token }}
+
+      - name: 设置输出版本
+        id: set_version
+        run: |
+          echo "version=${{ steps.create.outputs.version || inputs.buildVersion }}" >> "$GITHUB_OUTPUT"
+
+  summarize_tagging:
+    name: 📄 标签操作摘要
+    runs-on: ubuntu-latest
+    needs: tag_resolver
+    if: always()
+    steps:
+      - name: 打印摘要
+        run: |
+          echo "### 🏷️ 标签操作摘要" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **构建类型:** \`${{ inputs.buildType }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **请求的版本:** \`${{ inputs.buildVersion }}\`" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "${{ inputs.buildType }}" == 'preview' ]]; then
+            echo "- ℹ️ 检测到为 Preview 构建 — 未进行打标签。" >> $GITHUB_STEP_SUMMARY
+          elif [[ '${{ needs.tag_resolver.outputs.tag_existed }}' == 'true' ]]; then
+            echo "- ℹ️ 标签已存在 — 未创建新标签。" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ✅ 已创建新标签: \`${{ needs.tag_resolver.outputs.buildVersion || inputs.buildVersion }}\`" >> $GITHUB_STEP_SUMMARY
+          fi

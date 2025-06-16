@@ -1,0 +1,116 @@
+name: ✈️ CI/CD 再部署器
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildVersion:
+        description: "要部署的发布标签版本（例如：v1.2.3）"
+        required: true
+        default: 'v0.0.0'
+        type: string
+      deployTargets:
+        description: "部署目标的 JSON 数组（例如：[\"s3\", \"firebase\"]）"
+        required: true
+        default: '["gh-pages"]'
+        type: string
+      buildTargets:
+        description: "构建目标的 JSON 数组（例如：[\"WebGL\",\"iOS\"]）- 可选（留空）"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 0. 项目名称规范化
+  # ─────────────────────────────────────────────────────────────────────────────
+  sanitize_project_name:
+    name: 项目名称规范化
+    runs-on: ubuntu-latest
+    outputs:
+      sanitized_name: ${{ steps.sanitize.outputs.sanitized_name }}
+    steps:
+      - name: 运行项目名称规范化器
+        id: sanitize
+        uses: avalin/unity-ci-templates/.github/actions/resolve-project-name@main
+        with:
+          projectNameInput: ${{ vars.PROJECT_NAME }}
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 1. 校验发布与产物
+  # ─────────────────────────────────────────────────────────────────────────────
+  validate_release:
+    name: 校验发布标签与产物
+    runs-on: ubuntu-latest
+    outputs:
+      hasCombinedArtifacts: ${{ steps.check.outputs.hasCombinedArtifacts }}
+    steps:
+      - name: 安装 GitHub CLI
+        run: sudo apt-get install gh -y
+
+      - name: 检查 GitHub 发布与产物
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🔍 正在检查发布 '${{ inputs.buildVersion }}' 是否存在..." | tee -a "$GITHUB_STEP_SUMMARY"
+
+          # 尝试获取发布数据并保存到文件
+          if ! gh api repos/${{ github.repository }}/releases/tags/${{ inputs.buildVersion }} --jq '.' > release.json; then
+            echo "❌ 未找到发布 '${{ inputs.buildVersion }}' 或 API 调用失败。" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          echo "✅ 已找到发布。正在重新部署: '${{ inputs.buildVersion }}'..." | tee -a "$GITHUB_STEP_SUMMARY"
+
+          # 读取发布数据
+          RELEASE_DATA=$(cat release.json)
+
+          # 检查是否有合并产物
+          COMBINED_FOUND=$(echo "$RELEASE_DATA" | jq -r '.assets[]?.name' | grep -c 'all-platforms' || true)
+          if [ "$COMBINED_FOUND" -gt 0 ]; then
+            echo "✅ 检测到合并产物。" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "hasCombinedArtifacts=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ℹ️ 未检测到合并产物。" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "hasCombinedArtifacts=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 2. 再部署
+  # ─────────────────────────────────────────────────────────────────────────────
+  redeploy:
+    name: 从发布再部署
+    needs: 
+      - sanitize_project_name
+      - validate_release
+    uses: ./.github/workflows/step-4-deploy.yml
+    with:
+      buildType: release
+      buildVersion: ${{ inputs.buildVersion }}
+      projectName: ${{ needs.sanitize_project_name.outputs.sanitized_name }}
+      deployTargets: ${{ inputs.deployTargets || '[]' }}
+      buildTargets: ${{ inputs.buildTargets != '' && inputs.buildTargets || vars.BUILD_TARGETS || '[]' }}
+      hasCombinedArtifacts: ${{ needs.validate_release.outputs.hasCombinedArtifacts }}
+      artifactSource: release
+    secrets: inherit
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 3. 通知
+  # ─────────────────────────────────────────────────────────────────────────────
+  notify:
+    name: 通知
+    needs: 
+      - redeploy
+    uses: ./.github/workflows/step-5-notify.yml
+    with:
+      buildVersion: ${{ inputs.buildVersion }}
+      releaseResult: 'success'
+      releaseErrorMessage: ''
+      deployResult: ${{ needs.redeploy.result }}
+      testsHasFails: 0
+      testsTotal: 0
+      testsPassed: 0
+      testsFailedNames: ''
+    secrets: inherit

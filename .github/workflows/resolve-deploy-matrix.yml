@@ -1,0 +1,91 @@
+name: 🧮 解析部署矩阵
+
+on:
+  workflow_call:
+    inputs:
+      validTargets:
+        type: string
+        required: true
+    outputs:
+      matrix:
+        value: ${{ jobs.resolve.outputs.matrix }}
+      requiresCombinedArtifact:
+        value: ${{ jobs.resolve.outputs.requiresCombinedArtifact }}
+      requiredBuildTargets:
+        value: ${{ jobs.resolve.outputs.requiredBuildTargets }}
+
+jobs:
+  resolve:
+    name: 解析部署矩阵
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+      requiresCombinedArtifact: ${{ steps.set.outputs.requiresCombinedArtifact }}
+      requiredBuildTargets: ${{ steps.set.outputs.requiredBuildTargets }}
+
+    steps:
+      - name: 📁 检出仓库
+        uses: actions/checkout@v4
+
+      - id: set
+        run: |
+          DEPLOY_TARGETS='${{ inputs.validTargets }}'
+          CONFIG_FILE=".github/config/deploy-targets.json"
+          FALLBACK_URL="https://raw.githubusercontent.com/avalin/unity-ci-templates/main/.github/config/deploy-targets.json"
+
+          echo "🔍 检查本地配置文件..."
+          if [ -f "$CONFIG_FILE" ]; then
+            echo "✅ 找到本地配置文件: $CONFIG_FILE"
+          else
+            echo "⚠️ 未找到，正在下载: $FALLBACK_URL"
+            mkdir -p "$(dirname "$CONFIG_FILE")"
+            curl -sSL "$FALLBACK_URL" -o "$CONFIG_FILE"
+          fi
+
+          MATRIX='['
+          COMBINED_NEEDED=false
+          BUILD_TARGET_SET=()
+
+          # 辅助函数：检查元素是否在数组中
+          contains() { local e match="$1"; shift; for e; do [[ "$e" == "$match" ]] && return 0; done; return 1; }
+
+          for TARGET in $(echo "$DEPLOY_TARGETS" | jq -r '.[]'); do
+            OS=$(jq -r --arg t "$TARGET" '.[$t].os // "ubuntu-latest"' "$CONFIG_FILE")
+            COMBINED=$(jq -r --arg t "$TARGET" '.[$t].requiresCombinedArtifact // false' "$CONFIG_FILE")
+            # 获取兼容的构建目标，紧凑 JSON 数组
+            BUILD_TARGETS=$(jq -c --arg t "$TARGET" '.[$t].compatibleBuildTargets' "$CONFIG_FILE")
+
+            MATRIX+='{"target":"'$TARGET'","os":"'$OS'","requiresCombinedArtifact":"'$COMBINED'","requiredBuildTargets":'$BUILD_TARGETS'},'
+
+            # 只要有一个目标需要合并产物，则全局标记为 true
+            if [ "$COMBINED" = "true" ]; then
+              COMBINED_NEEDED=true
+            fi
+
+            # 聚合所有目标的唯一构建目标
+            for p in $(echo "$BUILD_TARGETS" | jq -r '.[]'); do
+              if ! contains "$p" "${BUILD_TARGET_SET[@]}"; then
+                BUILD_TARGET_SET+=("$p")
+              fi
+            done
+          done
+
+          MATRIX="${MATRIX%,}]"
+
+          # 转换 BUILD_TARGET_SET 数组为 JSON
+          if [ "${#BUILD_TARGET_SET[@]}" -eq 0 ]; then
+            REQUIRED_BUILD_TARGETS='[]'
+          else
+            REQUIRED_BUILD_TARGETS=$(printf '%s\n' "${BUILD_TARGET_SET[@]}" | jq -R . | jq -s .)
+          fi
+
+          # 紧凑 JSON（无换行）用于 GitHub 输出
+          REQUIRED_BUILD_TARGETS_COMPACT=$(echo "$REQUIRED_BUILD_TARGETS" | jq -c .)
+
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+          echo "requiresCombinedArtifact=$COMBINED_NEEDED" >> $GITHUB_OUTPUT
+          echo "requiredBuildTargets=$REQUIRED_BUILD_TARGETS_COMPACT" >> $GITHUB_OUTPUT
+
+          echo "✅ 解析后的矩阵: $MATRIX"
+          echo "✅ 是否需要合并产物: $COMBINED_NEEDED"
+          echo "✅ 所需构建目标: $REQUIRED_BUILD_TARGETS_COMPACT"

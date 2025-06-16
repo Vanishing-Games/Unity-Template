@@ -1,0 +1,59 @@
+name: 🌀 干部署（Dry Deploy）
+
+on:
+  workflow_call:
+    inputs:
+      deployTargets:
+        description: "部署目标的 JSON 数组（如 [\"itch.io\", \"s3\"]）"
+        required: true
+        type: string
+      successfulTargets:
+        description: "模拟为成功的目标 JSON 数组（其余视为失败）"
+        required: false
+        default: '[]'
+        type: string
+
+    outputs:
+      deployResult:
+        description: "整体模拟部署结果（全部成功为 success，否则为 fail）"
+        value: ${{ jobs.dry_deploy.outputs.deployResult }}
+
+jobs:
+  dry_deploy:
+    name: 🛠 模拟部署
+    runs-on: ubuntu-latest
+    outputs:
+      deployResult: ${{ steps.simulate.outputs.deployResult }}
+    steps:
+      - name: 模拟部署
+        id: simulate
+        run: |
+          ALL_TARGETS=$(echo '${{ inputs.deployTargets }}' | jq -r '.[]')
+          SUCCESS_TARGETS=$(echo '${{ inputs.successfulTargets }}' | jq -r '.[]')
+
+          mkdir -p simulated-deploy-results
+
+          OVERALL_SUCCESS=true
+
+          for TARGET in $ALL_TARGETS; do
+            if echo "$SUCCESS_TARGETS" | grep -q "^$TARGET$"; then
+              STATUS="success"
+              NOTE="模拟部署成功"
+            else
+              STATUS="failure"
+              NOTE="模拟失败"
+              OVERALL_SUCCESS=false
+            fi
+
+            printf '{\n  "target": "%s",\n  "status": "%s",\n  "note": "%s"\n}\n' \
+            "$TARGET" "$STATUS" "$NOTE" > simulated-deploy-results/${TARGET}.json
+          done
+
+          echo "整体部署结果: $OVERALL_SUCCESS"
+          echo "deployResult=$([[ $OVERALL_SUCCESS == true ]] && echo success || echo failure)" >> $GITHUB_OUTPUT
+
+      - name: 上传模拟部署结果产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulated-deployment-results
+          path: simulated-deploy-results

@@ -1,0 +1,107 @@
+name: 🌀 干构建（Dry Build）
+
+on:
+  workflow_call:
+    inputs:
+      projectName:
+        type: string
+        required: false
+      unityVersion:
+        required: true
+        type: string
+      buildVersion:
+        required: true
+        type: string
+      buildType:
+        required: true
+        type: string
+      buildTargets:
+        type: string
+        required: false
+      retentionDays:
+        type: number
+        required: false
+      combineArtifacts:
+        type: string
+        required: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  group_build_targets:
+    name: 🧮 分组构建目标
+    uses: ./.github/workflows/group-build-targets-by-os.yml
+    with:
+      buildTargets: ${{ inputs.buildTargets }}
+
+  generate_matrix:
+    name: 🧮 生成干构建矩阵
+    runs-on: ubuntu-latest
+    needs: [ group_build_targets ]
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: 🧮 创建干构建矩阵
+        id: set-matrix
+        shell: bash
+        run: |
+          grouped='${{ needs.group_build_targets.outputs.validBuildTargets }}'
+          echo "📦 分组目标: $grouped"
+      
+          matrix=$(echo "$grouped" | jq -c '
+            to_entries
+            | map(.value[] as $p | { os: .key, buildTarget: $p })
+          ')
+      
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          echo "$matrix" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+  dry_build_targets:
+    name: 🏗️ 模拟 ${{ matrix.os }} 上的 ${{ matrix.buildTarget }} 构建
+    runs-on: ${{ matrix.os }}
+    needs: [ generate_matrix ]
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.generate_matrix.outputs.matrix) }}
+    steps:
+      - name: 创建占位文件夹结构
+        shell: bash
+        run: |
+          BUILD_VERSION="${{ inputs.buildVersion }}"
+          TARGET="${{ matrix.buildTarget }}"
+          DEST="${{ inputs.projectName }}-${BUILD_VERSION}/${TARGET}"
+
+          echo "在 $DEST 创建干构建结构"
+          mkdir -p "$DEST"
+          echo "这是 $TARGET 的干构建占位文件，版本 $BUILD_VERSION" > "$DEST/README.txt"
+
+      - name: 上传占位产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.projectName }}-${{ inputs.buildVersion }}-${{ matrix.buildTarget }}
+          path: ${{ inputs.projectName }}-${{ inputs.buildVersion }}/${{ matrix.buildTarget }}/*
+          retention-days: ${{ inputs.retentionDays }}
+
+  combine_builds:
+    if: ${{ inputs.combineArtifacts == 'true' }}
+    needs: [ dry_build_targets ]
+    uses: ./.github/workflows/combine-builds.yml
+    with:
+      projectName: ${{ inputs.projectName }}
+      buildVersion: ${{ inputs.buildVersion }}
+      retentionDays: ${{ inputs.retentionDays }}
+
+  summarize_builds:
+    needs: [ group_build_targets, dry_build_targets, combine_builds ]
+    if: always()
+    uses: ./.github/workflows/summarize-builds.yml
+    with:
+      projectName: ${{ inputs.projectName }}
+      buildVersion: ${{ inputs.buildVersion }}
+      groupedBuildTargets: ${{ needs.group_build_targets.outputs.validBuildTargets }}
+      combineRequested: ${{ inputs.combineArtifacts }}
+      combinedCreated: ${{ (needs.combine_builds.result == 'success' && needs.combine_builds.outputs.created) || 'false' }}

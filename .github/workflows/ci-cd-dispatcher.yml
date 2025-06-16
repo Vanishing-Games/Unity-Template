@@ -1,0 +1,182 @@
+name: ⚙️ CI/CD 分发器
+
+on:
+  # 允许手动触发，并带有 buildType 输入
+  workflow_dispatch:
+    inputs:
+      buildType:
+        description: "构建类型: 'preview' 用于手动/开发构建，'release_candidate' 用于预发布（如 v1.2.3-rc.1），'release' 用于正式发布（如 v1.2.3）"
+        required: true
+        default: "preview"
+        type: choice
+        options:
+          - preview
+          - release_candidate
+          - release
+      skipTests:
+        description: "是否跳过测试"
+        required: true
+        default: "default"
+        type: choice
+        options:
+          - 'default'
+          - 'true'
+          - 'false'
+      deployTargets:
+        description: "部署目标的 JSON 数组（如 [\"itch.io\",\"s3\"]）"
+        required: true
+        default: '["gh-pages"]'
+        type: string
+      buildTargets:
+        description: "构建目标的 JSON 数组（如 [\"WebGL\",\"iOS\"]）"
+        required: true
+        default: '["WebGL"]'
+        type: string
+      buildVersion:
+        description: 可选的版本号覆盖
+        type: string
+        required: false
+  # 在特定分支或 PR 变更时自动运行测试和构建
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'            # 匹配 v1.2.3
+      - 'v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+'  # 匹配 v1.2.3-rc.1
+    paths:
+      - 'Assets/**'
+      - 'Packages/**'
+      - 'ProjectSettings/**'
+      - 'Tests/**'
+  pull_request:
+    types: [ready_for_review, synchronize, reopened]
+    paths:
+      - 'Assets/**'
+      - 'Packages/**'
+      - 'ProjectSettings/**'
+      - 'Tests/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  validation:
+    name: 校验 CI 配置
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+    steps:
+      - name: 检查最后一次提交信息是否包含 [skip ci]   
+        id: check
+        run: |
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          echo "最后一次提交信息: $COMMIT_MSG"
+
+          if [[ "$COMMIT_MSG" == *"[skip ci]"* || "$COMMIT_MSG" == *"[ci skip]"* ]]; then
+            echo "检测到跳过 CI 的标记，流程将跳过。"
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "继续执行 CI。"
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 校验所需的 GitHub Secrets
+        run: |
+          REQUIRED_SECRETS=("CICD_PAT" "UNITY_EMAIL" "UNITY_LICENSE" "UNITY_PASSWORD")
+          MISSING=0
+
+          for SECRET_NAME in "${REQUIRED_SECRETS[@]}"; do
+            VALUE_VAR="SECRET_${SECRET_NAME}"
+            VALUE="${!VALUE_VAR}"
+
+            if [[ -z "$VALUE" || "$VALUE" == "" ]]; then
+              echo "❌ 必需的 secret '$SECRET_NAME' 未设置！"
+              MISSING=1
+            else
+              echo "✅ Secret '$SECRET_NAME' 已设置。"
+            fi
+          done
+
+          if [[ "$MISSING" -eq 1 ]]; then
+            echo "❌ 有必需的 secret 缺失，流程终止。"
+            exit 1
+          fi
+        env:
+          SECRET_CICD_PAT: ${{ secrets.CICD_PAT }}
+          SECRET_UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          SECRET_UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          SECRET_UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+  prepare_metadata:
+    name: 元数据准备
+    needs: 
+      - validation
+    if: ${{ needs.validation.outputs.should_run == 'true'}}
+    uses: ./.github/workflows/prepare-metadata.yml
+    with:
+      unityVersion: ${{ vars.UNITY_VERSION }}
+      projectName: ${{ vars.PROJECT_NAME }}
+      skipTests: ${{ inputs.skipTests }}
+      deployTargets: ${{ inputs.deployTargets }}
+      buildTargets: ${{ inputs.buildTargets }}
+      buildType: ${{ inputs.buildType }}
+      buildVersion: ${{ inputs.buildVersion }}
+
+  tagging:
+    name: 创建或校验标签
+    needs: 
+      - validation
+      - prepare_metadata
+    if: ${{ needs.validation.outputs.should_run == 'true'}}
+    uses: ./.github/workflows/build-version-tagger.yml
+    with:
+      buildType: ${{ needs.prepare_metadata.outputs.buildType }}
+      buildVersion: ${{ needs.prepare_metadata.outputs.buildVersion }}
+  
+  trigger_ci:
+    name: 触发 CI/CD 流水线
+    needs: 
+      - validation
+      - tagging
+      - prepare_metadata
+    if: ${{ needs.validation.outputs.should_run == 'true'}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 仅检出工作流文件
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/workflows
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: 安装 GitHub CLI
+        run: sudo apt-get install gh -y
+
+      - name: 使用 GitHub CLI 调用 CI/CD 流水线
+        env:
+          GITHUB_TOKEN: ${{ secrets.CICD_PAT }}
+        run: |
+          gh workflow run ci-cd-pipeline.yml \
+            --ref "${{ github.ref }}" \
+            --field buildTargets="$(printf '%s' '${{ needs.prepare_metadata.outputs.buildTargets }}')" \
+            --field validDeployTargets="$(printf '%s' '${{ needs.prepare_metadata.outputs.validDeployTargets }}')" \
+            --field metadataConfig="$(jq -c -n \
+              --arg projectName "${{ needs.prepare_metadata.outputs.projectName }}" \
+              --arg skipTests "${{ needs.prepare_metadata.outputs.skipTests }}" \
+              --arg testsOnly "${{ needs.prepare_metadata.outputs.testsOnly }}" \
+              --arg buildType "${{ needs.prepare_metadata.outputs.buildType }}" \
+              --arg buildVersion "${{ needs.prepare_metadata.outputs.buildVersion }}" \
+              --arg retentionDays "${{ needs.prepare_metadata.outputs.retentionDays }}" \
+              --arg timeoutMinutesTests "${{ needs.prepare_metadata.outputs.timeoutMinutesTests }}" \
+              --arg timeoutMinutesBuild "${{ needs.prepare_metadata.outputs.timeoutMinutesBuild }}" \
+              '{projectName: $projectName, skipTests: $skipTests, testsOnly: $testsOnly, buildType: $buildType, buildVersion: $buildVersion, retentionDays: $retentionDays, timeoutMinutesTests: $timeoutMinutesTests, timeoutMinutesBuild: $timeoutMinutesBuild}')" \
+            --field artifactConfig="$(jq -c -n \
+              --arg requiresCombined "${{ needs.prepare_metadata.outputs.requiresCombined }}" \
+              --arg skipPerBuildTarget "${{ needs.prepare_metadata.outputs.skipPerBuildTarget }}" \
+              '{requiresCombined: $requiresCombined, skipPerBuildTarget: $skipPerBuildTarget}')" \
+            --field testDataConfig="$(jq -c -n \
+              --arg unityVersion "${{ needs.prepare_metadata.outputs.unityVersion }}" \
+              --arg useGitLfs "${{ needs.prepare_metadata.outputs.useGitLfs }}" \
+              --arg editModePath "${{ needs.prepare_metadata.outputs.editModePath }}" \
+              --arg playModePath "${{ needs.prepare_metadata.outputs.playModePath }}" \
+              --arg quietMode "${{ needs.prepare_metadata.outputs.quietMode }}" \
+              '{unityVersion: $unityVersion, useGitLfs: $useGitLfs, editModePath: $editModePath, playModePath: $playModePath, quietMode: $quietMode}')"

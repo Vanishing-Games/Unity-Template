@@ -1,0 +1,76 @@
+name: 📆 合并构建产物
+
+description: |
+  下载所有单独构建目标的产物，并将它们合并到一个带版本号的文件夹中，
+  便于上传或部署。始终创建结构一致的合并产物。
+
+on:
+  workflow_call:
+    inputs:
+      projectName:
+        required: true
+        type: string
+      buildVersion:
+        required: true
+        type: string
+      retentionDays:
+        required: false
+        type: number
+        default: 7
+    outputs:
+      created:
+        description: "是否实际创建了合并产物"
+        value: ${{ jobs.combine.outputs.created }}
+
+jobs:
+  combine:
+    name: 📆 合并所有构建目标到一个文件夹
+    runs-on: ubuntu-latest
+    outputs:
+      created: ${{ steps.set-created.outputs.success }}
+    steps:
+      - name: 📅 下载所有构建目标产物
+        uses: actions/download-artifact@v4
+        with:
+          path: all-artifacts
+
+      - name: 🗂️ 合并到单一版本文件夹
+        run: |
+          VERSION="${{ inputs.buildVersion }}"
+          PROJECT="${{ inputs.projectName }}"
+          COMBINED_DIR="${PROJECT}-${VERSION}"
+          mkdir -p "$COMBINED_DIR"
+
+          echo "正在合并产物到: $COMBINED_DIR"
+
+          for DIR in all-artifacts/*; do
+            ARTIFACT_NAME=$(basename "$DIR")
+            TARGET=$(echo "$ARTIFACT_NAME" | sed -E 's/^.*-([^-]+)$/\1/')
+            DEST="$COMBINED_DIR/$TARGET"
+
+            echo "→ 合并目标: $TARGET 到 $DEST"
+            mkdir -p "$DEST"
+            cp -r "$DIR/"* "$DEST/" || echo "⚠️ $TARGET 无内容可复制"
+            rm -rf "$DEST/unity_license"
+          done
+
+      - name: 📦 上传合并产物
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.projectName }}-${{ inputs.buildVersion }}
+          path: ${{ inputs.projectName }}-${{ inputs.buildVersion }}
+          retention-days: ${{ inputs.retentionDays }}
+
+      - name: 📤 检查并设置输出（合并产物是否存在且已上传）
+        id: set-created
+        run: |
+          COMBINED_DIR="${{ inputs.projectName }}-${{ inputs.buildVersion }}"
+
+          if [ -d "$COMBINED_DIR" ] && [ "$(ls -A "$COMBINED_DIR")" ]; then
+            echo "✅ 合并文件夹存在且已成功上传"
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ 合并文件夹缺失或为空"
+            echo "success=false" >> $GITHUB_OUTPUT
+          fi
