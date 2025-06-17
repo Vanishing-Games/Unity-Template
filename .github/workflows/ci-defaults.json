@@ -1,0 +1,23 @@
+{
+  "metadataConfig": {
+    "projectName": "Unity-CI-CD-Template",
+    "skipTests": false,
+    "testsOnly": false,
+    "buildType": "release",
+    "buildVersion": "1.0.0",
+    "retentionDays": 30,
+    "timeoutMinutesTests": 30,
+    "timeoutMinutesBuild": 60
+  },
+  "artifactConfig": {
+    "requiresCombined": true,
+    "skipPerBuildTarget": false
+  },
+  "testDataConfig": {
+    "unityVersion": "2022.3.0f1",
+    "useGitLfs": true,
+    "editModePath": "Assets/Tests/EditMode",
+    "playModePath": "Assets/Tests/PlayMode",
+    "quietMode": false
+  }
+}

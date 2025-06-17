@@ -28,6 +28,9 @@ on:
         required: true
         default: '{"requiresCombined":true,"skipPerBuildTarget":false}'
         description: '构建产物配置(JSON字符串)'
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -53,11 +56,31 @@ jobs:
       timeoutMinutesBuild: ${{ steps.unpack.outputs.timeoutMinutesBuild }}
       quietMode: ${{ steps.unpack.outputs.quietMode }}
     steps:
+      - name: 检出配置文件
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/workflows/ci-defaults.json
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
       - id: unpack
+        shell: bash
         run: |
+          # 读取输入参数
           meta='${{ inputs.metadataConfig }}'
           artifact='${{ inputs.artifactConfig }}'
           testData='${{ inputs.testDataConfig }}'
+
+          # 如果参数为空，则读取ci-defaults.json
+          if [ -z "$meta" ] || [ "$meta" = "null" ] || [ "$meta" = "" ]; then
+            meta=$(jq -c '.metadataConfig' .github/workflows/ci-defaults.json)
+          fi
+          if [ -z "$artifact" ] || [ "$artifact" = "null" ] || [ "$artifact" = "" ]; then
+            artifact=$(jq -c '.artifactConfig' .github/workflows/ci-defaults.json)
+          fi
+          if [ -z "$testData" ] || [ "$testData" = "null" ] || [ "$testData" = "" ]; then
+            testData=$(jq -c '.testDataConfig' .github/workflows/ci-defaults.json)
+          fi
 
           # 测试数据配置
           echo "unityVersion=$(echo "$testData" | jq -r .unityVersion)" >> "$GITHUB_OUTPUT"
