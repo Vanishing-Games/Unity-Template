@@ -39,9 +39,8 @@ on:
        UNITY_EMAIL: { required: true }
        UNITY_PASSWORD: { required: true }
        UNITY_LICENSE: { required: true }
-  push:
+  pull_request:
     branches:
-      - main
       - develop
 
 concurrency:
