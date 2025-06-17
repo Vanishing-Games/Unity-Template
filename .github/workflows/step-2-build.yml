@@ -2,35 +2,47 @@ name: 🧩 步骤2 - 构建
 
 on:
   workflow_call:
-    inputs:
+     inputs:
       projectName:
         type: string
+        default: 'Unity-CI-CD-Template'
         required: false
       unityVersion:
-        required: true
         type: string
+        default: '2022.3.0f1'
+        required: false
       buildVersion:
-        required: true
         type: string
+        default: '1.0.0'
+        required: false
       buildType:
-        required: true
         type: string
+        default: 'release'
+        required: false
       buildTargets:
         type: string
+        default: ''
         required: false
       timeoutMinutes:
         type: number
+        default: 60
         required: false
       retentionDays:
         type: number
+        default: 30
         required: false
       combineArtifacts:
         type: string
+        default: 'true'
         required: false
-    secrets:
-      UNITY_EMAIL: { required: true }
-      UNITY_PASSWORD: { required: true }
-      UNITY_LICENSE: { required: true }
+     secrets:
+       UNITY_EMAIL: { required: true }
+       UNITY_PASSWORD: { required: true }
+       UNITY_LICENSE: { required: true }
+  push:
+    branches:
+      - main
+      - develop
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

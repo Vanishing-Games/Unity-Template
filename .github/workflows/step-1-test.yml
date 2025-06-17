@@ -50,6 +50,10 @@ on:
       UNITY_EMAIL: { required: true }
       UNITY_PASSWORD: { required: true }
       UNITY_LICENSE: { required: true }
+  push:
+      branches:
+        - main
+        - develop
 
 jobs:
   upload_unity_license:
