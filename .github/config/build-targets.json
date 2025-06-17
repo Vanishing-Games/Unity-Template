@@ -1,0 +1,17 @@
+{
+  "WebGL": {
+    "preview": "CI-WebGL-Preview",
+    "release_candidate": "CI-WebGL-RC",
+    "release": "CI-WebGL-Release"
+  },
+  "StandaloneWindows64": {
+    "preview": "CI-Windows64-Preview",
+    "release_candidate": "CI-Windows64-RC",
+    "release": "CI-Windows64-Release"
+  },
+  "StandaloneOSX": {
+    "preview": "CI-macOS-Preview",
+    "release_candidate": "CI-macOS-RC",
+    "release": "CI-macOS-Release"
+  }
+}
