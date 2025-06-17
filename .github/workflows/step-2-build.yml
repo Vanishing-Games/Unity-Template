@@ -9,11 +9,11 @@ on:
         required: false
       unityVersion:
         type: string
-        default: '2022.3.0f1'
+        default: '2022.3.58f1'
         required: false
       buildVersion:
         type: string
-        default: '1.0.0'
+        default: '0.1.0'
         required: false
       buildType:
         type: string
@@ -21,7 +21,7 @@ on:
         required: false
       buildTargets:
         type: string
-        default: ''
+        default: 'StandaloneWindows64,StandaloneOSX'
         required: false
       timeoutMinutes:
         type: number
