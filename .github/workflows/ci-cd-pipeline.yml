@@ -61,11 +61,31 @@ jobs:
       timeoutMinutesBuild: ${{ steps.unpack.outputs.timeoutMinutesBuild }}
       quietMode: ${{ steps.unpack.outputs.quietMode }}
     steps:
+      - name: 检出配置文件
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/workflows/ci-defaults.json
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
       - id: unpack
+        shell: bash
         run: |
+          # 读取输入参数
           meta='${{ inputs.metadataConfig }}'
           artifact='${{ inputs.artifactConfig }}'
           testData='${{ inputs.testDataConfig }}'
+
+          # 如果参数为空，则读取ci-defaults.json
+          if [ -z "$meta" ] || [ "$meta" = "null" ] || [ "$meta" = "" ]; then
+            meta=$(jq -c '.metadataConfig' .github/workflows/ci-defaults.json)
+          fi
+          if [ -z "$artifact" ] || [ "$artifact" = "null" ] || [ "$artifact" = "" ]; then
+            artifact=$(jq -c '.artifactConfig' .github/workflows/ci-defaults.json)
+          fi
+          if [ -z "$testData" ] || [ "$testData" = "null" ] || [ "$testData" = "" ]; then
+            testData=$(jq -c '.testDataConfig' .github/workflows/ci-defaults.json)
+          fi
 
           # 测试数据配置
           echo "unityVersion=$(echo "$testData" | jq -r .unityVersion)" >> "$GITHUB_OUTPUT"
@@ -136,104 +156,104 @@ jobs:
       UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
       UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
-  # ─────────────────────────────────────────────────────────────────────────────
-  # 3. 发布
-  # ─────────────────────────────────────────────────────────────────────────────
-  release:
-    name: 发布
-    needs: 
-      - unpack_inputs
-      - build
-    if: > 
-      always() &&
-      needs.unpack_inputs.outputs.testsOnly != 'true' &&
-      needs.build.result == 'success' && 
-      (
-        needs.unpack_inputs.outputs.buildType == 'release' || 
-        needs.unpack_inputs.outputs.buildType == 'release_candidate'
-      )
-    uses: ./.github/workflows/step-3-release.yml
-    with:
-      buildType: ${{ needs.unpack_inputs.outputs.buildType }}
-      buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
-      projectName: ${{ needs.unpack_inputs.outputs.projectName }}
-      buildTargets: ${{ inputs.buildTargets }}
-      combineArtifacts: ${{ needs.unpack_inputs.outputs.requiresCombined }}
-      skipPerBuildTargetArtifacts: ${{ needs.unpack_inputs.outputs.skipPerBuildTarget }}
+  # # ─────────────────────────────────────────────────────────────────────────────
+  # # 3. 发布
+  # # ─────────────────────────────────────────────────────────────────────────────
+  # release:
+  #   name: 发布
+  #   needs: 
+  #     - unpack_inputs
+  #     - build
+  #   if: > 
+  #     always() &&
+  #     needs.unpack_inputs.outputs.testsOnly != 'true' &&
+  #     needs.build.result == 'success' && 
+  #     (
+  #       needs.unpack_inputs.outputs.buildType == 'release' || 
+  #       needs.unpack_inputs.outputs.buildType == 'release_candidate'
+  #     )
+  #   uses: ./.github/workflows/step-3-release.yml
+  #   with:
+  #     buildType: ${{ needs.unpack_inputs.outputs.buildType }}
+  #     buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
+  #     projectName: ${{ needs.unpack_inputs.outputs.projectName }}
+  #     buildTargets: ${{ inputs.buildTargets }}
+  #     combineArtifacts: ${{ needs.unpack_inputs.outputs.requiresCombined }}
+  #     skipPerBuildTargetArtifacts: ${{ needs.unpack_inputs.outputs.skipPerBuildTarget }}
 
-  # ─────────────────────────────────────────────────────────────────────────────
-  # 4. 部署
-  # ─────────────────────────────────────────────────────────────────────────────
-  deploy:
-    name: 部署
-    needs: 
-      - unpack_inputs
-      - build
-      - release
-    if: > 
-      always() &&
-       needs.unpack_inputs.outputs.testsOnly != 'true' &&
-       needs.release.result == 'success' &&
-       inputs.validDeployTargets != '[]'
-    uses: ./.github/workflows/step-4-deploy.yml
-    with:
-      buildType: ${{ needs.unpack_inputs.outputs.buildType }}
-      buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
-      projectName: ${{ needs.unpack_inputs.outputs.projectName }}
-      deployTargets: ${{ inputs.validDeployTargets }}
-      buildTargets: ${{ inputs.buildTargets }}
-      hasCombinedArtifacts: ${{ needs.unpack_inputs.outputs.requiresCombined }}
-      artifactSource: build
-    secrets:
-      CICD_PAT: ${{ secrets.CICD_PAT }}
-      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-      DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
-      ITCH_USERNAME: ${{ secrets.ITCH_USERNAME }}
-      ITCH_PROJECT: ${{ secrets.ITCH_PROJECT }}
-      APPCENTER_OWNER_NAME: ${{ secrets.APPCENTER_OWNER_NAME }}
-      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      S3_BUCKET: ${{ secrets.S3_BUCKET }}
-      STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
-      STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
-      STEAM_APP_ID: ${{ secrets.STEAM_APP_ID }}
-      STEAM_DEPOT_VDF_PATH: ${{ secrets.STEAM_DEPOT_VDF_PATH }}
-      APPSTORE_API_KEY_ID: ${{ secrets.APPSTORE_API_KEY_ID }}
-      APPSTORE_API_ISSUER_ID: ${{ secrets.APPSTORE_API_ISSUER_ID }}
-      APPSTORE_API_PRIVATE_KEY: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-      CUSTOM_SERVER_HOST: ${{ secrets.CUSTOM_SERVER_HOST }}
-      CUSTOM_SERVER_USER: ${{ secrets.CUSTOM_SERVER_USER }}
-      CUSTOM_SERVER_KEY: ${{ secrets.CUSTOM_SERVER_KEY }}
+  # # ─────────────────────────────────────────────────────────────────────────────
+  # # 4. 部署
+  # # ─────────────────────────────────────────────────────────────────────────────
+  # deploy:
+  #   name: 部署
+  #   needs: 
+  #     - unpack_inputs
+  #     - build
+  #     - release
+  #   if: > 
+  #     always() &&
+  #      needs.unpack_inputs.outputs.testsOnly != 'true' &&
+  #      needs.release.result == 'success' &&
+  #      inputs.validDeployTargets != '[]'
+  #   uses: ./.github/workflows/step-4-deploy.yml
+  #   with:
+  #     buildType: ${{ needs.unpack_inputs.outputs.buildType }}
+  #     buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
+  #     projectName: ${{ needs.unpack_inputs.outputs.projectName }}
+  #     deployTargets: ${{ inputs.validDeployTargets }}
+  #     buildTargets: ${{ inputs.buildTargets }}
+  #     hasCombinedArtifacts: ${{ needs.unpack_inputs.outputs.requiresCombined }}
+  #     artifactSource: build
+  #   secrets:
+  #     CICD_PAT: ${{ secrets.CICD_PAT }}
+  #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+  #     DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
+  #     ITCH_USERNAME: ${{ secrets.ITCH_USERNAME }}
+  #     ITCH_PROJECT: ${{ secrets.ITCH_PROJECT }}
+  #     APPCENTER_OWNER_NAME: ${{ secrets.APPCENTER_OWNER_NAME }}
+  #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+  #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     S3_BUCKET: ${{ secrets.S3_BUCKET }}
+  #     STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
+  #     STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
+  #     STEAM_APP_ID: ${{ secrets.STEAM_APP_ID }}
+  #     STEAM_DEPOT_VDF_PATH: ${{ secrets.STEAM_DEPOT_VDF_PATH }}
+  #     APPSTORE_API_KEY_ID: ${{ secrets.APPSTORE_API_KEY_ID }}
+  #     APPSTORE_API_ISSUER_ID: ${{ secrets.APPSTORE_API_ISSUER_ID }}
+  #     APPSTORE_API_PRIVATE_KEY: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+  #     CUSTOM_SERVER_HOST: ${{ secrets.CUSTOM_SERVER_HOST }}
+  #     CUSTOM_SERVER_USER: ${{ secrets.CUSTOM_SERVER_USER }}
+  #     CUSTOM_SERVER_KEY: ${{ secrets.CUSTOM_SERVER_KEY }}
 
-  # ─────────────────────────────────────────────────────────────────────────────
-  # 5. 通知
-  # ─────────────────────────────────────────────────────────────────────────────
-  notify:
-    name: 通知
-    needs: 
-      - unpack_inputs
-      - run_tests
-      - build
-      - release
-      - deploy
-    if: > 
-      always() && 
-      needs.unpack_inputs.outputs.testsOnly != 'true' &&
-      (
-        needs.unpack_inputs.outputs.buildType == 'release' || 
-        needs.unpack_inputs.outputs.buildType == 'release_candidate'
-      )
-    uses: ./.github/workflows/step-5-notify.yml
-    with:
-      buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
-      releaseResult: ${{ needs.release.result }}
-      releaseErrorMessage: ${{ needs.release.outputs.releaseErrorMessage }}
-      deployResult: ${{ needs.deploy.result }}
-      testsHasFails: ${{ needs.run_tests.outputs.hasFails }}
-      testsTotal: ${{ needs.run_tests.outputs.totalTests }}
-      testsPassed: ${{ needs.run_tests.outputs.passedTests }}
-      testsFailedNames: ${{ needs.run_tests.outputs.failedTestNames }}
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+  # # ─────────────────────────────────────────────────────────────────────────────
+  # # 5. 通知
+  # # ─────────────────────────────────────────────────────────────────────────────
+  # notify:
+  #   name: 通知
+  #   needs: 
+  #     - unpack_inputs
+  #     - run_tests
+  #     - build
+  #     - release
+  #     - deploy
+  #   if: > 
+  #     always() && 
+  #     needs.unpack_inputs.outputs.testsOnly != 'true' &&
+  #     (
+  #       needs.unpack_inputs.outputs.buildType == 'release' || 
+  #       needs.unpack_inputs.outputs.buildType == 'release_candidate'
+  #     )
+  #   uses: ./.github/workflows/step-5-notify.yml
+  #   with:
+  #     buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
+  #     releaseResult: ${{ needs.release.result }}
+  #     releaseErrorMessage: ${{ needs.release.outputs.releaseErrorMessage }}
+  #     deployResult: ${{ needs.deploy.result }}
+  #     testsHasFails: ${{ needs.run_tests.outputs.hasFails }}
+  #     testsTotal: ${{ needs.run_tests.outputs.totalTests }}
+  #     testsPassed: ${{ needs.run_tests.outputs.passedTests }}
+  #     testsFailedNames: ${{ needs.run_tests.outputs.failedTestNames }}
+  #   secrets:
+  #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  #     DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
