@@ -28,6 +28,14 @@ on:
         required: true
         default: '{"requiresCombined":true,"skipPerBuildTarget":false}'
         description: '构建产物配置(JSON字符串)'
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
 
 permissions:
   contents: write
