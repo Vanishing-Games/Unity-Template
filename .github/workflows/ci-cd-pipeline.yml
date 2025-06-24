@@ -59,7 +59,7 @@ jobs:
       - name: 检出配置文件
         uses: actions/checkout@v4
         with:
-          sparse-checkout: .github/workflows/ci-defaults.json
+          sparse-checkout: .github/config/ci-defaults.json
           sparse-checkout-cone-mode: false
           fetch-depth: 1
 
@@ -137,7 +137,6 @@ jobs:
       (needs.run_tests.result == 'success' || needs.run_tests.result == 'skipped')
     uses: ./.github/workflows/step-2-build.yml
     with:
-      # 如果事件是带有标签的 push，则强制 buildType 为 "release"，否则使用输入值。
       projectName: ${{ needs.unpack_inputs.outputs.projectName }}
       unityVersion: ${{ needs.unpack_inputs.outputs.unityVersion }}
       buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
