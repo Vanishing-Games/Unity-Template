@@ -4,7 +4,7 @@
     "skipTests": false,
     "testsOnly": false,
     "buildType": "release",
-    "buildVersion": "0.0.0",
+    "buildVersion": "0.1.${{ github.event.date | fromJson | format('YYYY.MM.DD') }}.${{ github.run_number }}",
     "retentionDays": 30,
     "timeoutMinutesTests": 30,
     "timeoutMinutesBuild": 60
