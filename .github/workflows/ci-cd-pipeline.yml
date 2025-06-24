@@ -6,12 +6,12 @@ on:
       validDeployTargets:
         type: string
         required: true
-        default: '["Windows", "MacOs"]'
+        default: '["gh-pages"]'
         description: '有效的部署目标列表(JSON字符串)' 
       buildTargets:
         type: string
         required: true
-        default: '["Windows", "MacOs"]'
+        default: '["StandaloneWindows64", "StandaloneOSX"]'
         description: '构建目标平台列表(JSON字符串)'
       metadataConfig:
         type: string

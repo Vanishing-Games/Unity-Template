@@ -38,3 +38,11 @@
 候选发布版，即将成为正式 release 的版本。
 功能和 release 基本一致，但还在做最后的测试和验证。
 如果没有重大问题，会直接作为正式版发布。
+
+# buildTarget
+
+配置在: .github/config/build-targets.json
+
+# deploy-targets
+
+配置在: .github/config/deploy-targets.json
