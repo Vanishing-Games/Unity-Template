@@ -19,6 +19,8 @@ on:
         type: string
         default: 'release'
         required: false
+        default: 'release'
+        required: false
       buildTargets:
         type: string
         default: 'StandaloneWindows64,StandaloneOSX'

@@ -31,7 +31,7 @@ jobs:
         id: validate
         run: |
           INPUT_JSON='${{ inputs.buildTargets }}'
-          CONFIG_FILE=".github/config/build-targets.json"
+          CONFIG_FILE="./.github/config/build-targets.json"
           FALLBACK_URL="https://raw.githubusercontent.com/avalin/unity-ci-templates/main/.github/config/build-targets.json"
 
           echo "🔍 校验输入构建目标: $INPUT_JSON"
@@ -44,10 +44,17 @@ jobs:
             curl -sSL "$FALLBACK_URL" -o "$CONFIG_FILE"
           fi
 
+          # 打印配置文件内容
+          echo "📖 配置文件内容:"
+          echo "────────────────────────────"
+          cat "$CONFIG_FILE" | jq '.'
+          echo "────────────────────────────"
+
           echo "$INPUT_JSON" | jq empty || {
             echo "❌ 输入不是有效的 JSON。"
             exit 1
           }
+          # ...existing code...
 
           KNOWN=$(jq -r 'keys[]' "$CONFIG_FILE")
           INPUTS=$(echo "$INPUT_JSON" | jq -r '.[]')
