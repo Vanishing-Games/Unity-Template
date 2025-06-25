@@ -29,9 +29,9 @@ public static class RoslynBridge
         string dotnetExe = GetDotnetExecutablePath();
         if (string.IsNullOrEmpty(dotnetExe))
         {
-            UnityEngine.Debug.LogError(
-                "[RoslynBridge] 环境检测失败：未找到 dotnet 命令。\n"
-                    + $"你可以在项目根目录创建 {configRelativePath} 文件，内容写入 dotnet 绝对路径，或确保系统 PATH 中包含 dotnet。"
+            Logger.EditorLogError(
+                "环境检测失败: 未找到 dotnet 命令.\n你可以在项目根目录创建 Settings/.roslynbridgeconfig 文件, 内容写入 dotnet 绝对路径, 或确保系统 PATH 中包含 dotnet.",
+                LogTag.Roslyn
             );
             return;
         }
@@ -48,8 +48,9 @@ public static class RoslynBridge
 
         if (!File.Exists(dllPath))
         {
-            UnityEngine.Debug.LogWarning(
-                $"[RoslynBridge] 分析器工具未找到: {dllPath}\n请先运行 dotnet build\n或者运行Scripts/构建CodeUnfucker.bat脚本"
+            Logger.EditorLogWarn(
+                $"分析器工具未找到: {dllPath}\n请先运行 dotnet build\n或者运行 Scripts/构建CodeUnfucker.bat 脚本",
+                LogTag.Roslyn
             );
             return;
         }
@@ -78,13 +79,13 @@ public static class RoslynBridge
         process.OutputDataReceived += (sender, e) =>
         {
             if (!string.IsNullOrEmpty(e.Data))
-                UnityEngine.Debug.Log($"[RoslynBridge] {e.Data}");
+                Logger.EditorLogInfo($"{e.Data}", LogTag.Roslyn);
         };
 
         process.ErrorDataReceived += (sender, e) =>
         {
             if (!string.IsNullOrEmpty(e.Data))
-                UnityEngine.Debug.LogError($"[RoslynBridge ERROR] {e.Data}");
+                Logger.EditorLogError($"{e.Data}", LogTag.Roslyn);
         };
 
         try
@@ -96,7 +97,7 @@ public static class RoslynBridge
         }
         catch (Exception ex)
         {
-            UnityEngine.Debug.LogError($"[RoslynBridge] 运行失败: {ex.Message}");
+            Logger.EditorLogError($"运行失败: {ex.Message}", LogTag.Roslyn);
         }
     }
 
@@ -113,28 +114,32 @@ public static class RoslynBridge
                 }
                 else if (!string.IsNullOrEmpty(configDotnetPath))
                 {
-                    UnityEngine.Debug.LogWarning(
-                        $"[RoslynBridge] 配置文件 {configRelativePath} 中的 dotnet 路径无效或不存在\n绝对路径: {configFilePath}"
+                    Logger.EditorLogWarn(
+                        $"配置文件 Settings/.roslynbridgeconfig 中的 dotnet 路径无效或不存在\n绝对路径: {configFilePath}",
+                        LogTag.Roslyn
                     );
                 }
                 else
                 {
-                    UnityEngine.Debug.LogWarning(
-                        $"[RoslynBridge] 配置文件 {configRelativePath} 中的 dotnet 为空!"
+                    Logger.EditorLogWarn(
+                        $"配置文件 Settings/.roslynbridgeconfig 中的 dotnet 为空!",
+                        LogTag.Roslyn
                     );
                 }
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning(
-                    $"[RoslynBridge] 读取配置文件 {configRelativePath} 出错: {ex.Message}\n绝对路径: {configFilePath}"
+                Logger.EditorLogWarn(
+                    $"读取配置文件 Settings/.roslynbridgeconfig 出错: {ex.Message}\n绝对路径: {configFilePath}",
+                    LogTag.Roslyn
                 );
             }
         }
         else
         {
-            UnityEngine.Debug.LogWarning(
-                $"[RoslynBridge] 配置文件 {configRelativePath} 不存在，将尝试自动查找 dotnet.\n绝对路径: {configFilePath}"
+            Logger.EditorLogWarn(
+                $"配置文件 Settings/.roslynbridgeconfig 不存在, 将尝试自动查找 dotnet.\n绝对路径: {configFilePath}",
+                LogTag.Roslyn
             );
         }
 
