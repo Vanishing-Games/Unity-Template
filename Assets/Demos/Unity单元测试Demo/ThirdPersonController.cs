@@ -68,14 +68,18 @@ public class ThirdPersonController : MonoBehaviour
 
     void CameraControl()
     {
-        if (cameraTransform == null) return;
+        if (cameraTransform == null)
+            return;
 
         cameraYaw += Input.GetAxis("Mouse X") * cameraSensitivity;
         cameraPitch -= Input.GetAxis("Mouse Y") * cameraSensitivity;
         cameraPitch = Mathf.Clamp(cameraPitch, -30f, 60f);
 
         Quaternion camRot = Quaternion.Euler(cameraPitch, cameraYaw, 0);
-        Vector3 camPos = transform.position - camRot * Vector3.forward * cameraDistance + Vector3.up * cameraHeight;
+        Vector3 camPos =
+            transform.position
+            - camRot * Vector3.forward * cameraDistance
+            + Vector3.up * cameraHeight;
 
         cameraTransform.position = camPos;
         cameraTransform.rotation = camRot;
