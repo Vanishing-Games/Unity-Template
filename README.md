@@ -1,11 +1,22 @@
 # 项目构建
 
+> Note: 必须使用国际版的UnityHub
+
+Unity版本: 2022.3.58f1
+
 ```
 git clone git@github.com:Vanishing-Games/Unity-Template.git
 git lfs install 
 git pull
 ```
 
+> unity国际版
+> 
+> https://www.logiconsole.com/fuck-unity-cn/
+>
+> https://github.com/NoUnityCN/NoUnityCN
+>
+> https://github.com/superwoo/UniHacker
 # 目录结构
 
 >💡 GitHub 支持 Mermaid 渲染，确保你直接在 GitHub 上查看以获得图形化展示。
@@ -98,7 +109,7 @@ flowchart TD
 | 私有成员变量  | 使用 `m_` 或后缀 `_`         |
 | 静态变量    | 使用 `s_`                 |
 | 布尔变量    | `is` / `has` / `can` 前缀 |
-| 全局变量    | `g_`（慎用）                |
+| 全局变量 (慎用)   | `g_`                |
 | 常量      | 全大写蛇形 e.g., `MAX_SIZE`  |
 | 输入/输出参数 | `in` / `out` 前缀     |
 
