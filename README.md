@@ -100,6 +100,7 @@ flowchart TD
 
 ### 注释
 
+- 使用英文作为主要注释语言
 - **代码即注释** 禁止毫无意义的注释
 
     ```c#
@@ -107,7 +108,6 @@ flowchart TD
     int count = 0; // 初始化计数器为0
     count++;       // 计数器加1
     ```
-
 - 详细注释应针对函数功能、使用说明、注意事项、TODO、FIXME，或复杂逻辑等
   
     虚幻源码
@@ -117,7 +117,6 @@ flowchart TD
     // account Fresnel phase shift & polarization.
     float3 F_ThinFilm(float NoV, float NoL, float VoH, float3 F0, float3 F90, float     ThinFilmIOR, float ThinFilmTickness)
     ```
-
 - 对于算法,对于每一个步骤写出注释
 
     Unity 源码
@@ -239,7 +238,69 @@ flowchart TD
 
 - 使用 [CSharpier](https://csharpier.com) 标准
 
-# 未整理
+# 资产命名规范
 
-## 资源文件命名规范
-- snake_case
+## 命名格式: 
+
+**type_category_?subcategory_?action_?subcategory_001**
+
+## 示例
+
+```
+ui_button_select
+ui_button_shop_select
+gp_proj_fire_hit_small_001
+gp_proj_fire_hit_small_002
+gp_booster_bomb_activate
+mus_core_jungle_001
+```
+
+## 格式
+
+- 使用snake_case
+- 使用关键词大写来突出信息,如: mus_factory_main_STOP
+- 使用camelCase来表示一个物体,如: enemy_fireDemon_death
+
+## 要求
+
+- 使用英文
+- 简明扼要
+- 层层嵌套: 按照从概括到具体的原则逐层嵌套
+- 合理排序: 方便按照字母顺序合理且高效地对名称进行排序
+- 统一数位: xxx 如 001
+- 使用动词形式: bomb_activation vs. bomb_activate
+- 使用正常时态: chest_destroyed vs. chest_destroy
+- 保持单复数一致
+- 使用游戏主题来命名: 不要使用机制来命名
+
+## Tips
+
+- 名称不要过长
+- 适当使用描述词如 `loop` 表明音乐为循环
+- 缩写必须在表中有
+- 同一物体,团队用词要统一
+
+## 缩写表
+
+| 缩写      | 全称                 |
+| ------- | ----------------------- |
+| gp | gameplay         |
+| plr    | player                 |
+| char    | character |
+| amb    | ambience                |
+| mus      | music  |
+
+## 反面例子
+
+```
+clip_01 # 没有上下文，不明所以
+awesome_sound1 # 数字前没加下划线
+boss_enemy_eggman # enemy 比 boss 更宽泛；应改用 enemy_boss_eggman
+GreatArt_1 GreatArt_2 GreatArt_10 # 数位不一致
+sfx_env_forest_daytime_birds_chirping_loop_ambient_lowIntensity_01.wav # 太长
+```
+
+# 版本控制
+
+
+# 未整理
