@@ -9,7 +9,9 @@ git pull
 # 目录结构
 
 >💡 GitHub 支持 Mermaid 渲染，确保你直接在 GitHub 上查看以获得图形化展示。
-<details> <summary>点击展开文件结构图</summary>
+<details> 
+<summary>点击展开文件结构图</summary>
+
 ```mermaid
 flowchart TD
     %% 根目录
