@@ -302,5 +302,15 @@ sfx_env_forest_daytime_birds_chirping_loop_ambient_lowIntensity_01.wav # 太长
 
 # 版本控制
 
+- Work Flow:  [GitHub Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+- 信息提交规范: [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- 信息提交语言: 中英皆可
+
+中文参考视频: [十分钟学会正确的github工作流，和开源作者们使用同一套流程](https://www.bilibili.com/video/BV19e4y1q7JJ/?share_source=copy_web&vd_source=88fb31e592415ac4c2c88172e6de6e95)
+
 
 # 未整理
+
+## 开发规范
+
+TDD(Test-Driven Development)
