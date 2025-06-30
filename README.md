@@ -314,3 +314,9 @@ sfx_env_forest_daytime_birds_chirping_loop_ambient_lowIntensity_01.wav # 太长
 ## 开发规范
 
 TDD(Test-Driven Development)
+
+## 三方库
+
+- ConsolePro
+- Odin
+- DOTween
