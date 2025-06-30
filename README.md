@@ -213,25 +213,6 @@ flowchart TD
 
         return I;
     }
-
-    void main()
-    {
-    	float topIor = 1.0; // Default is air
-    	float viewAngle = clampedNdotV;
-
-    	if (HasFlag(bsdfData.materialFeatures, MATERIALFEATUREFLAGS_LIT_CLEAR_COAT))
-        {
-            topIor = lerp(1.0, CLEAR_COAT_IOR, bsdfData.coatMask);
-            // HACK: Use the reflected direction to specify the Fresnel coefficient for     pre-convolved envmaps
-            if (bsdfData.coatMask != 0.0f) // We must make sure that effect is neutral when     coatMask == 0
-                viewAngle = sqrt(1.0 + Sq(1.0 / topIor) * (Sq(dot(bsdfData.normalWS, V)) -  1.0));
-        }
-
-
-    	bsdfData.fresnel0 = lerp(bsdfData.fresnel0, EvalIridescence(topIor, viewAngle,  bsdfData.iridescenceThickness, bsdfData.fresnel0), bsdfData.iridescenceMask);
-    	float3 F = F_Schlick(bsdfData.fresnel0, bsdfData.fresnel90, LdotH);
-    	float3 specTerm = F * DV;
-    }
     ```
 
 ### 命名空间
