@@ -10,6 +10,7 @@ git pull
 
 >💡 GitHub 支持 Mermaid 渲染，确保你直接在 GitHub 上查看以获得图形化展示。
 <details> <summary>点击展开文件结构图</summary>
+```mermaid
 flowchart TD
     %% 根目录
     Root["📁 Root 项目根目录"]
@@ -64,6 +65,7 @@ flowchart TD
         PlayMode["📁 PlayMode - Play 模式测试"]
     end
     Tests --> TestsSub
+```
 </details>
 
 # 代码规范
