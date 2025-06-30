@@ -6,22 +6,22 @@ on:
       validDeployTargets:
         type: string
         required: true
-        default: '["Windows", "MacOs"]'
+        default: '["gh-pages"]'
         description: '有效的部署目标列表(JSON字符串)' 
       buildTargets:
         type: string
         required: true
-        default: '["Windows", "MacOs"]'
+        default: '["StandaloneWindows64", "StandaloneOSX"]'
         description: '构建目标平台列表(JSON字符串)'
       metadataConfig:
         type: string
         required: true
-        default: '{"projectName":"Unity-CI-CD-Template","skipTests":false,"testsOnly":false,"buildType":"release","buildVersion":"1.0.0","retentionDays":30,"timeoutMinutesTests":30,"timeoutMinutesBuild":60}'
+        default: '{"projectName": "Unity-CI-CD-Template","skipTests": false,"testsOnly": false,"buildType": "release","buildVersion": "0.0.1","retentionDays": 30,"timeoutMinutesTests": 30,"timeoutMinutesBuild": 60}'
         description: '元数据配置(JSON字符串)'
       testDataConfig:
         type: string
         required: true
-        default: '{"unityVersion":"2022.3.0f1","useGitLfs":true,"editModePath":"Assets/Tests/EditMode","playModePath":"Assets/Tests/PlayMode","quietMode":false}'
+        default: '{"unityVersion": "2022.3.58f1","useGitLfs": true,"editModePath": "Assets/Tests/Editor","playModePath": "Assets/Tests/PlayMode","quietMode": false}'
         description: '测试数据配置(JSON字符串)'
       artifactConfig:
         type: string
@@ -59,7 +59,7 @@ jobs:
       - name: 检出配置文件
         uses: actions/checkout@v4
         with:
-          sparse-checkout: .github/workflows/ci-defaults.json
+          sparse-checkout: .github/config/ci-defaults.json
           sparse-checkout-cone-mode: false
           fetch-depth: 1
 
@@ -137,7 +137,6 @@ jobs:
       (needs.run_tests.result == 'success' || needs.run_tests.result == 'skipped')
     uses: ./.github/workflows/step-2-build.yml
     with:
-      # 如果事件是带有标签的 push，则强制 buildType 为 "release"，否则使用输入值。
       projectName: ${{ needs.unpack_inputs.outputs.projectName }}
       unityVersion: ${{ needs.unpack_inputs.outputs.unityVersion }}
       buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}

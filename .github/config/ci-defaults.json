@@ -4,20 +4,20 @@
     "skipTests": false,
     "testsOnly": false,
     "buildType": "release",
-    "buildVersion": "1.0.0",
+    "buildVersion": "0.1.${{ github.event.date | fromJson | format('YYYY.MM.DD') }}.${{ github.run_number }}",
     "retentionDays": 30,
     "timeoutMinutesTests": 30,
     "timeoutMinutesBuild": 60
   },
-  "artifactConfig": {
-    "requiresCombined": true,
-    "skipPerBuildTarget": false
-  },
   "testDataConfig": {
-    "unityVersion": "2022.3.0f1",
+    "unityVersion": "2022.3.58f1",
     "useGitLfs": true,
-    "editModePath": "Assets/Tests/EditMode",
+    "editModePath": "Assets/Tests/Editor",
     "playModePath": "Assets/Tests/PlayMode",
     "quietMode": false
+  },
+  "artifactConfig": {
+    "requiresCombined": true,
+    "skipPerBuildTarget": false 
   }
 }
