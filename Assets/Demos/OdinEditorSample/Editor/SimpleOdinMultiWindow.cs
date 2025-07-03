@@ -20,6 +20,7 @@ public class SimpleOdinMultiWindow : OdinMenuEditorWindow
         tree.Add("首页", new HomePage());
         tree.Add("设置", new SettingsPage());
         tree.Add("关于", new AboutPage());
+        tree.Add("复杂页面", new ComplexPage());
 
         return tree;
     }
