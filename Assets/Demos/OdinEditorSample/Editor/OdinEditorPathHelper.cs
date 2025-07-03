@@ -97,7 +97,7 @@ public static class AutoMenuGenerator
     // 这里用硬编码模板字符串，你也可以从文件加载
     string templateText =
         @"
-自动生成，请勿手动修改
+//自动生成，请勿手动修改
 using UnityEditor;
 using System.Reflection;
 using UnityEngine;
