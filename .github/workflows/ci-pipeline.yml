@@ -1,0 +1,145 @@
+name: 🚀 CI/CD 流水线
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildTargets:
+        type: string
+        required: true
+        default: '["StandaloneWindows64", "StandaloneOSX"]'
+        description: '构建目标平台列表(JSON字符串)'
+      metadataConfig:
+        type: string
+        required: true
+        default: '{"projectName": "Unity-CI-CD-Template","skipTests": false,"testsOnly": false,"buildType": "release","buildVersion": "0.0.1","retentionDays": 30,"timeoutMinutesTests": 30,"timeoutMinutesBuild": 60}'
+        description: '元数据配置(JSON字符串)'
+      testDataConfig:
+        type: string
+        required: true
+        default: '{"unityVersion": "2022.3.58f1","useGitLfs": true,"editModePath": "Assets/Tests/Editor","playModePath": "Assets/Tests/PlayMode","quietMode": false}'
+        description: '测试数据配置(JSON字符串)'
+      artifactConfig:
+        type: string
+        required: true
+        default: '{"requiresCombined":true,"skipPerBuildTarget":false}'
+        description: '构建产物配置(JSON字符串)'
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: write
+
+jobs:
+  unpack_inputs:
+    name: 解包输入参数
+    runs-on: ubuntu-latest
+    outputs:
+      projectName: ${{ steps.unpack.outputs.projectName }}
+      skipTests: ${{ steps.unpack.outputs.skipTests }}
+      testsOnly: ${{ steps.unpack.outputs.testsOnly }}
+      buildType: ${{ steps.unpack.outputs.buildType }}
+      buildVersion: ${{ steps.unpack.outputs.buildVersion }}
+      retentionDays: ${{ steps.unpack.outputs.retentionDays }}
+      requiresCombined: ${{ steps.unpack.outputs.requiresCombined }}
+      skipPerBuildTarget: ${{ steps.unpack.outputs.skipPerBuildTarget }}
+      unityVersion: ${{ steps.unpack.outputs.unityVersion }}
+      useGitLfs: ${{ steps.unpack.outputs.useGitLfs }}
+      editModePath: ${{ steps.unpack.outputs.editModePath }}
+      playModePath: ${{ steps.unpack.outputs.playModePath }}
+      timeoutMinutesTests: ${{ steps.unpack.outputs.timeoutMinutesTests }}
+      timeoutMinutesBuild: ${{ steps.unpack.outputs.timeoutMinutesBuild }}
+      quietMode: ${{ steps.unpack.outputs.quietMode }}
+    steps:
+      - name: 检出配置文件
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/config/ci-defaults.json
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - id: unpack
+        shell: bash
+        run: |
+          # 读取输入参数
+          meta='${{ inputs.metadataConfig }}'
+          artifact='${{ inputs.artifactConfig }}'
+          testData='${{ inputs.testDataConfig }}'
+
+          # 如果参数为空，则读取ci-defaults.json
+          if [ -z "$meta" ] || [ "$meta" = "null" ] || [ "$meta" = "" ]; then
+            meta=$(jq -c '.metadataConfig' .github/workflows/ci-defaults.json)
+          fi
+          if [ -z "$artifact" ] || [ "$artifact" = "null" ] || [ "$artifact" = "" ]; then
+            artifact=$(jq -c '.artifactConfig' .github/workflows/ci-defaults.json)
+          fi
+          if [ -z "$testData" ] || [ "$testData" = "null" ] || [ "$testData" = "" ]; then
+            testData=$(jq -c '.testDataConfig' .github/workflows/ci-defaults.json)
+          fi
+
+          # 测试数据配置
+          echo "unityVersion=$(echo "$testData" | jq -r .unityVersion)" >> "$GITHUB_OUTPUT"
+          echo "useGitLfs=$(echo "$testData" | jq -r .useGitLfs)" >> "$GITHUB_OUTPUT"
+          echo "editModePath=$(echo "$testData" | jq -r .editModePath)" >> "$GITHUB_OUTPUT"
+          echo "playModePath=$(echo "$testData" | jq -r .playModePath)" >> "$GITHUB_OUTPUT"
+          echo "quietMode=$(echo "$testData" | jq -r .quietMode)" >> "$GITHUB_OUTPUT"
+
+          # 元数据配置
+          echo "projectName=$(echo "$meta" | jq -r .projectName)" >> "$GITHUB_OUTPUT"
+          echo "skipTests=$(echo "$meta" | jq -r .skipTests)" >> "$GITHUB_OUTPUT"
+          echo "testsOnly=$(echo "$meta" | jq -r .testsOnly)" >> "$GITHUB_OUTPUT"
+          echo "buildType=$(echo "$meta" | jq -r .buildType)" >> "$GITHUB_OUTPUT"
+          echo "buildVersion=$(echo "$meta" | jq -r .buildVersion)" >> "$GITHUB_OUTPUT"
+          echo "retentionDays=$(echo "$meta" | jq -r .retentionDays)" >> "$GITHUB_OUTPUT"
+          echo "timeoutMinutesTests=$(echo "$meta" | jq -r .timeoutMinutesTests)" >> "$GITHUB_OUTPUT"
+          echo "timeoutMinutesBuild=$(echo "$meta" | jq -r .timeoutMinutesBuild)" >> "$GITHUB_OUTPUT"
+
+          # 构建产物配置
+          echo "requiresCombined=$(echo "$artifact" | jq -r .requiresCombined)" >> "$GITHUB_OUTPUT"
+          echo "skipPerBuildTarget=$(echo "$artifact" | jq -r .skipPerBuildTarget)" >> "$GITHUB_OUTPUT"
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 1. 运行测试
+  # ─────────────────────────────────────────────────────────────────────────────
+  run_tests:
+    name: 运行测试
+    if: ${{ needs.unpack_inputs.outputs.skipTests != 'true' }}
+    needs: unpack_inputs
+    uses: ./.github/workflows/step-1-test.yml
+    with:
+      unityVersion: ${{ needs.unpack_inputs.outputs.unityVersion }}
+      useGitLfs: ${{ needs.unpack_inputs.outputs.useGitLfs }}
+      editModePath: ${{ needs.unpack_inputs.outputs.editModePath }}
+      playModePath: ${{ needs.unpack_inputs.outputs.playModePath }}
+      timeoutMinutes: ${{ fromJson(needs.unpack_inputs.outputs.timeoutMinutesTests) }}
+      quietMode: ${{ needs.unpack_inputs.outputs.quietMode }}
+    secrets:
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 2. 构建
+  # ─────────────────────────────────────────────────────────────────────────────
+  build:
+    name: 构建
+    needs: 
+      - unpack_inputs
+      - run_tests
+    if: >
+      always() &&
+      (needs.run_tests.result == 'success' || needs.run_tests.result == 'skipped')
+    uses: ./.github/workflows/step-2-build.yml
+    with:
+      projectName: ${{ needs.unpack_inputs.outputs.projectName }}
+      unityVersion: ${{ needs.unpack_inputs.outputs.unityVersion }}
+      buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
+      buildType: ${{ needs.unpack_inputs.outputs.buildType }}
+      buildTargets: ${{ inputs.buildTargets }}
+      combineArtifacts: ${{ needs.unpack_inputs.outputs.requiresCombined }}
+      timeoutMinutes: ${{ fromJson(needs.unpack_inputs.outputs.timeoutMinutesBuild) }}
+      retentionDays: ${{ fromJson(needs.unpack_inputs.outputs.retentionDays) }}
+    secrets:
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
