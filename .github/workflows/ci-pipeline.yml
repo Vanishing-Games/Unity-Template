@@ -1,4 +1,4 @@
-name: 🚀 CI/CD 流水线
+name: 🚀 CI流水线
 
 on:
   workflow_dispatch:
