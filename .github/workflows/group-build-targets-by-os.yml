@@ -54,7 +54,6 @@ jobs:
             echo "❌ 输入不是有效的 JSON。"
             exit 1
           }
-          # ...existing code...
 
           KNOWN=$(jq -r 'keys[]' "$CONFIG_FILE")
           INPUTS=$(echo "$INPUT_JSON" | jq -r '.[]')
@@ -83,6 +82,15 @@ jobs:
           echo "validBuildTargets<<EOF" >> $GITHUB_OUTPUT
           echo "$VALID_JSON" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+
+          # log
+          echo "🧾 输出每个有效构建目标的配置详情："
+          for TARGET in "${VALID[@]}"; do
+            echo "────────────────────────────"
+            echo "🔧 构建目标: $TARGET"
+            jq -r --arg t "$TARGET" '.[$t]' "$CONFIG_FILE" | jq .
+          done
+          echo "────────────────────────────"
 
       - name: 🧪 按操作系统分组有效目标
         id: group

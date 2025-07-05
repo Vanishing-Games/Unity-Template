@@ -1,20 +1,34 @@
 {
+  "Android": {
+    "os": "ubuntu-latest",
+    "minimumBuildType": "preview"
+  },
   "WebGL": {
     "os": "ubuntu-latest",
-    "preview": "CI-WebGL-Preview",
-    "release_candidate": "CI-WebGL-RC",
-    "release": "CI-WebGL-Release"
+    "minimumBuildType": "preview"
+  },
+  "StandaloneLinux64-Client": {
+    "os": "ubuntu-latest",
+    "minimumBuildType": "preview"
+  },
+  "StandaloneLinux64-Server": {
+    "os": "ubuntu-latest",
+    "minimumBuildType": "preview"
+  },
+  "StandaloneWindows": {
+    "os": "ubuntu-latest",
+    "minimumBuildType": "preview"
   },
   "StandaloneWindows64": {
-    "os": "windows-latest",
-    "preview": "CI-Windows64-Preview",
-    "release_candidate": "CI-Windows64-RC",
-    "release": "CI-Windows64-Release"
+    "os": "ubuntu-latest",
+    "minimumBuildType": "preview"
   },
   "StandaloneOSX": {
     "os": "macos-latest",
-    "preview": "CI-macOS-Preview",
-    "release_candidate": "CI-macOS-RC",
-    "release": "CI-macOS-Release"
+    "minimumBuildType": "preview"
+  },
+  "iOS": {
+    "os": "macos-latest",
+    "minimumBuildType": "preview"
   }
 }
