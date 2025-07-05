@@ -2,9 +2,11 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Core;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;
+using Logger = Core.Logger;
 
 [InitializeOnLoad]
 public static class RoslynBridge
