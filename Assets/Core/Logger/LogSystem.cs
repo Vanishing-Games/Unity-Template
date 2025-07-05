@@ -195,7 +195,7 @@ namespace Core
                 return;
 
             string assemblyName = GetCallingAssemblyName();
-            string assemblyStr = $"<b><color=#2196F3>》〉》》{assemblyName}</color></b>";
+            string assemblyStr = $"<b><color=#2196F3>▶▶▶{assemblyName}</color></b>";
 
             string logTypeText = level switch
             {
