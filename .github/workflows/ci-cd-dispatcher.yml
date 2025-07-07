@@ -354,13 +354,15 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   trigger_pipeline:
     name: 🚀 触发对应流水线
-    needs: 
+    needs:
       - parse_trigger
       - prepare_metadata
-      - tag_version
+      # 只有full_cicd时才依赖tag_version
     if: >
-      needs.parse_trigger.outputs.should_run == 'true' && 
-      (needs.tag_version.result == 'success' || needs.tag_version.result == 'skipped')
+      needs.parse_trigger.outputs.should_run == 'true' && (
+        (needs.parse_trigger.outputs.pipeline_type == 'full_cicd' && (needs.tag_version.result == 'success' || needs.tag_version.result == 'skipped')) ||
+        (needs.parse_trigger.outputs.pipeline_type == 'ci_only')
+      )
     runs-on: ubuntu-latest
     outputs:
       triggered_pipeline: ${{ steps.trigger.outputs.triggered_pipeline }}
