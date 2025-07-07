@@ -109,15 +109,9 @@ jobs:
             exit 1
           fi
           
-          # 输出矩阵和构建目标列表
-          echo "matrix<<EOF" >> $GITHUB_OUTPUT
-          echo "$MATRIX" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          
-          # 输出构建目标数组（JSON格式）
-          echo "build_targets<<EOF" >> $GITHUB_OUTPUT
-          echo "$TARGETS" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          # 输出矩阵和构建目标列表（使用单行输出避免EOF问题）
+          echo "matrix=$(echo "$MATRIX" | jq -c .)" >> $GITHUB_OUTPUT
+          echo "build_targets=$(echo "$TARGETS" | jq -c .)" >> $GITHUB_OUTPUT
 
       - name: 📋 验证输出的矩阵格式
         run: |
@@ -130,7 +124,7 @@ jobs:
   build_targets:
     name: Build for ${{ matrix.buildTarget }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: ${{ inputs.timeoutMinutes }}
+    timeout-minutes: ${{ inputs.timeoutMinutes || 60 }}
     needs: prepare_build_matrix
     strategy:
       fail-fast: false
