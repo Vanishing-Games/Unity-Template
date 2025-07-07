@@ -297,6 +297,43 @@ jobs:
     uses: ./.github/workflows/prepare-metadata.yml
 
   # ─────────────────────────────────────────────────────────────────────────────
+  # 📝 流水线触发详细说明
+  # ─────────────────────────────────────────────────────────────────────────────
+  pipeline_explain:
+    name: 📝 触发流水线详细说明
+    needs:
+      - parse_trigger
+      - validate_config
+      - prepare_metadata
+    if: needs.parse_trigger.outputs.should_run == 'true' && needs.validate_config.outputs.validation_passed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 输出详细说明到Step Summary
+        run: |
+          echo "# 🚦 流水线触发详细说明" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| 触发源 | \`${{ needs.parse_trigger.outputs.trigger_source }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 分支/标签 | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| commit信息 | \`${{ needs.parse_trigger.outputs.commit_message }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 流水线类型 | \`${{ needs.parse_trigger.outputs.pipeline_type }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建类型 | \`${{ needs.parse_trigger.outputs.build_type }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 仅测试模式 | ${{ needs.parse_trigger.outputs.tests_only == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 预计将要触发的Workflow" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ needs.parse_trigger.outputs.pipeline_type }}" == "ci_only" ]]; then
+            echo "- 🚀 ci-pipeline.yml (仅测试+构建)" >> $GITHUB_STEP_SUMMARY
+          elif [[ "${{ needs.parse_trigger.outputs.pipeline_type }}" == "full_cicd" ]]; then
+            echo "- 🚀 ci-cd-pipeline.yml (测试+构建+发布+部署)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- 未知类型，不会触发具体流水线" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "如需更详细的参数，请查看后续流水线执行摘要。"
+
+  # ─────────────────────────────────────────────────────────────────────────────
   # 🏷️ 版本标记 (仅限完整CI/CD)
   # ─────────────────────────────────────────────────────────────────────────────
   tag_version:
