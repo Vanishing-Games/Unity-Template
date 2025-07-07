@@ -254,7 +254,7 @@ jobs:
           echo "📋 验证配置文件格式..."
           CONFIG_ERRORS=""
           
-          for config_file in defaults.json pipeline-config.json optional-build-targets.json build-targets-config.json deploy-targets.json build-profiles.json; do
+          for config_file in defaults.json pipeline-config.json deploy-targets.json build-profiles.json; do
             config_path="${CONFIG_PATH}/${config_file}"
             if [[ ! -f "$config_path" ]]; then
               echo "❌ 缺少配置文件: $config_file"
