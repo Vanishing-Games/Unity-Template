@@ -30,7 +30,7 @@ jobs:
       - name: 🔍 校验构建目标并加载配置
         id: validate
         run: |
-          INPUT_JSON=$(./.github/config/build-targets-config.json)
+          INPUT_JSON=$(cat ./.github/config/build-targets-config.json)
           CONFIG_FILE="./.github/config/optional-build-targets.json"
           FALLBACK_URL="https://raw.githubusercontent.com/avalin/unity-ci-templates/main/.github/config/optional-build-targets.json"
 
