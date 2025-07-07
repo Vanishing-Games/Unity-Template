@@ -68,13 +68,23 @@ jobs:
           echo "[日志] 开始生成构建矩阵"
           grouped='${{ needs.group_build_targets.outputs.validBuildTargets }}'
           echo "📦 分组后的构建目标: $grouped"
+          # 生成一行的JSON数组
           matrix=$(echo "$grouped" | jq -c '
             to_entries
-            | map(.value[] as $p | { os: .key, buildTarget: $p })
+            | map({os: .key, buildTarget: .value[]} )
           ')
+          echo "[日志] 生成的构建矩阵: $matrix"
+          # 校验matrix是否为数组
+          if [[ $matrix != [* ]]; then
+            echo "[错误] matrix不是JSON数组，当前内容: $matrix"
+            exit 1
+          fi
           echo "matrix<<EOF" >> $GITHUB_OUTPUT
           echo "$matrix" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+      - name: 输出 matrix
+        run: |
+          echo "最终matrix: ${{ steps.set_matrix.outputs.matrix }}"
 
   build_targets:
     name: 在 ${{ matrix.os }} 上构建 ${{ matrix.buildTarget }}
