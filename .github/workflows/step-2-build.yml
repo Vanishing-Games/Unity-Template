@@ -79,12 +79,13 @@ jobs:
             echo "[错误] matrix不是JSON数组，当前内容: $matrix"
             exit 1
           fi
-          echo "matrix<<EOF" >> $GITHUB_OUTPUT
-          echo "$matrix" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-      - name: 输出 matrix
+          # 确保matrix是单行输出
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+      - name: 输出 matrix 调试信息
         run: |
           echo "最终matrix: ${{ steps.set_matrix.outputs.matrix }}"
+          echo "matrix长度: $(echo '${{ steps.set_matrix.outputs.matrix }}' | wc -c)"
+          echo "matrix是否为数组: $(echo '${{ steps.set_matrix.outputs.matrix }}' | jq type)"
 
   build_targets:
     name: 在 ${{ matrix.os }} 上构建 ${{ matrix.buildTarget }}
@@ -96,9 +97,14 @@ jobs:
       matrix:
         include: ${{ fromJson(needs.generate_matrix.outputs.matrix) }}
     steps:
+      - name: 调试信息 - 当前构建任务
+        run: |
+          echo "[日志] 开始构建任务"
+          echo "当前操作系统: ${{ matrix.os }}"
+          echo "当前构建目标: ${{ matrix.buildTarget }}"
+          echo "接收到的matrix: ${{ needs.generate_matrix.outputs.matrix }}"
       - name: 检出仓库
         uses: actions/checkout@v4
-        with: {}
       - name: 恢复 Unity 缓存（Library + BuildCache）
         uses: actions/cache@v4
         with:
