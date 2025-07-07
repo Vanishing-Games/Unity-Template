@@ -117,14 +117,6 @@ jobs:
           BUILD_TARGETS_LIST=$(echo "$TARGETS" | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
           echo "build_targets=$BUILD_TARGETS_LIST" >> $GITHUB_OUTPUT
 
-      - name: 📋 输出构建矩阵调试信息
-        run: |
-          echo "🧮 构建矩阵详情："
-          echo "───────────────────────────────────"
-          echo "${{ steps.build_matrix.outputs.matrix }}" | jq -r '.[] | "🖥️  \(.os) → \(.buildTarget) (\(.displayName))"'
-          echo "───────────────────────────────────"
-          echo "📝 构建目标列表: ${{ steps.build_matrix.outputs.build_targets }}"
-
   build_targets:
     name: 构建 ${{ matrix.displayName }} (${{ matrix.buildTarget }})
     runs-on: ${{ matrix.os }}
