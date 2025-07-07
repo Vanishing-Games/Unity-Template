@@ -128,7 +128,7 @@ jobs:
           echo "构建目标列表: ${{ steps.build_matrix.outputs.build_targets }}"
 
   build_targets:
-    name: "🏗️ Unity 构建"
+    name: Build for ${{ matrix.buildTarget }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: ${{ inputs.timeoutMinutes }}
     needs: prepare_build_matrix
