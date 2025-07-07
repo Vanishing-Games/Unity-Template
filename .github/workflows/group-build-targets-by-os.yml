@@ -34,9 +34,20 @@ jobs:
           BUILD_TARGETS_INPUT='${{ inputs.buildTargets }}'
           echo "🔍 接收到的构建目标输入: $BUILD_TARGETS_INPUT"
           
+          # 检查输入是否为空或null，如果是则使用默认配置文件
+          if [[ -z "$BUILD_TARGETS_INPUT" || "$BUILD_TARGETS_INPUT" == "null" || "$BUILD_TARGETS_INPUT" == '""' ]]; then
+            echo "⚠️ 输入为空，使用默认配置文件"
+            if [ -f "./.github/config/build-targets-config.json" ]; then
+              INPUT_JSON=$(cat ./.github/config/build-targets-config.json)
+              echo "📄 从build-targets-config.json读取默认构建目标: $INPUT_JSON"
+            else
+              # 如果配置文件不存在，使用硬编码默认值
+              INPUT_JSON='["StandaloneWindows64","StandaloneOSX"]'
+              echo "⚠️ 未找到配置文件，使用硬编码默认值: $INPUT_JSON"
+            fi
           # 检查输入格式并转换
-          if echo "$BUILD_TARGETS_INPUT" | jq empty 2>/dev/null; then
-            # 输入是有效的JSON
+          elif echo "$BUILD_TARGETS_INPUT" | jq empty 2>/dev/null && [[ "$BUILD_TARGETS_INPUT" != '""' && "$BUILD_TARGETS_INPUT" != "" ]]; then
+            # 输入是有效的非空JSON
             INPUT_JSON="$BUILD_TARGETS_INPUT"
             echo "✅ 输入是有效的JSON数组"
           elif [[ "$BUILD_TARGETS_INPUT" == *","* ]]; then
@@ -46,8 +57,19 @@ jobs:
           else
             # 单个构建目标，去除可能的引号和空格
             CLEAN_TARGET=$(echo "$BUILD_TARGETS_INPUT" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/^"//;s/"$//')
-            INPUT_JSON=$(jq -n --arg target "$CLEAN_TARGET" '[$target]')
-            echo "🔄 将单个目标转换为JSON数组: $INPUT_JSON"
+            if [[ -n "$CLEAN_TARGET" ]]; then
+              INPUT_JSON=$(jq -n --arg target "$CLEAN_TARGET" '[$target]')
+              echo "🔄 将单个目标转换为JSON数组: $INPUT_JSON"
+            else
+              echo "⚠️ 处理后的目标为空，使用默认配置"
+              if [ -f "./.github/config/build-targets-config.json" ]; then
+                INPUT_JSON=$(cat ./.github/config/build-targets-config.json)
+                echo "📄 从build-targets-config.json读取默认构建目标: $INPUT_JSON"
+              else
+                INPUT_JSON='["StandaloneWindows64","StandaloneOSX"]'
+                echo "⚠️ 使用硬编码默认值: $INPUT_JSON"
+              fi
+            fi
           fi
           
           CONFIG_FILE="./.github/config/optional-build-targets.json"

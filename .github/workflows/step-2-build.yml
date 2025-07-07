@@ -6,11 +6,11 @@ on:
       projectName:
         type: string
         default: 'Unity-CI-CD-Template'
-        required: false
+        required: true
       unityVersion:
         type: string
         default: '2022.3.58f1'
-        required: false
+        required: true
       buildVersion:
         type: string
         default: '0.1.0'
@@ -18,23 +18,23 @@ on:
       buildType:
         type: string
         default: 'release'
-        required: false
+        required: true
       buildTargets:
         type: string
         default: '["StandaloneWindows64","StandaloneOSX"]'
-        required: false
+        required: true
       timeoutMinutes:
         type: number
         default: 60
-        required: false
+        required: true
       retentionDays:
         type: number
         default: 30
-        required: false
+        required: true
       combineArtifacts:
         type: string
         default: 'true'
-        required: false
+        required: true
      secrets:
        UNITY_EMAIL: { required: true }
        UNITY_PASSWORD: { required: true }
@@ -137,39 +137,11 @@ jobs:
           
           echo "✅ 矩阵验证通过"
 
-  # 验证矩阵是否可用的前置检查
-  check_matrix:
-    name: "🔍 验证矩阵可用性"
-    runs-on: ubuntu-latest
-    needs: generate_matrix
-    outputs:
-      matrix_valid: ${{ steps.check.outputs.valid }}
-      fallback_matrix: ${{ steps.check.outputs.fallback_matrix }}
-    steps:
-      - name: 检查矩阵
-        id: check
-        run: |
-          matrix='${{ needs.generate_matrix.outputs.matrix }}'
-          echo "检查矩阵: $matrix"
-          
-          # 尝试解析矩阵
-          if echo "$matrix" | jq empty 2>/dev/null; then
-            echo "valid=true" >> $GITHUB_OUTPUT
-            echo "✅ 矩阵有效"
-          else
-            echo "valid=false" >> $GITHUB_OUTPUT
-            echo "❌ 矩阵无效，使用降级方案"
-            # 创建降级矩阵
-            fallback='[{"os":"ubuntu-latest","buildTarget":"StandaloneWindows64"},{"os":"macos-latest","buildTarget":"StandaloneOSX"}]'
-            echo "fallback_matrix=$fallback" >> $GITHUB_OUTPUT
-          fi
-
   build_targets:
     name: 在 ${{ matrix.os }} 上构建 ${{ matrix.buildTarget }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: ${{ inputs.timeoutMinutes }}
-    needs: [generate_matrix, check_matrix]
-    if: ${{ needs.check_matrix.outputs.matrix_valid == 'true' }}
+    needs: generate_matrix
     strategy:
       fail-fast: false
       matrix:
@@ -260,104 +232,9 @@ jobs:
           path: ${{ inputs.projectName }}-${{ inputs.buildVersion }}/* # '/*' 确保内容被压缩到文件夹中，而不是整个文件夹
           retention-days: ${{ inputs.retentionDays }}
 
-  # 降级构建作业 - 当主矩阵失败时使用
-  build_targets_fallback:
-    name: 降级构建 ${{ matrix.buildTarget }} 在 ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: ${{ inputs.timeoutMinutes }}
-    needs: [generate_matrix, check_matrix]
-    if: ${{ needs.check_matrix.outputs.matrix_valid == 'false' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include: ${{ fromJson(needs.check_matrix.outputs.fallback_matrix) }}
-    steps:
-      - name: 降级构建警告
-        run: |
-          echo "⚠️ 使用降级构建矩阵"
-          echo "原因: 主矩阵解析失败"
-          echo "当前操作系统: ${{ matrix.os }}"
-          echo "当前构建目标: ${{ matrix.buildTarget }}"
-      - name: 检出仓库
-        uses: actions/checkout@v4
-      - name: 恢复 Unity 缓存（Library + BuildCache）
-        uses: actions/cache@v4
-        with:
-          path: |
-            Library
-            Library/BuildCache
-            Library/Il2cppBuildCache
-          key: Library-${{ matrix.buildTarget }}-${{ github.run_id }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-          restore-keys: |
-            Library-${{ matrix.buildTarget }}-
-            Library-
-      - name: 检查磁盘空间（仅 Android）
-        if: matrix.buildTarget == 'Android'
-        uses: jlumbroso/free-disk-space@v1.3.1
-      - name: 解析构建配置
-        id: resolve_build_profile
-        uses: avalin/unity-ci-templates/.github/actions/resolve-build-profile@main
-        with:
-          buildTarget: ${{ matrix.buildTarget }}
-          buildType: ${{ inputs.buildType }}
-          unityVersion: ${{ inputs.unityVersion }}
-      - name: 解析 Unity 运行参数
-        id: resolve_run_parameters
-        uses: avalin/unity-ci-templates/.github/actions/resolve-unity-run-parameters@main
-        with:
-          buildTarget: ${{ matrix.buildTarget }}
-      - name: 构建 Unity 项目
-        uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          unityVersion: ${{ inputs.unityVersion }}
-          targetPlatform: ${{ steps.resolve_run_parameters.outputs.targetPlatform }}
-          customParameters: >-
-            ${{ steps.resolve_run_parameters.outputs.customParameters }}
-            ${{ steps.resolve_build_profile.outputs.profile && format('-buildProfile {0}', steps.resolve_build_profile.outputs.profile) || '' }}
-      - name: 保存 Unity 缓存（构建成功后）
-        uses: actions/cache/save@v4
-        if: success()
-        with:
-          path: |
-            Library
-            Library/BuildCache
-            Library/Il2cppBuildCache
-          key: Library-${{ matrix.buildTarget }}-${{ github.run_id }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-      - name: 修复权限（仅 Linux）
-        if: startsWith(matrix.os, 'ubuntu')
-        shell: bash
-        run: |
-          echo "[日志] 修复权限（仅 Linux）..."
-          sudo chown -R $USER:$USER build/
-      - name: 整理构建输出
-        shell: bash
-        run: |
-          echo "[日志] 整理构建输出..."
-          VERSION="${{ inputs.buildVersion }}"
-          PLATFORM="${{ steps.resolve_run_parameters.outputs.targetPlatform }}"
-          DEST="${{ inputs.projectName }}-${VERSION}"
-          SOURCE="build/${PLATFORM}"
-          while [ -d "$SOURCE/$(basename "$SOURCE")" ]; do
-            SOURCE="$SOURCE/$(basename "$SOURCE")"
-          done
-          mkdir -p "$DEST"
-          mv "$SOURCE"/* "$DEST"/
-          # ⛔ 移除不应随附的 Burst 调试工件
-          find "$DEST" -name '*BurstDebugInformation_DoNotShip*' -exec rm -rf {} +
-      - name: 上传 ${{ matrix.buildTarget }} 平台产物（降级）
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ inputs.projectName }}-${{ inputs.buildVersion }}-${{ matrix.buildTarget }}
-          path: ${{ inputs.projectName }}-${{ inputs.buildVersion }}/* # '/*' 确保内容被压缩到文件夹中，而不是整个文件夹
-          retention-days: ${{ inputs.retentionDays }}
-
   combine_builds:
     if: ${{ inputs.combineArtifacts == 'true' }}
-    needs: [ build_targets, build_targets_fallback ]
+    needs: [ build_targets]
     uses: ./.github/workflows/combine-builds.yml
     with:
       projectName: ${{ inputs.projectName }}
@@ -366,7 +243,7 @@ jobs:
     name: "🗃️ 合并构建产物"
 
   summarize_builds:
-    needs: [group_build_targets, build_targets, build_targets_fallback, combine_builds]
+    needs: [group_build_targets, build_targets, combine_builds]
     if: always()
     uses: ./.github/workflows/summarize-builds.yml
     with:
