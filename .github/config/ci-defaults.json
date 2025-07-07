@@ -1,6 +1,6 @@
 {
   "metadataConfig": {
-    "projectName": "Unity-CI-CD-Template",
+    "projectName": "Unity-Template",
     "skipTests": false,
     "testsOnly": false,
     "buildType": "release",

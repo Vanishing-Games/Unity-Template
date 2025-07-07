@@ -105,7 +105,7 @@ jobs:
           
           # 从defaults.json读取配置
           echo "📖 读取默认配置..."
-          PROJECT_NAME=$(jq -r '.project.name // "Unity-CI-CD-Template"' "$DEFAULTS_CONFIG")
+          PROJECT_NAME=$(jq -r '.project.name // "Unity-Template"' "$DEFAULTS_CONFIG")
           UNITY_VERSION=$(jq -r '.unity.version // "2022.3.58f1"' "$DEFAULTS_CONFIG")
           USE_GIT_LFS=$(jq -r '.pipeline.useGitLfs // true' "$DEFAULTS_CONFIG")
           QUIET_MODE=$(jq -r '.pipeline.quietMode // false' "$DEFAULTS_CONFIG")
@@ -130,12 +130,19 @@ jobs:
           FINAL_TESTS_ONLY="${{ inputs.testsOnly || 'false' }}"
           FINAL_BUILD_VERSION="$CI_BUILD_VERSION"
           
-          # 处理构建目标
+          # 处理构建目标 - 优先级：输入参数 > 仓库变量 > 配置文件默认值
           BUILD_TARGETS_INPUT="${{ inputs.buildTargets || '[]' }}"
           if [[ "$BUILD_TARGETS_INPUT" == "[]" || "$BUILD_TARGETS_INPUT" == "" ]]; then
-            # 从defaults.json获取默认构建目标
-            BUILD_TARGETS_INPUT=$(jq -c '.build.defaultTargets // []' "$DEFAULTS_CONFIG")
-            echo "🎯 使用默认构建目标: $BUILD_TARGETS_INPUT"
+            # 尝试从仓库变量获取
+            REPO_BUILD_TARGETS="${{ vars.BUILD_TARGETS || '' }}"
+            if [[ -n "$REPO_BUILD_TARGETS" && "$REPO_BUILD_TARGETS" != "[]" && "$REPO_BUILD_TARGETS" != "null" ]]; then
+              BUILD_TARGETS_INPUT="$REPO_BUILD_TARGETS"
+              echo "🔄 使用仓库变量构建目标: $BUILD_TARGETS_INPUT"
+            else
+              # 从defaults.json获取默认构建目标
+              BUILD_TARGETS_INPUT=$(jq -c '.build.defaultTargets // ["WebGL","StandaloneWindows64","StandaloneOSX"]' "$DEFAULTS_CONFIG")
+              echo "🔄 使用配置文件默认构建目标: $BUILD_TARGETS_INPUT"
+            fi
           fi
           
           # 根据构建类型设置保留天数

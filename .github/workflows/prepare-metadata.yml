@@ -5,16 +5,16 @@ on:
     inputs:
       projectName:
         type: string
-        required: true
+        required: false
       unityVersion:
         type: string
-        required: true
+        required: false
       buildVersion:
         type: string
         required: false
       deployTargets:
         type: string
-        required: true
+        required: false
       buildTargets:
         type: string
         required: false
@@ -37,7 +37,7 @@ on:
       unityVersion:
         value: ${{ jobs.prepare_metadata.outputs.unityVersion }}
       buildVersion:
-        value: ${{ jobs.resolve_build_version.outputs.buildVersion }}
+        value: ${{ jobs.resolve_build_version.outputs.buildVersion || jobs.prepare_metadata.outputs.buildVersion }}
       testsOnly:
         value: ${{ jobs.prepare_metadata.outputs.testsOnly }}
       skipTests:
@@ -61,139 +61,281 @@ on:
       buildTargets:
         value: ${{ jobs.prepare_metadata.outputs.buildTargets }}
       validDeployTargets:
-        value: ${{ jobs.prepare_metadata.outputs.deployTargets || '[]' }}
+        value: ${{ jobs.prepare_metadata.outputs.deployTargets }}
       requiresCombined:
-        value: ${{ jobs.prepare_metadata.outputs.requiresCombined || false }}
+        value: ${{ jobs.prepare_metadata.outputs.requiresCombined }}
       skipPerBuildTarget:
-        value: ${{ jobs.prepare_metadata.outputs.skipPerBuildTarget || false }}
+        value: ${{ jobs.prepare_metadata.outputs.skipPerBuildTarget }}
+
+env:
+  CONFIG_PATH: '.github/config'
 
 jobs:
   prepare_metadata:
-    name: ⚖️ 元数据准备
+    name: ⚖️ 元数据准备和配置解析
     runs-on: ubuntu-latest
     outputs:
-      projectName: ${{ steps.metadata.outputs.projectName }}
-      unityVersion: ${{ steps.metadata.outputs.unityVersion }}
-      timeoutMinutesTests: ${{ steps.metadata.outputs.timeoutMinutesTests }}
-      timeoutMinutesBuild: ${{ steps.metadata.outputs.timeoutMinutesBuild }}
-      retentionDays: ${{ steps.metadata.outputs.retentionDays }}
-      buildType: ${{ steps.metadata.outputs.buildType }}
-      buildTargets: ${{ steps.metadata.outputs.buildTargets }}
-      deployTargets: ${{ steps.metadata.outputs.deployTargets }}
-      requiresCombined: ${{ steps.metadata.outputs.requiresCombinedArtifact }}
-      skipPerBuildTarget: ${{ steps.metadata.outputs.skipPerBuildTargetArtifact }}
-      useGitLfs: ${{ steps.metadata.outputs.useGitLfs }}
-      editModePath: ${{ steps.metadata.outputs.editModePath }}
-      playModePath: ${{ steps.metadata.outputs.playModePath }}
-      quietMode: ${{ steps.metadata.outputs.quietMode }}
-      testsOnly: ${{ steps.tests_only.outputs.testsOnly }}
-      skipTests: ${{ steps.skip_tests.outputs.skipTests }}
-      excludeUnityTests: ${{ steps.metadata.outputs.excludeUnityTests }}
-      forceCombineArtifacts: ${{ steps.metadata.outputs.forceCombineArtifacts  }}
+      projectName: ${{ steps.config.outputs.projectName }}
+      unityVersion: ${{ steps.config.outputs.unityVersion }}
+      timeoutMinutesTests: ${{ steps.config.outputs.timeoutMinutesTests }}
+      timeoutMinutesBuild: ${{ steps.config.outputs.timeoutMinutesBuild }}
+      retentionDays: ${{ steps.config.outputs.retentionDays }}
+      buildType: ${{ steps.config.outputs.buildType }}
+      buildTargets: ${{ steps.config.outputs.buildTargets }}
+      deployTargets: ${{ steps.config.outputs.deployTargets }}
+      requiresCombined: ${{ steps.config.outputs.requiresCombined }}
+      skipPerBuildTarget: ${{ steps.config.outputs.skipPerBuildTarget }}
+      useGitLfs: ${{ steps.config.outputs.useGitLfs }}
+      editModePath: ${{ steps.config.outputs.editModePath }}
+      playModePath: ${{ steps.config.outputs.playModePath }}
+      quietMode: ${{ steps.config.outputs.quietMode }}
+      testsOnly: ${{ steps.config.outputs.testsOnly }}
+      skipTests: ${{ steps.config.outputs.skipTests }}
+      buildVersion: ${{ steps.config.outputs.buildVersion }}
     steps:
-      - name: 📁 仅检出 .github 文件夹
+      - name: 📁 检出配置文件
         uses: actions/checkout@v4
         with:
-          sparse-checkout: .github/*
+          sparse-checkout: |
+            ${{ env.CONFIG_PATH }}
           sparse-checkout-cone-mode: false
           fetch-depth: 1
 
-      - name: ⏳ 元数据准备
-        id: metadata
-        uses: avalin/unity-ci-templates/.github/actions/prepare-metadata@main
-        with:
-          artifactSource: build
-          projectNameInput: ${{ inputs.projectName }}
-          projectNameRepoVar: ${{ vars.PROJECT_NAME }}
-          unityVersionInput: ${{ inputs.unityVersion }}
-          unityVersionRepoVar: ${{ vars.UNITY_VERSION }}
-          buildTypeInput: ${{ inputs.buildType }}
-          buildTargetsInput: ${{ inputs.buildTargets }}
-          buildTargetsRepoVar: ${{ vars.BUILD_TARGETS }}
-          deployTargetsInput: ${{ inputs.deployTargets }}
-          deployTargetsRepoVar: ${{ vars.DEPLOY_TARGETS }}
-          retentionDaysReleaseRepoVar: ${{ vars.RETENTION_DAYS_RELEASE }}
-          retentionDaysRcRepoVar: ${{ vars.RETENTION_DAYS_RC }}
-          retentionDaysPreviewRepoVar: ${{ vars.RETENTION_DAYS_PREVIEW }}
-          timeoutTestsRepoVar: ${{ vars.TIMEOUT_MINUTES_TESTS }}
-          timeoutBuildRepoVar: ${{ vars.TIMEOUT_MINUTES_BUILD }}
-          useGitLfsRepoVar: ${{ vars.USE_GIT_LFS }}
-          editModePathRepoVar: ${{ vars.UNITY_TESTS_EDITMODE_PATH }}
-          playModePathRepoVar: ${{ vars.UNITY_TESTS_PLAYMODE_PATH }}
-          quietModeRepoVar: ${{ vars.UNITY_TESTS_QUIET_MODE }}
-          excludeUnityTestsRepoVar: ${{ vars.EXCLUDE_UNITY_TESTS }}
-
-      - name: ✅ 校验流水线意图的构建目标
-        env:
-          INPUT_BUILD_TARGETS: ${{ inputs.buildTargets }}
-          REPO_VAR_BUILD_TARGETS: ${{ vars.BUILD_TARGETS }}
-          FINAL_BUILD_TARGETS: ${{ steps.metadata.outputs.buildTargets }}
+      - name: 🔧 解析和加载配置
+        id: config
+        shell: bash
         run: |
-          echo "🔍 校验已解析的构建目标..."
-
-          if [[ "$FINAL_BUILD_TARGETS" == "[]" || "$FINAL_BUILD_TARGETS" == "" || "$FINAL_BUILD_TARGETS" == "null" ]]; then
-            echo "📥 原始 input.buildTargets: ${INPUT_BUILD_TARGETS}"
-            echo "🏛️ 仓库变量 BUILD_TARGETS: ${REPO_VAR_BUILD_TARGETS}"
-            echo "🧮 解析后的 buildTargets: ${FINAL_BUILD_TARGETS}"
-            echo ""
-            echo "❌ 未解析到有效的构建目标，且本次运行未标记为 '仅测试'。"
-            echo "💡 解决方法："
-            echo "   • 若为仅测试流程，请设置 'testsOnly: true'。"
-            echo "   • 或以有效 JSON 数组形式提供 'buildTargets' 输入（如 [\"WebGL\"]）。"
-            echo "   • 或在仓库变量中定义 'BUILD_TARGETS' 并赋有效 JSON。"
-            exit 1
+          set -euo pipefail
+          
+          echo "📋 开始加载配置文件..."
+          
+          # 验证配置文件存在
+          DEFAULTS_CONFIG="${CONFIG_PATH}/defaults.json"
+          CI_DEFAULTS_CONFIG="${CONFIG_PATH}/ci-defaults.json"
+          
+          for config_file in "$DEFAULTS_CONFIG" "$CI_DEFAULTS_CONFIG"; do
+            if [[ ! -f "$config_file" ]]; then
+              echo "❌ 缺少配置文件: $config_file"
+              exit 1
+            fi
+            echo "✅ 找到配置文件: $config_file"
+          done
+          
+          # 从defaults.json读取基础配置
+          echo "📖 读取基础配置..."
+          PROJECT_NAME=$(jq -r '.project.name // "Unity-Template"' "$DEFAULTS_CONFIG")
+          UNITY_VERSION=$(jq -r '.unity.version // "2022.3.58f1"' "$DEFAULTS_CONFIG")
+          USE_GIT_LFS=$(jq -r '.pipeline.useGitLfs // true' "$DEFAULTS_CONFIG")
+          QUIET_MODE=$(jq -r '.pipeline.quietMode // false' "$DEFAULTS_CONFIG")
+          EDITMODE_PATH=$(jq -r '.tests.editMode.path // "Assets/Tests/Editor"' "$DEFAULTS_CONFIG")
+          PLAYMODE_PATH=$(jq -r '.tests.playMode.path // "Assets/Tests/PlayMode"' "$DEFAULTS_CONFIG")
+          TIMEOUT_TESTS=$(jq -r '.tests.timeoutMinutes // 20' "$DEFAULTS_CONFIG")
+          TIMEOUT_BUILD=$(jq -r '.build.timeoutMinutes // 30' "$DEFAULTS_CONFIG")
+          FORCE_COMBINE=$(jq -r '.pipeline.forceCombineArtifacts // true' "$DEFAULTS_CONFIG")
+          
+          # 读取默认构建目标和部署目标
+          DEFAULT_BUILD_TARGETS=$(jq -c '.build.defaultTargets // ["WebGL","StandaloneWindows64","StandaloneOSX"]' "$DEFAULTS_CONFIG")
+          DEFAULT_DEPLOY_TARGETS=$(jq -c '.deploy.defaultTargets // ["gh-pages"]' "$DEFAULTS_CONFIG")
+          
+          echo "🎯 默认构建目标: $DEFAULT_BUILD_TARGETS"
+          echo "🚀 默认部署目标: $DEFAULT_DEPLOY_TARGETS"
+          
+          # 从ci-defaults.json读取CI特定配置
+          echo "📖 读取CI特定配置..."
+          CI_BUILD_TYPE=$(jq -r '.metadataConfig.buildType // "preview"' "$CI_DEFAULTS_CONFIG")
+          CI_BUILD_VERSION=$(jq -r '.metadataConfig.buildVersion // "0.1.0"' "$CI_DEFAULTS_CONFIG")
+          CI_RETENTION_DAYS=$(jq -r '.metadataConfig.retentionDays // 30' "$CI_DEFAULTS_CONFIG")
+          CI_REQUIRES_COMBINED=$(jq -r '.artifactConfig.requiresCombined // true' "$CI_DEFAULTS_CONFIG")
+          CI_SKIP_PER_BUILD=$(jq -r '.artifactConfig.skipPerBuildTarget // false' "$CI_DEFAULTS_CONFIG")
+          
+          # 检测commit消息中的特殊标记 (仅在GitHub事件中有效)
+          COMMIT_MSG=""
+          TESTS_ONLY=false
+          SKIP_TESTS=false
+          
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            COMMIT_MSG="${{ github.event.head_commit.message || '' }}"
+          elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            COMMIT_MSG="${{ github.event.pull_request.title || '' }}"
           fi
+          
+          echo "📝 检查commit消息: $COMMIT_MSG"
+          
+          # 检查[TEST ONLY]标记
+          if [[ "$COMMIT_MSG" == *"[TEST ONLY]"* ]]; then
+            echo "🧪 检测到[TEST ONLY]标记，设置为仅测试模式"
+            TESTS_ONLY=true
+          fi
+          
+          # 应用输入参数，优先级：输入参数 > 仓库变量 > 配置文件默认值
+          
+          # 项目名称
+          FINAL_PROJECT_NAME="${{ inputs.projectName }}"
+          if [[ -z "$FINAL_PROJECT_NAME" || "$FINAL_PROJECT_NAME" == "null" ]]; then
+            FINAL_PROJECT_NAME="${{ vars.PROJECT_NAME }}"
+          fi
+          if [[ -z "$FINAL_PROJECT_NAME" || "$FINAL_PROJECT_NAME" == "null" ]]; then
+            FINAL_PROJECT_NAME="$PROJECT_NAME"
+          fi
+          
+          # Unity版本
+          FINAL_UNITY_VERSION="${{ inputs.unityVersion }}"
+          if [[ -z "$FINAL_UNITY_VERSION" || "$FINAL_UNITY_VERSION" == "null" ]]; then
+            FINAL_UNITY_VERSION="${{ vars.UNITY_VERSION }}"
+          fi
+          if [[ -z "$FINAL_UNITY_VERSION" || "$FINAL_UNITY_VERSION" == "null" ]]; then
+            FINAL_UNITY_VERSION="$UNITY_VERSION"
+          fi
+          
+          # 构建类型
+          FINAL_BUILD_TYPE="${{ inputs.buildType }}"
+          if [[ -z "$FINAL_BUILD_TYPE" || "$FINAL_BUILD_TYPE" == "null" ]]; then
+            FINAL_BUILD_TYPE="$CI_BUILD_TYPE"
+          fi
+          
+          # 构建版本
+          FINAL_BUILD_VERSION="${{ inputs.buildVersion }}"
+          if [[ -z "$FINAL_BUILD_VERSION" || "$FINAL_BUILD_VERSION" == "null" ]]; then
+            FINAL_BUILD_VERSION="$CI_BUILD_VERSION"
+          fi
+          
+          # 构建目标 - 优先级：输入参数 > 仓库变量 > 配置文件默认值
+          FINAL_BUILD_TARGETS="${{ inputs.buildTargets }}"
+          if [[ -z "$FINAL_BUILD_TARGETS" || "$FINAL_BUILD_TARGETS" == "null" || "$FINAL_BUILD_TARGETS" == "[]" ]]; then
+            FINAL_BUILD_TARGETS="${{ vars.BUILD_TARGETS }}"
+            echo "🔄 使用仓库变量构建目标: $FINAL_BUILD_TARGETS"
+          fi
+          if [[ -z "$FINAL_BUILD_TARGETS" || "$FINAL_BUILD_TARGETS" == "null" || "$FINAL_BUILD_TARGETS" == "[]" ]]; then
+            FINAL_BUILD_TARGETS="$DEFAULT_BUILD_TARGETS"
+            echo "🔄 使用配置文件默认构建目标: $FINAL_BUILD_TARGETS"
+          fi
+          
+          # 部署目标
+          FINAL_DEPLOY_TARGETS="${{ inputs.deployTargets }}"
+          if [[ -z "$FINAL_DEPLOY_TARGETS" || "$FINAL_DEPLOY_TARGETS" == "null" || "$FINAL_DEPLOY_TARGETS" == "[]" ]]; then
+            FINAL_DEPLOY_TARGETS="${{ vars.DEPLOY_TARGETS }}"
+          fi
+          if [[ -z "$FINAL_DEPLOY_TARGETS" || "$FINAL_DEPLOY_TARGETS" == "null" || "$FINAL_DEPLOY_TARGETS" == "[]" ]]; then
+            FINAL_DEPLOY_TARGETS="$DEFAULT_DEPLOY_TARGETS"
+          fi
+          
+          # testsOnly的处理：输入参数 > commit标记 > 默认false
+          FINAL_TESTS_ONLY="${{ inputs.testsOnly }}"
+          if [[ -z "$FINAL_TESTS_ONLY" || "$FINAL_TESTS_ONLY" == "null" ]]; then
+            FINAL_TESTS_ONLY="$TESTS_ONLY"
+          fi
+          
+          # skipTests的处理
+          FINAL_SKIP_TESTS="${{ inputs.skipTests }}"
+          if [[ -z "$FINAL_SKIP_TESTS" || "$FINAL_SKIP_TESTS" == "null" ]]; then
+            FINAL_SKIP_TESTS="$SKIP_TESTS"
+          fi
+          
+          # 根据构建类型设置保留天数
+          RETENTION_MAPPING=$(jq -r '.build.retentionDays' "$DEFAULTS_CONFIG")
+          FINAL_RETENTION=$(echo "$RETENTION_MAPPING" | jq -r ".[\"$FINAL_BUILD_TYPE\"] // 30")
+          
+          # 输出所有配置
+          echo "projectName=$FINAL_PROJECT_NAME" >> "$GITHUB_OUTPUT"
+          echo "unityVersion=$FINAL_UNITY_VERSION" >> "$GITHUB_OUTPUT"
+          echo "buildType=$FINAL_BUILD_TYPE" >> "$GITHUB_OUTPUT"
+          echo "buildVersion=$FINAL_BUILD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "buildTargets=$FINAL_BUILD_TARGETS" >> "$GITHUB_OUTPUT"
+          echo "deployTargets=$FINAL_DEPLOY_TARGETS" >> "$GITHUB_OUTPUT"
+          echo "testsOnly=$FINAL_TESTS_ONLY" >> "$GITHUB_OUTPUT"
+          echo "skipTests=$FINAL_SKIP_TESTS" >> "$GITHUB_OUTPUT"
+          echo "retentionDays=$FINAL_RETENTION" >> "$GITHUB_OUTPUT"
+          echo "requiresCombined=$CI_REQUIRES_COMBINED" >> "$GITHUB_OUTPUT"
+          echo "skipPerBuildTarget=$CI_SKIP_PER_BUILD" >> "$GITHUB_OUTPUT"
+          echo "useGitLfs=$USE_GIT_LFS" >> "$GITHUB_OUTPUT"
+          echo "editModePath=$EDITMODE_PATH" >> "$GITHUB_OUTPUT"
+          echo "playModePath=$PLAYMODE_PATH" >> "$GITHUB_OUTPUT"
+          echo "timeoutMinutesTests=$TIMEOUT_TESTS" >> "$GITHUB_OUTPUT"
+          echo "timeoutMinutesBuild=$TIMEOUT_BUILD" >> "$GITHUB_OUTPUT"
+          echo "quietMode=$QUIET_MODE" >> "$GITHUB_OUTPUT"
+          
+          echo "✅ 配置解析完成"
+          echo "📊 最终配置摘要:"
+          echo "  - 项目名: $FINAL_PROJECT_NAME"
+          echo "  - Unity版本: $FINAL_UNITY_VERSION"
+          echo "  - 构建类型: $FINAL_BUILD_TYPE"
+          echo "  - 构建目标: $FINAL_BUILD_TARGETS"
+          echo "  - 部署目标: $FINAL_DEPLOY_TARGETS"
+          echo "  - 仅测试: $FINAL_TESTS_ONLY"
+          echo "  - 跳过测试: $FINAL_SKIP_TESTS"
 
-          echo "✅ 检测到有效构建目标: ${FINAL_BUILD_TARGETS}"
-
-      - name: 🔍 检测仅测试模式
-        id: tests_only
-        uses: avalin/unity-ci-templates/.github/actions/detect-tests-only@main
-        with:
-          testsOnlyInput: ${{ inputs.testsOnly }}
-
-      - name: 🔍 检测跳过测试标志
-        id: skip_tests
-        uses: avalin/unity-ci-templates/.github/actions/detect-skip-tests@main
-        with:
-          skipTestsInput: ${{ inputs.skipTests }}
-          skipTestsRepoVar: ${{ steps.metadata.outputs.excludeUnityTests }}
-          testsOnly: ${{ steps.tests_only.outputs.testsOnly }}
+      - name: 🛡️ 验证配置完整性
+        run: |
+          echo "🔍 验证配置完整性..."
+          
+          BUILD_TARGETS="${{ steps.config.outputs.buildTargets }}"
+          TESTS_ONLY="${{ steps.config.outputs.testsOnly }}"
+          
+          # 如果不是仅测试模式，必须有有效的构建目标
+          if [[ "$TESTS_ONLY" != "true" ]]; then
+            if [[ "$BUILD_TARGETS" == "[]" || "$BUILD_TARGETS" == "" || "$BUILD_TARGETS" == "null" ]]; then
+              echo "❌ 错误：未设置有效的构建目标且未启用仅测试模式"
+              echo "💡 解决方案："
+              echo "   1. 在commit消息中添加 [TEST ONLY] 标记以启用仅测试模式"
+              echo "   2. 或者在仓库变量中设置 BUILD_TARGETS"
+              echo "   3. 或者确保 .github/config/defaults.json 中有有效的默认构建目标"
+              exit 1
+            fi
+          fi
+          
+          echo "✅ 配置验证通过"
+          echo "🎯 构建目标: $BUILD_TARGETS"
+          echo "🧪 仅测试模式: $TESTS_ONLY"
 
   resolve_build_version:
-    name: 创建构建版本号
-    needs:
-      - prepare_metadata
+    name: 🔢 解析构建版本
+    needs: prepare_metadata
     if: needs.prepare_metadata.outputs.testsOnly == 'false' && inputs.skipBuild == 'false'
     uses: ./.github/workflows/build-version-resolver.yml
     with:
       buildType: ${{ needs.prepare_metadata.outputs.buildType }}
-      buildVersion: ${{ inputs.buildVersion }}
+      buildVersion: ${{ needs.prepare_metadata.outputs.buildVersion }}
 
   summarize_metadata:
-    name: 📄 元数据汇总
+    name: 📄 元数据配置摘要
     needs:
       - prepare_metadata
       - resolve_build_version
     if: always()
-    uses: ./.github/workflows/summarize-metadata.yml
-    with:
-      useGitLfs: ${{ needs.prepare_metadata.outputs.useGitLfs }}
-      excludeUnityTests: ${{ needs.prepare_metadata.outputs.excludeUnityTests }}
-      forceCombineArtifacts: ${{ needs.prepare_metadata.outputs.forceCombineArtifacts  }}
-      quietMode: ${{ needs.prepare_metadata.outputs.quietMode }}
-      unityVersion: ${{ needs.prepare_metadata.outputs.unityVersion }}
-      projectName: ${{ needs.prepare_metadata.outputs.projectName }}
-      editModePath: ${{ needs.prepare_metadata.outputs.editModePath }}
-      playModePath: ${{ needs.prepare_metadata.outputs.playModePath }}
-      buildVersion: ${{ needs.resolve_build_version.outputs.buildVersion }}
-      buildType: ${{ needs.prepare_metadata.outputs.buildType }}
-      skipTests: ${{ needs.prepare_metadata.outputs.skipTests }}
-      testsOnly: ${{ needs.prepare_metadata.outputs.testsOnly }}
-      retentionDays: ${{ needs.prepare_metadata.outputs.retentionDays }}
-      timeoutMinutesTests: ${{ needs.prepare_metadata.outputs.timeoutMinutesTests }}
-      timeoutMinutesBuild: ${{ needs.prepare_metadata.outputs.timeoutMinutesBuild }}
-      buildTargets: ${{ needs.prepare_metadata.outputs.buildTargets }}
-      validDeployTargets: ${{ needs.prepare_metadata.outputs.deployTargets || '[]' }}
-      requiresCombined: ${{ needs.prepare_metadata.outputs.requiresCombined || false }}
-      skipPerBuildTarget: ${{ needs.prepare_metadata.outputs.skipPerBuildTarget || false }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📊 生成配置摘要
+        run: |
+          echo "# ⚖️ 元数据配置摘要" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "## 📋 基础配置" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目名称 | \`${{ needs.prepare_metadata.outputs.projectName }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unity版本 | \`${{ needs.prepare_metadata.outputs.unityVersion }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建类型 | \`${{ needs.prepare_metadata.outputs.buildType }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建版本 | \`${{ needs.resolve_build_version.outputs.buildVersion || needs.prepare_metadata.outputs.buildVersion }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "## 🎯 目标配置" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建目标 | \`${{ needs.prepare_metadata.outputs.buildTargets }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 部署目标 | \`${{ needs.prepare_metadata.outputs.deployTargets }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "## 🔧 流水线控制" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| 仅测试模式 | ${{ needs.prepare_metadata.outputs.testsOnly == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 跳过测试 | ${{ needs.prepare_metadata.outputs.skipTests == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 合并产物 | ${{ needs.prepare_metadata.outputs.requiresCombined == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "## ⏱️ 超时和保留设置" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| 测试超时 | ${{ needs.prepare_metadata.outputs.timeoutMinutesTests }} 分钟 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 构建超时 | ${{ needs.prepare_metadata.outputs.timeoutMinutesBuild }} 分钟 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 产物保留 | ${{ needs.prepare_metadata.outputs.retentionDays }} 天 |" >> $GITHUB_STEP_SUMMARY

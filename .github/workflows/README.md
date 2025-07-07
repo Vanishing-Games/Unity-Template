@@ -115,7 +115,7 @@
 
 | 变量名 | 描述 | 默认值 |
 |--------|------|--------|
-| `PROJECT_NAME` | 项目名称 | Unity-CI-CD-Template |
+| `PROJECT_NAME` | 项目名称 | Unity-Template |
 | `UNITY_VERSION` | Unity 版本 | 2022.3.58f1 |
 | `BUILD_TARGETS` | 构建目标 JSON 数组 | `["WebGL","StandaloneWindows64","StandaloneOSX"]` |
 | `DEPLOY_TARGETS` | 部署目标 JSON 数组 | `["gh-pages"]` |

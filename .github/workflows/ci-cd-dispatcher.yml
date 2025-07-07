@@ -296,12 +296,13 @@ jobs:
     if: needs.parse_trigger.outputs.should_run == 'true' && needs.validate_config.outputs.validation_passed == 'true'
     uses: ./.github/workflows/prepare-metadata.yml
     with:
-      unityVersion: ${{ vars.UNITY_VERSION }}
-      projectName: ${{ vars.PROJECT_NAME }}
+      # 传递仓库变量（如果设置的话），配置文件将作为后备
+      unityVersion: ${{ vars.UNITY_VERSION || '' }}
+      projectName: ${{ vars.PROJECT_NAME || '' }}
       skipTests: 'false'
       testsOnly: ${{ needs.parse_trigger.outputs.tests_only }}
-      deployTargets: ${{ vars.DEPLOY_TARGETS || '[]' }}
-      buildTargets: ${{ vars.BUILD_TARGETS || '[]' }}
+      deployTargets: ${{ vars.DEPLOY_TARGETS || '' }}
+      buildTargets: ${{ vars.BUILD_TARGETS || '' }}
       buildType: ${{ needs.parse_trigger.outputs.build_type }}
       buildVersion: ${{ vars.BUILD_VERSION || '' }}
 

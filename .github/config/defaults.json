@@ -3,7 +3,7 @@
     "version": "2022.3.58f1"
   },
   "project": {
-    "name": "Unity-CI-CD-Template"
+    "name": "Unity-Template"
   },
   "pipeline": {
     "useGitLfs": true,
