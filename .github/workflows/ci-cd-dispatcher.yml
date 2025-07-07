@@ -1,42 +1,6 @@
 name: ⚙️ CI/CD 分发器
 
 on:
-  # 允许手动触发，并带有 buildType 输入
-  workflow_dispatch:
-    inputs:
-      buildType:
-        description: "构建类型: 'preview' 用于手动/开发构建，'release_candidate' 用于预发布（如 v1.2.3-rc.1），'release' 用于正式发布（如 v1.2.3）"
-        required: true
-        default: "preview"
-        type: choice
-        options:
-          - preview
-          - release_candidate
-          - release
-      skipTests:
-        description: "是否跳过测试"
-        required: true
-        default: "default"
-        type: choice
-        options:
-          - 'default'
-          - 'true'
-          - 'false'
-      deployTargets:
-        description: "部署目标的 JSON 数组（如 [\"itch.io\",\"s3\"]）"
-        required: true
-        default: '["gh-pages"]'
-        type: string
-      buildTargets:
-        description: "构建目标的 JSON 数组（如 [\"WebGL\",\"iOS\"]）"
-        required: true
-        default: '["WebGL"]'
-        type: string
-      buildVersion:
-        description: 可选的版本号覆盖
-        type: string
-        required: false
-  # 在特定分支或 PR 变更时自动运行测试和构建
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'            # 匹配 v1.2.3
@@ -65,13 +29,13 @@ jobs:
     outputs:
       should_run: ${{ steps.check.outputs.should_run }}
     steps:
-      - name: 检查最后一次提交信息是否包含 [skip ci]   
+      - name: 检查最后一次提交信息是否包含 [SKIP CI]   
         id: check
         run: |
           COMMIT_MSG="${{ github.event.head_commit.message }}"
           echo "最后一次提交信息: $COMMIT_MSG"
 
-          if [[ "$COMMIT_MSG" == *"[skip ci]"* || "$COMMIT_MSG" == *"[ci skip]"* ]]; then
+          if [[ "$COMMIT_MSG" == *"[SKIP CI]"* ; then
             echo "检测到跳过 CI 的标记，流程将跳过。"
             echo "should_run=false" >> "$GITHUB_OUTPUT"
           else

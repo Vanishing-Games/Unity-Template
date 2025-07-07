@@ -1,16 +1,6 @@
 name: 🏷️ 版本打标签器
 
 on:
-  workflow_dispatch:
-    inputs:
-      buildType:
-        description: "构建类型: preview | release_candidate | release"
-        type: string
-        required: true
-      buildVersion:
-        description: "标签版本（例如：v1.2.3）"
-        type: string
-        required: true
   workflow_call:
     inputs:
       buildVersion:

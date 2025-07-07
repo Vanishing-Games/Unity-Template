@@ -1,33 +1,6 @@
 name: 🚀 CI/CD 流水线
 
 on:
-  workflow_dispatch:
-    inputs:
-      validDeployTargets:
-        type: string
-        required: true
-        default: '["gh-pages"]'
-        description: '有效的部署目标列表(JSON字符串)' 
-      buildTargets:
-        type: string
-        required: true
-        default: '["StandaloneWindows64", "StandaloneOSX"]'
-        description: '构建目标平台列表(JSON字符串)'
-      metadataConfig:
-        type: string
-        required: true
-        default: '{"projectName": "Unity-CI-CD-Template","skipTests": false,"testsOnly": false,"buildType": "release","buildVersion": "0.0.1","retentionDays": 30,"timeoutMinutesTests": 30,"timeoutMinutesBuild": 60}'
-        description: '元数据配置(JSON字符串)'
-      testDataConfig:
-        type: string
-        required: true
-        default: '{"unityVersion": "2022.3.58f1","useGitLfs": true,"editModePath": "Assets/Tests/Editor","playModePath": "Assets/Tests/PlayMode","quietMode": false}'
-        description: '测试数据配置(JSON字符串)'
-      artifactConfig:
-        type: string
-        required: true
-        default: '{"requiresCombined":true,"skipPerBuildTarget":false}'
-        description: '构建产物配置(JSON字符串)'
   push:
     branches:
       - main
