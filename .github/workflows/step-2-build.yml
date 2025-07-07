@@ -83,9 +83,11 @@ jobs:
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
       - name: 输出 matrix 调试信息
         run: |
-          echo "最终matrix: ${{ steps.set_matrix.outputs.matrix }}"
-          echo "matrix长度: $(echo '${{ steps.set_matrix.outputs.matrix }}' | wc -c)"
-          echo "matrix是否为数组: $(echo '${{ steps.set_matrix.outputs.matrix }}' | jq type)"
+          echo "最终matrix: ${MATRIX_OUTPUT}"
+          echo "matrix长度: $(echo "${MATRIX_OUTPUT}" | wc -c)"
+          echo "matrix是否为数组: $(echo "${MATRIX_OUTPUT}" | jq type)"
+        env:
+          MATRIX_OUTPUT: ${{ steps.set_matrix.outputs.matrix }}
 
   build_targets:
     name: 在 ${{ matrix.os }} 上构建 ${{ matrix.buildTarget }}
@@ -102,7 +104,9 @@ jobs:
           echo "[日志] 开始构建任务"
           echo "当前操作系统: ${{ matrix.os }}"
           echo "当前构建目标: ${{ matrix.buildTarget }}"
-          echo "接收到的matrix: ${{ needs.generate_matrix.outputs.matrix }}"
+          echo "接收到的matrix: ${MATRIX_OUTPUT}"
+        env:
+          MATRIX_OUTPUT: ${{ needs.generate_matrix.outputs.matrix }}
       - name: 检出仓库
         uses: actions/checkout@v4
       - name: 恢复 Unity 缓存（Library + BuildCache）
