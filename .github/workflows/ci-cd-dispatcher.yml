@@ -391,19 +391,13 @@ jobs:
           echo "🔍 检测到流水线类型: $PIPELINE_TYPE"
           
           if [[ "$PIPELINE_TYPE" == "ci_only" ]]; then
-            echo "🚀 触发CI流水线..."
+            echo "🚀 即将通过workflow_call触发CI流水线..."
             echo "📋 流水线参数:"
             echo "  - 构建目标: ${{ needs.prepare_metadata.outputs.buildTargets }}"
             echo "  - 仅测试: ${{ needs.parse_trigger.outputs.tests_only }}"
             echo "  - 构建类型: ${{ needs.prepare_metadata.outputs.buildType }}"
             
-            WORKFLOW_RUN=$(gh workflow run ci-pipeline.yml \
-              --ref "${{ github.ref }}" \
-              --field buildTargets="${{ needs.prepare_metadata.outputs.buildTargets }}" \
-              --field testsOnly="${{ needs.parse_trigger.outputs.tests_only }}" \
-              --field buildType="${{ needs.prepare_metadata.outputs.buildType }}" \
-              --field triggerSource="${{ needs.parse_trigger.outputs.trigger_source }}" 2>&1)
-            
+            echo "✅ 参数准备完成，将在下一个job中调用CI流水线"
             echo "triggered_pipeline=ci-pipeline" >> "$GITHUB_OUTPUT"
             
           elif [[ "$PIPELINE_TYPE" == "full_cicd" ]]; then
@@ -474,13 +468,32 @@ jobs:
             exit 1
           fi
           
-          echo "✅ 流水线触发成功"
-          
-          # 尝试提取工作流运行ID (如果可能)
-          if echo "$WORKFLOW_RUN" | grep -q "workflow_run_id"; then
-            WORKFLOW_RUN_ID=$(echo "$WORKFLOW_RUN" | grep -o 'workflow_run_id: [0-9]*' | cut -d' ' -f2)
-            echo "workflow_run_id=$WORKFLOW_RUN_ID" >> "$GITHUB_OUTPUT"
-          fi
+          echo "✅ 流水线触发准备完成"
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🚀 实际调用CI流水线 
+  # ─────────────────────────────────────────────────────────────────────────────
+  run_ci_pipeline:
+    name: 🚀 执行CI流水线
+    needs:
+      - parse_trigger
+      - prepare_metadata
+      - trigger_pipeline
+    if: >
+      needs.parse_trigger.outputs.should_run == 'true' &&
+      needs.parse_trigger.outputs.pipeline_type == 'ci_only' &&
+      needs.trigger_pipeline.outputs.triggered_pipeline == 'ci-pipeline'
+    uses: ./.github/workflows/ci-pipeline.yml
+    with:
+      buildTargets: ${{ needs.prepare_metadata.outputs.buildTargets }}
+      testsOnly: ${{ needs.parse_trigger.outputs.tests_only }}
+      buildType: ${{ needs.prepare_metadata.outputs.buildType }}
+      triggerSource: ${{ needs.parse_trigger.outputs.trigger_source }}
+      enableDebug: false
+    secrets:
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 📊 流水线摘要
@@ -492,6 +505,7 @@ jobs:
       - validate_config
       - prepare_metadata
       - trigger_pipeline
+      - run_ci_pipeline
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -546,9 +560,10 @@ jobs:
             
             echo "| 智能分发器 | $PIPELINE_STATUS | $PIPELINE_TYPE → $TRIGGERED_PIPELINE |" >> $GITHUB_STEP_SUMMARY
             
-            # 如果有工作流运行ID，添加链接
-            if [[ "${{ needs.trigger_pipeline.outputs.workflow_run_id }}" != "" ]]; then
-              echo "| 触发的工作流 | [查看运行详情](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ needs.trigger_pipeline.outputs.workflow_run_id }}) | 运行ID: ${{ needs.trigger_pipeline.outputs.workflow_run_id }} |" >> $GITHUB_STEP_SUMMARY
+            # 显示CI流水线执行状态
+            if [[ "${{ needs.parse_trigger.outputs.pipeline_type }}" == "ci_only" ]]; then
+              CI_PIPELINE_STATUS="${{ needs.run_ci_pipeline.result == 'success' && '✅ 成功' || needs.run_ci_pipeline.result == 'failure' && '❌ 失败' || needs.run_ci_pipeline.result == 'skipped' && '⏭️ 跳过' || '⚠️ 未执行' }}"
+              echo "| CI流水线执行 | $CI_PIPELINE_STATUS | ${{ needs.run_ci_pipeline.result || '未执行' }} |" >> $GITHUB_STEP_SUMMARY
             fi
           fi
           

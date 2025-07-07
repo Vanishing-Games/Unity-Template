@@ -1,7 +1,7 @@
 name: 🚀 CI流水线
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       buildTargets:
         description: "构建目标JSON数组"
@@ -28,15 +28,13 @@ on:
         required: false
         default: false
         type: boolean
-  push:
-    branches:
-      - develop
-    paths:
-      - 'Assets/**'
-      - 'Packages/**'
-      - 'ProjectSettings/**'
-      - 'Tests/**'
-      - '.github/config/**'
+    secrets:
+      UNITY_EMAIL:
+        required: true
+      UNITY_PASSWORD:
+        required: true
+      UNITY_LICENSE:
+        required: true
 
 permissions:
   contents: write
