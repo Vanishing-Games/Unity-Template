@@ -22,7 +22,7 @@ on:
       buildTargets:
         type: string
         default: '["StandaloneWindows64","StandaloneOSX"]'
-        required: true
+        required: false
       timeoutMinutes:
         type: number
         default: 60
@@ -48,69 +48,103 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  group_build_targets:
-    name: "🗂️ 构建目标分组"
-    uses: ./.github/workflows/group-build-targets-by-os.yml
-    with:
-      buildTargets: ${{ inputs.buildTargets }}
-
-  generate_matrix:
-    name: "🧮 生成构建矩阵"
+  prepare_build_matrix:
+    name: "🧮 准备构建矩阵"
     runs-on: ubuntu-latest
-    needs: group_build_targets
     outputs:
-      matrix: ${{ steps.set_matrix.outputs.matrix }}
+      matrix: ${{ steps.build_matrix.outputs.matrix }}
+      build_targets: ${{ steps.build_matrix.outputs.build_targets }}
     steps:
-      - name: 🧮 根据分组构建目标创建构建矩阵
-        id: set_matrix
+      - name: 📁 检出仓库
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/config
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: 🧮 从配置文件生成构建矩阵
+        id: build_matrix
         shell: bash
         run: |
-          echo "[日志] 开始生成构建矩阵"
-          grouped='${{ needs.group_build_targets.outputs.validBuildTargets }}'
-          echo "📦 分组后的构建目标: $grouped"
-          # 生成一行的JSON数组
-          matrix=$(echo "$grouped" | jq -c '
-            to_entries
-            | map({os: .key, buildTarget: .value[]} )
-          ')
-          echo "[日志] 生成的构建矩阵: $matrix"
-          # 校验matrix是否为数组
-          if [[ $matrix != [* ]]; then
-            echo "[错误] matrix不是JSON数组，当前内容: $matrix"
+          echo "[日志] 开始从配置文件生成构建矩阵"
+          
+          CONFIG_FILE=".github/config/build-matrix.json"
+          INPUT_TARGETS='${{ inputs.buildTargets }}'
+          
+          # 检查配置文件是否存在
+          if [ ! -f "$CONFIG_FILE" ]; then
+            echo "[错误] 构建矩阵配置文件不存在: $CONFIG_FILE"
             exit 1
           fi
-          # 使用EOF语法确保JSON格式正确传递
+          
+          echo "📄 使用配置文件: $CONFIG_FILE"
+          
+          # 处理输入的构建目标
+          if [[ -z "$INPUT_TARGETS" || "$INPUT_TARGETS" == "null" || "$INPUT_TARGETS" == '""' ]]; then
+            echo "⚠️ 未指定构建目标，使用默认配置"
+            TARGETS=$(jq -r '.default_targets | @json' "$CONFIG_FILE")
+          else
+            echo "✅ 使用指定的构建目标: $INPUT_TARGETS"
+            TARGETS="$INPUT_TARGETS"
+          fi
+          
+          echo "🎯 最终构建目标: $TARGETS"
+          
+          # 从配置文件中过滤出匹配的构建矩阵项
+          MATRIX=$(jq -c --argjson targets "$TARGETS" '
+            .matrix | map(select(.buildTarget as $bt | $targets | index($bt)))
+          ' "$CONFIG_FILE")
+          
+          echo "📦 生成的构建矩阵: $MATRIX"
+          
+          # 校验矩阵是否为数组
+          if [[ $MATRIX != [* ]]; then
+            echo "[错误] 生成的矩阵不是JSON数组，当前内容: $MATRIX"
+            exit 1
+          fi
+          
+          # 检查矩阵是否为空
+          if [[ $MATRIX == "[]" ]]; then
+            echo "[错误] 没有找到匹配的构建目标，请检查输入的构建目标是否在配置文件中定义"
+            exit 1
+          fi
+          
+          # 输出矩阵和构建目标列表
           echo "matrix<<EOF" >> $GITHUB_OUTPUT
-          echo "$matrix" >> $GITHUB_OUTPUT
+          echo "$MATRIX" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-      - name: 输出 matrix 调试信息
+          
+          BUILD_TARGETS_LIST=$(echo "$TARGETS" | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
+          echo "build_targets=$BUILD_TARGETS_LIST" >> $GITHUB_OUTPUT
+
+      - name: 📋 输出构建矩阵调试信息
         run: |
-          echo "最终matrix: ${MATRIX_OUTPUT}"
-          echo "matrix长度: $(echo "${MATRIX_OUTPUT}" | wc -c)"
-          echo "matrix是否为数组: $(echo "${MATRIX_OUTPUT}" | jq type)"
-        env:
-          MATRIX_OUTPUT: ${{ steps.set_matrix.outputs.matrix }}
+          echo "🧮 构建矩阵详情："
+          echo "───────────────────────────────────"
+          echo "${{ steps.build_matrix.outputs.matrix }}" | jq -r '.[] | "🖥️  \(.os) → \(.buildTarget) (\(.displayName))"'
+          echo "───────────────────────────────────"
+          echo "📝 构建目标列表: ${{ steps.build_matrix.outputs.build_targets }}"
 
   build_targets:
-    name: 在 ${{ matrix.os }} 上构建 ${{ matrix.buildTarget }}
+    name: 构建 ${{ matrix.displayName }} (${{ matrix.buildTarget }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: ${{ inputs.timeoutMinutes }}
-    needs: generate_matrix
+    needs: prepare_build_matrix
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJson(needs.generate_matrix.outputs.matrix) }}
+        include: ${{ fromJson(needs.prepare_build_matrix.outputs.matrix) }}
     steps:
       - name: 调试信息 - 当前构建任务
         run: |
           echo "[日志] 开始构建任务"
           echo "当前操作系统: ${{ matrix.os }}"
           echo "当前构建目标: ${{ matrix.buildTarget }}"
-          echo "接收到的matrix: ${MATRIX_OUTPUT}"
-        env:
-          MATRIX_OUTPUT: ${{ needs.generate_matrix.outputs.matrix }}
+          echo "显示名称: ${{ matrix.displayName }}"
+          
       - name: 检出仓库
         uses: actions/checkout@v4
+        
       - name: 恢复 Unity 缓存（Library + BuildCache）
         uses: actions/cache@v4
         with:
@@ -122,9 +156,11 @@ jobs:
           restore-keys: |
             Library-${{ matrix.buildTarget }}-
             Library-
+            
       - name: 检查磁盘空间（仅 Android）
         if: matrix.buildTarget == 'Android'
         uses: jlumbroso/free-disk-space@v1.3.1
+        
       - name: 解析构建配置
         id: resolve_build_profile
         uses: avalin/unity-ci-templates/.github/actions/resolve-build-profile@main
@@ -132,11 +168,13 @@ jobs:
           buildTarget: ${{ matrix.buildTarget }}
           buildType: ${{ inputs.buildType }}
           unityVersion: ${{ inputs.unityVersion }}
+          
       - name: 解析 Unity 运行参数
         id: resolve_run_parameters
         uses: avalin/unity-ci-templates/.github/actions/resolve-unity-run-parameters@main
         with:
           buildTarget: ${{ matrix.buildTarget }}
+          
       - name: 构建 Unity 项目
         uses: game-ci/unity-builder@v4
         env:
@@ -149,6 +187,7 @@ jobs:
           customParameters: >-
             ${{ steps.resolve_run_parameters.outputs.customParameters }}
             ${{ steps.resolve_build_profile.outputs.profile && format('-buildProfile {0}', steps.resolve_build_profile.outputs.profile) || '' }}
+            
       - name: 保存 Unity 缓存（构建成功后）
         uses: actions/cache/save@v4
         if: success()
@@ -158,12 +197,14 @@ jobs:
             Library/BuildCache
             Library/Il2cppBuildCache
           key: Library-${{ matrix.buildTarget }}-${{ github.run_id }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          
       - name: 修复权限（仅 Linux）
         if: startsWith(matrix.os, 'ubuntu')
         shell: bash
         run: |
           echo "[日志] 修复权限（仅 Linux）..."
           sudo chown -R $USER:$USER build/
+          
       - name: 整理构建输出
         shell: bash
         run: |
@@ -179,6 +220,7 @@ jobs:
           mv "$SOURCE"/* "$DEST"/
           # ⛔ 移除不应随附的 Burst 调试工件
           find "$DEST" -name '*BurstDebugInformation_DoNotShip*' -exec rm -rf {} +
+          
       - name: 上传 ${{ matrix.buildTarget }} 平台产物
         uses: actions/upload-artifact@v4
         with:
@@ -197,13 +239,13 @@ jobs:
     name: "🗃️ 合并构建产物"
 
   summarize_builds:
-    needs: [group_build_targets, build_targets, combine_builds]
+    needs: [prepare_build_matrix, build_targets, combine_builds]
     if: always()
     uses: ./.github/workflows/summarize-builds.yml
     with:
       projectName: ${{ inputs.projectName }}
       buildVersion: ${{ inputs.buildVersion }}
-      groupedBuildTargets: ${{ needs.group_build_targets.outputs.validBuildTargets }}
+      groupedBuildTargets: '{"mixed": ["${{ needs.prepare_build_matrix.outputs.build_targets }}"]}'
       combineRequested: ${{ inputs.combineArtifacts }}
       combinedCreated: ${{ (needs.combine_builds.result == 'success' && needs.combine_builds.outputs.created) || 'false' }}
     name: "📊 汇总构建结果"
