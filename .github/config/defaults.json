@@ -28,7 +28,6 @@
       "release": 30
     },
     "defaultTargets": [
-      "WebGL",
       "StandaloneWindows64",
       "StandaloneOSX"
     ],
