@@ -186,14 +186,17 @@ jobs:
             --arg build_type "$BUILD_TYPE" \
             --arg tests_only "$TESTS_ONLY" \
             '{
-              trigger_source: $trigger_source,
-              ref_name: $ref_name,
-              ref_type: $ref_type,
-              pipeline_type: $pipeline_type,
-              build_type: $build_type,
-              tests_only: $tests_only
+              "trigger_source": $trigger_source,
+              "ref_name": $ref_name,
+              "ref_type": $ref_type,
+              "pipeline_type": $pipeline_type,
+              "build_type": $build_type,
+              "tests_only": $tests_only
             }')
-          echo "debug_info=$DEBUG_INFO" >> "$GITHUB_OUTPUT"
+          
+          # 将DEBUG_INFO进行base64编码以避免特殊字符问题
+          DEBUG_INFO_ENCODED=$(echo "$DEBUG_INFO" | base64 | tr -d '\n')
+          echo "debug_info=$DEBUG_INFO_ENCODED" >> "$GITHUB_OUTPUT"
           
           echo "✅ 流水线解析完成:"
           echo "  - 流水线类型: $PIPELINE_TYPE"
@@ -319,55 +322,21 @@ jobs:
       buildVersion: ${{ needs.prepare_metadata.outputs.buildVersion }}
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # 🚀 触发对应的流水线
+  # 🚀 智能流水线触发器
   # ─────────────────────────────────────────────────────────────────────────────
-  trigger_ci_pipeline:
-    name: 🚀 触发CI流水线
-    needs: 
-      - parse_trigger
-      - prepare_metadata
-    if: >
-      needs.parse_trigger.outputs.should_run == 'true' && 
-      needs.parse_trigger.outputs.pipeline_type == 'ci_only'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 📁 检出工作流文件
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github/workflows
-          sparse-checkout-cone-mode: false
-          fetch-depth: 1
-
-      - name: 🔧 安装GitHub CLI
-        run: sudo apt-get update && sudo apt-get install gh -y
-
-      - name: 🚀 调用CI流水线
-        env:
-          GITHUB_TOKEN: ${{ secrets.CICD_PAT }}
-        run: |
-          echo "🚀 触发CI流水线..."
-          echo "📋 流水线参数:"
-          echo "  - 构建目标: ${{ needs.prepare_metadata.outputs.buildTargets }}"
-          echo "  - 仅测试: ${{ needs.parse_trigger.outputs.tests_only }}"
-          echo "  - 构建类型: ${{ needs.prepare_metadata.outputs.buildType }}"
-          
-          gh workflow run ci-pipeline.yml \
-            --ref "${{ github.ref }}" \
-            --field buildTargets="${{ needs.prepare_metadata.outputs.buildTargets }}" \
-            --field testsOnly="${{ needs.parse_trigger.outputs.tests_only }}" \
-            --field buildType="${{ needs.prepare_metadata.outputs.buildType }}" \
-            --field triggerSource="${{ needs.parse_trigger.outputs.trigger_source }}"
-
-  trigger_full_pipeline:
-    name: 🚀 触发完整CI/CD流水线
+  trigger_pipeline:
+    name: 🚀 触发对应流水线
     needs: 
       - parse_trigger
       - prepare_metadata
       - tag_version
     if: >
       needs.parse_trigger.outputs.should_run == 'true' && 
-      needs.parse_trigger.outputs.pipeline_type == 'full_cicd'
+      (needs.tag_version.result == 'success' || needs.tag_version.result == 'skipped')
     runs-on: ubuntu-latest
+    outputs:
+      triggered_pipeline: ${{ steps.trigger.outputs.triggered_pipeline }}
+      workflow_run_id: ${{ steps.trigger.outputs.workflow_run_id }}
     steps:
       - name: 📁 检出工作流文件
         uses: actions/checkout@v4
@@ -379,22 +348,41 @@ jobs:
       - name: 🔧 安装GitHub CLI
         run: sudo apt-get update && sudo apt-get install gh -y
 
-      - name: 🚀 调用完整CI/CD流水线
+      - name: 🚀 智能触发流水线
+        id: trigger
         env:
           GITHUB_TOKEN: ${{ secrets.CICD_PAT }}
         run: |
-          echo "🚀 触发完整CI/CD流水线..."
-          echo "📋 流水线参数:"
-          echo "  - 构建目标: ${{ needs.prepare_metadata.outputs.buildTargets }}"
-          echo "  - 部署目标: ${{ needs.prepare_metadata.outputs.validDeployTargets }}"
-          echo "  - 构建类型: ${{ needs.prepare_metadata.outputs.buildType }}"
-          echo "  - 构建版本: ${{ needs.prepare_metadata.outputs.buildVersion }}"
+          PIPELINE_TYPE="${{ needs.parse_trigger.outputs.pipeline_type }}"
           
-          gh workflow run ci-cd-pipeline.yml \
-            --ref "${{ github.ref }}" \
-            --field buildTargets="${{ needs.prepare_metadata.outputs.buildTargets }}" \
-            --field validDeployTargets="${{ needs.prepare_metadata.outputs.validDeployTargets }}" \
-            --field metadataConfig="$(jq -c -n \
+          echo "🔍 检测到流水线类型: $PIPELINE_TYPE"
+          
+          if [[ "$PIPELINE_TYPE" == "ci_only" ]]; then
+            echo "🚀 触发CI流水线..."
+            echo "📋 流水线参数:"
+            echo "  - 构建目标: ${{ needs.prepare_metadata.outputs.buildTargets }}"
+            echo "  - 仅测试: ${{ needs.parse_trigger.outputs.tests_only }}"
+            echo "  - 构建类型: ${{ needs.prepare_metadata.outputs.buildType }}"
+            
+            WORKFLOW_RUN=$(gh workflow run ci-pipeline.yml \
+              --ref "${{ github.ref }}" \
+              --field buildTargets="${{ needs.prepare_metadata.outputs.buildTargets }}" \
+              --field testsOnly="${{ needs.parse_trigger.outputs.tests_only }}" \
+              --field buildType="${{ needs.prepare_metadata.outputs.buildType }}" \
+              --field triggerSource="${{ needs.parse_trigger.outputs.trigger_source }}" 2>&1)
+            
+            echo "triggered_pipeline=ci-pipeline" >> "$GITHUB_OUTPUT"
+            
+          elif [[ "$PIPELINE_TYPE" == "full_cicd" ]]; then
+            echo "🚀 触发完整CI/CD流水线..."
+            echo "📋 流水线参数:"
+            echo "  - 构建目标: ${{ needs.prepare_metadata.outputs.buildTargets }}"
+            echo "  - 部署目标: ${{ needs.prepare_metadata.outputs.validDeployTargets }}"
+            echo "  - 构建类型: ${{ needs.prepare_metadata.outputs.buildType }}"
+            echo "  - 构建版本: ${{ needs.prepare_metadata.outputs.buildVersion }}"
+            
+            # 构建metadataConfig JSON
+            METADATA_CONFIG=$(jq -c -n \
               --arg projectName "${{ needs.prepare_metadata.outputs.projectName }}" \
               --arg skipTests "${{ needs.prepare_metadata.outputs.skipTests }}" \
               --arg testsOnly "${{ needs.prepare_metadata.outputs.testsOnly }}" \
@@ -403,18 +391,63 @@ jobs:
               --arg retentionDays "${{ needs.prepare_metadata.outputs.retentionDays }}" \
               --arg timeoutMinutesTests "${{ needs.prepare_metadata.outputs.timeoutMinutesTests }}" \
               --arg timeoutMinutesBuild "${{ needs.prepare_metadata.outputs.timeoutMinutesBuild }}" \
-              '{projectName: $projectName, skipTests: $skipTests, testsOnly: $testsOnly, buildType: $buildType, buildVersion: $buildVersion, retentionDays: $retentionDays, timeoutMinutesTests: $timeoutMinutesTests, timeoutMinutesBuild: $timeoutMinutesBuild}')" \
-            --field artifactConfig="$(jq -c -n \
+              '{
+                "projectName": $projectName,
+                "skipTests": $skipTests,
+                "testsOnly": $testsOnly,
+                "buildType": $buildType,
+                "buildVersion": $buildVersion,
+                "retentionDays": $retentionDays,
+                "timeoutMinutesTests": $timeoutMinutesTests,
+                "timeoutMinutesBuild": $timeoutMinutesBuild
+              }')
+            
+            # 构建artifactConfig JSON
+            ARTIFACT_CONFIG=$(jq -c -n \
               --arg requiresCombined "${{ needs.prepare_metadata.outputs.requiresCombined }}" \
               --arg skipPerBuildTarget "${{ needs.prepare_metadata.outputs.skipPerBuildTarget }}" \
-              '{requiresCombined: $requiresCombined, skipPerBuildTarget: $skipPerBuildTarget}')" \
-            --field testDataConfig="$(jq -c -n \
+              '{
+                "requiresCombined": $requiresCombined,
+                "skipPerBuildTarget": $skipPerBuildTarget
+              }')
+            
+            # 构建testDataConfig JSON
+            TEST_DATA_CONFIG=$(jq -c -n \
               --arg unityVersion "${{ needs.prepare_metadata.outputs.unityVersion }}" \
               --arg useGitLfs "${{ needs.prepare_metadata.outputs.useGitLfs }}" \
               --arg editModePath "${{ needs.prepare_metadata.outputs.editModePath }}" \
               --arg playModePath "${{ needs.prepare_metadata.outputs.playModePath }}" \
               --arg quietMode "${{ needs.prepare_metadata.outputs.quietMode }}" \
-              '{unityVersion: $unityVersion, useGitLfs: $useGitLfs, editModePath: $editModePath, playModePath: $playModePath, quietMode: $quietMode}')"
+              '{
+                "unityVersion": $unityVersion,
+                "useGitLfs": $useGitLfs,
+                "editModePath": $editModePath,
+                "playModePath": $playModePath,
+                "quietMode": $quietMode
+              }')
+            
+            WORKFLOW_RUN=$(gh workflow run ci-cd-pipeline.yml \
+              --ref "${{ github.ref }}" \
+              --field buildTargets="${{ needs.prepare_metadata.outputs.buildTargets }}" \
+              --field validDeployTargets="${{ needs.prepare_metadata.outputs.validDeployTargets }}" \
+              --field metadataConfig="$METADATA_CONFIG" \
+              --field artifactConfig="$ARTIFACT_CONFIG" \
+              --field testDataConfig="$TEST_DATA_CONFIG" 2>&1)
+            
+            echo "triggered_pipeline=ci-cd-pipeline" >> "$GITHUB_OUTPUT"
+            
+          else
+            echo "❌ 未知的流水线类型: $PIPELINE_TYPE"
+            exit 1
+          fi
+          
+          echo "✅ 流水线触发成功"
+          
+          # 尝试提取工作流运行ID (如果可能)
+          if echo "$WORKFLOW_RUN" | grep -q "workflow_run_id"; then
+            WORKFLOW_RUN_ID=$(echo "$WORKFLOW_RUN" | grep -o 'workflow_run_id: [0-9]*' | cut -d' ' -f2)
+            echo "workflow_run_id=$WORKFLOW_RUN_ID" >> "$GITHUB_OUTPUT"
+          fi
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 📊 流水线摘要
@@ -425,8 +458,7 @@ jobs:
       - parse_trigger
       - validate_config
       - prepare_metadata
-      - trigger_ci_pipeline
-      - trigger_full_pipeline
+      - trigger_pipeline
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -472,13 +504,18 @@ jobs:
           # 流水线执行结果
           if [[ "${{ needs.parse_trigger.outputs.should_run }}" == "true" && "${{ needs.validate_config.outputs.validation_passed }}" == "true" ]]; then
             echo "## 🚀 流水线执行" >> $GITHUB_STEP_SUMMARY
-            echo "| 流水线 | 状态 |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
+            echo "| 流水线 | 状态 | 类型 |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|------|------|" >> $GITHUB_STEP_SUMMARY
             
-            if [[ "${{ needs.parse_trigger.outputs.pipeline_type }}" == "ci_only" ]]; then
-              echo "| CI流水线 | ${{ needs.trigger_ci_pipeline.result == 'success' && '✅ 已触发' || '❌ 触发失败' }} |" >> $GITHUB_STEP_SUMMARY
-            elif [[ "${{ needs.parse_trigger.outputs.pipeline_type }}" == "full_cicd" ]]; then
-              echo "| 完整CI/CD流水线 | ${{ needs.trigger_full_pipeline.result == 'success' && '✅ 已触发' || '❌ 触发失败' }} |" >> $GITHUB_STEP_SUMMARY
+            PIPELINE_STATUS="${{ needs.trigger_pipeline.result == 'success' && '✅ 已触发' || '❌ 触发失败' }}"
+            TRIGGERED_PIPELINE="${{ needs.trigger_pipeline.outputs.triggered_pipeline || '未知' }}"
+            PIPELINE_TYPE="${{ needs.parse_trigger.outputs.pipeline_type }}"
+            
+            echo "| 智能分发器 | $PIPELINE_STATUS | $PIPELINE_TYPE → $TRIGGERED_PIPELINE |" >> $GITHUB_STEP_SUMMARY
+            
+            # 如果有工作流运行ID，添加链接
+            if [[ "${{ needs.trigger_pipeline.outputs.workflow_run_id }}" != "" ]]; then
+              echo "| 触发的工作流 | [查看运行详情](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ needs.trigger_pipeline.outputs.workflow_run_id }}) | 运行ID: ${{ needs.trigger_pipeline.outputs.workflow_run_id }} |" >> $GITHUB_STEP_SUMMARY
             fi
           fi
           
@@ -494,6 +531,6 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "## 🐛 调试信息" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-            echo '${{ needs.parse_trigger.outputs.debug_info }}' | jq . >> $GITHUB_STEP_SUMMARY
+            echo '${{ needs.parse_trigger.outputs.debug_info }}' | base64 -d | jq . >> $GITHUB_STEP_SUMMARY || echo "调试信息解析失败" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           fi
