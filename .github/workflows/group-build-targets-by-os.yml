@@ -30,11 +30,30 @@ jobs:
       - name: 🔍 校验构建目标并加载配置
         id: validate
         run: |
-          INPUT_JSON=$(cat ./.github/config/build-targets-config.json)
+          # 处理输入的构建目标
+          BUILD_TARGETS_INPUT='${{ inputs.buildTargets }}'
+          echo "🔍 接收到的构建目标输入: $BUILD_TARGETS_INPUT"
+          
+          # 检查输入格式并转换
+          if echo "$BUILD_TARGETS_INPUT" | jq empty 2>/dev/null; then
+            # 输入是有效的JSON
+            INPUT_JSON="$BUILD_TARGETS_INPUT"
+            echo "✅ 输入是有效的JSON数组"
+          elif [[ "$BUILD_TARGETS_INPUT" == *","* ]]; then
+            # 输入是逗号分隔的字符串，转换为JSON数组
+            INPUT_JSON=$(echo "$BUILD_TARGETS_INPUT" | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | jq -R . | jq -s .)
+            echo "🔄 将逗号分隔的字符串转换为JSON数组: $INPUT_JSON"
+          else
+            # 单个构建目标，去除可能的引号和空格
+            CLEAN_TARGET=$(echo "$BUILD_TARGETS_INPUT" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/^"//;s/"$//')
+            INPUT_JSON=$(jq -n --arg target "$CLEAN_TARGET" '[$target]')
+            echo "🔄 将单个目标转换为JSON数组: $INPUT_JSON"
+          fi
+          
           CONFIG_FILE="./.github/config/optional-build-targets.json"
           FALLBACK_URL="https://raw.githubusercontent.com/avalin/unity-ci-templates/main/.github/config/optional-build-targets.json"
 
-          echo "🔍 校验输入构建目标: $INPUT_JSON"
+          echo "🔍 最终处理的构建目标: $INPUT_JSON"
 
           if [ -f "$CONFIG_FILE" ]; then
             echo "✅ 使用配置: $CONFIG_FILE"
