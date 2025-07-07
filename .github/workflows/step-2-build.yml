@@ -79,8 +79,10 @@ jobs:
             echo "[错误] matrix不是JSON数组，当前内容: $matrix"
             exit 1
           fi
-          # 确保matrix是单行输出
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+          # 使用EOF语法确保JSON格式正确传递
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          echo "$matrix" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
       - name: 输出 matrix 调试信息
         run: |
           echo "最终matrix: ${MATRIX_OUTPUT}"
@@ -88,54 +90,6 @@ jobs:
           echo "matrix是否为数组: $(echo "${MATRIX_OUTPUT}" | jq type)"
         env:
           MATRIX_OUTPUT: ${{ steps.set_matrix.outputs.matrix }}
-      
-      - name: 验证矩阵格式
-        id: validate_matrix
-        run: |
-          matrix='${{ steps.set_matrix.outputs.matrix }}'
-          echo "验证矩阵: $matrix"
-          
-          # 验证JSON格式
-          if ! echo "$matrix" | jq empty; then
-            echo "❌ 矩阵不是有效的JSON"
-            exit 1
-          fi
-          
-          # 验证是否为数组
-          if [ "$(echo "$matrix" | jq type)" != '"array"' ]; then
-            echo "❌ 矩阵不是数组"
-            exit 1
-          fi
-          
-          # 验证数组不为空
-          if [ "$(echo "$matrix" | jq length)" -eq 0 ]; then
-            echo "❌ 矩阵为空数组"
-            exit 1
-          fi
-          
-          # 验证数组元素结构
-          echo "$matrix" | jq -c '.[]' | while read -r item; do
-            os=$(echo "$item" | jq -r '.os // empty')
-            buildTarget=$(echo "$item" | jq -r '.buildTarget // empty')
-            
-            if [ -z "$os" ] || [ -z "$buildTarget" ]; then
-              echo "❌ 矩阵元素缺少必要字段: $item"
-              exit 1
-            fi
-            
-            # 验证操作系统是有效的runner
-            case "$os" in
-              ubuntu-latest|ubuntu-20.04|ubuntu-22.04|windows-latest|windows-2019|windows-2022|macos-latest|macos-11|macos-12|macos-13)
-                echo "✅ 有效的操作系统: $os"
-                ;;
-              *)
-                echo "❌ 无效的操作系统: $os"
-                exit 1
-                ;;
-            esac
-          done
-          
-          echo "✅ 矩阵验证通过"
 
   build_targets:
     name: 在 ${{ matrix.os }} 上构建 ${{ matrix.buildTarget }}
@@ -234,7 +188,7 @@ jobs:
 
   combine_builds:
     if: ${{ inputs.combineArtifacts == 'true' }}
-    needs: [ build_targets]
+    needs: [ build_targets ]
     uses: ./.github/workflows/combine-builds.yml
     with:
       projectName: ${{ inputs.projectName }}
