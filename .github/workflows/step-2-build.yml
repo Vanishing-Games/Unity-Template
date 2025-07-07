@@ -85,7 +85,26 @@ jobs:
             TARGETS=$(jq -r '.default_targets | @json' "$CONFIG_FILE")
           else
             echo "✅ 使用指定的构建目标: $INPUT_TARGETS"
-            TARGETS="$INPUT_TARGETS"
+            
+            # 验证并修复 JSON 格式
+            if echo "$INPUT_TARGETS" | jq . >/dev/null 2>&1; then
+              # 已经是有效的 JSON
+              TARGETS="$INPUT_TARGETS"
+            else
+              # 无效的 JSON，尝试修复（为数组中的字符串添加引号）
+              echo "⚠️ 输入的构建目标不是有效的 JSON，尝试修复格式..."
+              # 移除方括号和空格，然后重新构造 JSON 数组
+              CLEANED=$(echo "$INPUT_TARGETS" | sed 's/\[//g' | sed 's/\]//g' | sed 's/ //g')
+              # 将逗号分隔的值转换为 JSON 数组
+              TARGETS=$(echo "$CLEANED" | awk -F',' '{printf "["; for(i=1;i<=NF;i++){printf "\"%s\"", $i; if(i<NF) printf ","}; printf "]"}')
+              echo "🔧 修复后的构建目标: $TARGETS"
+              
+              # 再次验证修复后的 JSON
+              if ! echo "$TARGETS" | jq . >/dev/null 2>&1; then
+                echo "[错误] 无法修复构建目标格式，请检查输入: $INPUT_TARGETS"
+                exit 1
+              fi
+            fi
           fi
           
           echo "🎯 最终构建目标: $TARGETS"
