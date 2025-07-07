@@ -1,9 +1,28 @@
 name: 🚀 CI/CD 流水线
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      validDeployTargets:
+        type: string
+        required: true
+        description: '有效的部署目标列表(JSON字符串)'
+      buildTargets:
+        type: string
+        required: true
+        description: '构建目标平台列表(JSON字符串)'
+      metadataConfig:
+        type: string
+        required: true
+        description: '元数据配置(JSON字符串)'
+      testDataConfig:
+        type: string
+        required: true
+        description: '测试数据配置(JSON字符串)'
+      artifactConfig:
+        type: string
+        required: true
+        description: '构建产物配置(JSON字符串)'
 
 permissions:
   contents: write
