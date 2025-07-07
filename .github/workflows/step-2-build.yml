@@ -114,11 +114,36 @@ jobs:
           echo "$MATRIX" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
           
-          BUILD_TARGETS_LIST=$(echo "$TARGETS" | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
-          echo "build_targets=$BUILD_TARGETS_LIST" >> $GITHUB_OUTPUT
+          # 输出构建目标数组（JSON格式）
+          echo "build_targets<<EOF" >> $GITHUB_OUTPUT
+          echo "$TARGETS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 📋 验证输出的矩阵格式
+        run: |
+          echo "🔍 验证生成的矩阵："
+          echo "矩阵内容: ${{ steps.build_matrix.outputs.matrix }}"
+          echo "矩阵类型: $(echo '${{ steps.build_matrix.outputs.matrix }}' | jq type)"
+          echo "矩阵长度: $(echo '${{ steps.build_matrix.outputs.matrix }}' | jq length)"
+          echo "构建目标列表: ${{ steps.build_matrix.outputs.build_targets }}"
+
+  test_matrix:
+    name: 🧪 测试矩阵解析
+    runs-on: ubuntu-latest
+    needs: prepare_build_matrix
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.prepare_build_matrix.outputs.matrix) }}
+    steps:
+      - name: 测试矩阵项
+        run: |
+          echo "🧪 矩阵测试："
+          echo "OS: ${{ matrix.os }}"
+          echo "构建目标: ${{ matrix.buildTarget }}"
+          echo "显示名称: ${{ matrix.displayName }}"
 
   build_targets:
-    name: 构建 ${{ matrix.displayName }} (${{ matrix.buildTarget }})
+    name: 构建 ${{ matrix.displayName || matrix.buildTarget }} (${{ matrix.buildTarget }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: ${{ inputs.timeoutMinutes }}
     needs: prepare_build_matrix
@@ -237,7 +262,7 @@ jobs:
     with:
       projectName: ${{ inputs.projectName }}
       buildVersion: ${{ inputs.buildVersion }}
-      groupedBuildTargets: '{"mixed": ["${{ needs.prepare_build_matrix.outputs.build_targets }}"]}'
+      groupedBuildTargets: '{"mixed": ${{ needs.prepare_build_matrix.outputs.build_targets }}}'
       combineRequested: ${{ inputs.combineArtifacts }}
       combinedCreated: ${{ (needs.combine_builds.result == 'success' && needs.combine_builds.outputs.created) || 'false' }}
     name: "📊 汇总构建结果"
