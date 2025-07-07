@@ -2,6 +2,75 @@ name: ⏳ 元数据准备
 
 on:
   workflow_call:
+    inputs:
+      buildType:
+        description: "构建类型: preview | release_candidate | release"
+        required: false
+        type: string
+        default: "preview"
+      testsOnly:
+        description: "是否仅测试"
+        required: false
+        type: boolean
+        default: false
+    outputs:
+      projectName:
+        description: "项目名称"
+        value: ${{ jobs.prepare_metadata.outputs.projectName }}
+      unityVersion:
+        description: "Unity版本"
+        value: ${{ jobs.prepare_metadata.outputs.unityVersion }}
+      timeoutMinutesTests:
+        description: "测试超时时间（分钟）"
+        value: ${{ jobs.prepare_metadata.outputs.timeoutMinutesTests }}
+      timeoutMinutesBuild:
+        description: "构建超时时间（分钟）"
+        value: ${{ jobs.prepare_metadata.outputs.timeoutMinutesBuild }}
+      retentionDays:
+        description: "工件保留天数"
+        value: ${{ jobs.prepare_metadata.outputs.retentionDays }}
+      buildType:
+        description: "构建类型"
+        value: ${{ jobs.prepare_metadata.outputs.buildType }}
+      buildVersion:
+        description: "构建版本"
+        value: ${{ jobs.resolve_build_version.outputs.buildVersion || jobs.prepare_metadata.outputs.buildVersion }}
+      buildTargets:
+        description: "构建目标"
+        value: ${{ jobs.prepare_metadata.outputs.buildTargets }}
+      validDeployTargets:
+        description: "有效的部署目标"
+        value: ${{ jobs.prepare_metadata.outputs.deployTargets }}
+      requiresCombined:
+        description: "是否需要合并产物"
+        value: ${{ jobs.prepare_metadata.outputs.requiresCombined }}
+      skipPerBuildTarget:
+        description: "是否跳过每构建目标产物"
+        value: ${{ jobs.prepare_metadata.outputs.skipPerBuildTarget }}
+      useGitLfs:
+        description: "是否使用Git LFS"
+        value: ${{ jobs.prepare_metadata.outputs.useGitLfs }}
+      editModePath:
+        description: "EditMode测试路径"
+        value: ${{ jobs.prepare_metadata.outputs.editModePath }}
+      playModePath:
+        description: "PlayMode测试路径"
+        value: ${{ jobs.prepare_metadata.outputs.playModePath }}
+      quietMode:
+        description: "是否静默模式"
+        value: ${{ jobs.prepare_metadata.outputs.quietMode }}
+      testsOnly:
+        description: "是否仅测试"
+        value: ${{ jobs.prepare_metadata.outputs.testsOnly }}
+      skipTests:
+        description: "是否跳过测试"
+        value: ${{ jobs.prepare_metadata.outputs.skipTests }}
+      excludeUnityTests:
+        description: "是否排除Unity测试"
+        value: ${{ jobs.prepare_metadata.outputs.excludeUnityTests }}
+      forceCombineArtifacts:
+        description: "是否强制合并产物"
+        value: ${{ jobs.prepare_metadata.outputs.forceCombineArtifacts }}
 
 jobs:
   prepare_metadata:
@@ -26,6 +95,7 @@ jobs:
       skipTests: ${{ steps.config.outputs.skipTests }}
       excludeUnityTests: ${{ steps.config.outputs.excludeUnityTests }}
       forceCombineArtifacts: ${{ steps.config.outputs.forceCombineArtifacts }}
+      buildVersion: ${{ steps.config.outputs.buildVersion }}
     steps:
       - name: 📁 检出配置文件
         uses: actions/checkout@v4
@@ -68,15 +138,17 @@ jobs:
 
           # 读取ci-defaults.json
           CI_PROJECT_NAME=$(jq -r '.metadataConfig.projectName // empty' "$CI_DEFAULTS_CONFIG")
-          CI_BUILD_TYPE=$(jq -r '.metadataConfig.buildType // "preview"' "$CI_DEFAULTS_CONFIG")
           CI_BUILD_VERSION=$(jq -r '.metadataConfig.buildVersion // "0.1.0"' "$CI_DEFAULTS_CONFIG")
           CI_RETENTION_DAYS=$(jq -r '.metadataConfig.retentionDays // 30' "$CI_DEFAULTS_CONFIG")
           CI_REQUIRES_COMBINED=$(jq -r '.artifactConfig.requiresCombined // true' "$CI_DEFAULTS_CONFIG")
           CI_SKIP_PER_BUILD=$(jq -r '.artifactConfig.skipPerBuildTarget // false' "$CI_DEFAULTS_CONFIG")
           CI_SKIP_TESTS=$(jq -r '.metadataConfig.skipTests // false' "$CI_DEFAULTS_CONFIG")
-          CI_TESTS_ONLY=$(jq -r '.metadataConfig.testsOnly // false' "$CI_DEFAULTS_CONFIG")
           CI_BUILD_TARGETS=$(jq -c '.build.defaultTargets // ["StandaloneWindows64","StandaloneOSX"]' "$DEFAULTS_CONFIG")
           CI_DEPLOY_TARGETS=$(jq -c '.deploy.defaultTargets // ["gh-pages"]' "$DEFAULTS_CONFIG")
+          
+          # 使用输入参数或配置文件中的默认值
+          CI_BUILD_TYPE="${{ inputs.buildType || 'preview' }}"
+          CI_TESTS_ONLY="${{ inputs.testsOnly || false }}"
 
           # 读取deployTargets配置
           DEPLOY_TARGETS=$(jq -c 'keys' "$CONFIG_PATH/deploy-targets.json")
@@ -107,18 +179,51 @@ jobs:
           echo "skipTests=$CI_SKIP_TESTS" >> "$GITHUB_OUTPUT"
           echo "excludeUnityTests=$EXCLUDE_UNITY_TESTS" >> "$GITHUB_OUTPUT"
           echo "forceCombineArtifacts=$FORCE_COMBINE" >> "$GITHUB_OUTPUT"
+          echo "buildVersion=$CI_BUILD_VERSION" >> "$GITHUB_OUTPUT"
 
           echo "✅ 配置解析完成"
+          
+          echo "🔍 调试输出:"
+          echo "  - 项目名称: $PROJECT_NAME"
+          echo "  - Unity版本: $UNITY_VERSION"
+          echo "  - 构建类型: $CI_BUILD_TYPE"
+          echo "  - 构建目标: $CI_BUILD_TARGETS"
+          echo "  - 部署目标: $CI_DEPLOY_TARGETS"
+          echo "  - 仅测试: $CI_TESTS_ONLY"
+          echo "  - 跳过测试: $CI_SKIP_TESTS"
 
   resolve_build_version:
     name: 生成构建版本号
     needs:
       - prepare_metadata
-    if: needs.prepare_metadata.outputs.testsOnly == 'false' && needs.prepare_metadata.outputs.skipBuild == 'false'
-    uses: ./.github/workflows/build-version-resolver.yml
-    with:
-      buildType: ${{ needs.prepare_metadata.outputs.buildType }}
-      buildVersion: ${{ needs.prepare_metadata.outputs.buildVersion }}
+    if: needs.prepare_metadata.outputs.testsOnly == 'false' && needs.prepare_metadata.outputs.skipTests == 'false'
+    runs-on: ubuntu-latest
+    outputs:
+      buildVersion: ${{ steps.version.outputs.buildVersion }}
+    steps:
+      - name: 🔖 生成构建版本
+        id: version
+        run: |
+          BUILD_TYPE="${{ needs.prepare_metadata.outputs.buildType }}"
+          BASE_VERSION="${{ needs.prepare_metadata.outputs.buildVersion }}"
+          
+          case "$BUILD_TYPE" in
+            "preview")
+              BUILD_VERSION="${BASE_VERSION}-preview.${{ github.run_number }}"
+              ;;
+            "release_candidate")
+              BUILD_VERSION="${BASE_VERSION}-rc.${{ github.run_number }}"
+              ;;
+            "release")
+              BUILD_VERSION="$BASE_VERSION"
+              ;;
+            *)
+              BUILD_VERSION="${BASE_VERSION}-$BUILD_TYPE.${{ github.run_number }}"
+              ;;
+          esac
+          
+          echo "buildVersion=$BUILD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "🔖 生成的构建版本: $BUILD_VERSION"
 
   summarize_metadata:
     name: 📄 汇总元数据

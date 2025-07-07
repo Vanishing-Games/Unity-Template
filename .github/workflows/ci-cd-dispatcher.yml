@@ -295,6 +295,9 @@ jobs:
       - validate_config
     if: needs.parse_trigger.outputs.should_run == 'true' && needs.validate_config.outputs.validation_passed == 'true'
     uses: ./.github/workflows/prepare-metadata.yml
+    with:
+      buildType: ${{ needs.parse_trigger.outputs.build_type }}
+      testsOnly: ${{ needs.parse_trigger.outputs.tests_only == 'true' }}
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 📝 流水线触发详细说明
