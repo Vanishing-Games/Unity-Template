@@ -127,23 +127,8 @@ jobs:
           echo "矩阵长度: $(echo '${{ steps.build_matrix.outputs.matrix }}' | jq length)"
           echo "构建目标列表: ${{ steps.build_matrix.outputs.build_targets }}"
 
-  test_matrix:
-    name: 🧪 测试矩阵解析
-    runs-on: ubuntu-latest
-    needs: prepare_build_matrix
-    strategy:
-      matrix:
-        include: ${{ fromJson(needs.prepare_build_matrix.outputs.matrix) }}
-    steps:
-      - name: 测试矩阵项
-        run: |
-          echo "🧪 矩阵测试："
-          echo "OS: ${{ matrix.os }}"
-          echo "构建目标: ${{ matrix.buildTarget }}"
-          echo "显示名称: ${{ matrix.displayName }}"
-
   build_targets:
-    name: 构建 ${{ matrix.displayName || matrix.buildTarget }} (${{ matrix.buildTarget }})
+    name: "🏗️ Unity 构建"
     runs-on: ${{ matrix.os }}
     timeout-minutes: ${{ inputs.timeoutMinutes }}
     needs: prepare_build_matrix
