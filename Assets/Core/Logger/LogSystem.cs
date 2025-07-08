@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -195,7 +193,7 @@ namespace Core
                 return;
 
             string assemblyName = GetCallingAssemblyName();
-            string assemblyStr = $"<b><color=#2196F3>》〉》》{assemblyName}</color></b>";
+            string assemblyStr = $"<b><color=#2196F3>▶▶▶{assemblyName}</color></b>";
 
             string logTypeText = level switch
             {

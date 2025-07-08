@@ -5,32 +5,32 @@ on:
     inputs:
       unityVersion:
         description: "使用的 Unity 版本"
-        required: false
+        required: true
         default: '2022.3.58f1'
         type: string
       useGitLfs:
         description: "是否使用 Git LFS（true/false）"
-        required: false
+        required: true
         default: 'true'
         type: string
       editModePath:
         description: "EditMode 测试文件夹路径"
-        required: false
+        required: true
         default: 'Assets/Tests/Editor'
         type: string
       playModePath:
         description: "PlayMode 测试文件夹路径"
-        required: false
+        required: true
         default: 'Assets/Tests/PlayMode'
         type: string
       timeoutMinutes:
         description: "每个测试作业的超时时间（分钟）"
-        required: false
+        required: true
         default: 15
         type: number
       quietMode:
         description: "启用静默模式，仅在测试失败时上传/输出日志"
-        required: false
+        required: true
         default: 'false'
         type: string
     outputs:
@@ -50,9 +50,6 @@ on:
       UNITY_EMAIL: { required: true }
       UNITY_PASSWORD: { required: true }
       UNITY_LICENSE: { required: true }
-  pull_request:
-      branches:
-        - develop
 
 jobs:
   upload_unity_license:

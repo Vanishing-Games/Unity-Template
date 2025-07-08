@@ -103,7 +103,7 @@ jobs:
 
       - name: 运行 ${{ inputs.testMode }} 测试
         id: run-tests
-        timeout-minutes: ${{ inputs.timeoutMinutes }}
+        timeout-minutes: ${{ inputs.timeoutMinutes || 60 }}
         continue-on-error: true
         uses: game-ci/unity-test-runner@v4
         env:
