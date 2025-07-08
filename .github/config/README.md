@@ -13,19 +13,33 @@
 
 ## 📋 目录
 
-- [配置文件概览](#-配置文件概览)
-- [核心配置文件](#-核心配置文件)
-  - [pipeline-config.json](#pipeline-configjson)
-  - [ci-defaults.json](#ci-defaultsjson)
-  - [defaults.json](#defaultsjson)
-- [构建配置](#-构建配置)
-  - [build-matrix.json](#build-matrixjson)
-  - [build-profiles.json](#build-profilesjson)
-- [部署配置](#-部署配置)
-  - [deploy-targets.json](#deploy-targetsjson)
-- [配置最佳实践](#-配置最佳实践)
-- [常见配置场景](#-常见配置场景)
-- [故障排除](#-故障排除)
+- [⚙️ CI/CD 配置文件文档](#️-cicd-配置文件文档)
+  - [📋 目录](#-目录)
+  - [📋 配置文件概览](#-配置文件概览)
+  - [🔧 核心配置文件](#-核心配置文件)
+    - [pipeline-config.json](#pipeline-configjson)
+    - [ci-defaults.json](#ci-defaultsjson)
+    - [defaults.json](#defaultsjson)
+  - [🔨 构建配置](#-构建配置)
+    - [build-matrix.json](#build-matrixjson)
+    - [build-profiles.json](#build-profilesjson)
+  - [🚀 部署配置](#-部署配置)
+    - [deploy-targets.json](#deploy-targetsjson)
+  - [📖 配置最佳实践](#-配置最佳实践)
+    - [1. 版本控制](#1-版本控制)
+    - [2. 配置验证](#2-配置验证)
+    - [3. 环境特定配置](#3-环境特定配置)
+  - [🎯 常见配置场景](#-常见配置场景)
+    - [场景1: 添加新的构建平台](#场景1-添加新的构建平台)
+    - [场景2: 配置新的部署目标](#场景2-配置新的部署目标)
+    - [场景3: 调整构建超时时间](#场景3-调整构建超时时间)
+  - [🔧 故障排除](#-故障排除)
+    - [配置文件格式错误](#配置文件格式错误)
+    - [常见错误及解决方案](#常见错误及解决方案)
+      - [1. 构建目标不匹配](#1-构建目标不匹配)
+      - [2. 部署平台不兼容](#2-部署平台不兼容)
+      - [3. 缺少必需的secrets](#3-缺少必需的secrets)
+    - [调试配置](#调试配置)
 
 ## 📋 配置文件概览
 
@@ -59,7 +73,7 @@
           "actions": ["opened", "synchronize", "reopened", "ready_for_review"]
         }
       ],
-      "commitKeywords": ["[TEST ONLY]"]
+
     },
     "fullCICD": {
       "description": "完整CI/CD流程（测试+构建+发布+部署）",
@@ -276,13 +290,13 @@
 ### 1. 版本控制
 ```bash
 # 提交配置更改时使用描述性消息
-git commit -m "config: 添加iOS构建支持 [TEST ONLY]"
+git commit -m "config: 添加iOS构建支持 [BUILD TEST]"
 git commit -m "config: 更新Unity版本到2022.3.60f1"
 ```
 
 ### 2. 配置验证
 在修改配置后，建议：
-1. 先使用 `[TEST ONLY]` 关键字测试
+1. 先验证配置文件格式正确
 2. 检查GitHub Actions是否能正确解析配置
 3. 确认所有必需的secrets已配置
 
@@ -416,7 +430,7 @@ cat .github/config/pipeline-config.json | jq .
 ---
 
 > **⚠️ 重要提示**: 
-> - 修改配置文件后建议先使用 `[TEST ONLY]` 关键字测试
+> - 修改配置文件后建议先验证格式和配置项的正确性
 > - 不要在配置文件中存储敏感信息，使用GitHub Secrets代替
 > - 定期备份重要的配置文件
 

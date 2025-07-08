@@ -12,8 +12,7 @@
           "type": "push",
           "branches": ["develop"]
         }
-      ],
-      "commitKeywords": ["[TEST ONLY]"]
+      ]
     },
     "fullCICD": {
       "description": "完整CI/CD流程（测试+构建+发布+部署）",
@@ -31,6 +30,10 @@
     "skip": {
       "description": "跳过所有CI/CD流程",
       "commitKeywords": ["[SKIP CICD]", "[SKIP CI]"]
+    },
+    "buildTest": {
+      "description": "启用构建测试（在非main分支上）",
+      "commitKeywords": ["[BUILD TEST]"]
     }
   },
   "validation": {

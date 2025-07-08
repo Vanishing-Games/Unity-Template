@@ -3,7 +3,7 @@
  * //  Copyright (c) 2025 Vanishing Games. All Rights Reserved.
  * @Author: VanishXiao
  * @Date: 2025-07-07 18:51:09
- * @LastEditTime: 2025-07-07 23:21:58
+ * @LastEditTime: 2025-07-08 20:19:44
  * // -----------------------------------------------------------------------------
 -->
 
@@ -42,14 +42,19 @@
 |--------|------|----------|
 | `[SKIP CICD]` | 完全跳过CI/CD流程 | 仅更新文档或配置时 |
 | `[SKIP CI]` | (向后兼容) 跳过CI/CD流程 | 同上 |
-| `[TEST ONLY]` | 仅执行测试，跳过构建和部署 | 代码验证阶段 |
+| `[BUILD TEST]` | 在非main分支启用构建测试 | 在功能分支测试构建时 |
 
 ### 使用示例：
 ```bash
 git commit -m "docs: 更新README [SKIP CICD]"
-git commit -m "fix: 修复UI bug [TEST ONLY]"
+git commit -m "feat: 添加新功能 [BUILD TEST]"  # 在非main分支启用构建测试
 git commit -m "feat: 添加新功能"  # 正常触发完整流程
 ```
+
+### 构建测试控制规则：
+- **main分支**: 默认启用构建测试，无需添加关键字
+- **其他分支**: 默认跳过构建测试，需要添加 `[BUILD TEST]` 关键字启用
+- **优先级**: commit关键字 > 分支规则
 
 ## 🏗️ 工作流架构
 
@@ -157,10 +162,11 @@ git tag v1.2.0
 git push origin v1.2.0
 ```
 
-### 仅测试工作流
+### 功能分支工作流
 ```bash
-# 仅运行测试验证代码质量
-git commit -m "refactor: 重构玩家控制器 [TEST ONLY]"
+# 功能分支默认只运行测试，需要构建时添加关键字
+git commit -m "refactor: 重构玩家控制器"  # 只运行测试
+git commit -m "feat: 完成新功能 [BUILD TEST]"  # 运行测试+构建
 git push
 ```
 

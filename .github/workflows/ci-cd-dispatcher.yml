@@ -46,7 +46,7 @@ jobs:
       pipeline_type: ${{ steps.parse.outputs.pipeline_type }}
       skip_reason: ${{ steps.parse.outputs.skip_reason }}
       build_type: ${{ steps.parse.outputs.build_type }}
-      tests_only: ${{ steps.parse.outputs.tests_only }}
+      enable_build_test: ${{ steps.parse.outputs.enable_build_test }}
       commit_message: ${{ steps.parse.outputs.commit_message }}
       trigger_source: ${{ steps.parse.outputs.trigger_source }}
       debug_info: ${{ steps.parse.outputs.debug_info }}
@@ -107,17 +107,33 @@ jobs:
             fi
           done
           
-          # 检查TEST ONLY关键字
-          TEST_ONLY_KEYWORDS=$(jq -r '.triggers.ciOnly.commitKeywords[]' "$PIPELINE_CONFIG")
-          TESTS_ONLY=false
-          for keyword in $TEST_ONLY_KEYWORDS; do
+
+          
+          # 检查BUILD TEST关键字
+          BUILD_TEST_KEYWORDS=$(jq -r '.triggers.buildTest.commitKeywords[]' "$PIPELINE_CONFIG")
+          ENABLE_BUILD_TEST=false
+          
+          # 检查是否包含BUILD TEST关键字
+          for keyword in $BUILD_TEST_KEYWORDS; do
             if [[ "$COMMIT_MSG" == *"$keyword"* ]]; then
-              echo "🧪 检测到仅测试关键字: $keyword"
-              TESTS_ONLY=true
+              echo "🔨 检测到构建测试关键字: $keyword"
+              ENABLE_BUILD_TEST=true
               break
             fi
           done
-          echo "tests_only=$TESTS_ONLY" >> "$GITHUB_OUTPUT"
+          
+          # 如果没有BUILD TEST关键字，检查是否为main分支
+          if [[ "$ENABLE_BUILD_TEST" == "false" ]]; then
+            if [[ "$REF_NAME" == "main" ]]; then
+              echo "📍 检测到main分支，默认启用构建测试"
+              ENABLE_BUILD_TEST=true
+            else
+              echo "🚫 非main分支且无[BUILD TEST]关键字，跳过构建测试"
+              ENABLE_BUILD_TEST=false
+            fi
+          fi
+          
+          echo "enable_build_test=$ENABLE_BUILD_TEST" >> "$GITHUB_OUTPUT"
           
           # 解析流水线类型和构建类型
           PIPELINE_TYPE=""
@@ -167,11 +183,7 @@ jobs:
               ;;
           esac
           
-          # 如果设置了TEST ONLY，强制设为仅测试
-          if [[ "$TESTS_ONLY" == "true" ]]; then
-            BUILD_TYPE="preview"
-            PIPELINE_TYPE="ci_only"
-          fi
+
           
           echo "should_run=true" >> "$GITHUB_OUTPUT"
           echo "pipeline_type=$PIPELINE_TYPE" >> "$GITHUB_OUTPUT"
@@ -184,14 +196,14 @@ jobs:
             --arg ref_type "$REF_TYPE" \
             --arg pipeline_type "$PIPELINE_TYPE" \
             --arg build_type "$BUILD_TYPE" \
-            --arg tests_only "$TESTS_ONLY" \
+            --arg enable_build_test "$ENABLE_BUILD_TEST" \
             '{
               "trigger_source": $trigger_source,
               "ref_name": $ref_name,
               "ref_type": $ref_type,
               "pipeline_type": $pipeline_type,
               "build_type": $build_type,
-              "tests_only": $tests_only
+              "enable_build_test": $enable_build_test
             }')
           
           # 将DEBUG_INFO进行base64编码以避免特殊字符问题
@@ -201,7 +213,7 @@ jobs:
           echo "✅ 流水线解析完成:"
           echo "  - 流水线类型: $PIPELINE_TYPE"
           echo "  - 构建类型: $BUILD_TYPE"
-          echo "  - 仅测试: $TESTS_ONLY"
+          echo "  - 启用构建测试: $ENABLE_BUILD_TEST"
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 🛡️ 配置和Secrets验证  
@@ -297,7 +309,7 @@ jobs:
     uses: ./.github/workflows/prepare-metadata.yml
     with:
       buildType: ${{ needs.parse_trigger.outputs.build_type }}
-      testsOnly: ${{ needs.parse_trigger.outputs.tests_only == 'true' }}
+      testsOnly: false
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 📝 流水线触发详细说明
@@ -322,7 +334,7 @@ jobs:
           echo "| commit信息 | \`${{ needs.parse_trigger.outputs.commit_message }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 流水线类型 | \`${{ needs.parse_trigger.outputs.pipeline_type }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 构建类型 | \`${{ needs.parse_trigger.outputs.build_type }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 仅测试模式 | ${{ needs.parse_trigger.outputs.tests_only == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 启用构建测试 | ${{ needs.parse_trigger.outputs.enable_build_test == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## 预计将要触发的Workflow" >> $GITHUB_STEP_SUMMARY
           if [[ "${{ needs.parse_trigger.outputs.pipeline_type }}" == "ci_only" ]]; then
@@ -394,7 +406,6 @@ jobs:
             echo "🚀 即将通过workflow_call触发CI流水线..."
             echo "📋 流水线参数:"
             echo "  - 构建目标: ${{ needs.prepare_metadata.outputs.buildTargets }}"
-            echo "  - 仅测试: ${{ needs.parse_trigger.outputs.tests_only }}"
             echo "  - 构建类型: ${{ needs.prepare_metadata.outputs.buildType }}"
             
             echo "✅ 参数准备完成，将在下一个job中调用CI流水线"
@@ -486,10 +497,11 @@ jobs:
     uses: ./.github/workflows/ci-pipeline.yml
     with:
       buildTargets: ${{ needs.prepare_metadata.outputs.buildTargets }}
-      testsOnly: ${{ needs.parse_trigger.outputs.tests_only }}
+      testsOnly: false
       buildType: ${{ needs.prepare_metadata.outputs.buildType }}
       triggerSource: ${{ needs.parse_trigger.outputs.trigger_source }}
       enableDebug: false
+      enableBuildTest: ${{ needs.parse_trigger.outputs.enable_build_test }}
     secrets:
       UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
       UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
@@ -522,7 +534,7 @@ jobs:
           echo "| 是否执行 | ${{ needs.parse_trigger.outputs.should_run == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 流水线类型 | \`${{ needs.parse_trigger.outputs.pipeline_type }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 构建类型 | \`${{ needs.parse_trigger.outputs.build_type }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 仅测试模式 | ${{ needs.parse_trigger.outputs.tests_only == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 启用构建测试 | ${{ needs.parse_trigger.outputs.enable_build_test == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
           
           if [[ "${{ needs.parse_trigger.outputs.should_run }}" != "true" ]]; then
             echo "| 跳过原因 | \`${{ needs.parse_trigger.outputs.skip_reason }}\` |" >> $GITHUB_STEP_SUMMARY

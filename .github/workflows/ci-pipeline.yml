@@ -28,6 +28,11 @@ on:
         required: false
         default: false
         type: boolean
+      enableBuildTest:
+        description: "是否启用构建测试"
+        required: false
+        default: 'true'
+        type: string
     secrets:
       UNITY_EMAIL:
         required: true
@@ -202,12 +207,7 @@ jobs:
               exit 0
             fi
             
-            # 检查仅测试关键字
-            if [[ "$COMMIT_MSG" == *"[TEST ONLY]"* ]]; then
-              echo "🧪 检测到仅测试关键字，将覆盖testsOnly设置"
-              # 更新配置输出
-              sed -i 's/testsOnly=.*/testsOnly=true/' "$GITHUB_OUTPUT"
-            fi
+
           fi
           
           # 验证构建目标
@@ -243,6 +243,7 @@ jobs:
           echo "| Unity版本 | \`${{ steps.config.outputs.unityVersion }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 构建类型 | \`${{ steps.config.outputs.buildType }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 仅测试模式 | ${{ steps.config.outputs.testsOnly == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 启用构建测试 | ${{ inputs.enableBuildTest == 'true' && '✅ 是' || '❌ 否' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 构建目标 | \`${{ steps.config.outputs.buildTargets }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| 触发源 | \`${{ inputs.triggerSource || github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
           
@@ -282,6 +283,7 @@ jobs:
       always() &&
       needs.parse_config.outputs.shouldRun == 'true' &&
       needs.parse_config.outputs.testsOnly != 'true' &&
+      inputs.enableBuildTest == 'true' &&
       (needs.run_tests.result == 'success' || needs.run_tests.result == 'skipped')
     uses: ./.github/workflows/step-2-build.yml
     with:
@@ -375,7 +377,7 @@ jobs:
             echo "| Unity测试 | $TEST_STATUS | $TEST_RESULT |" >> $GITHUB_STEP_SUMMARY
             
             # 构建执行
-            if [[ "${{ needs.parse_config.outputs.testsOnly }}" != "true" ]]; then
+            if [[ "${{ needs.parse_config.outputs.testsOnly }}" != "true" && "${{ inputs.enableBuildTest }}" == "true" ]]; then
               BUILD_STATUS="❌ 失败"
               BUILD_RESULT=""
               case "${{ needs.run_build.result }}" in
@@ -388,15 +390,17 @@ jobs:
                   ;;
                 "skipped")
                   BUILD_STATUS="⏭️ 跳过"
-                  BUILD_RESULT="跳过构建 (测试失败或仅测试模式)"
+                  BUILD_RESULT="跳过构建 (测试失败)"
                   ;;
                 *)
                   BUILD_RESULT="未执行或状态未知"
                   ;;
               esac
               echo "| Unity构建 | $BUILD_STATUS | $BUILD_RESULT |" >> $GITHUB_STEP_SUMMARY
-            else
+            elif [[ "${{ needs.parse_config.outputs.testsOnly }}" == "true" ]]; then
               echo "| Unity构建 | ⏭️ 跳过 | 仅测试模式已启用 |" >> $GITHUB_STEP_SUMMARY
+            elif [[ "${{ inputs.enableBuildTest }}" != "true" ]]; then
+              echo "| Unity构建 | ⏭️ 跳过 | 构建测试已禁用 |" >> $GITHUB_STEP_SUMMARY
             fi
           fi
           
