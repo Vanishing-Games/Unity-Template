@@ -176,7 +176,10 @@ public class CodeUnfuckerWindow : OdinMenuEditorWindow
         private bool spacer2;
 
         [ShowIf("enableFormatting")]
-        [InfoBox("格式化功能会重新排列类成员并添加Region宏", InfoMessageType.None)]
+        [InfoBox(
+            "格式化功能会重新排列类成员并添加Region宏，然后使用CSharpier进行最终格式化",
+            InfoMessageType.None
+        )]
         [LabelText("创建备份文件")]
         public bool createBackup = true;
 
@@ -230,13 +233,20 @@ public class CodeUnfuckerWindow : OdinMenuEditorWindow
         private void ExecuteFormatting(string fullPath, string assetPath)
         {
             Logger.EditorLogInfo($"🔧 正在格式化: {assetPath}", LogTag.CodeUnfucker);
+            // 1. 更新 CodeUnfucker 的备份配置
+            UpdateCodeUnfuckerBackupConfig();
+            // 2. 执行 CodeUnfucker 格式化
             if (File.Exists(fullPath) && fullPath.EndsWith(".cs"))
             {
                 CodeUnfuckerBridge.FormatCodeFile(fullPath);
+                // 3. 对单个文件执行 CSharpier 格式化
+                ExecuteCSharpierFormatting(fullPath);
             }
             else if (Directory.Exists(fullPath))
             {
                 CodeUnfuckerBridge.FormatCodeDirectory(fullPath);
+                // 3. 对目录中的所有 .cs 文件执行 CSharpier 格式化
+                ExecuteCSharpierFormattingForDirectory(fullPath);
             }
         }
 
@@ -506,6 +516,183 @@ public class CodeUnfuckerWindow : OdinMenuEditorWindow
             selectedPaths.Clear();
             selectedPaths.AddRange(items.Select(x => x.Path));
         }
+
+        private void UpdateCodeUnfuckerBackupConfig()
+        {
+            try
+            {
+                string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
+                string codeUnfuckerConfigPath = Path.Combine(
+                    projectRoot,
+                    "CodeUnfucker",
+                    "Config",
+                    "FormatterConfig.json"
+                );
+                if (!File.Exists(codeUnfuckerConfigPath))
+                {
+                    Logger.EditorLogWarn(
+                        $"CodeUnfucker 配置文件不存在: {codeUnfuckerConfigPath}",
+                        LogTag.CodeUnfucker
+                    );
+                    return;
+                }
+
+                // 读取当前配置
+                string jsonContent = File.ReadAllText(codeUnfuckerConfigPath);
+                // 使用简单的字符串替换来更新备份设置
+                string backupValue = createBackup ? "true" : "false";
+                string pattern = "\"CreateBackupFiles\"\\s*:\\s*(true|false)";
+                string replacement = $"\"CreateBackupFiles\": {backupValue}";
+                string updatedContent = System.Text.RegularExpressions.Regex.Replace(
+                    jsonContent,
+                    pattern,
+                    replacement,
+                    System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                );
+                // 写回配置文件
+                File.WriteAllText(codeUnfuckerConfigPath, updatedContent);
+                Logger.EditorLogInfo(
+                    $"已更新 CodeUnfucker 备份配置: {createBackup}",
+                    LogTag.CodeUnfucker
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.EditorLogError(
+                    $"更新 CodeUnfucker 备份配置失败: {ex.Message}",
+                    LogTag.CodeUnfucker
+                );
+            }
+        }
+
+        private void ExecuteCSharpierFormatting(string filePath)
+        {
+            try
+            {
+                Logger.EditorLogInfo(
+                    $"🎨 CSharpier 格式化文件: {Path.GetFileName(filePath)}",
+                    LogTag.CodeUnfucker
+                );
+                string dotnetPath = GetDotnetPath();
+                if (string.IsNullOrEmpty(dotnetPath))
+                {
+                    Logger.EditorLogWarn(
+                        "未找到 dotnet 路径，跳过 CSharpier 格式化",
+                        LogTag.CodeUnfucker
+                    );
+                    return;
+                }
+
+                var process = new Process();
+                process.StartInfo.FileName = dotnetPath;
+                process.StartInfo.Arguments = $"csharpier \"{filePath}\"";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WorkingDirectory = Path.GetFullPath(
+                    Path.Combine(Application.dataPath, "..")
+                );
+                process.OutputDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                        Logger.EditorLogInfo($"[CSharpier] {e.Data}", LogTag.CodeUnfucker);
+                };
+                process.ErrorDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                        Logger.EditorLogWarn($"[CSharpier] {e.Data}", LogTag.CodeUnfucker);
+                };
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+                if (process.ExitCode == 0)
+                {
+                    Logger.EditorLogInfo(
+                        $"✅ CSharpier 格式化完成: {Path.GetFileName(filePath)}",
+                        LogTag.CodeUnfucker
+                    );
+                }
+                else
+                {
+                    Logger.EditorLogWarn(
+                        $"⚠️ CSharpier 格式化警告，退出代码: {process.ExitCode}",
+                        LogTag.CodeUnfucker
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.EditorLogError(
+                    $"CSharpier 格式化失败 {filePath}: {ex.Message}",
+                    LogTag.CodeUnfucker
+                );
+            }
+        }
+
+        private void ExecuteCSharpierFormattingForDirectory(string directoryPath)
+        {
+            try
+            {
+                Logger.EditorLogInfo(
+                    $"🎨 CSharpier 格式化目录: {directoryPath}",
+                    LogTag.CodeUnfucker
+                );
+                string dotnetPath = GetDotnetPath();
+                if (string.IsNullOrEmpty(dotnetPath))
+                {
+                    Logger.EditorLogWarn(
+                        "未找到 dotnet 路径，跳过 CSharpier 格式化",
+                        LogTag.CodeUnfucker
+                    );
+                    return;
+                }
+
+                var process = new Process();
+                process.StartInfo.FileName = dotnetPath;
+                process.StartInfo.Arguments = $"csharpier \"{directoryPath}\"";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WorkingDirectory = Path.GetFullPath(
+                    Path.Combine(Application.dataPath, "..")
+                );
+                process.OutputDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                        Logger.EditorLogInfo($"[CSharpier] {e.Data}", LogTag.CodeUnfucker);
+                };
+                process.ErrorDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                        Logger.EditorLogWarn($"[CSharpier] {e.Data}", LogTag.CodeUnfucker);
+                };
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+                if (process.ExitCode == 0)
+                {
+                    Logger.EditorLogInfo($"✅ CSharpier 目录格式化完成", LogTag.CodeUnfucker);
+                }
+                else
+                {
+                    Logger.EditorLogWarn(
+                        $"⚠️ CSharpier 目录格式化警告，退出代码: {process.ExitCode}",
+                        LogTag.CodeUnfucker
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.EditorLogError(
+                    $"CSharpier 目录格式化失败 {directoryPath}: {ex.Message}",
+                    LogTag.CodeUnfucker
+                );
+            }
+        }
     }
 
     [System.Serializable]
@@ -533,143 +720,6 @@ public class CodeUnfuckerWindow : OdinMenuEditorWindow
         public List<string> customPaths = new List<string>();
     }
     #endregion
-
     private OperationPanel operationPanel = new OperationPanel();
     private PropertyTree operationPanelTree;
-}
-
-public class DotnetConfigWindow : OdinEditorWindow
-{
-    public void SetConfig(CodeUnfuckerWindow.CodeUnfuckerConfig config)
-    {
-        this.config = config;
-        if (configTree != null)
-        {
-            configTree.Dispose();
-        }
-
-        configTree = PropertyTree.Create(config);
-    }
-
-    #region Unity LifeCycle
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        if (config == null)
-        {
-            config = new CodeUnfuckerWindow.CodeUnfuckerConfig();
-        }
-
-        configTree = PropertyTree.Create(config);
-    }
-
-    protected override void OnDestroy()
-    {
-        configTree?.Dispose();
-        base.OnDestroy();
-    }
-
-    protected override void OnGUI()
-    {
-        if (configTree == null || config == null)
-        {
-            GUILayout.Label("配置未加载", EditorStyles.boldLabel);
-            return;
-        }
-
-        GUILayout.Space(10);
-        EditorGUILayout.HelpBox(
-            "环境变量: 系统会按顺序检查这些环境变量\n"
-                + "默认搜索路径: 系统默认的 dotnet 安装位置\n"
-                + "自定义路径: 您可以添加自己的 dotnet 路径",
-            MessageType.Info
-        );
-        GUILayout.Space(10);
-        configTree.Draw(false);
-        GUILayout.Space(20);
-        GUILayout.BeginHorizontal();
-        {
-            if (GUILayout.Button("💾 保存配置", GUILayout.Height(30)))
-            {
-                SaveConfig();
-            }
-
-            if (GUILayout.Button("🔄 重置为默认", GUILayout.Height(30)))
-            {
-                ResetToDefault();
-            }
-
-            if (GUILayout.Button("🔍 测试配置", GUILayout.Height(30)))
-            {
-                TestConfig();
-            }
-        }
-
-        GUILayout.EndHorizontal();
-    }
-    #endregion
-
-    #region Private
-    private void SaveConfig()
-    {
-        try
-        {
-            string configDir = Path.Combine(Application.dataPath, "..", "ProjectConfig");
-            string configPath = Path.Combine(configDir, "CodeUnfuckerConfig.json");
-            if (!Directory.Exists(configDir))
-            {
-                Directory.CreateDirectory(configDir);
-            }
-
-            string json = JsonUtility.ToJson(config, true);
-            File.WriteAllText(configPath, json);
-            Logger.EditorLogInfo($"配置已保存到: {configPath}", LogTag.CodeUnfucker);
-            ShowNotification(new GUIContent("配置已保存"));
-        }
-        catch (Exception ex)
-        {
-            Logger.EditorLogError($"保存配置失败: {ex.Message}", LogTag.CodeUnfucker);
-            ShowNotification(new GUIContent("保存失败"));
-        }
-    }
-
-    private void ResetToDefault()
-    {
-        if (
-            EditorUtility.DisplayDialog(
-                "重置配置",
-                "确定要重置为默认配置吗？这将丢失所有自定义设置。",
-                "确定",
-                "取消"
-            )
-        )
-        {
-            config = new CodeUnfuckerWindow.CodeUnfuckerConfig();
-            SetConfig(config);
-            ShowNotification(new GUIContent("已重置为默认配置"));
-        }
-    }
-
-    private void TestConfig()
-    {
-        var window = EditorWindow.GetWindow<CodeUnfuckerWindow>();
-        string detectedPath = window.DetectDotnetPath();
-        if (string.IsNullOrEmpty(detectedPath))
-        {
-            Logger.EditorLogWarn("使用当前配置未检测到 dotnet 路径", LogTag.CodeUnfucker);
-            ShowNotification(new GUIContent("未检测到 dotnet"));
-        }
-        else
-        {
-            Logger.EditorLogInfo(
-                $"使用当前配置检测到 dotnet 路径: {detectedPath}",
-                LogTag.CodeUnfucker
-            );
-            ShowNotification(new GUIContent($"检测到: {Path.GetFileName(detectedPath)}"));
-        }
-    }
-    #endregion
-
-    private CodeUnfuckerWindow.CodeUnfuckerConfig config;
-    private PropertyTree configTree;
 }

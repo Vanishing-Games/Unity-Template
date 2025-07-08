@@ -48,11 +48,13 @@ public static class CodeUnfuckerBridge
     public static void FormatCodeFile(string filePath)
     {
         ExecuteCodeUnfucker("format", filePath);
+        ExecuteCSharpierFormatting(filePath);
     }
 
     public static void FormatCodeDirectory(string directoryPath)
     {
         ExecuteCodeUnfucker("format", directoryPath);
+        ExecuteCSharpierFormattingForDirectory(directoryPath);
     }
 
     public static void ExecuteCodeUnfucker(string command, string path)
@@ -241,8 +243,133 @@ public static class CodeUnfuckerBridge
 
         return null;
     }
-    #endregion
 
+    static void ExecuteCSharpierFormatting(string filePath)
+    {
+        try
+        {
+            Logger.EditorLogInfo(
+                $"🎨 CSharpier 格式化文件: {Path.GetFileName(filePath)}",
+                LogTag.CodeUnfucker
+            );
+            string dotnetPath = GetDotnetExecutablePath();
+            if (string.IsNullOrEmpty(dotnetPath))
+            {
+                Logger.EditorLogWarn(
+                    "未找到 dotnet 路径，跳过 CSharpier 格式化",
+                    LogTag.CodeUnfucker
+                );
+                return;
+            }
+
+            var process = new Process();
+            process.StartInfo.FileName = dotnetPath;
+            process.StartInfo.Arguments = $"csharpier \"{filePath}\"";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.WorkingDirectory = Path.GetFullPath(
+                Path.Combine(Application.dataPath, "..")
+            );
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                    Logger.EditorLogInfo($"[CSharpier] {e.Data}", LogTag.CodeUnfucker);
+            };
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                    Logger.EditorLogWarn($"[CSharpier] {e.Data}", LogTag.CodeUnfucker);
+            };
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            if (process.ExitCode == 0)
+            {
+                Logger.EditorLogInfo(
+                    $"✅ CSharpier 格式化完成: {Path.GetFileName(filePath)}",
+                    LogTag.CodeUnfucker
+                );
+            }
+            else
+            {
+                Logger.EditorLogWarn(
+                    $"⚠️ CSharpier 格式化警告，退出代码: {process.ExitCode}",
+                    LogTag.CodeUnfucker
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.EditorLogError(
+                $"CSharpier 格式化失败 {filePath}: {ex.Message}",
+                LogTag.CodeUnfucker
+            );
+        }
+    }
+
+    static void ExecuteCSharpierFormattingForDirectory(string directoryPath)
+    {
+        try
+        {
+            Logger.EditorLogInfo($"🎨 CSharpier 格式化目录: {directoryPath}", LogTag.CodeUnfucker);
+            string dotnetPath = GetDotnetExecutablePath();
+            if (string.IsNullOrEmpty(dotnetPath))
+            {
+                Logger.EditorLogWarn(
+                    "未找到 dotnet 路径，跳过 CSharpier 格式化",
+                    LogTag.CodeUnfucker
+                );
+                return;
+            }
+
+            var process = new Process();
+            process.StartInfo.FileName = dotnetPath;
+            process.StartInfo.Arguments = $"csharpier \"{directoryPath}\"";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.WorkingDirectory = Path.GetFullPath(
+                Path.Combine(Application.dataPath, "..")
+            );
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                    Logger.EditorLogInfo($"[CSharpier] {e.Data}", LogTag.CodeUnfucker);
+            };
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                    Logger.EditorLogWarn($"[CSharpier] {e.Data}", LogTag.CodeUnfucker);
+            };
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            if (process.ExitCode == 0)
+            {
+                Logger.EditorLogInfo($"✅ CSharpier 目录格式化完成", LogTag.CodeUnfucker);
+            }
+            else
+            {
+                Logger.EditorLogWarn(
+                    $"⚠️ CSharpier 目录格式化警告，退出代码: {process.ExitCode}",
+                    LogTag.CodeUnfucker
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.EditorLogError(
+                $"CSharpier 目录格式化失败 {directoryPath}: {ex.Message}",
+                LogTag.CodeUnfucker
+            );
+        }
+    }
+    #endregion
     static readonly string configRelativePath = Path.Combine(
         "ProjectConfig",
         "CodeUnfuckerConfig.json"

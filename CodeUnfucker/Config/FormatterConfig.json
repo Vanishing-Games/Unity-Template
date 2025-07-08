@@ -4,7 +4,7 @@
   "FormatterSettings": {
     "MinLinesForRegion": 15,
     "EnableRegionGeneration": true,
-    "CreateBackupFiles": true,
+    "CreateBackupFiles": false,
     "BackupFileExtension": ".backup"
   },
   "MemberOrdering": {
