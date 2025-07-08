@@ -11,31 +11,14 @@ using Logger = Core.Logger;
 [InitializeOnLoad]
 public static class CodeUnfuckerBridge
 {
-    static readonly string configRelativePath = Path.Combine(
-        "Settings",
-        ".codeunfuckerbridgeconfig"
-    );
-    static readonly string configFilePath;
-
-    static CodeUnfuckerBridge()
+    #region Public
+    [MenuItem("Tools/CodeUnfucker/Open CodeUnfucker Window")]
+    public static void OpenCodeUnfuckerWindow()
     {
-        configFilePath = Path.Combine(
-            Path.GetFullPath(Path.Combine(Application.dataPath, "..")),
-            configRelativePath
-        );
-        CompilationPipeline.compilationFinished += OnCompilationFinished;
+        CodeUnfuckerWindow.OpenWindow();
     }
 
-    static void OnCompilationFinished(object obj)
-    {
-        if (Application.isBatchMode)
-            return;
-
-        var scriptsPath = Path.Combine(Application.dataPath, "Scripts");
-        ExecuteCodeUnfucker("analyze", scriptsPath);
-    }
-
-    [MenuItem("CodeUnfucker/Format Code")]
+    [MenuItem("Tools/CodeUnfucker/Format Selected", false, 20)]
     public static void FormatSelectedCode()
     {
         var selection = Selection.objects;
@@ -50,9 +33,7 @@ public static class CodeUnfuckerBridge
             string assetPath = AssetDatabase.GetAssetPath(obj);
             if (string.IsNullOrEmpty(assetPath))
                 continue;
-
             string fullPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", assetPath));
-
             if (File.Exists(fullPath) && fullPath.EndsWith(".cs"))
             {
                 FormatCodeFile(fullPath);
@@ -74,14 +55,13 @@ public static class CodeUnfuckerBridge
         ExecuteCodeUnfucker("format", directoryPath);
     }
 
-    private static void ExecuteCodeUnfucker(string command, string path)
+    public static void ExecuteCodeUnfucker(string command, string path)
     {
         string dotnetExe = GetDotnetExecutablePath();
-
         if (string.IsNullOrEmpty(dotnetExe))
         {
             Logger.EditorLogError(
-                "环境检测失败: 未找到 dotnet 命令.\n你可以在项目根目录创建 Settings/.codeunfuckerbridgeconfig 文件, 内容写入 dotnet 绝对路径, 或确保系统 PATH 中包含 dotnet.",
+                "环境检测失败: 未找到 dotnet 命令.\n请使用 CodeUnfucker 窗口配置 dotnet 路径，或确保系统 PATH 中包含 dotnet.",
                 LogTag.CodeUnfucker
             );
             return;
@@ -96,7 +76,6 @@ public static class CodeUnfuckerBridge
             "net9.0",
             "CodeUnfucker.dll"
         );
-
         if (!File.Exists(dllPath))
         {
             Logger.EditorLogWarn(
@@ -113,7 +92,6 @@ public static class CodeUnfuckerBridge
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
         process.StartInfo.CreateNoWindow = true;
-
         if (IsDefaultDotnet(dotnetExe))
         {
             string dotnetDir = Path.GetDirectoryName(dotnetExe);
@@ -130,13 +108,11 @@ public static class CodeUnfuckerBridge
             if (!string.IsNullOrEmpty(e.Data))
                 Logger.EditorLogInfo($"{e.Data}", LogTag.CodeUnfucker);
         };
-
         process.ErrorDataReceived += (sender, e) =>
         {
             if (!string.IsNullOrEmpty(e.Data))
                 Logger.EditorLogError($"{e.Data}", LogTag.CodeUnfucker);
         };
-
         try
         {
             Logger.EditorLogInfo($"执行 CodeUnfucker {command} 命令: {path}", LogTag.CodeUnfucker);
@@ -144,10 +120,8 @@ public static class CodeUnfuckerBridge
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-
             if (command == "format")
             {
-                // 格式化完成后刷新Asset Database
                 AssetDatabase.Refresh();
                 Logger.EditorLogInfo("代码格式化完成，已刷新Asset Database", LogTag.CodeUnfucker);
             }
@@ -157,6 +131,25 @@ public static class CodeUnfuckerBridge
             Logger.EditorLogError($"运行失败: {ex.Message}", LogTag.CodeUnfucker);
         }
     }
+    #endregion
+
+    #region Private
+    static CodeUnfuckerBridge()
+    {
+        configFilePath = Path.Combine(
+            Path.GetFullPath(Path.Combine(Application.dataPath, "..")),
+            configRelativePath
+        );
+        CompilationPipeline.compilationFinished += OnCompilationFinished;
+    }
+
+    static void OnCompilationFinished(object obj)
+    {
+        if (Application.isBatchMode)
+            return;
+        var scriptsPath = Path.Combine(Application.dataPath, "Scripts");
+        ExecuteCodeUnfucker("analyze", scriptsPath);
+    }
 
     static string GetDotnetExecutablePath()
     {
@@ -164,38 +157,56 @@ public static class CodeUnfuckerBridge
         {
             try
             {
-                string configDotnetPath = File.ReadAllText(configFilePath).Trim();
-                if (!string.IsNullOrEmpty(configDotnetPath) && File.Exists(configDotnetPath))
+                string json = File.ReadAllText(configFilePath);
+                var config = JsonUtility.FromJson<CodeUnfuckerWindow.CodeUnfuckerConfig>(json);
+                // 1. 检查环境变量
+                foreach (var envVar in config.dotnetPaths.environmentVariables)
                 {
-                    return configDotnetPath;
+                    string envPath = Environment.GetEnvironmentVariable(envVar);
+                    if (!string.IsNullOrEmpty(envPath) && File.Exists(envPath))
+                    {
+                        return envPath;
+                    }
                 }
-                else if (!string.IsNullOrEmpty(configDotnetPath))
+
+                // 2. 检查自定义路径
+                foreach (var customPath in config.dotnetPaths.customPaths)
                 {
-                    Logger.EditorLogWarn(
-                        $"配置文件 Settings/.codeunfuckerbridgeconfig 中的 dotnet 路径无效或不存在\n绝对路径: {configFilePath}",
-                        LogTag.CodeUnfucker
-                    );
+                    if (File.Exists(customPath))
+                    {
+                        return customPath;
+                    }
                 }
-                else
+
+                // 3. 检查默认搜索路径
+                foreach (var defaultPath in config.dotnetPaths.defaultSearchPaths)
                 {
-                    Logger.EditorLogWarn(
-                        $"配置文件 Settings/.codeunfuckerbridgeconfig 中的 dotnet 为空!",
-                        LogTag.CodeUnfucker
-                    );
+                    if (defaultPath == "dotnet")
+                    {
+                        string foundPath = FindExecutableInPath("dotnet");
+                        if (!string.IsNullOrEmpty(foundPath))
+                        {
+                            return foundPath;
+                        }
+                    }
+                    else if (File.Exists(defaultPath))
+                    {
+                        return defaultPath;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Logger.EditorLogWarn(
-                    $"读取配置文件 Settings/.codeunfuckerbridgeconfig 出错: {ex.Message}\n绝对路径: {configFilePath}",
+                    $"读取配置文件 ProjectConfig/CodeUnfuckerConfig.json 出错: {ex.Message}\n绝对路径: {configFilePath}",
                     LogTag.CodeUnfucker
                 );
             }
         }
         else
         {
-            Logger.EditorLogWarn(
-                $"配置文件 Settings/.codeunfuckerbridgeconfig 不存在, 将尝试自动查找 dotnet.\n绝对路径: {configFilePath}",
+            Logger.EditorLogInfo(
+                $"配置文件 ProjectConfig/CodeUnfuckerConfig.json 不存在, 将尝试自动查找 dotnet.\n绝对路径: {configFilePath}",
                 LogTag.CodeUnfucker
             );
         }
@@ -213,13 +224,11 @@ public static class CodeUnfuckerBridge
         string pathEnv = Environment.GetEnvironmentVariable("PATH");
         if (string.IsNullOrEmpty(pathEnv))
             return null;
-
         string[] paths = pathEnv.Split(Path.PathSeparator);
         string[] extensions =
             Environment.OSVersion.Platform == PlatformID.Win32NT
                 ? new[] { ".exe", ".bat", ".cmd", "" }
                 : new[] { "" };
-
         foreach (var path in paths)
         {
             foreach (var ext in extensions)
@@ -232,4 +241,11 @@ public static class CodeUnfuckerBridge
 
         return null;
     }
+    #endregion
+
+    static readonly string configRelativePath = Path.Combine(
+        "ProjectConfig",
+        "CodeUnfuckerConfig.json"
+    );
+    static readonly string configFilePath;
 }
