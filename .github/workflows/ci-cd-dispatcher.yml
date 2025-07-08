@@ -124,12 +124,25 @@ jobs:
           
           # 如果没有BUILD TEST关键字，检查是否为main分支
           if [[ "$ENABLE_BUILD_TEST" == "false" ]]; then
-            if [[ "$REF_NAME" == "main" ]]; then
-              echo "📍 检测到main分支，默认启用构建测试"
-              ENABLE_BUILD_TEST=true
+            # 对于PR事件，检查目标分支；对于其他事件，检查当前分支
+            if [[ "$TRIGGER_SOURCE" == "pull_request" ]]; then
+              TARGET_BRANCH="${{ github.event.pull_request.base.ref || '' }}"
+              echo "🔍 PR目标分支: $TARGET_BRANCH"
+              if [[ "$TARGET_BRANCH" == "main" ]]; then
+                echo "📍 检测到PR目标分支为main，默认启用构建测试"
+                ENABLE_BUILD_TEST=true
+              else
+                echo "🚫 PR目标分支非main ($TARGET_BRANCH) 且无[BUILD TEST]关键字，跳过构建测试"
+                ENABLE_BUILD_TEST=false
+              fi
             else
-              echo "🚫 非main分支且无[BUILD TEST]关键字，跳过构建测试"
-              ENABLE_BUILD_TEST=false
+              if [[ "$REF_NAME" == "main" ]]; then
+                echo "📍 检测到main分支，默认启用构建测试"
+                ENABLE_BUILD_TEST=true
+              else
+                echo "🚫 非main分支且无[BUILD TEST]关键字，跳过构建测试"
+                ENABLE_BUILD_TEST=false
+              fi
             fi
           fi
           
