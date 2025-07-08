@@ -42,6 +42,8 @@
 ExportedObj/
 .consulo/
 *.csproj
+# Exception: Keep CodeUnfucker project files
+!CodeUnfucker/*.csproj
 *.unityproj
 *.sln
 *.suo

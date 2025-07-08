@@ -1,0 +1,37 @@
+{
+  "Description": "CodeUnfucker 代码分析功能配置",
+  "Version": "1.0.0",
+  "AnalyzerSettings": {
+    "EnableSyntaxAnalysis": true,
+    "EnableSemanticAnalysis": true,
+    "EnableDiagnostics": true,
+    "ShowReferencedAssemblies": true,
+    "VerboseLogging": false
+  },
+  "FileFilters": {
+    "IncludePatterns": [
+      "*.cs"
+    ],
+    "ExcludePatterns": [
+      "*.Designer.cs",
+      "*.generated.cs",
+      "**/bin/**",
+      "**/obj/**",
+      "**/Temp/**"
+    ],
+    "SearchSubdirectories": true
+  },
+  "OutputSettings": {
+    "LogLevel": "Info",
+    "ShowFileCount": true,
+    "ShowProcessingTime": true,
+    "ShowDetailedErrors": true
+  },
+  "StaticAnalysisRules": {
+    "CheckNamingConventions": true,
+    "CheckCodeComplexity": false,
+    "CheckUnusedVariables": false,
+    "CheckDocumentationComments": false,
+    "MaxComplexityThreshold": 10
+  }
+} 

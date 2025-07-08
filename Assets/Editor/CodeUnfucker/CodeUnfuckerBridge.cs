@@ -9,12 +9,15 @@ using UnityEngine;
 using Logger = Core.Logger;
 
 [InitializeOnLoad]
-public static class RoslynBridge
+public static class CodeUnfuckerBridge
 {
-    static readonly string configRelativePath = Path.Combine("Settings", ".roslynbridgeconfig");
+    static readonly string configRelativePath = Path.Combine(
+        "Settings",
+        ".codeunfuckerbridgeconfig"
+    );
     static readonly string configFilePath;
 
-    static RoslynBridge()
+    static CodeUnfuckerBridge()
     {
         configFilePath = Path.Combine(
             Path.GetFullPath(Path.Combine(Application.dataPath, "..")),
@@ -28,12 +31,58 @@ public static class RoslynBridge
         if (Application.isBatchMode)
             return;
 
+        var scriptsPath = Path.Combine(Application.dataPath, "Scripts");
+        ExecuteCodeUnfucker("analyze", scriptsPath);
+    }
+
+    [MenuItem("CodeUnfucker/Format Code")]
+    public static void FormatSelectedCode()
+    {
+        var selection = Selection.objects;
+        if (selection.Length == 0)
+        {
+            Logger.EditorLogWarn("请选择要格式化的文件或文件夹", LogTag.CodeUnfucker);
+            return;
+        }
+
+        foreach (var obj in selection)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(obj);
+            if (string.IsNullOrEmpty(assetPath))
+                continue;
+
+            string fullPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", assetPath));
+            
+            if (File.Exists(fullPath) && fullPath.EndsWith(".cs"))
+            {
+                FormatCodeFile(fullPath);
+            }
+            else if (Directory.Exists(fullPath))
+            {
+                FormatCodeDirectory(fullPath);
+            }
+        }
+    }
+
+    public static void FormatCodeFile(string filePath)
+    {
+        ExecuteCodeUnfucker("format", filePath);
+    }
+
+    public static void FormatCodeDirectory(string directoryPath)
+    {
+        ExecuteCodeUnfucker("format", directoryPath);
+    }
+
+    private static void ExecuteCodeUnfucker(string command, string path)
+    {
         string dotnetExe = GetDotnetExecutablePath();
+
         if (string.IsNullOrEmpty(dotnetExe))
         {
             Logger.EditorLogError(
-                "环境检测失败: 未找到 dotnet 命令.\n你可以在项目根目录创建 Settings/.roslynbridgeconfig 文件, 内容写入 dotnet 绝对路径, 或确保系统 PATH 中包含 dotnet.",
-                LogTag.Roslyn
+                "环境检测失败: 未找到 dotnet 命令.\n你可以在项目根目录创建 Settings/.codeunfuckerbridgeconfig 文件, 内容写入 dotnet 绝对路径, 或确保系统 PATH 中包含 dotnet.",
+                LogTag.CodeUnfucker
             );
             return;
         }
@@ -52,16 +101,14 @@ public static class RoslynBridge
         {
             Logger.EditorLogWarn(
                 $"分析器工具未找到: {dllPath}\n请先运行 dotnet build\n或者运行 Scripts/构建CodeUnfucker.bat 脚本",
-                LogTag.Roslyn
+                LogTag.CodeUnfucker
             );
             return;
         }
 
-        var scriptsPath = Path.Combine(Application.dataPath, "Scripts");
-
         var process = new Process();
         process.StartInfo.FileName = dotnetExe;
-        process.StartInfo.Arguments = $"\"{dllPath}\" \"{scriptsPath}\"";
+        process.StartInfo.Arguments = $"\"{dllPath}\" {command} \"{path}\"";
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
@@ -81,25 +128,33 @@ public static class RoslynBridge
         process.OutputDataReceived += (sender, e) =>
         {
             if (!string.IsNullOrEmpty(e.Data))
-                Logger.EditorLogInfo($"{e.Data}", LogTag.Roslyn);
+                Logger.EditorLogInfo($"{e.Data}", LogTag.CodeUnfucker);
         };
 
         process.ErrorDataReceived += (sender, e) =>
         {
             if (!string.IsNullOrEmpty(e.Data))
-                Logger.EditorLogError($"{e.Data}", LogTag.Roslyn);
+                Logger.EditorLogError($"{e.Data}", LogTag.CodeUnfucker);
         };
 
         try
         {
+            Logger.EditorLogInfo($"执行 CodeUnfucker {command} 命令: {path}", LogTag.CodeUnfucker);
             process.Start();
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
+            
+            if (command == "format")
+            {
+                // 格式化完成后刷新Asset Database
+                AssetDatabase.Refresh();
+                Logger.EditorLogInfo("代码格式化完成，已刷新Asset Database", LogTag.CodeUnfucker);
+            }
         }
         catch (Exception ex)
         {
-            Logger.EditorLogError($"运行失败: {ex.Message}", LogTag.Roslyn);
+            Logger.EditorLogError($"运行失败: {ex.Message}", LogTag.CodeUnfucker);
         }
     }
 
@@ -117,31 +172,31 @@ public static class RoslynBridge
                 else if (!string.IsNullOrEmpty(configDotnetPath))
                 {
                     Logger.EditorLogWarn(
-                        $"配置文件 Settings/.roslynbridgeconfig 中的 dotnet 路径无效或不存在\n绝对路径: {configFilePath}",
-                        LogTag.Roslyn
+                        $"配置文件 Settings/.codeunfuckerbridgeconfig 中的 dotnet 路径无效或不存在\n绝对路径: {configFilePath}",
+                        LogTag.CodeUnfucker
                     );
                 }
                 else
                 {
                     Logger.EditorLogWarn(
-                        $"配置文件 Settings/.roslynbridgeconfig 中的 dotnet 为空!",
-                        LogTag.Roslyn
+                        $"配置文件 Settings/.codeunfuckerbridgeconfig 中的 dotnet 为空!",
+                        LogTag.CodeUnfucker
                     );
                 }
             }
             catch (Exception ex)
             {
                 Logger.EditorLogWarn(
-                    $"读取配置文件 Settings/.roslynbridgeconfig 出错: {ex.Message}\n绝对路径: {configFilePath}",
-                    LogTag.Roslyn
+                    $"读取配置文件 Settings/.codeunfuckerbridgeconfig 出错: {ex.Message}\n绝对路径: {configFilePath}",
+                    LogTag.CodeUnfucker
                 );
             }
         }
         else
         {
             Logger.EditorLogWarn(
-                $"配置文件 Settings/.roslynbridgeconfig 不存在, 将尝试自动查找 dotnet.\n绝对路径: {configFilePath}",
-                LogTag.Roslyn
+                $"配置文件 Settings/.codeunfuckerbridgeconfig 不存在, 将尝试自动查找 dotnet.\n绝对路径: {configFilePath}",
+                LogTag.CodeUnfucker
             );
         }
 

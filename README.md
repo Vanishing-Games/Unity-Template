@@ -234,6 +234,92 @@ flowchart TD
 
 - 使用 [CSharpier](https://csharpier.com) 标准
 
+## 类成员排列顺序规范
+
+为提升代码可读性和维护性，类内部成员建议按照如下顺序排列（以实际示例为准）：
+
+1. 事件（Event）
+2. 属性（Property）
+3. 公有方法（public）
+4. 索引器（Indexer）
+5. 运算符重载、显式接口实现
+6. 构造函数、析构函数
+7. Unity 生命周期函数（如 Awake、OnEnable、Start、Update、OnDisable、OnDestroy 等）
+8. 保护方法（protected）
+9. 私有方法（private）
+10. 嵌套类型（类、结构体、枚举等）
+11. 常量、静态只读字段（`const`/`static readonly`）
+12. 静态字段、静态属性、静态事件
+13. 实例只读字段（`readonly`）
+14. 实例字段（含 `[SerializeField]` 字段）
+
+**Unity 生命周期函数补充说明：**
+- 所有生命周期函数建议统一放在构造/析构函数之后，保护/私有方法之前。
+- 推荐顺序：Awake → OnEnable → Start → Update → FixedUpdate → LateUpdate → OnDisable → OnDestroy → 其他回调（如 OnTriggerEnter、OnCollisionEnter、OnGUI 等）。
+- 建议用 `#region Unity Lifecycle` 包裹所有生命周期函数，便于查阅和维护。
+- 生命周期函数内部建议只做必要的初始化、状态切换、事件注册/注销等，复杂逻辑应拆分到私有方法中。
+
+**注意：**
+- 同一类型成员建议按访问修饰符排序（public > protected > private）。
+- Unity 项目中 `[SerializeField]` 字段建议靠前。
+- 可使用 `#region` 分组提升可读性。
+
+**示例：**
+
+```csharp
+public class Example : MonoBehaviour
+{
+    // 1. 事件
+    public event Action OnChanged;
+
+    // 2. 属性
+    public int Count { get; private set; }
+
+    // 3. 公有方法
+    public void DoSomething() { ... }
+
+    // 4. 索引器
+    public int this[int index] { get { ... } set { ... } }
+
+    // 5. 运算符重载
+    public static Example operator +(Example a, Example b) { ... }
+    
+    // 6. 构造/析构
+    public Example(int id) { ... }
+    ~Example() { ... }
+
+    // 7. Unity 生命周期函数
+    private void OnEnable() { ... }
+    private void Update() { ... }
+    private void OnDisable() { ... }
+   
+    // 8. 保护方法
+    protected void OnSomething() { ... }
+
+    // 9. 私有方法
+    private void Helper() { ... }
+
+    // 10. 嵌套类型
+    private class Nested { ... }
+    
+    // 11. 常量、静态只读字段
+    public const int MaxValue = 100;
+    private static readonly string Version = "1.0";
+
+    // 12. 静态字段/属性/事件
+    private static int s_counter;
+    public static int Counter => s_counter;
+    public static event Action OnStaticEvent;
+
+    // 13. 实例只读字段
+    private readonly int _id;
+
+    // 14. 实例字段
+    [SerializeField] private string name;
+    private int count;
+}
+```
+
 # 资产命名规范
 
 ## 命名格式: 
