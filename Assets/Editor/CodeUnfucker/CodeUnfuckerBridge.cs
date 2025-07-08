@@ -52,7 +52,7 @@ public static class CodeUnfuckerBridge
                 continue;
 
             string fullPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", assetPath));
-            
+
             if (File.Exists(fullPath) && fullPath.EndsWith(".cs"))
             {
                 FormatCodeFile(fullPath);
@@ -144,7 +144,7 @@ public static class CodeUnfuckerBridge
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
-            
+
             if (command == "format")
             {
                 // 格式化完成后刷新Asset Database
