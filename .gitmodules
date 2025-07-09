@@ -1,0 +1,3 @@
+[submodule "CodeUnfucker"]
+	path = CodeUnfucker
+	url = git@github.com:Vanishing-Games/CodeUnfucker.git
