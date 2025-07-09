@@ -24,14 +24,73 @@ jobs:
 
       - name: 安装 CSharpier
         run: |
-          dotnet tool install -g csharpier
+          echo "🔧 安装 CSharpier 全局工具..."
+          
+          # 确保 .dotnet 目录存在
+          mkdir -p "$HOME/.dotnet/tools"
+          
+          # 尝试安装或更新 CSharpier
+          if dotnet tool install -g csharpier --verbosity normal; then
+            echo "✅ CSharpier 安装成功"
+          elif dotnet tool update -g csharpier --verbosity normal; then
+            echo "✅ CSharpier 更新成功"
+          else
+            echo "❌ CSharpier 安装/更新失败，尝试强制重新安装"
+            dotnet tool uninstall -g csharpier 2>/dev/null || true
+            dotnet tool install -g csharpier --verbosity normal
+          fi
+          
+          # 将工具路径添加到环境变量
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+          export PATH="$HOME/.dotnet/tools:$PATH"
+          
+          # 验证安装
+          echo "🔍 验证 CSharpier 安装..."
+          if command -v dotnet-csharpier &> /dev/null; then
+            echo "✅ CSharpier 工具可用 (直接命令)"
+            dotnet-csharpier --version
+          elif dotnet csharpier --version &> /dev/null; then
+            echo "✅ CSharpier 工具可用 (dotnet 子命令)"
+            dotnet csharpier --version
+          else
+            echo "⚠️ CSharpier 工具验证失败，将在后续步骤中使用备用方法"
+          fi
+
+      - name: 📋 加载检查路径配置
+        id: load_paths
+        run: |
+          CONFIG_FILE=".github/config/roslyn-lint-config.json"
+          
+          if [[ -f "$CONFIG_FILE" ]]; then
+            CHECK_PATHS=$(jq -r '.checkPaths[]?' "$CONFIG_FILE" | tr '\n' ' ')
+            if [[ -z "$CHECK_PATHS" ]]; then
+              CHECK_PATHS="Assets"
+            fi
+          else
+            CHECK_PATHS="Assets"
+          fi
+          
+          echo "checkPaths=$CHECK_PATHS" >> "$GITHUB_OUTPUT"
+          echo "📂 将检查以下目录: $CHECK_PATHS"
 
       - name: 检查 C# 格式（CSharpier）
         id: csharpier
         run: |
-          echo "📂 正在检查 Assets/ 目录下的代码格式..."
-          if ! dotnet csharpier --check Assets; then
+          CHECK_PATHS="${{ steps.load_paths.outputs.checkPaths }}"
+          FORMAT_FAILED=false
+          
+          for path in $CHECK_PATHS; do
+            if [[ -d "$path" ]]; then
+              echo "📂 正在检查 $path 目录下的代码格式..."
+              if ! dotnet csharpier --check "$path"; then
+                FORMAT_FAILED=true
+              fi
+            else
+              echo "⚠️ 目录不存在，跳过: $path"
+            fi
+          done
+          
+          if [[ "$FORMAT_FAILED" == "true" ]]; then
             echo "FORMAT_FAILED=true" >> $GITHUB_ENV
           fi
 
@@ -45,7 +104,14 @@ jobs:
         if: ${{ inputs.allowAutofix == true }}
         run: |
           echo "🛠️ 允许自动格式化，正在应用更改..."
-          dotnet csharpier Assets
+          CHECK_PATHS="${{ steps.load_paths.outputs.checkPaths }}"
+          
+          for path in $CHECK_PATHS; do
+            if [[ -d "$path" ]]; then
+              echo "🔧 格式化目录: $path"
+              dotnet csharpier "$path"
+            fi
+          done
 
       - name: 运行 Unity 风格修复器
         if: ${{ inputs.allowAutofix == true }}
@@ -56,12 +122,30 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add Assets
-          git diff --cached --quiet || git commit -m "ROSLYN-AUTOFIX: auto-format C# files with CSharpier"
-          git push || echo "⚠️ 无法推送更改（可能是 PR 或无权限）"
+          
+          CHECK_PATHS="${{ steps.load_paths.outputs.checkPaths }}"
+          for path in $CHECK_PATHS; do
+            if [[ -d "$path" ]]; then
+              git add "$path"
+            fi
+          done
+          
+          if git diff --cached --quiet; then
+            echo "📝 没有需要提交的更改"
+          else
+            git commit -m "ROSLYN-AUTOFIX: auto-format C# files with CSharpier"
+            
+            if git push; then
+              echo "✅ 格式化更改已成功推送"
+            else
+              echo "⚠️ 无法推送更改（可能是 PR 或无权限）"
+            fi
+          fi
 
       - name: 添加汇总
         if: failure()
         run: |
           echo "❌ **检测到 CSharpier 格式问题**" >> $GITHUB_STEP_SUMMARY
           echo "请本地运行 \`dotnet csharpier .\` 或重新运行并设置 \`allowAutofix: true\`。" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**检查的目录:** ${{ steps.load_paths.outputs.checkPaths }}" >> $GITHUB_STEP_SUMMARY
