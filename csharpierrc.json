@@ -2,5 +2,16 @@
     "printWidth": 128,
     "useTabs": true,
     "indentSize": 4,
-    "endOfLine": "auto"
+    "endOfLine": "auto",
+    "exclude": [
+        "**/bin/**",
+        "**/obj/**",
+        "**/Packages/**",
+        "**/Library/**",
+        "**/Temp/**",
+        "**/.git/**",
+        "**/node_modules/**",
+        "Assets/Plugins/Sirenix/**",
+        "Assets/ThirdParty/**"
+    ]
 }

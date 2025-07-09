@@ -3,6 +3,16 @@ name: 📈 Roslyn 代码规范检查（CSharpier）
 on:
   workflow_call:
     inputs:
+      formatDirectories:
+        description: "要格式化的目录列表，用逗号分隔（如：Assets,CodeUnfucker/Src）"
+        required: false
+        default: "Assets,CodeUnfucker/Src"
+        type: string
+      excludeFiles:
+        description: "要排除的文件模式，用逗号分隔（如：**/Generated/*,**/Temp.*）"
+        required: false
+        default: ""
+        type: string
       allowAutofix:
         description: "是否允许自动格式化并提交"
         required: false
@@ -12,6 +22,11 @@ on:
         description: "是否允许格式化失败"
         required: false
         default: false
+        type: boolean
+      verboseOutput:
+        description: "是否显示详细输出（打印所有格式化的文件）"
+        required: false
+        default: true
         type: boolean
 
 jobs:
@@ -27,41 +42,266 @@ jobs:
           dotnet tool install -g csharpier
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
-      - name: 检查 C# 格式（CSharpier）
-        id: csharpier
+      - name: 创建格式化脚本
         run: |
-          echo "📂 正在检查 Assets/ 目录下的代码格式..."
-          if ! dotnet csharpier --check Assets; then
-            echo "FORMAT_FAILED=true" >> $GITHUB_ENV
+          cat > .github/scripts/csharpier-enhanced.sh << 'EOF'
+          #!/bin/bash
+
+          set -e
+
+          # 解析参数
+          DIRECTORIES="$1"
+          EXCLUDE_PATTERNS="$2"
+          CHECK_ONLY="$3"
+          VERBOSE="$4"
+
+          # 将逗号分隔的字符串转换为数组
+          IFS=',' read -ra DIRS <<< "$DIRECTORIES"
+          IFS=',' read -ra EXCLUDES <<< "$EXCLUDE_PATTERNS"
+
+          # 颜色输出
+          RED='\033[0;31m'
+          GREEN='\033[0;32m'
+          YELLOW='\033[1;33m'
+          BLUE='\033[0;34m'
+          NC='\033[0m' # No Color
+
+          echo -e "${BLUE}🔍 CSharpier 增强格式化脚本${NC}"
+          echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+
+          # 显示配置
+          echo -e "${YELLOW}📂 目标目录:${NC} $DIRECTORIES"
+          if [ -n "$EXCLUDE_PATTERNS" ]; then
+            echo -e "${YELLOW}❌ 排除模式:${NC} $EXCLUDE_PATTERNS"
+          fi
+          echo -e "${YELLOW}🔧 模式:${NC} $([ "$CHECK_ONLY" = "true" ] && echo "检查模式" || echo "格式化模式")"
+          echo ""
+
+          total_files=0
+          formatted_files=()
+          format_errors=()
+
+          # 处理每个目录
+          for dir in "${DIRS[@]}"; do
+            # 移除前后空格
+            dir=$(echo "$dir" | xargs)
+            
+            if [ ! -d "$dir" ]; then
+              echo -e "${YELLOW}⚠️  目录 '$dir' 不存在，跳过${NC}"
+              continue
+            fi
+
+            echo -e "${BLUE}� 处理目录: $dir${NC}"
+            
+            # 查找所有 .cs 文件
+            cs_files=$(find "$dir" -name "*.cs" -type f)
+            
+            if [ -z "$cs_files" ]; then
+              echo -e "${YELLOW}⚠️  在 '$dir' 中未找到 .cs 文件${NC}"
+              continue
+            fi
+
+            # 过滤排除的文件
+            filtered_files=()
+            while IFS= read -r file; do
+              should_exclude=false
+              
+              # 检查每个排除模式
+              for exclude in "${EXCLUDES[@]}"; do
+                exclude=$(echo "$exclude" | xargs) # 移除前后空格
+                if [ -n "$exclude" ]; then
+                  # 使用 case 模式匹配
+                  case "$file" in
+                    $exclude) should_exclude=true; break ;;
+                  esac
+                fi
+              done
+              
+              if [ "$should_exclude" = false ]; then
+                filtered_files+=("$file")
+              elif [ "$VERBOSE" = "true" ]; then
+                echo -e "  ${YELLOW}🚫 排除:${NC} $file"
+              fi
+            done <<< "$cs_files"
+
+            if [ ${#filtered_files[@]} -eq 0 ]; then
+              echo -e "${YELLOW}⚠️  在 '$dir' 中没有符合条件的 .cs 文件${NC}"
+              continue
+            fi
+
+            echo -e "  ${GREEN}✓ 找到 ${#filtered_files[@]} 个 .cs 文件${NC}"
+            total_files=$((total_files + ${#filtered_files[@]}))
+
+            # 对每个文件运行 CSharpier
+            for file in "${filtered_files[@]}"; do
+              if [ "$CHECK_ONLY" = "true" ]; then
+                if ! dotnet csharpier --check "$file" >/dev/null 2>&1; then
+                  formatted_files+=("$file")
+                  if [ "$VERBOSE" = "true" ]; then
+                    echo -e "  ${RED}❌ 需要格式化:${NC} $file"
+                  fi
+                else
+                  if [ "$VERBOSE" = "true" ]; then
+                    echo -e "  ${GREEN}✓ 已格式化:${NC} $file"
+                  fi
+                fi
+              else
+                if dotnet csharpier "$file" >/dev/null 2>&1; then
+                  formatted_files+=("$file")
+                  if [ "$VERBOSE" = "true" ]; then
+                    echo -e "  ${GREEN}✅ 已格式化:${NC} $file"
+                  fi
+                else
+                  format_errors+=("$file")
+                  if [ "$VERBOSE" = "true" ]; then
+                    echo -e "  ${RED}❌ 格式化失败:${NC} $file"
+                  fi
+                fi
+              fi
+            done
+            echo ""
+          done
+
+          # 显示总结
+          echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+          echo -e "${BLUE}📊 格式化总结${NC}"
+          echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+          echo -e "${YELLOW}📁 总文件数:${NC} $total_files"
+          
+          if [ "$CHECK_ONLY" = "true" ]; then
+            echo -e "${YELLOW}❌ 需要格式化:${NC} ${#formatted_files[@]}"
+          else
+            echo -e "${GREEN}✅ 成功格式化:${NC} ${#formatted_files[@]}"
+            if [ ${#format_errors[@]} -gt 0 ]; then
+              echo -e "${RED}❌ 格式化失败:${NC} ${#format_errors[@]}"
+            fi
           fi
 
-      - name: 若发现格式问题且不允许失败则失败
-        if: inputs.allowFailure == false
+          # 列出格式化的文件
+          if [ ${#formatted_files[@]} -gt 0 ]; then
+            echo ""
+            if [ "$CHECK_ONLY" = "true" ]; then
+              echo -e "${RED}📋 需要格式化的文件列表:${NC}"
+            else
+              echo -e "${GREEN}📋 已格式化的文件列表:${NC}"
+            fi
+            for file in "${formatted_files[@]}"; do
+              echo -e "  • $file"
+            done
+          fi
+
+          # 列出错误文件
+          if [ ${#format_errors[@]} -gt 0 ]; then
+            echo ""
+            echo -e "${RED}📋 格式化失败的文件列表:${NC}"
+            for file in "${format_errors[@]}"; do
+              echo -e "  • $file"
+            done
+          fi
+
+          echo ""
+
+          # 设置输出变量
+          echo "TOTAL_FILES=$total_files" >> $GITHUB_ENV
+          echo "FORMATTED_COUNT=${#formatted_files[@]}" >> $GITHUB_ENV
+          echo "ERROR_COUNT=${#format_errors[@]}" >> $GITHUB_ENV
+
+          # 如果在检查模式下发现需要格式化的文件，则返回非零退出码
+          if [ "$CHECK_ONLY" = "true" ] && [ ${#formatted_files[@]} -gt 0 ]; then
+            echo "FORMAT_NEEDED=true" >> $GITHUB_ENV
+            exit 1
+          fi
+
+          # 如果有格式化错误，则返回非零退出码
+          if [ ${#format_errors[@]} -gt 0 ]; then
+            echo "FORMAT_ERRORS=true" >> $GITHUB_ENV
+            exit 1
+          fi
+
+          exit 0
+          EOF
+          
+          chmod +x .github/scripts/csharpier-enhanced.sh
+
+      - name: 检查 C# 格式（CSharpier）
+        id: csharpier-check
+        continue-on-error: true
+        run: |
+          mkdir -p .github/scripts
+          ./.github/scripts/csharpier-enhanced.sh "${{ inputs.formatDirectories }}" "${{ inputs.excludeFiles }}" "true" "${{ inputs.verboseOutput }}"
+
+      - name: 处理格式检查结果
+        if: env.FORMAT_NEEDED == 'true' && inputs.allowFailure == false
         run: |
           echo "❌ 检测到格式问题且 allowFailure 为 false，作业失败。"
+          echo "💡 请运行 \`dotnet csharpier .\` 修复格式问题，或重新运行并设置 \`allowAutofix: true\`。"
           exit 1
 
       - name: 自动格式化 C# 文件（CSharpier）
-        if: ${{ inputs.allowAutofix == true }}
+        if: inputs.allowAutofix == true && (env.FORMAT_NEEDED == 'true' || env.FORMAT_ERRORS == 'true')
         run: |
           echo "🛠️ 允许自动格式化，正在应用更改..."
-          dotnet csharpier Assets
+          ./.github/scripts/csharpier-enhanced.sh "${{ inputs.formatDirectories }}" "${{ inputs.excludeFiles }}" "false" "${{ inputs.verboseOutput }}"
 
       - name: 运行 Unity 风格修复器
-        if: ${{ inputs.allowAutofix == true }}
-        run: bash .github/scripts/analyze/csharpier-addon.sh
+        if: inputs.allowAutofix == true && (env.FORMAT_NEEDED == 'true' || env.FORMAT_ERRORS == 'true')
+        run: |
+          if [ -f ".github/scripts/analyze/csharpier-addon.sh" ]; then
+            bash .github/scripts/analyze/csharpier-addon.sh
+          else
+            echo "⚠️ Unity 风格修复器脚本不存在，跳过此步骤"
+          fi
 
       - name: 提交格式化修复
-        if: ${{ inputs.allowAutofix == true }}
+        if: inputs.allowAutofix == true && (env.FORMAT_NEEDED == 'true' || env.FORMAT_ERRORS == 'true')
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add Assets
-          git diff --cached --quiet || git commit -m "ROSLYN-AUTOFIX: auto-format C# files with CSharpier"
-          git push || echo "⚠️ 无法推送更改（可能是 PR 或无权限）"
+          
+          # 添加所有格式化的目录
+          IFS=',' read -ra DIRS <<< "${{ inputs.formatDirectories }}"
+          for dir in "${DIRS[@]}"; do
+            dir=$(echo "$dir" | xargs)
+            if [ -d "$dir" ]; then
+              git add "$dir"
+            fi
+          done
+          
+          if git diff --cached --quiet; then
+            echo "ℹ️ 没有发现格式化更改，跳过提交"
+          else
+            git commit -m "ROSLYN-AUTOFIX: auto-format C# files with CSharpier
+
+格式化目录: ${{ inputs.formatDirectories }}
+排除模式: ${{ inputs.excludeFiles }}
+格式化文件数: ${FORMATTED_COUNT:-0}
+总文件数: ${TOTAL_FILES:-0}"
+            git push || echo "⚠️ 无法推送更改（可能是 PR 或无权限）"
+          fi
 
       - name: 添加汇总
-        if: failure()
+        if: always()
         run: |
-          echo "❌ **检测到 CSharpier 格式问题**" >> $GITHUB_STEP_SUMMARY
-          echo "请本地运行 \`dotnet csharpier .\` 或重新运行并设置 \`allowAutofix: true\`。" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔍 CSharpier 格式化报告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 📂 格式化目录 | \`${{ inputs.formatDirectories }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| ❌ 排除模式 | \`${{ inputs.excludeFiles }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📁 总文件数 | ${TOTAL_FILES:-0} |" >> $GITHUB_STEP_SUMMARY
+          echo "| ✅ 格式化文件数 | ${FORMATTED_COUNT:-0} |" >> $GITHUB_STEP_SUMMARY
+          echo "| ❌ 错误文件数 | ${ERROR_COUNT:-0} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔧 自动修复 | ${{ inputs.allowAutofix }} |" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${FORMAT_NEEDED:-false}" = "true" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ **检测到格式问题**" >> $GITHUB_STEP_SUMMARY
+            echo "请本地运行 \`dotnet csharpier .\` 或重新运行并设置 \`allowAutofix: true\`。" >> $GITHUB_STEP_SUMMARY
+          elif [ "${ERROR_COUNT:-0}" != "0" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "❌ **格式化过程中出现错误**" >> $GITHUB_STEP_SUMMARY
+            echo "请检查日志以获取详细信息。" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "✅ **所有文件格式化检查通过**" >> $GITHUB_STEP_SUMMARY
+          fi
