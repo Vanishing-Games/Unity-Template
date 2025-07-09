@@ -1,0 +1,76 @@
+name: 🧹 代码格式化示例
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '**/*.cs'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**/*.cs'
+  workflow_dispatch:
+    inputs:
+      forceFormat:
+        description: '强制格式化所有文件'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  # 示例1: 基本用法 - 格式化指定目录
+  basic-format:
+    name: 基本格式化
+    uses: ./.github/workflows/roslyn-lint.yml
+    with:
+      formatDirectories: "Assets,CodeUnfucker/Src"
+      allowAutofix: false
+      allowFailure: false
+      verboseOutput: true
+
+  # 示例2: 高级用法 - 自定义排除和自动修复
+  advanced-format:
+    name: 高级格式化
+    uses: ./.github/workflows/roslyn-lint.yml
+    with:
+      formatDirectories: "Assets,CodeUnfucker/Src,Scripts"
+      excludeFiles: "**/Generated/*,**/Temp.*,**/*.Designer.cs,**/AssemblyInfo.cs"
+      allowAutofix: ${{ github.event_name == 'workflow_dispatch' && inputs.forceFormat == true }}
+      allowFailure: false
+      verboseOutput: true
+
+  # 示例3: 仅检查模式（用于 PR）
+  check-only:
+    name: 仅检查格式
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/roslyn-lint.yml
+    with:
+      formatDirectories: "Assets"
+      excludeFiles: "Assets/Plugins/**,Assets/ThirdParty/**"
+      allowAutofix: false
+      allowFailure: false
+      verboseOutput: true
+
+  # 示例4: 宽松模式（允许失败）
+  lenient-format:
+    name: 宽松格式化
+    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+    uses: ./.github/workflows/roslyn-lint.yml
+    with:
+      formatDirectories: "Assets,CodeUnfucker/Src"
+      excludeFiles: "**/Legacy/**"
+      allowAutofix: false
+      allowFailure: true
+      verboseOutput: false
+
+  # 示例5: 自动修复模式（仅限主分支）
+  auto-fix:
+    name: 自动修复格式
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/roslyn-lint.yml
+    with:
+      formatDirectories: "Assets,CodeUnfucker/Src"
+      excludeFiles: "Assets/Plugins/**,**/Generated/**"
+      allowAutofix: true
+      allowFailure: false
+      verboseOutput: true
