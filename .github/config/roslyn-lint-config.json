@@ -1,0 +1,41 @@
+{
+  "roslyn-lint": {
+    "enabled": true,
+    "autofix": true,
+    "allowFailure": true,
+    "description": "Roslyn 代码规范检查配置"
+  },
+  "checkPaths": [
+    "Assets/Core",
+    "Assets/Demos",
+    "Assets/ProjectMain",
+    "Assets/Tests",
+    "Assets/Editor"
+  ],
+  "excludePaths": [
+    "Assets/StreamingAssets",
+    "Assets/Plugins/Third-party",
+    "Assets/Plugins/Generated"
+  ],
+  "formatSettings": {
+    "printWidth": 128,
+    "useTabs": true,
+    "indentSize": 4,
+    "endOfLine": "auto"
+  },
+  "csharpierConfig": {
+    "configPath": "csharpierrc.json",
+    "description": "使用项目根目录的csharpierrc.json配置"
+  },
+  "triggers": {
+    "onPush": true,
+    "onPullRequest": true,
+    "onDevelop": true,
+    "onMain": true,
+    "onRelease": true
+  },
+  "scripts": {
+    "addonScript": ".github/scripts/analyze/csharpier-addon.sh",
+    "description": "Unity风格修复器脚本路径"
+  }
+}
