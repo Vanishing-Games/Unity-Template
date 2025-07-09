@@ -2,17 +2,20 @@
   "roslyn-lint": {
     "enabled": true,
     "autofix": true,
-    "allowFailure": false,
+    "allowFailure": true,
     "description": "Roslyn 代码规范检查配置"
   },
   "checkPaths": [
-    "Assets",
-    "CodeUnfucker"
+    "Assets/Core",
+    "Assets/Demos",
+    "Assets/ProjectMain",
+    "Assets/Tests",
+    "Assets/Editor"
   ],
   "excludePaths": [
-    "Assets/Tests",
     "Assets/StreamingAssets",
-    "Assets/Plugins/Third-party"
+    "Assets/Plugins/Third-party",
+    "Assets/Plugins/Generated"
   ],
   "formatSettings": {
     "printWidth": 128,

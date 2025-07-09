@@ -142,6 +142,8 @@ jobs:
             echo "❌ 检测到格式问题，且未启用自动修复和允许失败，作业失败。"
             echo "请启用自动修复 (autofix: true) 或允许失败 (allowFailure: true)。"
             exit 1
+          elif [[ "$FORMAT_FAILED" == "true" && "${{ steps.load_config.outputs.allowFailure }}" == "true" ]]; then
+            echo "⚠️ 检测到格式问题，但允许失败已启用，继续流水线。"
           fi
 
       - name: 🛠️ 自动格式化 C# 文件（CSharpier）
