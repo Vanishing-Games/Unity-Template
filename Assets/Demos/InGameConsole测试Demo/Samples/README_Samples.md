@@ -1,3 +1,5 @@
+# 本 Demo 由 cursor 生成
+
 # Unity 游戏内调试控制台示例集
 # Unity In-game Debug Console Samples
 
