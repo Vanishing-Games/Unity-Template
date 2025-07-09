@@ -57,8 +57,8 @@ jobs:
     name: 📈 Roslyn 代码规范检查
     runs-on: ubuntu-latest
     outputs:
-      format_failed: ${{ steps.check_format.outputs.format_failed }}
-      config_enabled: ${{ steps.load_config.outputs.enabled }}
+      format_failed: ${{ steps.check_format.outputs.format_failed || steps.check_format_disabled.outputs.format_failed || 'false' }}
+      config_enabled: ${{ steps.load_config.outputs.enabled || 'false' }}
     steps:
       - name: 📁 检出项目
         uses: actions/checkout@v4
@@ -77,6 +77,9 @@ jobs:
           if [[ ! -f "$CONFIG_FILE" ]]; then
             echo "❌ Roslyn配置文件不存在: $CONFIG_FILE"
             echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "autofix=false" >> "$GITHUB_OUTPUT"
+            echo "allowFailure=true" >> "$GITHUB_OUTPUT"
+            echo "checkPaths=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           
@@ -99,7 +102,13 @@ jobs:
           echo "allowFailure=$ALLOW_FAILURE" >> "$GITHUB_OUTPUT"
           echo "checkPaths=$CHECK_PATHS" >> "$GITHUB_OUTPUT"
 
-      - name: � 安装 CSharpier
+      - name: � 设置未启用时的默认输出
+        if: steps.load_config.outputs.enabled != 'true'
+        id: check_format_disabled
+        run: |
+          echo "format_failed=false" >> "$GITHUB_OUTPUT"
+
+      - name: �� 安装 CSharpier
         if: steps.load_config.outputs.enabled == 'true'
         run: |
           dotnet tool install -g csharpier
@@ -129,8 +138,9 @@ jobs:
           
           echo "format_failed=$FORMAT_FAILED" >> "$GITHUB_OUTPUT"
           
-          if [[ "$FORMAT_FAILED" == "true" && "${{ steps.load_config.outputs.allowFailure }}" == "false" ]]; then
-            echo "❌ 检测到格式问题且不允许失败，作业失败。"
+          if [[ "$FORMAT_FAILED" == "true" && "${{ steps.load_config.outputs.allowFailure }}" == "false" && "${{ steps.load_config.outputs.autofix }}" == "false" ]]; then
+            echo "❌ 检测到格式问题，且未启用自动修复和允许失败，作业失败。"
+            echo "请启用自动修复 (autofix: true) 或允许失败 (allowFailure: true)。"
             exit 1
           fi
 
@@ -184,27 +194,97 @@ jobs:
           fi
 
       - name: 📊 添加格式化汇总
-        if: always() && steps.load_config.outputs.enabled == 'true'
+        if: always()
         run: |
           echo "# 📈 Roslyn 代码规范检查结果" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          if [[ "${{ steps.check_format.outputs.format_failed }}" == "true" ]]; then
-            if [[ "${{ steps.load_config.outputs.autofix }}" == "true" ]]; then
-              echo "⚠️ **检测到格式问题，已自动修复**" >> $GITHUB_STEP_SUMMARY
+          # 检查是否启用了Roslyn检查
+          if [[ "${{ steps.load_config.outputs.enabled }}" == "true" ]]; then
+            # 显示检查结果
+            if [[ "${{ steps.check_format.outputs.format_failed }}" == "true" ]]; then
+              if [[ "${{ steps.load_config.outputs.autofix }}" == "true" ]]; then
+                echo "⚠️ **检测到格式问题，已自动修复**" >> $GITHUB_STEP_SUMMARY
+                echo "代码已按照配置的格式规范自动修复并提交。" >> $GITHUB_STEP_SUMMARY
+              else
+                echo "❌ **检测到 CSharpier 格式问题**" >> $GITHUB_STEP_SUMMARY
+                echo "请本地运行 \`dotnet csharpier .\` 或重新运行并设置自动修复。" >> $GITHUB_STEP_SUMMARY
+              fi
             else
-              echo "❌ **检测到 CSharpier 格式问题**" >> $GITHUB_STEP_SUMMARY
-              echo "请本地运行 \`dotnet csharpier .\` 或重新运行并设置自动修复。" >> $GITHUB_STEP_SUMMARY
+              echo "✅ **代码格式检查通过**" >> $GITHUB_STEP_SUMMARY
+              echo "所有代码均符合配置的格式规范。" >> $GITHUB_STEP_SUMMARY
             fi
           else
-            echo "✅ **代码格式检查通过**" >> $GITHUB_STEP_SUMMARY
+            echo "⏭️ **Roslyn 代码规范检查已禁用**" >> $GITHUB_STEP_SUMMARY
+            echo "当前配置中未启用代码格式检查功能。" >> $GITHUB_STEP_SUMMARY
           fi
           
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**检查的目录:** ${{ steps.load_config.outputs.checkPaths }}" >> $GITHUB_STEP_SUMMARY
+          
+          # 显示当前配置设置
+          echo "## ⚙️ 当前配置设置" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置项 | 当前值 | 说明 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|--------|------|" >> $GITHUB_STEP_SUMMARY
+          
+          ENABLED_STATUS="${{ steps.load_config.outputs.enabled }}"
+          AUTOFIX_STATUS="${{ steps.load_config.outputs.autofix }}"
+          ALLOW_FAILURE_STATUS="${{ steps.load_config.outputs.allowFailure }}"
+          CHECK_PATHS_STATUS="${{ steps.load_config.outputs.checkPaths }}"
+          
+          # 处理空值显示
+          if [[ "$ENABLED_STATUS" == "" ]]; then ENABLED_STATUS="未配置"; fi
+          if [[ "$AUTOFIX_STATUS" == "" ]]; then AUTOFIX_STATUS="未配置"; fi
+          if [[ "$ALLOW_FAILURE_STATUS" == "" ]]; then ALLOW_FAILURE_STATUS="未配置"; fi
+          if [[ "$CHECK_PATHS_STATUS" == "" ]]; then CHECK_PATHS_STATUS="无配置文件"; fi
+          
+          echo "| 启用状态 | \`$ENABLED_STATUS\` | 是否启用Roslyn代码规范检查 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 自动修复 | \`$AUTOFIX_STATUS\` | 发现问题时是否自动格式化并提交 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 允许失败 | \`$ALLOW_FAILURE_STATUS\` | 格式检查失败时是否继续流水线 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 检查目录 | \`$CHECK_PATHS_STATUS\` | 需要格式检查的目录列表 |" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # 读取并显示格式化设置
+          CONFIG_FILE=".github/config/roslyn-lint-config.json"
+          if [[ -f "$CONFIG_FILE" ]]; then
+            echo "## 🎨 格式化设置" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            PRINT_WIDTH=$(jq -r '.formatSettings.printWidth // "128"' "$CONFIG_FILE")
+            USE_TABS=$(jq -r '.formatSettings.useTabs // "true"' "$CONFIG_FILE")
+            INDENT_SIZE=$(jq -r '.formatSettings.indentSize // "4"' "$CONFIG_FILE")
+            END_OF_LINE=$(jq -r '.formatSettings.endOfLine // "auto"' "$CONFIG_FILE")
+            
+            echo "| 格式设置 | 值 |" >> $GITHUB_STEP_SUMMARY
+            echo "|----------|-----|" >> $GITHUB_STEP_SUMMARY
+            echo "| 行宽度 | \`$PRINT_WIDTH\` 字符 |" >> $GITHUB_STEP_SUMMARY
+            echo "| 缩进方式 | \`$([ "$USE_TABS" = "true" ] && echo "Tab" || echo "空格")\` |" >> $GITHUB_STEP_SUMMARY
+            echo "| 缩进大小 | \`$INDENT_SIZE\` |" >> $GITHUB_STEP_SUMMARY
+            echo "| 换行符 | \`$END_OF_LINE\` |" >> $GITHUB_STEP_SUMMARY
+            
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # 显示排除路径（如果有）
+            EXCLUDE_PATHS=$(jq -r '.excludePaths[]?' "$CONFIG_FILE" 2>/dev/null | tr '\n' ' ')
+            if [[ -n "$EXCLUDE_PATHS" ]]; then
+              echo "## 🚫 排除目录" >> $GITHUB_STEP_SUMMARY
+              echo "以下目录不参与格式检查：" >> $GITHUB_STEP_SUMMARY
+              echo "\`$EXCLUDE_PATHS\`" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "## ⚠️ 配置文件状态" >> $GITHUB_STEP_SUMMARY
+            echo "**配置文件不存在**: \`.github/config/roslyn-lint-config.json\`" >> $GITHUB_STEP_SUMMARY
+            echo "请创建此文件以启用和配置Roslyn代码规范检查功能。" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "💡 **提示**: 可以在 \`.github/config/roslyn-lint-config.json\` 中修改这些设置。" >> $GITHUB_STEP_SUMMARY
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # �� 配置解析和验证
+  # 🔍 配置解析和验证
   # ─────────────────────────────────────────────────────────────────────────────
   parse_config:
     name: 🔍 解析和验证配置
