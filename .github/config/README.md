@@ -51,6 +51,7 @@
 | `build-matrix.json` | 构建平台矩阵配置 | 低 |
 | `build-profiles.json` | 不同构建类型的Unity配置文件映射 | 中等 |
 | `deploy-targets.json` | 部署目标平台配置 | 中等 |
+| `roslyn-lint-config.json` | Roslyn代码规范检查配置 | 中等 |
 
 ## 🔧 核心配置文件
 
@@ -251,7 +252,61 @@
 - `release_candidate` - 发布候选版，用于测试和预发布
 - `release` - 正式发布版
 
-## 🚀 部署配置
+## � 代码规范配置
+
+### roslyn-lint-config.json
+
+**用途**: 配置Roslyn代码规范检查和自动格式化设置
+
+```json
+{
+  "roslyn-lint": {
+    "enabled": true,
+    "autofix": true,
+    "allowFailure": false,
+    "description": "Roslyn 代码规范检查配置"
+  },
+  "checkPaths": [
+    "Assets",
+    "CodeUnfucker"
+  ],
+  "excludePaths": [
+    "Assets/Tests",
+    "Assets/StreamingAssets",
+    "Assets/Plugins/Third-party"
+  ],
+  "formatSettings": {
+    "printWidth": 128,
+    "useTabs": true,
+    "indentSize": 4,
+    "endOfLine": "auto"
+  },
+  "triggers": {
+    "onPush": true,
+    "onPullRequest": true,
+    "onDevelop": true,
+    "onMain": true,
+    "onRelease": true
+  }
+}
+```
+
+**主要配置项**:
+- `roslyn-lint.enabled` - 是否启用Roslyn代码规范检查
+- `roslyn-lint.autofix` - 是否自动修复格式问题并提交
+- `roslyn-lint.allowFailure` - 是否允许格式检查失败而不影响CI
+- `checkPaths` - 需要检查的文件夹路径数组
+- `excludePaths` - 排除检查的文件夹路径数组
+- `formatSettings` - CSharpier格式化设置
+- `triggers` - 在哪些情况下触发检查
+
+**修改指南**:
+- 将项目特定的目录添加到`checkPaths`中
+- 将第三方库或生成的代码路径添加到`excludePaths`中
+- 根据团队编码规范调整`formatSettings`
+- 建议保持`autofix: true`以自动修复格式问题
+
+## �🚀 部署配置
 
 ### deploy-targets.json
 
