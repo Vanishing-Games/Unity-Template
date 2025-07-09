@@ -6,7 +6,6 @@ using System.Linq;
 using Core;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
-using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 using Logger = Core.Logger;
@@ -522,39 +521,81 @@ public class CodeUnfuckerWindow : OdinMenuEditorWindow
             try
             {
                 string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
-                string codeUnfuckerConfigPath = Path.Combine(
+                // 源配置文件路径
+                string sourceConfigPath = Path.Combine(
                     projectRoot,
                     "CodeUnfucker",
                     "Config",
                     "FormatterConfig.json"
                 );
-                if (!File.Exists(codeUnfuckerConfigPath))
-                {
-                    Logger.EditorLogWarn(
-                        $"CodeUnfucker 配置文件不存在: {codeUnfuckerConfigPath}",
-                        LogTag.CodeUnfucker
-                    );
-                    return;
-                }
-
-                // 读取当前配置
-                string jsonContent = File.ReadAllText(codeUnfuckerConfigPath);
-                // 使用简单的字符串替换来更新备份设置
+                // 构建输出目录的配置文件路径
+                string outputConfigPath = Path.Combine(
+                    projectRoot,
+                    "CodeUnfucker",
+                    "bin",
+                    "Debug",
+                    "net9.0",
+                    "Config",
+                    "FormatterConfig.json"
+                );
+                bool updated = false;
                 string backupValue = createBackup ? "true" : "false";
                 string pattern = "\"CreateBackupFiles\"\\s*:\\s*(true|false)";
                 string replacement = $"\"CreateBackupFiles\": {backupValue}";
-                string updatedContent = System.Text.RegularExpressions.Regex.Replace(
-                    jsonContent,
-                    pattern,
-                    replacement,
-                    System.Text.RegularExpressions.RegexOptions.IgnoreCase
-                );
-                // 写回配置文件
-                File.WriteAllText(codeUnfuckerConfigPath, updatedContent);
-                Logger.EditorLogInfo(
-                    $"已更新 CodeUnfucker 备份配置: {createBackup}",
-                    LogTag.CodeUnfucker
-                );
+                // 更新源配置文件
+                if (File.Exists(sourceConfigPath))
+                {
+                    string jsonContent = File.ReadAllText(sourceConfigPath);
+                    string updatedContent = System.Text.RegularExpressions.Regex.Replace(
+                        jsonContent,
+                        pattern,
+                        replacement,
+                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                    );
+                    File.WriteAllText(sourceConfigPath, updatedContent);
+                    updated = true;
+                    Logger.EditorLogInfo(
+                        $"已更新源配置文件: {sourceConfigPath}",
+                        LogTag.CodeUnfucker
+                    );
+                }
+
+                // 更新构建输出目录的配置文件
+                if (File.Exists(outputConfigPath))
+                {
+                    string jsonContent = File.ReadAllText(outputConfigPath);
+                    string updatedContent = System.Text.RegularExpressions.Regex.Replace(
+                        jsonContent,
+                        pattern,
+                        replacement,
+                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                    );
+                    File.WriteAllText(outputConfigPath, updatedContent);
+                    updated = true;
+                    Logger.EditorLogInfo(
+                        $"已更新构建输出配置文件: {outputConfigPath}",
+                        LogTag.CodeUnfucker
+                    );
+                }
+                else
+                {
+                    Logger.EditorLogWarn(
+                        $"构建输出配置文件不存在: {outputConfigPath}\n请先构建 CodeUnfucker 项目",
+                        LogTag.CodeUnfucker
+                    );
+                }
+
+                if (updated)
+                {
+                    Logger.EditorLogInfo(
+                        $"✅ CodeUnfucker 备份配置已更新: {createBackup}",
+                        LogTag.CodeUnfucker
+                    );
+                }
+                else
+                {
+                    Logger.EditorLogWarn("未找到任何配置文件进行更新", LogTag.CodeUnfucker);
+                }
             }
             catch (Exception ex)
             {
@@ -720,6 +761,7 @@ public class CodeUnfuckerWindow : OdinMenuEditorWindow
         public List<string> customPaths = new List<string>();
     }
     #endregion
+
     private OperationPanel operationPanel = new OperationPanel();
     private PropertyTree operationPanelTree;
 }
