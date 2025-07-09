@@ -1,12 +1,13 @@
 {
-    "name": "InGameConsoleTestDemo",
+    "name": "GameMain.Editor.ConsoleUtilities",
     "rootNamespace": "",
     "references": [
-        "GUID:3de88c88fbbb8f944b9210d496af9762",
-        "GUID:466e67dabd1db22468246c39eddb6c3f"
+        "GUID:d8bb2cd7a27f644eda5255efef5e9d6b"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "Editor"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
