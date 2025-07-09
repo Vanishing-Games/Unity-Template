@@ -5,9 +5,10 @@
 Unity版本: 2022.3.58f1
 
 ```
-git clone git@github.com:Vanishing-Games/Unity-Template.git
 git lfs install 
+git clone git@github.com:Vanishing-Games/Unity-Template.git
 git pull
+git submodule update --init --recursive
 ```
 
 > unity国际版
