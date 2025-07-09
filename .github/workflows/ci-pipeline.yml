@@ -108,24 +108,67 @@ jobs:
         run: |
           echo "format_failed=false" >> "$GITHUB_OUTPUT"
 
-      - name: �� 安装 CSharpier
+      - name: 🔧 安装 CSharpier
         if: steps.load_config.outputs.enabled == 'true'
         run: |
-          dotnet tool install -g csharpier
+          echo "🔧 安装 CSharpier 全局工具..."
+          
+          # 确保 .dotnet 目录存在
+          mkdir -p "$HOME/.dotnet/tools"
+          
+          # 尝试安装或更新 CSharpier
+          if dotnet tool install -g csharpier --verbosity normal; then
+            echo "✅ CSharpier 安装成功"
+          elif dotnet tool update -g csharpier --verbosity normal; then
+            echo "✅ CSharpier 更新成功"
+          else
+            echo "❌ CSharpier 安装/更新失败，尝试强制重新安装"
+            dotnet tool uninstall -g csharpier 2>/dev/null || true
+            dotnet tool install -g csharpier --verbosity normal
+          fi
+          
+          # 将工具路径添加到环境变量
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+          export PATH="$HOME/.dotnet/tools:$PATH"
+          
+          # 验证安装
+          echo "🔍 验证 CSharpier 安装..."
+          if command -v dotnet-csharpier &> /dev/null; then
+            echo "✅ CSharpier 工具可用 (直接命令)"
+            dotnet-csharpier --version
+          elif dotnet csharpier --version &> /dev/null; then
+            echo "✅ CSharpier 工具可用 (dotnet 子命令)"
+            dotnet csharpier --version
+          else
+            echo "⚠️ CSharpier 工具验证失败，将在后续步骤中使用备用方法"
+          fi
 
       - name: 📈 检查 C# 格式（CSharpier）
         if: steps.load_config.outputs.enabled == 'true'
         id: check_format
         run: |
           echo "📂 正在检查配置的目录代码格式..."
+          
+          # 确保工具路径在 PATH 中
+          export PATH="$HOME/.dotnet/tools:$PATH"
+          
+          # 验证 CSharpier 是否可用
+          if ! command -v dotnet-csharpier &> /dev/null && ! dotnet csharpier --version &> /dev/null; then
+            echo "❌ CSharpier 工具不可用，尝试直接使用 dotnet 命令"
+            CSHARPIER_CMD="dotnet tool run csharpier"
+          else
+            CSHARPIER_CMD="dotnet csharpier"
+          fi
+          
+          echo "✅ 使用检查命令: $CSHARPIER_CMD --check"
+          
           CHECK_PATHS="${{ steps.load_config.outputs.checkPaths }}"
           FORMAT_FAILED=false
           
           for path in $CHECK_PATHS; do
             if [[ -d "$path" ]]; then
               echo "🔍 检查目录: $path"
-              if ! dotnet csharpier --check "$path"; then
+              if ! $CSHARPIER_CMD --check "$path"; then
                 echo "❌ 目录 $path 中发现格式问题"
                 FORMAT_FAILED=true
               else
@@ -150,12 +193,45 @@ jobs:
         if: steps.load_config.outputs.enabled == 'true' && steps.load_config.outputs.autofix == 'true' && steps.check_format.outputs.format_failed == 'true'
         run: |
           echo "🛠️ 允许自动格式化，正在应用更改..."
+          
+          # 确保 CSharpier 已安装并在PATH中
+          echo "🔧 确保 CSharpier 工具可用..."
+          if ! command -v dotnet &> /dev/null; then
+            echo "❌ dotnet 命令未找到"
+            exit 1
+          fi
+          
+          # 重新安装 CSharpier 以确保可用
+          dotnet tool install -g csharpier --verbosity quiet || dotnet tool update -g csharpier --verbosity quiet
+          
+          # 确保工具路径在 PATH 中
+          export PATH="$HOME/.dotnet/tools:$PATH"
+          
+          # 验证 CSharpier 是否可用
+          if ! command -v dotnet-csharpier &> /dev/null && ! dotnet csharpier --version &> /dev/null; then
+            echo "❌ CSharpier 工具仍然不可用，尝试直接使用 dotnet 命令"
+            CSHARPIER_CMD="dotnet tool run csharpier"
+          else
+            CSHARPIER_CMD="dotnet csharpier"
+          fi
+          
+          echo "✅ 使用命令: $CSHARPIER_CMD"
+          
           CHECK_PATHS="${{ steps.load_config.outputs.checkPaths }}"
           
           for path in $CHECK_PATHS; do
             if [[ -d "$path" ]]; then
               echo "🔧 格式化目录: $path"
-              dotnet csharpier "$path"
+              $CSHARPIER_CMD "$path" || {
+                echo "❌ 格式化 $path 失败，尝试备用方法"
+                dotnet tool run csharpier -- "$path" || {
+                  echo "❌ 格式化 $path 彻底失败，跳过"
+                  continue
+                }
+              }
+              echo "✅ 格式化 $path 完成"
+            else
+              echo "⚠️ 目录不存在，跳过: $path"
             fi
           done
 

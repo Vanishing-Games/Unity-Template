@@ -24,8 +24,37 @@ jobs:
 
       - name: 安装 CSharpier
         run: |
-          dotnet tool install -g csharpier
+          echo "🔧 安装 CSharpier 全局工具..."
+          
+          # 确保 .dotnet 目录存在
+          mkdir -p "$HOME/.dotnet/tools"
+          
+          # 尝试安装或更新 CSharpier
+          if dotnet tool install -g csharpier --verbosity normal; then
+            echo "✅ CSharpier 安装成功"
+          elif dotnet tool update -g csharpier --verbosity normal; then
+            echo "✅ CSharpier 更新成功"
+          else
+            echo "❌ CSharpier 安装/更新失败，尝试强制重新安装"
+            dotnet tool uninstall -g csharpier 2>/dev/null || true
+            dotnet tool install -g csharpier --verbosity normal
+          fi
+          
+          # 将工具路径添加到环境变量
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+          export PATH="$HOME/.dotnet/tools:$PATH"
+          
+          # 验证安装
+          echo "🔍 验证 CSharpier 安装..."
+          if command -v dotnet-csharpier &> /dev/null; then
+            echo "✅ CSharpier 工具可用 (直接命令)"
+            dotnet-csharpier --version
+          elif dotnet csharpier --version &> /dev/null; then
+            echo "✅ CSharpier 工具可用 (dotnet 子命令)"
+            dotnet csharpier --version
+          else
+            echo "⚠️ CSharpier 工具验证失败，将在后续步骤中使用备用方法"
+          fi
 
       - name: 📋 加载检查路径配置
         id: load_paths
