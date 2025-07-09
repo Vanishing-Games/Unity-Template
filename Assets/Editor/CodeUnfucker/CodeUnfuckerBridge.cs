@@ -160,7 +160,7 @@ public static class CodeUnfuckerBridge
             try
             {
                 string json = File.ReadAllText(configFilePath);
-                var config = JsonUtility.FromJson<CodeUnfuckerWindow.CodeUnfuckerConfig>(json);
+                var config = JsonUtility.FromJson<CodeUnfuckerConfig>(json);
                 // 1. 检查环境变量
                 foreach (var envVar in config.dotnetPaths.environmentVariables)
                 {

@@ -8,7 +8,7 @@ using Logger = Core.Logger;
 
 public class DotnetConfigWindow : OdinEditorWindow
 {
-    public void SetConfig(CodeUnfuckerWindow.CodeUnfuckerConfig config)
+    public void SetConfig(CodeUnfuckerConfig config)
     {
         this.config = config;
         if (configTree != null)
@@ -19,13 +19,13 @@ public class DotnetConfigWindow : OdinEditorWindow
         configTree = PropertyTree.Create(config);
     }
 
-#region Unity LifeCycle
+    #region Unity LifeCycle
     protected override void OnEnable()
     {
         base.OnEnable();
         if (config == null)
         {
-            config = new CodeUnfuckerWindow.CodeUnfuckerConfig();
+            config = new CodeUnfuckerConfig();
         }
 
         configTree = PropertyTree.Create(config);
@@ -46,7 +46,12 @@ public class DotnetConfigWindow : OdinEditorWindow
         }
 
         GUILayout.Space(10);
-        EditorGUILayout.HelpBox("环境变量: 系统会按顺序检查这些环境变量\n" + "默认搜索路径: 系统默认的 dotnet 安装位置\n" + "自定义路径: 您可以添加自己的 dotnet 路径", MessageType.Info);
+        EditorGUILayout.HelpBox(
+            "环境变量: 系统会按顺序检查这些环境变量\n"
+                + "默认搜索路径: 系统默认的 dotnet 安装位置\n"
+                + "自定义路径: 您可以添加自己的 dotnet 路径",
+            MessageType.Info
+        );
         GUILayout.Space(10);
         configTree.Draw(false);
         GUILayout.Space(20);
@@ -70,9 +75,9 @@ public class DotnetConfigWindow : OdinEditorWindow
 
         GUILayout.EndHorizontal();
     }
-#endregion
+    #endregion
 
-#region Private
+    #region Private
     private void SaveConfig()
     {
         try
@@ -98,9 +103,16 @@ public class DotnetConfigWindow : OdinEditorWindow
 
     private void ResetToDefault()
     {
-        if (EditorUtility.DisplayDialog("重置配置", "确定要重置为默认配置吗？这将丢失所有自定义设置。", "确定", "取消"))
+        if (
+            EditorUtility.DisplayDialog(
+                "重置配置",
+                "确定要重置为默认配置吗？这将丢失所有自定义设置。",
+                "确定",
+                "取消"
+            )
+        )
         {
-            config = new CodeUnfuckerWindow.CodeUnfuckerConfig();
+            config = new CodeUnfuckerConfig();
             SetConfig(config);
             ShowNotification(new GUIContent("已重置为默认配置"));
         }
@@ -117,12 +129,15 @@ public class DotnetConfigWindow : OdinEditorWindow
         }
         else
         {
-            Logger.EditorLogInfo($"使用当前配置检测到 dotnet 路径: {detectedPath}", LogTag.CodeUnfucker);
+            Logger.EditorLogInfo(
+                $"使用当前配置检测到 dotnet 路径: {detectedPath}",
+                LogTag.CodeUnfucker
+            );
             ShowNotification(new GUIContent($"检测到: {Path.GetFileName(detectedPath)}"));
         }
     }
-#endregion
+    #endregion
 
-    private CodeUnfuckerWindow.CodeUnfuckerConfig config;
+    private CodeUnfuckerConfig config;
     private PropertyTree configTree;
 }
