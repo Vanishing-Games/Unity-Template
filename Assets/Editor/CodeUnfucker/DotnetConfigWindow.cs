@@ -25,7 +25,7 @@ public class DotnetConfigWindow : OdinEditorWindow
         base.OnEnable();
         if (config == null)
         {
-            config = new CodeUnfuckerConfig();
+            config = CodeUnfuckerConfigManager.GetConfig();
         }
 
         configTree = PropertyTree.Create(config);
@@ -80,23 +80,12 @@ public class DotnetConfigWindow : OdinEditorWindow
     #region Private
     private void SaveConfig()
     {
-        try
+        if (CodeUnfuckerConfigManager.SaveConfig(config))
         {
-            string configDir = Path.Combine(Application.dataPath, "..", "ProjectConfig");
-            string configPath = Path.Combine(configDir, "CodeUnfuckerConfig.json");
-            if (!Directory.Exists(configDir))
-            {
-                Directory.CreateDirectory(configDir);
-            }
-
-            string json = JsonUtility.ToJson(config, true);
-            File.WriteAllText(configPath, json);
-            Logger.EditorLogInfo($"配置已保存到: {configPath}", LogTag.CodeUnfucker);
             ShowNotification(new GUIContent("配置已保存"));
         }
-        catch (Exception ex)
+        else
         {
-            Logger.EditorLogError($"保存配置失败: {ex.Message}", LogTag.CodeUnfucker);
             ShowNotification(new GUIContent("保存失败"));
         }
     }
@@ -112,7 +101,7 @@ public class DotnetConfigWindow : OdinEditorWindow
             )
         )
         {
-            config = new CodeUnfuckerConfig();
+            config = CodeUnfuckerConfigManager.ResetToDefault();
             SetConfig(config);
             ShowNotification(new GUIContent("已重置为默认配置"));
         }
@@ -120,8 +109,7 @@ public class DotnetConfigWindow : OdinEditorWindow
 
     private void TestConfig()
     {
-        var window = EditorWindow.GetWindow<CodeUnfuckerWindow>();
-        string detectedPath = window.DetectDotnetPath();
+        string detectedPath = CodeUnfuckerBridge.GetDotnetExecutablePath();
         if (string.IsNullOrEmpty(detectedPath))
         {
             Logger.EditorLogWarn("使用当前配置未检测到 dotnet 路径", LogTag.CodeUnfucker);
