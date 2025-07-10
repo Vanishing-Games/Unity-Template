@@ -15,7 +15,7 @@ public class CodeUnfuckerWindow : OdinMenuEditorWindow
     #region Public
     public string DetectDotnetPath()
     {
-        return operationPanel.GetDotnetPath();
+        return CodeUnfuckerBridge.GetDotnetExecutablePath();
     }
 
     [MenuItem("Tools/CodeUnfucker/Open CodeUnfucker Window")]

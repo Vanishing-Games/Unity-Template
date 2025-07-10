@@ -96,14 +96,10 @@ public class OperationPanel
         if (File.Exists(fullPath) && fullPath.EndsWith(".cs"))
         {
             CodeUnfuckerBridge.FormatCodeFile(fullPath);
-            // 3. 对单个文件执行 CSharpier 格式化
-            ExecuteCSharpierFormatting(fullPath);
         }
         else if (Directory.Exists(fullPath))
         {
             CodeUnfuckerBridge.FormatCodeDirectory(fullPath);
-            // 3. 对目录中的所有 .cs 文件执行 CSharpier 格式化
-            ExecuteCSharpierFormattingForDirectory(fullPath);
         }
     }
 
@@ -127,17 +123,16 @@ public class OperationPanel
     [GUIColor(0.9f, 0.7f, 0.4f)]
     private void BuildCodeUnfucker()
     {
-        string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
-        string codeUnfuckerPath = Path.Combine(projectRoot, "CodeUnfucker");
+        string codeUnfuckerPath = CodeUnfuckerBridge.GetCodeUnfuckerProjectPath();
         if (!Directory.Exists(codeUnfuckerPath))
         {
-            Logger.EditorLogError("CodeUnfucker 项目目录不存在", LogTag.CodeUnfucker);
+            Logger.EditorLogError($"CodeUnfucker 项目目录不存在: {codeUnfuckerPath}", LogTag.CodeUnfucker);
             return;
         }
 
         try
         {
-            string dotnetPath = GetDotnetPath();
+            string dotnetPath = CodeUnfuckerBridge.GetDotnetExecutablePath();
             if (string.IsNullOrEmpty(dotnetPath))
             {
                 Logger.EditorLogError(
@@ -193,17 +188,7 @@ public class OperationPanel
     [GUIColor(0.7f, 0.7f, 0.9f)]
     private void OpenConfigFolder()
     {
-        string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
-        string configPath = Path.Combine(projectRoot, "ProjectConfig");
-        if (Directory.Exists(configPath))
-        {
-            EditorUtility.RevealInFinder(configPath);
-            Logger.EditorLogInfo($"已打开配置文件夹: {configPath}", LogTag.CodeUnfucker);
-        }
-        else
-        {
-            Logger.EditorLogError("配置文件夹不存在", LogTag.CodeUnfucker);
-        }
+        CodeUnfuckerConfigManager.OpenConfigFolder();
     }
 
     [Title("配置管理", TitleAlignment = TitleAlignments.Left)]
@@ -222,7 +207,7 @@ public class OperationPanel
     [GUIColor(0.9f, 0.7f, 0.4f)]
     private void DetectCurrentDotnetPath()
     {
-        string detectedPath = GetDotnetPath();
+        string detectedPath = CodeUnfuckerBridge.GetDotnetExecutablePath();
         if (string.IsNullOrEmpty(detectedPath))
         {
             Logger.EditorLogWarn("未检测到 dotnet 路径", LogTag.CodeUnfucker);
@@ -235,134 +220,22 @@ public class OperationPanel
 
     public string GetDotnetPath()
     {
-        var config = LoadConfig();
-        string dotnetPath = null;
-        // 1. 检查环境变量
-        foreach (var envVar in config.dotnetPaths.environmentVariables)
-        {
-            dotnetPath = Environment.GetEnvironmentVariable(envVar);
-            if (!string.IsNullOrEmpty(dotnetPath))
-            {
-                Logger.EditorLogInfo(
-                    $"从环境变量 {envVar} 找到 dotnet: {dotnetPath}",
-                    LogTag.CodeUnfucker
-                );
-                return dotnetPath;
-            }
-        }
-
-        // 2. 检查默认搜索路径
-        foreach (var path in config.dotnetPaths.defaultSearchPaths)
-        {
-            if (path == "dotnet")
-            {
-                // 尝试直接调用，看是否在 PATH 中
-                try
-                {
-                    var testProcess = new Process();
-                    testProcess.StartInfo.FileName = "dotnet";
-                    testProcess.StartInfo.Arguments = "--version";
-                    testProcess.StartInfo.UseShellExecute = false;
-                    testProcess.StartInfo.RedirectStandardOutput = true;
-                    testProcess.StartInfo.RedirectStandardError = true;
-                    testProcess.StartInfo.CreateNoWindow = true;
-                    testProcess.Start();
-                    testProcess.WaitForExit();
-                    if (testProcess.ExitCode == 0)
-                    {
-                        dotnetPath = "dotnet";
-                        Logger.EditorLogInfo(
-                            "从默认搜索路径找到 dotnet: " + dotnetPath,
-                            LogTag.CodeUnfucker
-                        );
-                        return dotnetPath;
-                    }
-                }
-                catch
-                {
-                    continue;
-                }
-            }
-            else if (File.Exists(path))
-            {
-                dotnetPath = path;
-                Logger.EditorLogInfo(
-                    "从默认搜索路径找到 dotnet: " + dotnetPath,
-                    LogTag.CodeUnfucker
-                );
-                return dotnetPath;
-            }
-        }
-
-        // 3. 检查自定义路径
-        foreach (var customPath in config.dotnetPaths.customPaths)
-        {
-            if (File.Exists(customPath))
-            {
-                dotnetPath = customPath;
-                Logger.EditorLogInfo("从自定义路径找到 dotnet: " + dotnetPath, LogTag.CodeUnfucker);
-                return dotnetPath;
-            }
-        }
-
-        return null;
+        return CodeUnfuckerBridge.GetDotnetExecutablePath();
     }
 
     private CodeUnfuckerConfig LoadConfig()
     {
-        string configDir = Path.Combine(Application.dataPath, "..", "ProjectConfig");
-        string configPath = Path.Combine(configDir, "CodeUnfuckerConfig.json");
-        if (File.Exists(configPath))
-        {
-            try
-            {
-                string json = File.ReadAllText(configPath);
-                return JsonUtility.FromJson<CodeUnfuckerConfig>(json);
-            }
-            catch (Exception ex)
-            {
-                Logger.EditorLogError($"加载配置文件失败: {ex.Message}", LogTag.CodeUnfucker);
-                return CreateDefaultConfig(configPath);
-            }
-        }
-        else
-        {
-            Logger.EditorLogInfo("配置文件不存在，创建默认配置", LogTag.CodeUnfucker);
-            return CreateDefaultConfig(configPath);
-        }
+        return CodeUnfuckerConfigManager.GetConfig();
     }
 
     private CodeUnfuckerConfig CreateDefaultConfig(string configPath)
     {
-        var defaultConfig = new CodeUnfuckerConfig();
-        SaveConfig(defaultConfig, configPath);
-        return defaultConfig;
+        return CodeUnfuckerConfigManager.ResetToDefault();
     }
 
     private void SaveConfig(CodeUnfuckerConfig config, string configPath = null)
     {
-        if (configPath == null)
-        {
-            string configDir = Path.Combine(Application.dataPath, "..", "ProjectConfig");
-            configPath = Path.Combine(configDir, "CodeUnfuckerConfig.json");
-        }
-
-        try
-        {
-            string configDir = Path.GetDirectoryName(configPath);
-            if (!Directory.Exists(configDir))
-            {
-                Directory.CreateDirectory(configDir);
-            }
-
-            string json = JsonUtility.ToJson(config, true);
-            File.WriteAllText(configPath, json);
-            Logger.EditorLogInfo($"配置文件已保存: {configPath}", LogTag.CodeUnfucker);
-        }
-        catch (Exception ex)
-        {
-            Logger.EditorLogError($"保存配置文件失败: {ex.Message}", LogTag.CodeUnfucker);
-        }
+        CodeUnfuckerConfigManager.SaveConfig(config);
     }
 
     public void UpdateSelectedItems(List<FileTreeItem> items)
@@ -378,15 +251,13 @@ public class OperationPanel
             string projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
             // 源配置文件路径
             string sourceConfigPath = Path.Combine(
-                projectRoot,
-                "CodeUnfucker",
+                CodeUnfuckerBridge.GetCodeUnfuckerProjectPath(),
                 "Config",
                 "FormatterConfig.json"
             );
             // 构建输出目录的配置文件路径
             string outputConfigPath = Path.Combine(
-                projectRoot,
-                "CodeUnfucker",
+                CodeUnfuckerBridge.GetCodeUnfuckerProjectPath(),
                 "bin",
                 "Debug",
                 "net9.0",
