@@ -25,7 +25,7 @@ public class DotnetConfigWindow : OdinEditorWindow
         base.OnEnable();
         if (config == null)
         {
-            config = new CodeUnfuckerConfig();
+            config = CodeUnfuckerConfigManager.GetConfig();
         }
 
         configTree = PropertyTree.Create(config);
@@ -101,7 +101,7 @@ public class DotnetConfigWindow : OdinEditorWindow
             )
         )
         {
-            config = new CodeUnfuckerConfig();
+            config = CodeUnfuckerConfigManager.ResetToDefault();
             SetConfig(config);
             ShowNotification(new GUIContent("已重置为默认配置"));
         }
