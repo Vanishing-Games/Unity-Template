@@ -27,98 +27,81 @@ namespace Core
 
         public static void EditorLogVerbose(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(true, false))
-                return;
+#if UNITY_EDITOR
             Output(LogLevel.Verbose, message, tags);
+#endif
         }
 
-        public static void BuildLogVerbose(string message, params LogTag[] tags)
+        public static void DebugLogVerbose(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(false, true))
-                return;
+#if BUILD_MODE_DEBUG
             Output(LogLevel.Verbose, message, tags);
+#endif
         }
 
-        public static void BothLogVerbose(string message, params LogTag[] tags)
+        public static void ReleaseLogVerbose(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(true, true))
-                return;
             Output(LogLevel.Verbose, message, tags);
         }
 
         public static void EditorLogInfo(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(true, false))
-                return;
+#if UNITY_EDITOR
             Output(LogLevel.Info, message, tags);
+#endif
         }
 
-        public static void BuildLogInfo(string message, params LogTag[] tags)
+        public static void DebugLogInfo(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(false, true))
-                return;
+#if BUILD_MODE_DEBUG
             Output(LogLevel.Info, message, tags);
+#endif
         }
 
-        public static void BothLogInfo(string message, params LogTag[] tags)
+        public static void ReleaseLogInfo(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(true, true))
-                return;
             Output(LogLevel.Info, message, tags);
         }
 
         public static void EditorLogWarn(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(true, false))
-                return;
+#if UNITY_EDITOR
             Output(LogLevel.Warning, message, tags);
+#endif
         }
 
-        public static void BuildLogWarn(string message, params LogTag[] tags)
+        public static void DebugLogWarn(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(false, true))
-                return;
+#if BUILD_MODE_DEBUG
             Output(LogLevel.Warning, message, tags);
+#endif
         }
 
-        public static void BothLogWarn(string message, params LogTag[] tags)
+        public static void ReleaseLogWarn(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(true, true))
-                return;
             Output(LogLevel.Warning, message, tags);
         }
 
         public static void EditorLogError(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(true, false))
-                return;
+#if UNITY_EDITOR
             Output(LogLevel.Error, message, tags);
+#endif
         }
 
-        public static void BuildLogError(string message, params LogTag[] tags)
+        public static void DebugLogError(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(false, true))
-                return;
+#if BUILD_MODE_DEBUG
             Output(LogLevel.Error, message, tags);
+#endif
         }
 
-        public static void BothLogError(string message, params LogTag[] tags)
+        public static void ReleaseLogError(string message, params LogTag[] tags)
         {
-            if (!IsLogAllowed(true, true))
-                return;
             Output(LogLevel.Error, message, tags);
         }
 
         // ========== 内部方法 ==========
-
-        private static bool IsLogAllowed(bool showInEditor, bool showInBuild)
-        {
-#if UNITY_EDITOR
-            return showInEditor;
-#else
-            return showInBuild && Debug.isDebugBuild;
-#endif
-        }
 
         private static bool ShouldLog(LogLevel level)
         {
@@ -188,9 +171,6 @@ namespace Core
                 );
                 return;
             }
-
-            if (!IsLogAllowed(true, true))
-                return;
 
             string assemblyName = GetCallingAssemblyName();
             string assemblyStr = $"<b><color=#2196F3>▶▶▶{assemblyName}</color></b>";
