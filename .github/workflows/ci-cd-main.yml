@@ -344,15 +344,24 @@ jobs:
           echo "### ⚙️ 当前流水线配置" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**项目信息:**" >> $GITHUB_STEP_SUMMARY
-          jq -r '.project | "- 名称: \(.name)\n- Unity版本: \(.unityVersion)\n- 描述: \(.description)"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-----|" >> $GITHUB_STEP_SUMMARY
+          jq -r '.project | "| 名称 | \(.name) |\n| Unity版本 | \(.unityVersion) |\n| 描述 | \(.description) |"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
           
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**作业配置:**" >> $GITHUB_STEP_SUMMARY
-          jq -r '.jobs | to_entries[] | select(.key != "description") | "- \(.value.name): \(.value.description) (超时: \(.value.timeout)分钟)"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 作业名称 | 描述 | 超时时间 | 失败处理 |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|------|----------|----------|" >> $GITHUB_STEP_SUMMARY
+          jq -r '.jobs | to_entries[] | select(.key != "description") | "| \(.value.name) | \(.value.description) | \(.value.timeout)分钟 | \(.value.failureAction) |"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
           echo "**支持的关键字:**" >> $GITHUB_STEP_SUMMARY
-          jq -r '.triggers.skipKeywords.keywords[] | "- \(.keyword): \(.description)"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 关键字 | 描述 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
+          jq -r '.triggers.skipKeywords.keywords[] | "| \(.keyword) | \(.description) |"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
           echo "### 📋 执行阶段预测" >> $GITHUB_STEP_SUMMARY
