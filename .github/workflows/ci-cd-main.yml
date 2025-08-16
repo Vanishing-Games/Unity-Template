@@ -616,6 +616,7 @@ jobs:
             Library-
 
       - name: 🔨 Unity构建
+        id: unity-build
         uses: game-ci/unity-builder@v4
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -637,21 +638,37 @@ jobs:
         if: contains(github.event.pull_request.title, '[ADD DEPLOY]') || contains(github.event.head_commit.message, '[ADD DEPLOY]')
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.load-build-config.outputs.project_name }}_${{ github.event.pull_request.title || github.ref_name }}
+          name: ${{ steps.load-build-config.outputs.project_name }}_${{ matrix.buildTarget }}_${{ github.event.pull_request.title || github.ref_name }}
           path: build/
           retention-days: ${{ steps.load-build-config.outputs.retention_days }}
 
       - name: 📋 构建结果摘要
+        if: always()
         run: |
+          # 检查前面步骤的状态
+          BUILD_STATUS="${{ steps.unity-build.conclusion || 'unknown' }}"
+          
           echo "## 🔨 构建测试结果 - ${{ matrix.displayName }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **构建状态:** 成功" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "$BUILD_STATUS" == "success" ]]; then
+            echo "✅ **构建状态:** 成功" >> $GITHUB_STEP_SUMMARY
+          elif [[ "$BUILD_STATUS" == "failure" ]]; then
+            echo "❌ **构建状态:** 失败" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **构建状态:** $BUILD_STATUS" >> $GITHUB_STEP_SUMMARY
+          fi
+          
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**构建信息:**" >> $GITHUB_STEP_SUMMARY
           echo "- 平台: \`${{ matrix.displayName }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- 目标: \`${{ matrix.buildTarget }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- 类型: \`${{ steps.load-build-config.outputs.build_type }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- 产物名称: \`${{ steps.load-build-config.outputs.project_name }}_${{ matrix.buildTarget }}_v${{ github.run_number }}\`" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "$BUILD_STATUS" == "failure" ]]; then
+            echo "- 失败原因: 请查看构建日志了解详细错误信息" >> $GITHUB_STEP_SUMMARY
+          fi
 
   # =============================================================================
   # 阶段4: 部署到GitHub Pages - 将构建产物部署到GitHub Pages
@@ -663,7 +680,7 @@ jobs:
     if: |
       always() &&
       needs.flow-prediction.outputs.should_run_deploy == 'true' &&
-      needs.build-tests.result == 'success'
+      (needs.build-tests.result == 'success' || needs.build-tests.result == 'failure')
     
 
     
@@ -702,6 +719,7 @@ jobs:
       - name: 📥 下载构建产物
         if: steps.load-deploy-config.outputs.branch_check == 'pass'
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           pattern: ${{ steps.load-deploy-config.outputs.project_name }}_*_v${{ github.run_number }}
           path: ./artifacts
