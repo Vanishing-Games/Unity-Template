@@ -732,6 +732,7 @@ jobs:
           echo "current_branch=$CURRENT_BRANCH" >> $GITHUB_OUTPUT
 
       - name: 📥 下载构建产物
+        id: download-artifacts
         if: steps.load-deploy-config.outputs.branch_check == 'pass'
         uses: actions/download-artifact@v4
         continue-on-error: true
@@ -741,6 +742,7 @@ jobs:
           merge-multiple: true
 
       - name: 📄 准备Pages内容
+        id: prepare-pages
         if: steps.load-deploy-config.outputs.branch_check == 'pass'
         run: |
           echo "📄 准备GitHub Pages部署内容..."
@@ -812,12 +814,36 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: 📋 部署结果摘要
+        if: always()
         run: |
           echo "## 🚀 GitHub Pages部署结果" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          if [[ "${{ steps.load-deploy-config.outputs.branch_check }}" == "pass" ]]; then
-            echo "✅ **部署状态:** 成功" >> $GITHUB_STEP_SUMMARY
+          # 检查各个步骤的状态
+          BRANCH_CHECK="${{ steps.load-deploy-config.outputs.branch_check }}"
+          DOWNLOAD_STATUS="${{ steps.download-artifacts.conclusion || 'unknown' }}"
+          PREPARE_STATUS="${{ steps.prepare-pages.conclusion || 'unknown' }}"
+          DEPLOY_STATUS="${{ steps.deployment.conclusion || 'unknown' }}"
+          
+          echo "🔍 调试信息:"
+          echo "- 分支检查: $BRANCH_CHECK"
+          echo "- 下载产物: $DOWNLOAD_STATUS"
+          echo "- 准备内容: $PREPARE_STATUS"
+          echo "- 部署状态: $DEPLOY_STATUS"
+          echo ""
+          
+          if [[ "$BRANCH_CHECK" == "pass" ]]; then
+            # 分支检查通过，检查部署结果
+            if [[ "$DEPLOY_STATUS" == "success" ]]; then
+              echo "✅ **部署状态:** 成功" >> $GITHUB_STEP_SUMMARY
+            elif [[ "$DEPLOY_STATUS" == "failure" ]]; then
+              echo "❌ **部署状态:** 失败" >> $GITHUB_STEP_SUMMARY
+            elif [[ "$DEPLOY_STATUS" == "skipped" ]]; then
+              echo "⏭️ **部署状态:** 跳过" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "⚠️ **部署状态:** $DEPLOY_STATUS" >> $GITHUB_STEP_SUMMARY
+            fi
+            
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**部署信息:**" >> $GITHUB_STEP_SUMMARY
             echo "- 项目名称: \`${{ steps.load-deploy-config.outputs.project_name }}\`" >> $GITHUB_STEP_SUMMARY
@@ -834,6 +860,12 @@ jobs:
             if [[ -n "${{ steps.deployment.outputs.page_url }}" ]]; then
               echo "- 访问链接: [${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
             fi
+            
+            # 显示错误信息（如果有）
+            if [[ "$DEPLOY_STATUS" == "failure" ]]; then
+              echo "- 失败原因: 请查看部署日志了解详细错误信息" >> $GITHUB_STEP_SUMMARY
+            fi
+            
           else
             echo "⏭️ **部署状态:** 跳过" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
