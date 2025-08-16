@@ -3,7 +3,15 @@
  * //  Copyright (c) 2025 Vanishing Games. All Rights Reserved.
  * @Author: VanishXiao
  * @Date: 2025-08-16 14:39:46
- * @LastEditTime: 2025-08-16 15:42:01
+ * @LastEditTime: 2025-08-16 16:12:57
+ * // -----------------------------------------------------------------------------
+-->
+<!--
+ * // -----------------------------------------------------------------------------
+ * //  Copyright (c) 2025 Vanishing Games. All Rights Reserved.
+ * @Author: VanishXiao
+ * @Date: 2025-08-16 14:39:46
+ * @LastEditTime: 2025-08-16 16:01:06
  * // -----------------------------------------------------------------------------
 -->
 # Actions
@@ -96,3 +104,5 @@ flowchart LR
 # 流水线设置
 
 流水线中的相关变量和设置除了secrets以外全部读取workflows中的全局配置文件
+
+配置文件以及设置文件就放在(.github/workflows/Pipeline Config)文件夹中

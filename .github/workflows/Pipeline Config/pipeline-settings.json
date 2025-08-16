@@ -1,0 +1,152 @@
+{
+  "project": {
+    "name": "Unity-Template",
+    "displayName": "Unity Template 项目",
+    "unityVersion": "2022.3.58f1",
+    "description": "Unity 项目模板的CI/CD配置"
+  },
+  "triggers": {
+    "description": "定义CI/CD流水线的触发条件和分支规则",
+    "branches": {
+      "release": {
+        "pattern": "release/**",
+        "description": "发布分支，触发完整CI/CD流程",
+        "triggers": ["unit_tests", "build_tests", "code_style", "deploy_pages"],
+        "buildType": "release"
+      },
+      "develop": {
+        "pattern": "develop",
+        "description": "开发分支PR，触发CI验证流程",
+        "triggers": ["unit_tests", "code_style"],
+        "buildType": "preview"
+      },
+      "main": {
+        "pattern": "main",
+        "description": "主分支PR，触发完整CI流程",
+        "triggers": ["unit_tests", "build_tests", "code_style"],
+        "buildType": "release_candidate"
+      },
+      "schedule": {
+        "cron": "0 11 * * 0",
+        "timezone": "Asia/Shanghai",
+        "description": "北京时间每周日晚上7点，在develop分支执行构建测试",
+        "triggers": ["build_tests"],
+        "buildType": "preview"
+      }
+    },
+    "skipKeywords": {
+      "description": "在PR标题或commit消息中使用这些关键字来控制CI/CD行为",
+      "keywords": [
+        {
+          "keyword": "[SKIP CICD]",
+          "action": "skip_all",
+          "description": "完全跳过CI/CD流程"
+        },
+        {
+          "keyword": "[SKIP TEST]", 
+          "action": "skip_tests",
+          "description": "跳过单元测试步骤"
+        },
+        {
+          "keyword": "[SKIP BUILD]",
+          "action": "skip_build", 
+          "description": "跳过构建步骤"
+        }
+      ]
+    }
+  },
+  "jobs": {
+    "description": "CI/CD流水线中的各个作业配置",
+    "unit_tests": {
+      "name": "Unity 单元测试",
+      "description": "运行Unity项目中的单元测试",
+      "timeout": 30,
+      "failureAction": "stop_pipeline",
+      "settings": {
+        "testPaths": {
+          "editMode": "Assets/Tests/Editor",
+          "playMode": "Assets/Tests/PlayMode"
+        },
+        "generateCoverage": true,
+        "quietMode": false
+      }
+    },
+    "build_tests": {
+      "name": "构建测试",
+      "description": "构建Windows和macOS(ARM)版本",
+      "timeout": 60,
+      "failureAction": "warn_only",
+      "settings": {
+        "platforms": [
+          {
+            "name": "Windows 64位",
+            "buildTarget": "StandaloneWindows64",
+            "os": "ubuntu-latest"
+          },
+          {
+            "name": "macOS (ARM)",
+            "buildTarget": "StandaloneOSX",
+            "os": "macos-latest"
+          }
+        ],
+        "retentionDays": 7
+      }
+    },
+    "code_style": {
+      "name": "代码风格检测与校准",
+      "description": "使用roslynator检查代码格式",
+      "timeout": 15,
+      "failureAction": "stop_pipeline",
+      "settings": {
+        "autoFix": true,
+        "checkPaths": ["Assets", "CodeUnfucker"],
+        "excludePaths": ["Assets/Tests", "Assets/Plugins", "Assets/StreamingAssets"]
+      }
+    },
+    "deploy_pages": {
+      "name": "部署到GitHub Pages",
+      "description": "将构建产物部署到GitHub Pages",
+      "timeout": 10,
+      "failureAction": "warn_only",
+      "settings": {
+        "artifactNamePattern": "{项目名称}_{构建平台}_v{版本}",
+        "branchRequirement": "release/**"
+      }
+    }
+  },
+  "requirements": {
+    "description": "运行CI/CD流水线所需的配置和密钥",
+    "secrets": {
+      "required": [
+        {
+          "name": "UNITY_EMAIL",
+          "description": "Unity 账户邮箱"
+        },
+        {
+          "name": "UNITY_PASSWORD", 
+          "description": "Unity 账户密码"
+        },
+        {
+          "name": "UNITY_LICENSE",
+          "description": "Unity 许可证内容"
+        }
+      ],
+      "optional": [
+        {
+          "name": "GITHUB_TOKEN",
+          "description": "GitHub Pages 部署令牌（通常自动提供）"
+        }
+      ]
+    }
+  },
+  "notifications": {
+    "description": "流水线执行结果通知配置",
+    "enabled": true,
+    "channels": {
+      "console": {
+        "enabled": true,
+        "level": "info"
+      }
+    }
+  }
+}
