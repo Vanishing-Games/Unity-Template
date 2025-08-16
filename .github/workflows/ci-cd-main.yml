@@ -627,18 +627,26 @@ jobs:
           targetPlatform: ${{ matrix.buildTarget }}
           buildName: ${{ steps.load-build-config.outputs.project_name }}
           
+      - name: 📦 确定产物名称并上传
+        id: determine-artifact-name
+        run: |
+          # 确定产物名称
+          if [[ "${{ github.event.pull_request.title }}" == *"[ADD DEPLOY]"* ]] || [[ "${{ github.event.head_commit.message }}" == *"[ADD DEPLOY]"* ]]; then
+            # 使用特殊命名（用于部署）
+            ARTIFACT_NAME="${{ steps.load-build-config.outputs.project_name }}_${{ matrix.buildTarget }}_${{ github.event.pull_request.title || github.ref_name }}"
+            echo "使用部署专用命名: $ARTIFACT_NAME"
+          else
+            # 使用常规命名
+            ARTIFACT_NAME="${{ steps.load-build-config.outputs.project_name }}_${{ matrix.buildTarget }}_v${{ github.run_number }}"
+            echo "使用常规命名: $ARTIFACT_NAME"
+          fi
+          
+          echo "artifact_name=$ARTIFACT_NAME" >> $GITHUB_OUTPUT
+
       - name: 📦 上传构建产物
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.load-build-config.outputs.project_name }}_${{ matrix.buildTarget }}_v${{ github.run_number }}
-          path: build/
-          retention-days: ${{ steps.load-build-config.outputs.retention_days }}
-
-      - name: 📦 上传特殊命名的构建产物 (用于ADD DEPLOY)
-        if: contains(github.event.pull_request.title, '[ADD DEPLOY]') || contains(github.event.head_commit.message, '[ADD DEPLOY]')
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.load-build-config.outputs.project_name }}_${{ matrix.buildTarget }}_${{ github.event.pull_request.title || github.ref_name }}
+          name: ${{ steps.determine-artifact-name.outputs.artifact_name }}
           path: build/
           retention-days: ${{ steps.load-build-config.outputs.retention_days }}
 
@@ -664,7 +672,7 @@ jobs:
           echo "- 平台: \`${{ matrix.displayName }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- 目标: \`${{ matrix.buildTarget }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- 类型: \`${{ steps.load-build-config.outputs.build_type }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- 产物名称: \`${{ steps.load-build-config.outputs.project_name }}_${{ matrix.buildTarget }}_v${{ github.run_number }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- 产物名称: \`${{ steps.determine-artifact-name.outputs.artifact_name }}\`" >> $GITHUB_STEP_SUMMARY
           
           if [[ "$BUILD_STATUS" == "failure" ]]; then
             echo "- 失败原因: 请查看构建日志了解详细错误信息" >> $GITHUB_STEP_SUMMARY
