@@ -713,11 +713,18 @@ jobs:
           
           # 检查当前分支是否符合要求
           CURRENT_BRANCH="${{ github.ref_name }}"
-          if [[ "$CURRENT_BRANCH" =~ $BRANCH_REQUIREMENT ]]; then
+          
+          # 检查是否有强制部署关键字
+          if [[ "${{ github.event.pull_request.title }}" == *"[ADD DEPLOY]"* ]] || [[ "${{ github.event.head_commit.message }}" == *"[ADD DEPLOY]"* ]]; then
+            echo "🔥 检测到 [ADD DEPLOY] 关键字，跳过分支限制"
+            echo "✅ 强制部署：忽略分支要求 ($BRANCH_REQUIREMENT)"
+            echo "branch_check=pass" >> $GITHUB_OUTPUT
+          elif [[ "$CURRENT_BRANCH" =~ $BRANCH_REQUIREMENT ]]; then
             echo "✅ 当前分支 ($CURRENT_BRANCH) 符合部署要求"
             echo "branch_check=pass" >> $GITHUB_OUTPUT
           else
             echo "❌ 当前分支 ($CURRENT_BRANCH) 不符合部署要求 ($BRANCH_REQUIREMENT)"
+            echo "❓ 提示：使用 [ADD DEPLOY] 关键字可强制部署"
             echo "branch_check=fail" >> $GITHUB_OUTPUT
           fi
           
@@ -816,6 +823,14 @@ jobs:
             echo "- 项目名称: \`${{ steps.load-deploy-config.outputs.project_name }}\`" >> $GITHUB_STEP_SUMMARY
             echo "- 构建版本: \`v${{ github.run_number }}\`" >> $GITHUB_STEP_SUMMARY
             echo "- 源分支: \`${{ steps.load-deploy-config.outputs.current_branch }}\`" >> $GITHUB_STEP_SUMMARY
+            
+            # 检查是否是强制部署
+            if [[ "${{ github.event.pull_request.title }}" == *"[ADD DEPLOY]"* ]] || [[ "${{ github.event.head_commit.message }}" == *"[ADD DEPLOY]"* ]]; then
+              echo "- 部署类型: \`强制部署 (通过 [ADD DEPLOY] 关键字)\`" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- 部署类型: \`标准部署 (符合分支要求)\`" >> $GITHUB_STEP_SUMMARY
+            fi
+            
             if [[ -n "${{ steps.deployment.outputs.page_url }}" ]]; then
               echo "- 访问链接: [${{ steps.deployment.outputs.page_url }}](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
             fi
@@ -823,6 +838,8 @@ jobs:
             echo "⏭️ **部署状态:** 跳过" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**跳过原因:** 当前分支 (\`${{ steps.load-deploy-config.outputs.current_branch }}\`) 不符合部署要求" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "💡 **提示:** 在PR标题中添加 \`[ADD DEPLOY]\` 关键字可强制启用部署" >> $GITHUB_STEP_SUMMARY
           fi
 
   # =============================================================================
