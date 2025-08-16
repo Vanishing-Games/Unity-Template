@@ -36,17 +36,17 @@ on:
       skip_tests:
         description: '跳过单元测试'
         required: false
-        default: 'false'
+        default: false
         type: boolean
       skip_build:
         description: '跳过构建测试'  
         required: false
-        default: 'false'
+        default: false
         type: boolean
       skip_style:
         description: '跳过代码风格检查'
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
 # 权限配置
@@ -158,21 +158,15 @@ jobs:
           # 检查增加关键字
           if [[ "$COMMIT_MSG" =~ \[ADD\ TEST\] ]]; then
             ADD_TESTS=true
-            if [[ -z "$SKIP_REASON" ]]; then
-              SKIP_REASON="PR标题/commit消息包含 [ADD TEST]"
-            fi
+            echo "🔍 检测到 [ADD TEST] 关键字"
           fi
           if [[ "$COMMIT_MSG" =~ \[ADD\ BUILD\] ]]; then
             ADD_BUILD=true
-            if [[ -z "$SKIP_REASON" ]]; then
-              SKIP_REASON="PR标题/commit消息包含 [ADD BUILD]"
-            fi
+            echo "🔍 检测到 [ADD BUILD] 关键字"
           fi
           if [[ "$COMMIT_MSG" =~ \[ADD\ DEPLOY\] ]]; then
             ADD_DEPLOY=true
-            if [[ -z "$SKIP_REASON" ]]; then
-              SKIP_REASON="PR标题/commit消息包含 [ADD DEPLOY]"
-            fi
+            echo "🔍 检测到 [ADD DEPLOY] 关键字"
           fi
           
           # 检查手动输入参数
@@ -221,6 +215,7 @@ jobs:
             
           elif [[ "$BRANCH_NAME" == "develop" && "$EVENT_NAME" == "pull_request" ]]; then
             # Develop分支PR - CI验证流程
+            echo "🔍 检测到 develop 分支 PR，应用默认配置"
             SHOULD_RUN_TESTS=true
             SHOULD_RUN_BUILD=false
             SHOULD_RUN_STYLE=true
@@ -276,20 +271,45 @@ jobs:
           fi
           
           # 应用增加设置
+          ADD_REASONS=""
           if [[ "$ADD_TESTS" == "true" ]]; then
             SHOULD_RUN_TESTS=true
+            echo "✅ 应用 [ADD TEST]：启用单元测试"
+            ADD_REASONS="${ADD_REASONS}[ADD TEST] "
           fi
           if [[ "$ADD_BUILD" == "true" ]]; then
             SHOULD_RUN_BUILD=true
+            echo "✅ 应用 [ADD BUILD]：启用构建测试"
+            ADD_REASONS="${ADD_REASONS}[ADD BUILD] "
           fi
           if [[ "$ADD_DEPLOY" == "true" ]]; then
             SHOULD_RUN_DEPLOY=true
+            echo "✅ 应用 [ADD DEPLOY]：启用部署"
+            ADD_REASONS="${ADD_REASONS}[ADD DEPLOY] "
             # 如果要部署但没有构建，自动启用构建
             if [[ "$SHOULD_RUN_BUILD" == "false" ]]; then
               SHOULD_RUN_BUILD=true
+              echo "✅ 自动启用构建（部署需要构建产物）"
             fi
           fi
           
+          # 更新跳过/增加原因
+          if [[ -n "$ADD_REASONS" ]]; then
+            if [[ -z "$SKIP_REASON" ]]; then
+              SKIP_REASON="PR标题包含增强关键字: $ADD_REASONS"
+            else
+              SKIP_REASON="${SKIP_REASON}; 同时包含增强关键字: $ADD_REASONS"
+            fi
+          fi
+          
+          echo ""
+          echo "🔧 关键字状态:"
+          echo "  ADD_TESTS: $ADD_TESTS"
+          echo "  ADD_BUILD: $ADD_BUILD"
+          echo "  ADD_DEPLOY: $ADD_DEPLOY"
+          echo "  SKIP_TESTS: $SKIP_TESTS"
+          echo "  SKIP_BUILD: $SKIP_BUILD"
+          echo "  SKIP_FORMAT: $SKIP_FORMAT"
           echo ""
           echo "📋 流程预测结果:"
           echo "  构建类型: $BUILD_TYPE"
@@ -493,9 +513,6 @@ jobs:
         with:
           unityVersion: ${{ steps.load-test-config.outputs.unity_version }}
           testMode: EditMode
-          customTestArguments: |
-            -testCategory EditMode
-            -testSettings ${{ steps.load-test-config.outputs.edit_mode_path }}
 
       - name: 🎮 运行PlayMode测试  
         uses: game-ci/unity-test-runner@v4
@@ -506,9 +523,6 @@ jobs:
         with:
           unityVersion: ${{ steps.load-test-config.outputs.unity_version }}
           testMode: PlayMode
-          customTestArguments: |
-            -testCategory PlayMode
-            -testSettings ${{ steps.load-test-config.outputs.play_mode_path }}
 
       - name: 📊 上传测试结果
         uses: actions/upload-artifact@v4
@@ -642,9 +656,7 @@ jobs:
       needs.flow-prediction.outputs.should_run_deploy == 'true' &&
       needs.build-tests.result == 'success'
     
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+
     
     steps:
       - name: 检出代码
