@@ -65,15 +65,33 @@ flowchart LR
 | 关键字 | 作用 | 使用场景 |
 |--------|------|----------|
 | `[SKIP CICD]` | 完全跳过CI/CD流程 | 仅更新文档或配置时 |
+| `[SKIP FORMAT]` | 跳过代码格式化检查步骤 | 仅更新文档或配置时 |
 | `[SKIP TEST]` | 跳过单元测试步骤 | 同上 |
 | `[SKIP BUILD]` | 跳过构建步骤 | 在功能分支测试时 |
+| `[ADD TEST]` | 增加单元测试步骤(如果没有) | 希望进行单元测试时 |
+| `[ADD BUILD]` | 增加构建步骤(如果没有) | 希望进行构建测试时 |
+| `[ADD DEPLOY]` | 增加部署步骤(如果没有) | 希望部署构建产物时 |
 
 ### 使用示例
 
+#### 跳过相关
 ```bash
 git commit -m "docs: 更新README [SKIP CICD]"
+git commit -m "style: 格式化代码 [SKIP FORMAT]"  
+git commit -m "refactor: 重构代码 [SKIP TEST]"
 git commit -m "feat: 添加新功能 [SKIP BUILD]"
-git commit -m "feat: 完整功能实现"  # 正常执行完整流程
+```
+
+#### 增加相关  
+```bash
+git commit -m "feat: 新功能需要测试 [ADD TEST]"
+git commit -m "feat: 功能完成需要构建 [ADD BUILD]"
+git commit -m "feat: 完整功能需要部署 [ADD DEPLOY]"
+```
+
+#### 正常流程
+```bash
+git commit -m "feat: 完整功能实现"  # 根据分支自动执行对应流程
 ```
 
 ## ⚙️ 配置管理

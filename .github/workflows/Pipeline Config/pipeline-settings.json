@@ -51,6 +51,26 @@
           "keyword": "[SKIP BUILD]",
           "action": "skip_build", 
           "description": "跳过构建步骤"
+        },
+        {
+          "keyword": "[SKIP FORMAT]",
+          "action": "skip_format",
+          "description": "跳过代码格式化检查步骤"
+        },
+        {
+          "keyword": "[ADD TEST]",
+          "action": "add_tests",
+          "description": "增加单元测试步骤(如果没有)"
+        },
+        {
+          "keyword": "[ADD BUILD]",
+          "action": "add_build",
+          "description": "增加构建步骤(如果没有)"
+        },
+        {
+          "keyword": "[ADD DEPLOY]",
+          "action": "add_deploy",
+          "description": "增加部署步骤(如果没有),构建产物命名为{项目名称}_{PR名称}"
         }
       ]
     }

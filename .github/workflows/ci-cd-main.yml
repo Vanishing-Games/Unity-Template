@@ -95,9 +95,21 @@ jobs:
           
           echo "✅ 配置文件加载成功"
           
-          # 输出配置摘要
+          # 输出详细配置摘要
           echo "📋 项目信息:"
           jq -r '.project | "  名称: \(.name)\n  版本: \(.unityVersion)\n  描述: \(.description)"' ".github/workflows/Pipeline Config/pipeline-settings.json"
+          
+          echo ""
+          echo "🔧 流水线作业配置:"
+          jq -r '.jobs | to_entries[] | select(.key != "description") | "  \(.value.name): \(.value.description) (超时: \(.value.timeout)分钟, 失败处理: \(.value.failureAction))"' ".github/workflows/Pipeline Config/pipeline-settings.json"
+          
+          echo ""
+          echo "🎛️ 支持的PR关键字:"
+          jq -r '.triggers.skipKeywords.keywords[] | "  \(.keyword): \(.description)"' ".github/workflows/Pipeline Config/pipeline-settings.json"
+          
+          echo ""
+          echo "🔑 必需的Secrets:"
+          jq -r '.requirements.secrets.required[] | "  \(.name): \(.description)"' ".github/workflows/Pipeline Config/pipeline-settings.json"
 
       - name: 🎯 分析触发条件和预测流程
         id: predict
@@ -109,10 +121,14 @@ jobs:
           REF_NAME="${{ github.ref_name }}" 
           BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
           
-          # 检查PR标题或最新commit消息中的跳过关键字
+          # 检查PR标题或最新commit消息中的控制关键字
           SKIP_ALL=false
           SKIP_TESTS=false
           SKIP_BUILD=false
+          SKIP_FORMAT=false
+          ADD_TESTS=false
+          ADD_BUILD=false
+          ADD_DEPLOY=false
           SKIP_REASON=""
           
           if [[ "$EVENT_NAME" == "pull_request" ]]; then
@@ -127,13 +143,36 @@ jobs:
           # 检查跳过关键字
           if [[ "$COMMIT_MSG" =~ \[SKIP\ CICD\] ]]; then
             SKIP_ALL=true
-            SKIP_REASON="commit消息包含 [SKIP CICD]"
+            SKIP_REASON="PR标题/commit消息包含 [SKIP CICD]"
+          elif [[ "$COMMIT_MSG" =~ \[SKIP\ FORMAT\] ]]; then
+            SKIP_FORMAT=true
+            SKIP_REASON="PR标题/commit消息包含 [SKIP FORMAT]"
           elif [[ "$COMMIT_MSG" =~ \[SKIP\ TEST\] ]]; then
             SKIP_TESTS=true
-            SKIP_REASON="commit消息包含 [SKIP TEST]"  
+            SKIP_REASON="PR标题/commit消息包含 [SKIP TEST]"  
           elif [[ "$COMMIT_MSG" =~ \[SKIP\ BUILD\] ]]; then
             SKIP_BUILD=true
-            SKIP_REASON="commit消息包含 [SKIP BUILD]"
+            SKIP_REASON="PR标题/commit消息包含 [SKIP BUILD]"
+          fi
+          
+          # 检查增加关键字
+          if [[ "$COMMIT_MSG" =~ \[ADD\ TEST\] ]]; then
+            ADD_TESTS=true
+            if [[ -z "$SKIP_REASON" ]]; then
+              SKIP_REASON="PR标题/commit消息包含 [ADD TEST]"
+            fi
+          fi
+          if [[ "$COMMIT_MSG" =~ \[ADD\ BUILD\] ]]; then
+            ADD_BUILD=true
+            if [[ -z "$SKIP_REASON" ]]; then
+              SKIP_REASON="PR标题/commit消息包含 [ADD BUILD]"
+            fi
+          fi
+          if [[ "$COMMIT_MSG" =~ \[ADD\ DEPLOY\] ]]; then
+            ADD_DEPLOY=true
+            if [[ -z "$SKIP_REASON" ]]; then
+              SKIP_REASON="PR标题/commit消息包含 [ADD DEPLOY]"
+            fi
           fi
           
           # 检查手动输入参数
@@ -229,8 +268,26 @@ jobs:
             SHOULD_RUN_BUILD=false
             SHOULD_RUN_DEPLOY=false
           fi
+          if [[ "$SKIP_FORMAT" == "true" ]]; then
+            SHOULD_RUN_STYLE=false
+          fi
           if [[ "$SKIP_STYLE" == "true" ]]; then
             SHOULD_RUN_STYLE=false
+          fi
+          
+          # 应用增加设置
+          if [[ "$ADD_TESTS" == "true" ]]; then
+            SHOULD_RUN_TESTS=true
+          fi
+          if [[ "$ADD_BUILD" == "true" ]]; then
+            SHOULD_RUN_BUILD=true
+          fi
+          if [[ "$ADD_DEPLOY" == "true" ]]; then
+            SHOULD_RUN_DEPLOY=true
+            # 如果要部署但没有构建，自动启用构建
+            if [[ "$SHOULD_RUN_BUILD" == "false" ]]; then
+              SHOULD_RUN_BUILD=true
+            fi
           fi
           
           echo ""
@@ -260,6 +317,25 @@ jobs:
           echo "## 🚀 CI/CD流水线执行预测" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**执行描述:** ${{ steps.predict.outputs.pipeline_description }}" >> $GITHUB_STEP_SUMMARY
+          echo "**构建类型:** \`${{ steps.predict.outputs.build_type }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # 添加当前配置信息
+          echo "### ⚙️ 当前流水线配置" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**项目信息:**" >> $GITHUB_STEP_SUMMARY
+          jq -r '.project | "- 名称: \(.name)\n- Unity版本: \(.unityVersion)\n- 描述: \(.description)"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**作业配置:**" >> $GITHUB_STEP_SUMMARY
+          jq -r '.jobs | to_entries[] | select(.key != "description") | "- \(.value.name): \(.value.description) (超时: \(.value.timeout)分钟)"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "**支持的关键字:**" >> $GITHUB_STEP_SUMMARY
+          jq -r '.triggers.skipKeywords.keywords[] | "- \(.keyword): \(.description)"' ".github/workflows/Pipeline Config/pipeline-settings.json" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### 📋 执行阶段预测" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| 阶段 | 状态 | 说明 |" >> $GITHUB_STEP_SUMMARY
           echo "|------|------|------|" >> $GITHUB_STEP_SUMMARY
@@ -289,11 +365,10 @@ jobs:
           fi
           
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**构建类型:** \`${{ steps.predict.outputs.build_type }}\`" >> $GITHUB_STEP_SUMMARY
           
           if [[ -n "${{ steps.predict.outputs.skip_reason }}" ]]; then
-            echo "" >> $GITHUB_STEP_SUMMARY
             echo "**跳过原因:** ${{ steps.predict.outputs.skip_reason }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
           fi
 
   # =============================================================================
@@ -532,6 +607,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.load-build-config.outputs.project_name }}_${{ matrix.buildTarget }}_v${{ github.run_number }}
+          path: build/
+          retention-days: ${{ steps.load-build-config.outputs.retention_days }}
+
+      - name: 📦 上传特殊命名的构建产物 (用于ADD DEPLOY)
+        if: contains(github.event.pull_request.title, '[ADD DEPLOY]') || contains(github.event.head_commit.message, '[ADD DEPLOY]')
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.load-build-config.outputs.project_name }}_${{ github.event.pull_request.title || github.ref_name }}
           path: build/
           retention-days: ${{ steps.load-build-config.outputs.retention_days }}
 
