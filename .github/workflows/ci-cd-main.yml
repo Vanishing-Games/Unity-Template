@@ -62,7 +62,7 @@ jobs:
   # 阶段0: 流程预测 - 分析配置并预测将执行的步骤
   # =============================================================================
   flow-prediction:
-    name: 📋 流程预测 (${{ github.event_name }})
+    name: 📋 流程预测
     runs-on: ubuntu-latest
     outputs:
       should_run_tests: ${{ steps.predict.outputs.should_run_tests }}
