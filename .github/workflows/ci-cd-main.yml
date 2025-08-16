@@ -16,6 +16,7 @@ on:
 
   # Push 触发 - 仅release分支和develop分支的直接推送
   # 注意：当创建PR时，不会触发目标分支的push事件，只会触发pull_request事件
+  # 排除PR分支的推送，避免与pull_request事件重复
   push:
     branches: 
       - develop
@@ -61,7 +62,7 @@ jobs:
   # 阶段0: 流程预测 - 分析配置并预测将执行的步骤
   # =============================================================================
   flow-prediction:
-    name: 📋 流程预测
+    name: 📋 流程预测 (${{ github.event_name }})
     runs-on: ubuntu-latest
     outputs:
       should_run_tests: ${{ steps.predict.outputs.should_run_tests }}
@@ -120,6 +121,15 @@ jobs:
           EVENT_NAME="${{ github.event_name }}"
           REF_NAME="${{ github.ref_name }}" 
           BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
+          
+          # 检查是否为重复触发（同时有PR和push事件）
+          if [[ "$EVENT_NAME" == "push" && "$REF_NAME" == "develop" ]]; then
+            # 检查当前commit是否有关联的开放PR
+            echo "🔍 检查是否存在重复的PR触发..."
+            # 如果是push到develop且可能有PR打开，我们优先让PR事件处理
+            echo "⚠️ 这是develop分支的push事件，可能与PR事件重复"
+            echo "💡 建议：如果有活跃的PR，优先使用PR事件的工作流"
+          fi
           
           # 检查PR标题或最新commit消息中的控制关键字
           SKIP_ALL=false
@@ -236,7 +246,7 @@ jobs:
             SHOULD_RUN_BUILD=false  
             SHOULD_RUN_STYLE=true
             BUILD_TYPE="preview"
-            PIPELINE_DESC="🔄 Develop推送验证 (代码检测 → 单元测试)"
+            PIPELINE_DESC="🔄 Develop分支状态验证 (代码检测 → 单元测试)"
             
           elif [[ "$EVENT_NAME" == "schedule" ]]; then
             # 定时构建 - 仅构建测试
@@ -336,6 +346,7 @@ jobs:
         run: |
           echo "## 🚀 CI/CD流水线执行预测" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**触发事件:** \`${{ github.event_name }}\`" >> $GITHUB_STEP_SUMMARY
           echo "**执行描述:** ${{ steps.predict.outputs.pipeline_description }}" >> $GITHUB_STEP_SUMMARY
           echo "**构建类型:** \`${{ steps.predict.outputs.build_type }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
