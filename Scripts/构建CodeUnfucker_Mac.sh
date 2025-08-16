@@ -1,0 +1,2 @@
+cd ./../CodeUnfucker
+dotnet build

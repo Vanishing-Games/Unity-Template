@@ -26,9 +26,9 @@ namespace Core
         public static readonly LogTag Editor = new("Editor");
 
         // ========== Second Tags ==========
-        public static readonly LogTag Roslyn = new("Roslyn", Editor.Path);
+        public static readonly LogTag CodeUnfucker = new("CodeUnfucker", Editor.Path);
 
         // ========== Third Tags ==========
-        public static readonly LogTag Roslyn_3_Sample = new("Save", Roslyn.Path); // MAX depth = 3
+        public static readonly LogTag CodeUnfucker_3_Sample = new("Save", CodeUnfucker.Path); // MAX depth = 3
     }
 }

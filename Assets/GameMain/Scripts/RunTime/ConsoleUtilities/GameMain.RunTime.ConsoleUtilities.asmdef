@@ -1,0 +1,16 @@
+{
+    "name": "GameMain.RunTime.ConsoleUtilities",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5f34f4219be7446d99f83220acdaa345"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

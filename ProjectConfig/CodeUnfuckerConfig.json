@@ -1,0 +1,16 @@
+{
+    "dotnetPaths": {
+        "environmentVariables": [
+            "DOTNET_ROOT",
+            "DOTNET_CLI_HOME"
+        ],
+        "defaultSearchPaths": [
+            "/opt/homebrew/bin/dotnet",
+            "/usr/local/bin/dotnet",
+            "/usr/local/share/dotnet/dotnet",
+            "/usr/bin/dotnet",
+            "dotnet"
+        ],
+        "customPaths": []
+    }
+} 

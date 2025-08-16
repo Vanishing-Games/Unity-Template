@@ -1,382 +1,252 @@
-<!--
- * // -----------------------------------------------------------------------------
- * //  Copyright (c) 2025 Vanishing Games. All Rights Reserved.
- * @Author: VanishXiao
- * @Date: 2025-07-07 18:51:09
- * @LastEditTime: 2025-07-08 20:55:48
- * // -----------------------------------------------------------------------------
--->
+# 🚀 新版CI/CD流水线文档
 
-# 🚀 GitHub Actions 工作流文档
+## 📋 概述
 
-本文档描述了Unity项目的完整CI/CD自动化流水线系统。
+这是全新设计的CI/CD自动化流水线，完全替代了旧版复杂的工作流系统。新版本具有以下特点：
 
-## 🎯 整体流程图
+- ✅ **配置集中化** - 所有设置集中在 `Pipeline Config/pipeline-settings.json`
+- ✅ **流程清晰化** - 单一主工作流文件，逻辑清晰易懂
+- ✅ **命名规范化** - 步骤和作业名称直观明了
+- ✅ **文档完善化** - 每个配置项都有详细说明和选项提示
 
-以下是完整的CI/CD自动化流水线流程，展示了从代码提交到最终部署的全过程：
+## 🗂️ 文件结构
 
-```mermaid
-graph TD
-    %% 触发事件
-    A1[Push to main] --> B1[事件触发]
-    A2[Push to develop] --> B1
-    A3[Push to release/*] --> B1
-    A4[Push version tag] --> B1
-    A5[Pull Request] --> B1
-    A6[Manual Trigger] --> B1
-    
-    %% 智能分发器
-    B1 --> C1[🚀 CI/CD 智能分发器]
-    
-    %% Commit关键字检查
-    C1 --> D1{检查Commit关键字}
-    D1 -->|SKIP关键字| E1[❌ 跳过流水线]
-    D1 -->|无跳过关键字| D2{分支类型判断}
-    
-    %% 分支逻辑判断
-    D2 -->|main分支| F1[🔨 启用构建测试]
-    D2 -->|develop分支| F2[📝 仅CI流水线]
-    D2 -->|release/*分支| F3[🚀 完整CI/CD流水线]
-    D2 -->|版本标签| F3
-    D2 -->|Pull Request| F2
-    D2 -->|其他分支| G1{检查BUILD TEST}
-    
-    %% 其他分支构建测试逻辑
-    G1 -->|有BUILD TEST| F1
-    G1 -->|无BUILD TEST| F4[🧪 仅测试]
-    
-    %% 流水线路由
-    F1 --> H1[🔄 CI流水线: 测试+构建]
-    F2 --> H1
-    F4 --> H2[🧪 仅测试流水线]
-    F3 --> H3[🚀 完整CI/CD流水线: 测试+构建+发布+部署]
-    
-    %% CI流水线详细步骤
-    H1 --> I1[📋 Step 1: Unity测试]
-    H2 --> I1
-    I1 --> I2{测试结果}
-    I2 -->|✅ 通过| I3[🔨 Step 2: Unity构建]
-    I2 -->|❌ 失败| I7[📊 生成测试报告]
-    I3 --> I4{构建结果}
-    I4 -->|✅ 成功| I5[📦 上传构建产物]
-    I4 -->|❌ 失败| I6[📊 生成构建报告]
-    I5 --> I7
-    I6 --> I7
-    I7 --> END1[✅ CI流水线完成]
-    
-    %% 完整CI/CD流水线详细步骤
-    H3 --> J1[📋 Step 1: Unity测试]
-    J1 --> J2{测试结果}
-    J2 -->|✅ 通过| J3[🔨 Step 2: Unity构建]
-    J2 -->|❌ 失败| J9[📊 生成报告并通知]
-    J3 --> J4{构建结果}
-    J4 -->|✅ 成功| J5[📦 Step 3: 创建GitHub Release]
-    J4 -->|❌ 失败| J9
-    J5 --> J6[🚀 Step 4: 多平台部署]
-    J6 --> J7{部署结果}
-    J7 -->|✅ 成功| J8[📢 Step 5: 成功通知]
-    J7 -->|❌ 失败| J9
-    J8 --> END2[✅ 完整CI/CD完成]
-    J9 --> END3[❌ 流水线失败]
-    
-    %% 部署平台详情
-    J6 --> K1[🎮 Steam]
-    J6 --> K2[🎯 Itch.io]
-    J6 --> K3[📱 App Center]
-    J6 --> K4[🔥 Firebase]
-    J6 --> K5[☁️ AWS S3]
-    J6 --> K6[📄 GitHub Pages]
-    
-    %% 样式定义
-    classDef startNode fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef processNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef decisionNode fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef successNode fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
-    classDef errorNode fill:#ffebee,stroke:#c62828,stroke-width:2px
-    classDef deployNode fill:#e0f2f1,stroke:#00695c,stroke-width:2px
-    
-    class A1,A2,A3,A4,A5,A6 startNode
-    class B1,C1,H1,H2,H3,I1,I3,I5,J1,J3,J5,J6,J8 processNode
-    class D1,D2,G1,I2,I4,J2,J4,J7 decisionNode
-    class F1,F2,F3,F4,END1,END2 successNode
-    class E1,I6,I7,J9,END3 errorNode
-    class K1,K2,K3,K4,K5,K6 deployNode
+```
+.github/workflows/
+├── ci-cd-main.yml              # 🚀 主CI/CD流水线 (唯一的工作流文件)
+├── Pipeline Config/            # 📁 配置文件夹
+│   ├── pipeline-settings.json  # ⚙️ 主配置文件 (包含所有设置)
+│   └── README.md               # 📖 配置文档
+└── README.md                   # 📋 本文档
 ```
 
-### 🔍 流程图说明
+## 🔄 流水线流程
 
-#### 📍 触发方式
-- **自动触发**: Push代码到特定分支、创建Pull Request、推送版本标签
-- **手动触发**: 通过GitHub Actions界面或CLI手动启动
+### 🎯 触发条件
 
-#### 🎛️ 智能路由
-- **CI流水线** (测试+构建): 适用于日常开发，快速验证代码质量
-- **完整CI/CD流水线** (测试+构建+发布+部署): 适用于正式发布，包含完整发布流程
+| 触发方式 | 分支/条件 | 执行流程 |
+|----------|-----------|----------|
+| **Release发布** | `release/**` 分支推送 | 完整流程：代码检测 → 单元测试 → 构建测试 → 部署Pages |
+| **Develop PR** | PR到 `develop` 分支 | 验证流程：代码检测 → 单元测试 |
+| **Develop Push** | 直接推送到 `develop` | 验证流程：代码检测 → 单元测试 |
+| **Main PR** | PR到 `main` 分支 | CI流程：代码检测 → 单元测试 → 构建测试 |
+| **定时构建** | 周日19:00 (北京时间) | 构建流程：构建测试 |
+| **手动触发** | 通过界面或CLI | 可选择跳过某些步骤 |
 
-#### 🔨 构建测试控制
-- **main分支**: 自动启用构建测试
-- **其他分支**: 默认仅测试，需要 `[BUILD TEST]` 关键字启用构建
-- **develop分支**: 始终执行CI流水线（测试+构建）
+### 📊 执行阶段
 
-#### 🚀 部署平台
-支持多种部署目标，包括游戏分发平台、云服务和静态托管等：
-- **游戏平台**: Steam、Itch.io
-- **移动平台**: App Center (iOS/Android)
-- **Web平台**: Firebase、GitHub Pages、AWS S3
+```mermaid
+flowchart LR
+    A[📋 流程预测] --> B[🎨 代码检测]
+    B --> C[🧪 单元测试]
+    C --> D[🔨 构建测试]
+    D --> E[🚀 部署Pages]
+    E --> F[📊 执行详情]
+    
+    B -.-> G[失败终止]
+    C -.-> G
+    D -.-> H[警告继续]
+    E -.-> H
+```
 
-## 📋 目录
+#### 阶段说明
 
-- [整体流程图](#-整体流程图)
-- [系统概览](#-系统概览)
-- [Commit关键字](#-commit关键字)
-- [工作流架构](#-工作流架构)
-- [主要工作流](#-主要工作流)
-- [辅助工作流](#-辅助工作流)
-- [触发条件](#-触发条件)
-- [使用示例](#-使用示例)
-- [故障排除](#-故障排除)
-- [配置说明](#-配置说明)
+1. **📋 流程预测** - 分析触发条件，预测执行步骤
+2. **🎨 代码检测** - 使用roslynator检查代码格式 (失败终止流水线)
+3. **🧪 单元测试** - 运行Unity EditMode和PlayMode测试 (失败终止流水线)
+4. **🔨 构建测试** - 构建Windows和macOS版本 (失败仅警告)
+5. **🚀 部署Pages** - 部署到GitHub Pages (失败仅警告)
+6. **📊 执行详情** - 汇总所有阶段的执行结果
 
-## 🔍 系统概览
+## 🎛️ 控制关键字
 
-这是一个为Unity项目设计的企业级CI/CD自动化流水线，支持：
+在PR标题或commit消息中使用以下关键字控制流水线行为：
 
-- ✅ **自动化测试** - EditMode 和 PlayMode 单元测试
-- 🔨 **多平台构建** - 支持Windows、Mac、Linux、iOS、Android等
-- 📦 **自动发布** - 创建GitHub Release和标签
-- 🚀 **多渠道部署** - Steam、Itch.io、App Store、Google Play等
-- 📢 **智能通知** - Slack/Discord集成
-- 🎛️ **灵活配置** - 通过JSON配置文件控制行为
-
-## 📋 Commit关键字
-
-在commit消息中使用以下关键字来控制CI/CD行为：
-
-| 关键字 | 描述 | 使用场景 |
+| 关键字 | 作用 | 使用场景 |
 |--------|------|----------|
 | `[SKIP CICD]` | 完全跳过CI/CD流程 | 仅更新文档或配置时 |
-| `[SKIP CI]` | (向后兼容) 跳过CI/CD流程 | 同上 |
-| `[BUILD TEST]` | 在非main分支启用构建测试 | 在功能分支测试构建时 |
+| `[SKIP FORMAT]` | 跳过代码格式化检查步骤 | 仅更新文档或配置时 |
+| `[SKIP TEST]` | 跳过单元测试步骤 | 同上 |
+| `[SKIP BUILD]` | 跳过构建步骤 | 在功能分支测试时 |
+| `[ADD TEST]` | 增加单元测试步骤(如果没有) | 希望进行单元测试时 |
+| `[ADD BUILD]` | 增加构建步骤(如果没有) | 希望进行构建测试时 |
+| `[ADD DEPLOY]` | 增加部署步骤(如果没有) | 希望部署构建产物时 |
 
-### 使用示例：
+### 使用示例
+
+#### 跳过相关
 ```bash
 git commit -m "docs: 更新README [SKIP CICD]"
-git commit -m "feat: 添加新功能 [BUILD TEST]"  # 在非main分支启用构建测试
-git commit -m "feat: 添加新功能"  # 正常触发完整流程
+git commit -m "style: 格式化代码 [SKIP FORMAT]"  
+git commit -m "refactor: 重构代码 [SKIP TEST]"
+git commit -m "feat: 添加新功能 [SKIP BUILD]"
 ```
 
-### 构建测试控制规则：
-- **main分支**: 默认启用构建测试，无需添加关键字
-- **其他分支**: 默认跳过构建测试，需要添加 `[BUILD TEST]` 关键字启用
-- **优先级**: commit关键字 > 分支规则
-
-## 🏗️ 工作流架构
-
-### 主流水线 (ci-cd-pipeline.yml)
-```mermaid
-graph TD
-    A[触发器] --> B[解包输入参数]
-    B --> C[1. 运行测试]
-    C --> D[2. 构建]
-    D --> E[3. 发布]
-    E --> F[4. 部署]
-    F --> G[5. 通知]
-    
-    C -.-> H[跳过：skipTests=true]
-    D -.-> I[跳过：testsOnly=true]
-    E -.-> J[跳过：非release构建]
-    F -.-> K[跳过：无部署目标]
-```
-
-### 调度器系统
-- **ci-cd-dispatcher.yml** - 主调度器，解析配置并启动适当的流水线
-- **ci-cd-redeployer.yml** - 重新部署工具，用于已有构建产物的部署
-
-## 🔧 主要工作流
-
-### 1. 🧪 Step 1 - 测试 (step-1-test.yml)
-- **功能**: 运行Unity EditMode和PlayMode测试
-- **输出**: 测试结果报告和覆盖率数据
-- **超时**: 可配置 (默认30分钟)
-
-### 2. 🔨 Step 2 - 构建 (step-2-build.yml) 
-- **功能**: 多平台Unity构建
-- **支持平台**: Windows, Mac, Linux, iOS, Android, WebGL
-- **输出**: 构建产物和版本标签
-- **特性**: 并行构建、构建缓存、增量构建
-
-### 3. 📦 Step 3 - 发布 (step-3-release.yml)
-- **功能**: 创建GitHub Release
-- **触发条件**: release或release_candidate构建类型
-- **输出**: Release页面和下载链接
-
-### 4. 🚀 Step 4 - 部署 (step-4-deploy.yml)
-- **功能**: 多渠道分发
-- **支持平台**: Steam, Itch.io, App Center, Firebase, AWS S3等
-- **特性**: 条件部署、回滚支持
-
-### 5. 📢 Step 5 - 通知 (step-5-notify.yml)
-- **功能**: 发送构建结果通知
-- **渠道**: Slack, Discord
-- **内容**: 测试结果、构建状态、部署链接
-
-## 🛠️ 辅助工作流
-
-| 工作流 | 功能描述 |
-|--------|----------|
-| `prepare-metadata.yml` | 解析项目元数据和构建参数 |
-| `unity-tests-runner.yml` | Unity测试执行器 |
-| `unity-license-uploader.yml` | Unity许可证管理 |
-| `build-version-resolver.yml` | 版本号解析和生成 |
-| `build-version-tagger.yml` | Git标签创建 |
-| `combine-builds.yml` | 合并多平台构建产物 |
-| `resolve-deploy-matrix.yml` | 解析部署目标矩阵 |
-| `roslyn-lint.yml` | C#代码质量检查 |
-| `summarize-*.yml` | 生成各阶段汇总报告 |
-
-## ⚡ 触发条件
-
-### 自动触发
-- **Pull Request** → `develop`, `main` 分支 → 仅CI (测试+构建)
-- **Push** → `develop` 分支 → 仅CI
-- **Push** → `release/*` 分支 → 完整CICD
-- **Push** → 版本标签 (`v1.0.0`, `v1.0.0-rc.1`) → 完整CICD
-
-### 手动触发
+#### 增加相关  
 ```bash
-# 通过GitHub CLI触发
-gh workflow run ci-cd-dispatcher.yml
-
-# 或通过GitHub网页界面的 Actions → Run workflow
+git commit -m "feat: 新功能需要测试 [ADD TEST]"
+git commit -m "feat: 功能完成需要构建 [ADD BUILD]"
+git commit -m "feat: 完整功能需要部署 [ADD DEPLOY]"
 ```
 
-## 💡 使用示例
-
-### 开发分支工作流
+#### 正常流程
 ```bash
-# 1. 创建功能分支
-git checkout -b feature/new-gameplay
-
-# 2. 开发并提交 (触发PR CI)
-git commit -m "feat: 实现新的游戏机制"
-git push origin feature/new-gameplay
-
-# 3. 创建PR到develop (触发CI测试)
-gh pr create --base develop --title "新游戏机制"
+git commit -m "feat: 完整功能实现"  # 根据分支自动执行对应流程
 ```
 
-### 发布工作流
-```bash
-# 1. 创建发布分支 (触发完整CICD)
-git checkout -b release/v1.2.0
-git push origin release/v1.2.0
+## ⚙️ 配置管理
 
-# 2. 或直接创建版本标签 (触发完整CICD)
-git tag v1.2.0
-git push origin v1.2.0
-```
+### 📍 主配置文件位置
 
-### 功能分支工作流
-```bash
-# 功能分支默认只运行测试，需要构建时添加关键字
-git commit -m "refactor: 重构玩家控制器"  # 只运行测试
-git commit -m "feat: 完成新功能 [BUILD TEST]"  # 运行测试+构建
-git push
-```
+所有配置都在 `Pipeline Config/pipeline-settings.json` 中管理，包含：
 
-## 🔧 故障排除
+- 🎯 **项目信息** - 名称、Unity版本、描述
+- 🔄 **触发规则** - 分支模式、定时任务
+- 🔧 **作业配置** - 超时时间、失败处理、具体设置
+- 🔑 **必需配置** - GitHub Secrets要求
+- 📢 **通知设置** - 执行结果通知
 
-### 常见问题
+### 🔧 修改配置
 
-#### 1. Unity许可证失败
-```yaml
-# 检查secrets配置
-UNITY_EMAIL: ✅ 已设置
-UNITY_PASSWORD: ✅ 已设置  
-UNITY_LICENSE: ❌ 未设置或已过期
-```
+1. 编辑 `Pipeline Config/pipeline-settings.json`
+2. 参考配置文件中的 `description` 字段了解每个选项
+3. 提交更改后自动生效
 
-**解决方案**:
-1. 更新Unity许可证secret
-2. 运行 `unity-license-uploader.yml` 重新激活
+### 常见配置修改
 
-#### 2. 构建失败
-```bash
-# 检查构建日志中的关键错误
-- 编译错误 → 检查代码质量
-- 内存不足 → 增加runner规格
-- 依赖缺失 → 检查Package Manager配置
-```
-
-#### 3. 部署失败
-```bash
-# 检查部署配置
-- Steam: 检查steam用户名/密码/AppID
-- Itch.io: 检查Butler API密钥
-- 移动平台: 检查签名证书
-```
-
-### 调试工具
-
-#### 启用调试模式
-在 `pipeline-config.json` 中设置：
+#### 添加新构建平台
 ```json
 {
-  "debugging": {
-    "enableStepTiming": true,
-    "enableEnvironmentDump": true,
-    "enableConfigDump": true
+  "jobs": {
+    "build_tests": {
+      "settings": {
+        "platforms": [
+          {
+            "name": "Linux 64位",
+            "buildTarget": "StandaloneLinux64",
+            "os": "ubuntu-latest"
+          }
+        ]
+      }
+    }
   }
 }
 ```
 
-#### 查看详细日志
-1. GitHub Actions → 选择失败的工作流
-2. 展开失败的步骤
-3. 查看"Set up job"和具体步骤的输出
+#### 修改超时时间
+```json
+{
+  "jobs": {
+    "unit_tests": {
+      "timeout": 45  // 修改为45分钟
+    }
+  }
+}
+```
 
-#### 手动重试
+## 🔑 必需的GitHub Secrets
+
+在仓库设置中配置以下Secrets：
+
+| 名称 | 描述 | 必需性 |
+|------|------|--------|
+| `UNITY_EMAIL` | Unity账户邮箱 | ✅ 必需 |
+| `UNITY_PASSWORD` | Unity账户密码 | ✅ 必需 |
+| `UNITY_LICENSE` | Unity许可证内容 | ✅ 必需 |
+| `GITHUB_TOKEN` | GitHub Pages部署令牌 | 🔄 自动提供 |
+
+## 📊 产物和报告
+
+### 构建产物
+
+- **命名格式**: `{项目名称}_{构建平台}_v{版本}`
+- **保留时间**: 7天 (可在配置中修改)
+- **支持平台**: Windows 64位, macOS (ARM)
+
+### GitHub Pages部署
+
+Release分支的构建产物会自动部署到GitHub Pages，包含：
+
+- 📄 构建产物索引页面
+- 📦 可下载的构建文件
+- 📋 构建信息和版本详情
+
+## ❗ 重要说明
+
+### 🔄 避免重复执行
+
+新的流水线已经解决了PR创建时可能出现的重复执行问题：
+
+- **问题**: 创建PR时，GitHub可能同时触发`pull_request`和`push`事件
+- **解决方案**: 
+  - 使用`paths-ignore`排除文档和配置文件的更改
+  - 精确的触发条件设置，确保每种情况只触发一次
+  - PR事件优先于push事件执行
+
+**触发逻辑**:
+- 创建develop → main的PR：只触发`pull_request`事件 ✅
+- 直接推送到develop：只触发`push`事件 ✅  
+- 推送到release分支：只触发`push`事件 ✅
+
+## 🔍 故障排除
+
+### 常见问题
+
+#### 1. Unity许可证错误
+```
+Error: Could not activate Unity license
+```
+**解决方案**: 检查并更新 `UNITY_LICENSE` secret
+
+#### 2. 代码格式检查失败
+```
+Error: Code style check failed
+```
+**解决方案**: 在本地运行代码格式化工具或在commit中添加 `[SKIP CICD]`
+
+#### 3. 构建超时
+```
+Error: The job was canceled because it exceeded the maximum execution time
+```
+**解决方案**: 在配置文件中增加对应作业的 `timeout` 值
+
+### 调试方法
+
+1. 查看 **Actions** 页面的详细日志
+2. 检查 **流程预测** 阶段的输出
+3. 查看每个阶段的 **执行摘要**
+4. 使用手动触发进行测试
+
+## 🆚 与旧版本对比
+
+| 特性 | 旧版本 | 新版本 |
+|------|--------|--------|
+| **工作流文件数** | 20+ 个复杂文件 | 1 个主文件 |
+| **配置文件数** | 8 个分散配置 | 1 个集中配置 |
+| **命名规范** | 不明确 | 清晰易懂 |
+| **文档完整性** | 部分文档 | 完整文档 |
+| **配置说明** | 缺少提示 | 每项都有说明 |
+| **流程清晰度** | 复杂难懂 | 直观明了 |
+
+## 🗑️ 旧文件清理
+
+完成新流水线测试后，可以删除以下文件夹：
+
 ```bash
-# 重新运行失败的工作流
-gh run rerun <run-id> --failed-jobs
+# 删除旧的工作流文件
+rm -rf .github/workflows-old/
 
-# 重新部署已有构建
-gh workflow run ci-cd-redeployer.yml
+# 删除旧的配置文件  
+rm -rf .github/config/
 ```
 
-## ⚙️ 配置说明
+## 📚 相关链接
 
-### 必需的Secrets
-```yaml
-# Unity相关
-UNITY_EMAIL: Unity账户邮箱
-UNITY_PASSWORD: Unity账户密码
-UNITY_LICENSE: Unity Personal/Pro许可证
-
-# GitHub相关  
-CICD_PAT: GitHub Personal Access Token (repo权限)
-```
-
-### 可选的Secrets (按需配置)
-```yaml
-# 分发平台
-BUTLER_API_KEY: Itch.io API密钥
-STEAM_USERNAME: Steam用户名
-STEAM_PASSWORD: Steam密码
-APPCENTER_OWNER_NAME: App Center所有者
-
-# 通知系统
-SLACK_WEBHOOK: Slack Webhook URL
-DISCORD_WEBHOOK: Discord Webhook URL
-```
-
-### 配置文件优先级
-1. `workflow_dispatch` 输入参数 (最高)
-2. 分支特定配置
-3. `ci-defaults.json` 默认配置 (最低)
+- [GitHub Actions 官方文档](https://docs.github.com/en/actions)
+- [Unity Game CI 文档](https://game.ci/)
+- [配置文件详细说明](Pipeline Config/README.md)
+- [项目CI/CD流程设计](CICD流程设计.md)
 
 ---
 
-> **注意**: 请只使用Commit关键字来控制自动化流水线的行为，而不要更改配置文件。
-
-> **TODO(vanish)**: 增加更多commit关键字和构建平台支持
+> **💡 提示**: 新流水线设计注重简洁和可维护性，如有问题请参考配置文件中的详细说明或查看工作流执行日志。
