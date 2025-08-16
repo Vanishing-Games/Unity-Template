@@ -14,11 +14,17 @@ on:
     branches: [develop, main]
     types: [opened, synchronize, reopened, ready_for_review]
 
-  # Push 触发 - release分支和develop分支  
+  # Push 触发 - 仅release分支和develop分支的直接推送
+  # 注意：当创建PR时，不会触发目标分支的push事件，只会触发pull_request事件
   push:
     branches: 
       - develop
       - 'release/**'
+    # 排除.github目录的更改，避免工作流更新时的无意义触发
+    paths-ignore:
+      - '.github/workflows/**'
+      - '.github/config/**'
+      - '**.md'
 
   # 定时触发 - 北京时间每周日晚上7点 (UTC 11:00)
   schedule:

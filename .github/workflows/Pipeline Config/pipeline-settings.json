@@ -16,7 +16,7 @@
       },
       "develop": {
         "pattern": "develop",
-        "description": "开发分支PR，触发CI验证流程",
+        "description": "开发分支：PR触发CI验证流程，直接推送触发CI流程",
         "triggers": ["unit_tests", "code_style"],
         "buildType": "preview"
       },
