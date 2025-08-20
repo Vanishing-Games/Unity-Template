@@ -9,8 +9,6 @@
 *.log
 
 # FMOD Studio 生成的文件夹
-/Build/
-/Banks/       # 如果 bank 文件由构建产出就忽略
 /Cache/
 
 # 工作区和用户配置
