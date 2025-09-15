@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,21 @@ namespace Core
 
         public override IEnumerator LoadScene()
         {
-            m_AsyncOperation = SceneManager.LoadSceneAsync(m_SceneName);
-            yield return m_AsyncOperation;
+            AsyncOperation asyncOp;
+
+            try
+            {
+                asyncOp = SceneManager.LoadSceneAsync(m_SceneName);
+
+                if (asyncOp == null)
+                    throw new LoadFailedException($"Failed to start loading scene: {m_SceneName}");
+            }
+            catch 
+            {
+                throw;
+            }
+
+            yield return asyncOp;
         }
 
         public override IEnumerator LoadResource()

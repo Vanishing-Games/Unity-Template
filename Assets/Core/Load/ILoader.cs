@@ -22,6 +22,10 @@ namespace Core
         public IEnumerator InitLoadedThings();
     }
 
+    /// <summary>
+    /// - 错误处理: 直接抛出异常
+    /// - TODO(vanish): 接入UniTask来实现顶层的错误处理.
+    /// </summary>
     public abstract class LoaderBase<TLoadInfo> : MonoBehaviour, ILoader where TLoadInfo : ILoadInfo
     {
         public abstract LoaderType GetLoaderType();

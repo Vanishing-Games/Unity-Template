@@ -18,38 +18,44 @@ namespace Core
                 LogTag.Loading
             );
 
+            bool isLoaderNeeded = false;
             foreach (var loadInfo in m_LoadInfos)
             {
                 if (loadInfo.GetNeededLoaderType() == newLoader.GetLoaderType())
                 {
-                    foreach (var loader in m_Loaders)
-                    {
-                        if (loader.GetLoaderType() == newLoader.GetLoaderType())
-                        {
-                            Logger.DebugLogWarn(
-                                $"Loader {loader.GetLoaderType()} already registed",
-                                LogTag.Loading
-                            );
-                            return;
-                        }
-
-                        m_Loaders.Add(newLoader);
-                        Logger.ReleaseLogInfo(
-                            $"Registed loader {newLoader.GetLoaderType()}",
-                            LogTag.Loading
-                        );
-
-                        if (m_Loaders.Count == m_LoadInfos.Count)
-                        {
-                            Logger.ReleaseLogInfo(
-                                "All loaders registered, starting loading",
-                                LogTag.Loading
-                            );
-                            Load();
-                        }
-                        return;
-                    }
+                    isLoaderNeeded = true;
+                    break;
                 }
+            }
+
+            if (!isLoaderNeeded)
+            {
+                Logger.DebugLogWarn(
+                    $"Loader {newLoader.GetLoaderType()} is not needed",
+                    LogTag.Loading
+                );
+                return;
+            }
+
+            foreach (var loader in m_Loaders)
+            {
+                if (loader.GetLoaderType() == newLoader.GetLoaderType())
+                {
+                    Logger.DebugLogWarn(
+                        $"Loader {loader.GetLoaderType()} already registed",
+                        LogTag.Loading
+                    );
+                    return;
+                }
+            }
+
+            m_Loaders.Add(newLoader);
+            Logger.ReleaseLogInfo($"Registed loader {newLoader.GetLoaderType()}", LogTag.Loading);
+
+            if (m_Loaders.Count == m_LoadInfos.Count)
+            {
+                Logger.ReleaseLogInfo("All loaders registered, starting loading", LogTag.Loading);
+                Load();
             }
         }
 
