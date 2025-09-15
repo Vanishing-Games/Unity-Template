@@ -25,8 +25,14 @@ namespace Core
         // ========== Base Tags ==========
         public static readonly LogTag Editor = new("Editor");
 
+        public static readonly LogTag Loading = new("Loading");
+
+        public static readonly LogTag Event = new("Event");
+
         // ========== Second Tags ==========
         public static readonly LogTag CodeUnfucker = new("CodeUnfucker", Editor.Path);
+
+        public static readonly LogTag SceneLoader = new("SceneLoader", Loading.Path);
 
         // ========== Third Tags ==========
         public static readonly LogTag CodeUnfucker_3_Sample = new("Save", CodeUnfucker.Path); // MAX depth = 3
