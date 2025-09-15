@@ -30,9 +30,11 @@ public static class CodeUnfuckerConfigManager
         s_projectRoot = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
         s_configFolderPath = Path.Combine(s_projectRoot, CONFIG_FOLDER_NAME);
         s_configFilePath = Path.Combine(s_configFolderPath, CONFIG_FILE_NAME);
-        
-        Logger.EditorLogInfo($"CodeUnfucker Config Manager 初始化完成", LogTag.CodeUnfucker);
-        Logger.EditorLogInfo($"配置路径: {s_configFilePath}", LogTag.CodeUnfucker);
+
+        Logger.EditorLogInfo(
+            $"CodeUnfucker Config Manager 初始化完成\n 配置路径: {s_configFilePath}",
+            LogTag.CodeUnfucker
+        );
     }
     #endregion
 
@@ -75,11 +77,11 @@ public static class CodeUnfuckerConfigManager
 
             string json = JsonUtility.ToJson(config, true);
             File.WriteAllText(s_configFilePath, json);
-            
+
             // 更新缓存
             s_cachedConfig = config;
             s_lastConfigLoadTime = File.GetLastWriteTime(s_configFilePath);
-            
+
             Logger.EditorLogInfo($"配置已保存到: {s_configFilePath}", LogTag.CodeUnfucker);
             return true;
         }
@@ -129,19 +131,25 @@ public static class CodeUnfuckerConfigManager
 
         // 检查是否有至少一个有效的路径配置
         bool hasValidPath = false;
-        
+
         // 检查环境变量
-        if (config.dotnetPaths.environmentVariables != null && config.dotnetPaths.environmentVariables.Count > 0)
+        if (
+            config.dotnetPaths.environmentVariables != null
+            && config.dotnetPaths.environmentVariables.Count > 0
+        )
         {
             hasValidPath = true;
         }
-        
+
         // 检查默认搜索路径
-        if (config.dotnetPaths.defaultSearchPaths != null && config.dotnetPaths.defaultSearchPaths.Count > 0)
+        if (
+            config.dotnetPaths.defaultSearchPaths != null
+            && config.dotnetPaths.defaultSearchPaths.Count > 0
+        )
         {
             hasValidPath = true;
         }
-        
+
         // 检查自定义路径
         if (config.dotnetPaths.customPaths != null && config.dotnetPaths.customPaths.Count > 0)
         {
@@ -183,7 +191,7 @@ public static class CodeUnfuckerConfigManager
         {
             string json = File.ReadAllText(s_configFilePath);
             var config = JsonUtility.FromJson<CodeUnfuckerConfig>(json);
-            
+
             if (ValidateConfig(config))
             {
                 Logger.EditorLogInfo("配置加载成功", LogTag.CodeUnfucker);
@@ -205,12 +213,12 @@ public static class CodeUnfuckerConfigManager
     private static CodeUnfuckerConfig CreateDefaultConfig()
     {
         var config = new CodeUnfuckerConfig();
-        
+
         // 设置默认的环境变量
         config.dotnetPaths.environmentVariables = new System.Collections.Generic.List<string>
         {
             "DOTNET_ROOT",
-            "DOTNET_CLI_HOME"
+            "DOTNET_CLI_HOME",
         };
 
         // 设置默认的搜索路径

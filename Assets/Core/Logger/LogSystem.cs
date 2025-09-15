@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -190,24 +191,27 @@ namespace Core
                 {
                     Color c = GetTagColor(t);
                     string hex = ColorToHex(c);
-                    string last = t.Path.Last();
+                    string last = t.Path[^1];
                     return $"<color={hex}>#{last}</color>";
                 })
             );
 
-            string formatted = $"{assemblyStr}\n{logTypeText} {message}\n{tagStr}";
+            StringBuilder formatted = new();
+            formatted.AppendLine($"{logTypeText} {assemblyStr}");
+            formatted.AppendLine(message);
+            formatted.AppendLine(tagStr);
 
             switch (level)
             {
                 case LogLevel.Verbose:
                 case LogLevel.Info:
-                    Debug.Log(formatted);
+                    Debug.Log(formatted.ToString());
                     break;
                 case LogLevel.Warning:
-                    Debug.LogWarning(formatted);
+                    Debug.LogWarning(formatted.ToString());
                     break;
                 case LogLevel.Error:
-                    Debug.LogError(formatted);
+                    Debug.LogError(formatted.ToString());
                     break;
             }
         }
