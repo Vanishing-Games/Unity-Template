@@ -33,7 +33,7 @@ namespace Core
             UnregisterLoadEvent();
 
             // Wait for MessageBroker to clear up the event to ensure subscribing new event
-            await UniTask.DelayFrame(1);
+            await UniTask.Yield();
             RegisterLoadEvent();
         }
 
