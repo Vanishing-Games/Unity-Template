@@ -1,6 +1,8 @@
+using System;
+
 namespace Core
 {
-    public class SceneLoadManager : SystemMonoModule<SceneLoadManager>
+    public class SceneLoaderManager : SystemMonoModule<SceneLoaderManager>
     {
         protected override void CreateLoader(ILoadInfo loadInfo)
         {
@@ -18,13 +20,14 @@ namespace Core
             }
             else
             {
-                MessageBroker.Global.PublishError<LoadRequestEvent>(
+                MessageBroker.Global.PublishErrorResume<LoadRequestEvent>(
+                    this,
                     new LoadFailedException("LoadInfo is not a SceneLoadInfo")
                 );
             }
         }
 
-        public override void ReceiveLoadInfo(LoadRequestEvent loadEventInfo)
+        protected override void OnReceiveLoadRequest(LoadRequestEvent loadEventInfo)
         {
             Logger.EditorLogVerbose(
                 "[SceneLoadManager] SceneLoadManager ReceiveLoadInfo",
@@ -38,5 +41,7 @@ namespace Core
                 CreateLoader(info);
             }
         }
+
+        protected override void OnLoadingError(Exception exception) { }
     }
 }

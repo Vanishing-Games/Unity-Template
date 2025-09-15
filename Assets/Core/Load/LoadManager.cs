@@ -1,11 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace Core
 {
     public class LoadManager : MonoSingletonLasy<LoadManager>
     {
+        private void Awake()
+        {
+            RegisterEvents();
+        }
+
+        private void OnDestroy()
+        {
+            UnregisterEvents();
+        }
+
         public void PrepareForLoad(LoadRequestEvent loadEvent)
         {
             m_LoadInfos.AddRange(loadEvent.m_LoadInfos);
@@ -68,46 +81,64 @@ namespace Core
         private void Load()
         {
             MessageBroker.Global.PublishComplete(new LoadStartEvent());
-            StartCoroutine(Loading());
+            LoadAsync().Forget();
         }
 
-        private IEnumerator Loading()
+        private async UniTask LoadAsync()
         {
-            MessageBroker.Global.Publish(new LoadProgressEvent("Loading Scenes..."));
-            foreach (var loader in m_Loaders)
+            try
             {
-                yield return StartCoroutine(loader.LoadScene());
-            }
+                MessageBroker.Global.Publish(new LoadProgressEvent("Loading Scenes..."));
+                foreach (var loader in m_Loaders)
+                {
+                    await loader.LoadScene();
+                }
 
-            MessageBroker.Global.Publish(new LoadProgressEvent("Reading Resources..."));
-            foreach (var loader in m_Loaders)
+                MessageBroker.Global.Publish(new LoadProgressEvent("Reading Resources..."));
+                foreach (var loader in m_Loaders)
+                {
+                    await loader.LoadResource();
+                }
+
+                MessageBroker.Global.Publish(new LoadProgressEvent("Loading Prefabs..."));
+                foreach (var loader in m_Loaders)
+                {
+                    await loader.LoadPrefab();
+                }
+
+                MessageBroker.Global.Publish(new LoadProgressEvent("Instantiating Prefabs..."));
+                foreach (var loader in m_Loaders)
+                {
+                    await loader.InstantiatePrefab();
+                }
+
+                MessageBroker.Global.Publish(new LoadProgressEvent("Initializing..."));
+                foreach (var loader in m_Loaders)
+                {
+                    await loader.InitLoadedThings();
+                }
+
+                Reset();
+
+                MessageBroker.Global.PublishComplete(new LoadProgressEvent("Loading Done"));
+                MessageBroker.Global.Complete<LoadRequestEvent>();
+            }
+            catch (Exception ex)
             {
-                yield return StartCoroutine(loader.LoadResource());
+                Logger.ReleaseLogError(
+                    $"Loading failed with exception: \n {ex.Message}",
+                    LogTag.Loading
+                );
+                Reset();
+
+                MessageBroker.Global.PublishErrorStop<LoadProgressEvent>(this, ex);
+                MessageBroker.Global.PublishErrorStop<LoadRequestEvent>(this, ex);
             }
-
-            MessageBroker.Global.Publish(new LoadProgressEvent("Loading Prefabs..."));
-            foreach (var loader in m_Loaders)
-            {
-                yield return StartCoroutine(loader.LoadPrefab());
-            }
-
-            MessageBroker.Global.Publish(new LoadProgressEvent("Instantiating Prefabs..."));
-            foreach (var loader in m_Loaders)
-            {
-                yield return StartCoroutine(loader.InstantiatePrefab());
-            }
-
-            MessageBroker.Global.Publish(new LoadProgressEvent("Initializing..."));
-            foreach (var loader in m_Loaders)
-            {
-                yield return StartCoroutine(loader.InitLoadedThings());
-            }
-
-            Reset();
-
-            MessageBroker.Global.PublishComplete(new LoadProgressEvent("Loading Done"));
-            MessageBroker.Global.PublishComplete(new LoadFinishEvent());
         }
+
+        private void RegisterEvents() { }
+
+        private void UnregisterEvents() { }
 
         private List<ILoader> m_Loaders = new();
         private List<ILoadInfo> m_LoadInfos = new();

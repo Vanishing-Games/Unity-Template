@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace Core
 {
+    /// <summary>
+    /// 加载请求事件
+    /// Complete: 加载完成时,或失败无法继续
+    /// Error: 加载失败时
+    /// </summary>
     public class LoadRequestEvent : IEvent
     {
         public struct LoadSettings
@@ -55,10 +60,18 @@ namespace Core
         public string m_LoadEventType { get; private set; } = string.Empty;
     }
 
+    /// <summary>
+    /// 加载开始一次性事件
+    /// Complete: 第一次事件发送后
+    /// Error: None
+    /// </summary>
     public class LoadStartEvent : IEvent { }
 
-    public class LoadFinishEvent : IEvent { }
-
+    /// <summary>
+    /// 加载进度事件
+    /// Complete: 加载完成后,或加载出错无法继续
+    /// Error: 加载出错时
+    /// </summary>
     public class LoadProgressEvent : IEvent
     {
         public LoadProgressEvent(string progress)
@@ -74,5 +87,4 @@ namespace Core
         public string Progress { get; private set; }
     }
 
-    public class LoadErrorEvent : IEvent { }
 }

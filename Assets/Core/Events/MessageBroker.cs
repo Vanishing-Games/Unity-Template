@@ -110,6 +110,44 @@ namespace Core
             }
         }
 
+        public IDisposable Subscribe<T>(Action<T> onNext)
+            where T : IEvent
+        {
+            return Receive<T>().Subscribe(onNext);
+        }
+
+        public IDisposable Subscribe<T>(Action<T> onNext, Action<R3.Result> onCompleted)
+            where T : IEvent
+        {
+            return Receive<T>().Subscribe(onNext, onCompleted);
+        }
+
+        public IDisposable Subscribe<T>(Action<T> onNext, Action onCompleted)
+            where T : IEvent
+        {
+            return Receive<T>().Subscribe(onNext, _ => onCompleted());
+        }
+
+        public IDisposable Subscribe<T>(
+            Action<T> onNext,
+            Action<Exception> onError,
+            Action<R3.Result> onCompleted
+        )
+            where T : IEvent
+        {
+            return Receive<T>().Subscribe(onNext, onError, onCompleted);
+        }
+
+        public IDisposable Subscribe<T>(
+            Action<T> onNext,
+            Action<Exception> onError,
+            Action onCompleted
+        )
+            where T : IEvent
+        {
+            return Receive<T>().Subscribe(onNext, onError, _ => onCompleted());
+        }
+
         public void Publish<T>(T message)
             where T : IEvent
         {
@@ -126,7 +164,7 @@ namespace Core
             }
         }
 
-        public void PublishError<T>(Exception error)
+        public void PublishErrorStop<T>(object errorSource, Exception error)
             where T : IEvent
         {
             Logger.EditorLogVerbose($"Publish Error Event: {typeof(T).Name}", LogTag.Event);
@@ -136,9 +174,31 @@ namespace Core
                 var eventType = typeof(T);
                 if (m_EventInfos.TryGetValue(eventType, out var eventInfo))
                 {
-                    ((ISubject<T>)eventInfo.Subject).OnErrorResume(error);
+                    var subject = (ISubject<T>)eventInfo.Subject;
+                    subject.OnCompleted();
+
+                    Logger.EditorLogError(
+                        $"Event {typeof(T).Name} terminated with error: {error.Message}",
+                        LogTag.Event
+                    );
                     eventInfo.LastActivity = DateTime.UtcNow;
                     CleanupEventInfo(eventType);
+                }
+            }
+        }
+
+        public void PublishErrorResume<T>(object errorSource, Exception error)
+            where T : IEvent
+        {
+            Logger.EditorLogVerbose($"Publish Error Resume Event: {typeof(T).Name}", LogTag.Event);
+
+            lock (m_Locker)
+            {
+                var eventType = typeof(T);
+                if (m_EventInfos.TryGetValue(eventType, out var eventInfo))
+                {
+                    ((ISubject<T>)eventInfo.Subject).OnErrorResume(error);
+                    eventInfo.LastActivity = DateTime.UtcNow;
                 }
             }
         }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 namespace Core
 {
@@ -11,20 +12,19 @@ namespace Core
 
         public void SendLoader();
 
-        public IEnumerator LoadScene();
+        public UniTask LoadScene();
 
-        public IEnumerator LoadResource();
+        public UniTask LoadResource();
 
-        public IEnumerator LoadPrefab();
+        public UniTask LoadPrefab();
 
-        public IEnumerator InstantiatePrefab();
+        public UniTask InstantiatePrefab();
 
-        public IEnumerator InitLoadedThings();
+        public UniTask InitLoadedThings();
     }
 
     /// <summary>
-    /// - 错误处理: 直接抛出异常
-    /// - TODO(vanish): 接入UniTask来实现顶层的错误处理.
+    /// - 错误处理: 直接抛出, 由上层处理
     /// </summary>
     public abstract class LoaderBase<TLoadInfo> : MonoBehaviour, ILoader where TLoadInfo : ILoadInfo
     {
@@ -32,15 +32,15 @@ namespace Core
 
         public abstract void InitLoader(TLoadInfo loadInfo);
 
-        public abstract IEnumerator LoadScene();
+        public abstract UniTask LoadScene();
 
-        public abstract IEnumerator LoadResource();
+        public abstract UniTask LoadResource();
 
-        public abstract IEnumerator LoadPrefab();
+        public abstract UniTask LoadPrefab();
 
-        public abstract IEnumerator InstantiatePrefab();
+        public abstract UniTask InstantiatePrefab();
 
-        public abstract IEnumerator InitLoadedThings();
+        public abstract UniTask InitLoadedThings();
 
         public virtual void SendLoader()
         {

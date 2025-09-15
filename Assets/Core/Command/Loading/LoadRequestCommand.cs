@@ -26,7 +26,7 @@ namespace Core
             }
             
             m_Manager.PrepareForLoad(LoadEvent);
-            MessageBroker.Global.PublishComplete(LoadEvent);
+            MessageBroker.Global.Publish(LoadEvent);
 
             return true;
         }

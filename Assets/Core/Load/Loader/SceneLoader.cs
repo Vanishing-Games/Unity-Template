@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,7 +20,7 @@ namespace Core
             m_AsyncOperation = null;
         }
 
-        public override IEnumerator LoadScene()
+        public override async UniTask LoadScene()
         {
             AsyncOperation asyncOp;
 
@@ -29,33 +30,33 @@ namespace Core
 
                 if (asyncOp == null)
                     throw new LoadFailedException($"Failed to start loading scene: {m_SceneName}");
+
+                await asyncOp;
             }
-            catch 
+            catch
             {
                 throw;
             }
-
-            yield return asyncOp;
         }
 
-        public override IEnumerator LoadResource()
+        public override async UniTask LoadResource()
         {
-            yield return null;
+            await UniTask.Yield();
         }
 
-        public override IEnumerator LoadPrefab()
+        public override async UniTask LoadPrefab()
         {
-            yield return null;
+            await UniTask.Yield();
         }
 
-        public override IEnumerator InstantiatePrefab()
+        public override async UniTask InstantiatePrefab()
         {
-            yield return null;
+            await UniTask.Yield();
         }
 
-        public override IEnumerator InitLoadedThings()
+        public override async UniTask InitLoadedThings()
         {
-            yield return null;
+            await UniTask.Yield();
         }
 
         private string m_SceneName;
