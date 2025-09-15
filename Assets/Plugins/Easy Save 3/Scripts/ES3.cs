@@ -792,8 +792,8 @@ public class ES3
         return texture;
     }
 
-    /// <summary>Loads an audio file as an AudioClip. Note that MP3 files are not supported on standalone platforms and Ogg Vorbis files are not supported on mobile platforms.</summary>
-    /// <param name="imagePath">The relative or absolute path of the audio file we want to load as an AudioClip.</param>
+    /// <summary>Loads an audio file as an AudioClip. Note: Audio loading functionality has been disabled in this project.</summary>
+    /// <param name="audioFilePath">The relative or absolute path of the audio file we want to load as an AudioClip.</param>
     public static AudioClip LoadAudio(string audioFilePath
 #if UNITY_2018_3_OR_NEWER
                                             , AudioType audioType
@@ -807,8 +807,8 @@ public class ES3
                         new ES3Settings());
     }
 
-    /// <summary>Loads an audio file as an AudioClip. Note that MP3 files are not supported on standalone platforms and Ogg Vorbis files are not supported on mobile platforms.</summary>
-    /// <param name="imagePath">The relative or absolute path of the audio file we want to load as an AudioClip.</param>
+    /// <summary>Loads an audio file as an AudioClip. Note: Audio loading functionality has been disabled in this project.</summary>
+    /// <param name="audioFilePath">The relative or absolute path of the audio file we want to load as an AudioClip.</param>
     /// <param name="settings">The settings we want to use to override the default settings.</param>
     public static AudioClip LoadAudio(string audioFilePath,
 #if UNITY_2018_3_OR_NEWER
@@ -816,88 +816,8 @@ public class ES3
 #endif
         ES3Settings settings)
     {
-        if (settings.location != Location.File)
-            throw new InvalidOperationException(
-                "ES3.LoadAudio can only be used with the File save location"
-            );
-
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-            throw new InvalidOperationException("You cannot use ES3.LoadAudio with WebGL");
-
-        string extension = ES3IO.GetExtension(audioFilePath).ToLower();
-
-        if (
-            extension == ".mp3"
-            && (
-                Application.platform == RuntimePlatform.WindowsPlayer
-                || Application.platform == RuntimePlatform.OSXPlayer
-            )
-        )
-            throw new System.InvalidOperationException(
-                "You can only load Ogg, WAV, XM, IT, MOD or S3M on Unity Standalone"
-            );
-
-        if (
-            extension == ".ogg"
-            && (
-                Application.platform == RuntimePlatform.IPhonePlayer
-                || Application.platform == RuntimePlatform.Android
-                || Application.platform == RuntimePlatform.WSAPlayerARM
-            )
-        )
-            throw new System.InvalidOperationException(
-                "You can only load MP3, WAV, XM, IT, MOD or S3M on Unity Standalone"
-            );
-
-        var newSettings = new ES3Settings(audioFilePath, settings);
-
-#if UNITY_2018_3_OR_NEWER
-        using (
-            UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(
-                "file://" + newSettings.FullPath,
-                audioType
-            )
-        )
-        {
-            www.SendWebRequest();
-
-            while (!www.isDone)
-            {
-                // Wait for it to load.
-            }
-
-            if (ES3WebClass.IsNetworkError(www))
-                throw new System.Exception(www.error);
-            else
-                return DownloadHandlerAudioClip.GetContent(www);
-        }
-#elif UNITY_2017_1_OR_NEWER
-        WWW www = new WWW(newSettings.FullPath);
-
-        while (!www.isDone)
-        {
-            // Wait for it to load.
-        }
-
-        if (!string.IsNullOrEmpty(www.error))
-            throw new System.Exception(www.error);
-#else
-        WWW www = new WWW("file://" + newSettings.FullPath);
-
-        while (!www.isDone)
-        {
-            // Wait for it to load.
-        }
-
-        if (!string.IsNullOrEmpty(www.error))
-            throw new System.Exception(www.error);
-#endif
-
-#if UNITY_2017_3_OR_NEWER && !UNITY_2018_3_OR_NEWER
-        return www.GetAudioClip(true);
-#elif UNITY_5_6_OR_NEWER && !UNITY_2018_3_OR_NEWER
-        return WWWAudioExtensions.GetAudioClip(www);
-#endif
+        // Audio loading functionality has been removed to avoid network dependencies
+        throw new System.NotSupportedException("ES3.LoadAudio has been disabled in this project to avoid network dependencies. Please use Unity's built-in audio loading methods instead.");
     }
 
     #endregion
