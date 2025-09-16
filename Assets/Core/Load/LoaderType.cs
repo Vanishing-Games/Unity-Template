@@ -4,8 +4,14 @@ using UnityEngine;
 
 namespace Core
 {
-    public enum LoaderType 
+    public enum LoaderType
     {
-        SceneLoader        
-     }
+        #region Core Assembly Define
+        SceneLoader,
+        #endregion
+
+        #region Core.Save Assembly Define
+        SaveLoader,
+        #endregion
+    }
 }
