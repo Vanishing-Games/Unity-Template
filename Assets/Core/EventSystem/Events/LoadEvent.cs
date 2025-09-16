@@ -13,11 +13,19 @@ namespace Core
     /// </summary>
     public class LoadRequestEvent : IEvent
     {
+        public enum LoadMode
+        {
+            LoadAdditively,
+            LoadOverwrite,
+        }
+
         public struct LoadSettings
         {
             public UInt32 maxWaitTimeInMs;
+            public LoadMode loadMode;
 
-            public static LoadSettings Default => new() { maxWaitTimeInMs = 1000 };
+            public static LoadSettings Default =>
+                new() { maxWaitTimeInMs = 1000, loadMode = LoadMode.LoadAdditively };
         }
 
         public LoadRequestEvent(string loadDesc)
@@ -86,5 +94,4 @@ namespace Core
 
         public string Progress { get; private set; }
     }
-
 }

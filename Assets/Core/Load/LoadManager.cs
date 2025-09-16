@@ -93,6 +93,12 @@ namespace Core
         {
             try
             {
+                MessageBroker.Global.Publish(new LoadProgressEvent("Loaders Preparing..."));
+                foreach (var loader in m_Loaders)
+                {
+                    await loader.BeforeLoad();
+                }
+
                 MessageBroker.Global.Publish(new LoadProgressEvent("Loading Scenes..."));
                 foreach (var loader in m_Loaders)
                 {

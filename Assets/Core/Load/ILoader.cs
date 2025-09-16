@@ -12,6 +12,8 @@ namespace Core
 
         public void SendLoader();
 
+        public UniTask BeforeLoad();
+
         public UniTask LoadScene();
 
         public UniTask LoadResource();
@@ -32,6 +34,11 @@ namespace Core
         public abstract LoaderType GetLoaderType();
 
         public abstract void InitLoader(TLoadInfo loadInfo);
+
+        public virtual UniTask BeforeLoad()
+        {
+            return UniTask.CompletedTask;
+        }
 
         public virtual UniTask LoadScene()
         {
