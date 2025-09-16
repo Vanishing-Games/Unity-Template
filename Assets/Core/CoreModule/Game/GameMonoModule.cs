@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public abstract class GameMonoModule : MonoBehaviour
+    public abstract class GameModuleManagerBase : MonoBehaviour
     {
         private void Awake()
         {

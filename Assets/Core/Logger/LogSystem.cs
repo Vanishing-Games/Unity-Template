@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -160,16 +161,22 @@ namespace Core
             return $"#{c32.r:X2}{c32.g:X2}{c32.b:X2}";
         }
 
-        private static void Output(LogLevel level, string message, params LogTag[] tags)
+        private static async void Output(LogLevel level, string message, params LogTag[] tags)
         {
             if (!ShouldLog(level))
                 return;
 
             if (tags == null || tags.Length == 0)
             {
+                Debug.LogError("<color=red><b>[Logger]</b> =============================</color>");
+                Debug.LogError("<color=red><b>[Logger]</b> PUNISHMENT LANDING </color>");
                 Debug.LogError(
-                    "<color=red><b>[Logger]</b> Logger requires at least one LogTag.</color>"
+                    "<color=red><b>[Logger]</b> Logger REQUIRES at least one LogTag.</color>"
                 );
+                Debug.LogError("<color=red><b>[Logger]</b> PUNISHMENT LANDING </color>");
+                Debug.LogError("<color=red><b>[Logger]</b> =============================</color>");
+
+                await UniTask.WhenAny(GameCore.Instance.QuitGame(), UniTask.Delay(10000));
                 return;
             }
 

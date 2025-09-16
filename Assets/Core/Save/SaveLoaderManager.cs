@@ -1,7 +1,7 @@
 using Core;
 using System;
 
-public class SaveLoaderManager : SystemMonoModule<SaveLoaderManager>
+public class SaveLoaderManager : CoreModuleManagerBase<SaveLoaderManager>
 {
     protected override void CreateLoader(ILoadInfo loadInfo)
     {

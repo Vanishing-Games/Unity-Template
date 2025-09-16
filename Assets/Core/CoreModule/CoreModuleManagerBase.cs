@@ -7,7 +7,7 @@ using static Core.LoadRequestEvent;
 
 namespace Core
 {
-    public abstract class SystemMonoModule<T> : MonoSingletonLasy<T>
+    public abstract class CoreModuleManagerBase<T> : MonoSingletonLasy<T>
         where T : MonoSingletonLasy<T>
     {
         private void Awake()

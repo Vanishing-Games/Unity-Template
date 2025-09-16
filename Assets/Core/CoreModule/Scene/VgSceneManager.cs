@@ -2,7 +2,10 @@ using System;
 
 namespace Core
 {
-    public class SceneLoaderManager : SystemMonoModule<SceneLoaderManager>
+    /// <summary>
+    /// Vg aka. Vanishing Games
+    /// </summary>
+    public class VgSceneManager : CoreModuleManagerBase<VgSceneManager>
     {
         protected override void CreateLoader(ILoadInfo loadInfo)
         {
