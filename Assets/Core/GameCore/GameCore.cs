@@ -9,8 +9,10 @@ namespace Core
 {
     public partial class GameCore : MonoSingletonPersistent<GameCore>
     {
-        private async UniTask<bool> GameRunCheck()
+        private bool GameRunCheck()
         {
+            Logger.ReleaseLogInfo("[GameCore] Runing Game Check...", LogTag.GameRunCheck);
+
 #if UNITY_EDITOR
             if (!GameRunInEditorCheck())
                 return false;
@@ -18,7 +20,29 @@ namespace Core
             return true;
         }
 
-        private async UniTask InitiatingGame() { }
+        private async UniTask InitiatingGame()
+        {
+            Logger.ReleaseLogInfo("[GameCore] Initiating Game...", LogTag.GameCoreAwake);
+
+            await InitProgressBar();
+
+            Logger.ReleaseLogInfo("[GameCore] Initiating Game Done", LogTag.GameCoreAwake);
+        }
+
+        private async UniTask InitProgressBar()
+        {
+            Logger.ReleaseLogInfo("Initiating ProgressBar...", LogTag.GameCoreAwake);
+
+            var loadEvent = new LoadRequestEvent("Load Progress Bar");
+            loadEvent.AddLoadInfo(new ProgressBarLoadInfo());
+            var loadProgressBar = new LoadRequestCommand(loadEvent);
+
+            await loadProgressBar.ExecuteAsync();
+
+            Logger.ReleaseLogInfo("Initiating ProgressBar Done", LogTag.GameCoreAwake);
+
+            return;
+        }
 
         internal async UniTask QuitGame()
         {

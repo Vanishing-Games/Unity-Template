@@ -38,14 +38,11 @@ namespace Core
                         return e.Types.Where(t => t != null);
                     }
                 })
-                .Where(t =>
-                    t != null
-                    && t.BaseType != null
-                    && t.BaseType.IsGenericType
-                    && t.BaseType.GetGenericTypeDefinition() == typeof(CoreModuleManagerBase<>)
-                )
                 .Any(t =>
-                    t.GetMethods(
+                    t != null
+                    && t.BaseType?.IsGenericType == true
+                    && t.BaseType.GetGenericTypeDefinition() == typeof(CoreModuleManagerBase<,,>)
+                    && t.GetMethods(
                             BindingFlags.Instance
                                 | BindingFlags.Public
                                 | BindingFlags.NonPublic

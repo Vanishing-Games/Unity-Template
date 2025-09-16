@@ -11,8 +11,7 @@ namespace Core
             Logger.ReleaseLogInfo("[GameCore] Awake...", LogTag.GameCoreAwake);
             base.Awake();
 
-            Logger.ReleaseLogInfo("[GameCore] Runing Game Check...", LogTag.GameRunCheck);
-            if (!await GameRunCheck())
+            if (!GameRunCheck())
             {
                 Logger.ReleaseLogInfo(
                     "[GameCore] Game Check Failed, Quit Game...",
@@ -22,7 +21,6 @@ namespace Core
                 return;
             }
 
-            Logger.ReleaseLogInfo("[GameCore] Initiating Game...", LogTag.GameCoreAwake);
             await InitiatingGame();
         }
 

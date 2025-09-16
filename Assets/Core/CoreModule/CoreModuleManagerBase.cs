@@ -7,8 +7,10 @@ using static Core.LoadRequestEvent;
 
 namespace Core
 {
-    public abstract class CoreModuleManagerBase<T> : MonoSingletonLasy<T>
+    public abstract class CoreModuleManagerBase<T,TLoadInfo,TLoader> : MonoSingletonLasy<T>
         where T : MonoSingletonLasy<T>
+        where TLoadInfo : ILoadInfo
+        where TLoader : LoaderBase<TLoadInfo>
     {
         private void Awake()
         {
@@ -24,7 +26,21 @@ namespace Core
             Logger.EditorLogVerbose($"SystemMonoModule: {GetType()} OnDestroy", LogTag.Loading);
         }
 
-        protected abstract void OnReceiveLoadRequest(LoadRequestEvent loadEventInfo);
+        protected virtual void OnReceiveLoadRequest(LoadRequestEvent loadEventInfo)
+        {
+            var info = loadEventInfo.GetLoadInfo(GetLoaderType());
+
+            if (info != null)
+            {
+                Logger.EditorLogVerbose(
+                    $"[CoreModuleManagerBase] {GetType()} ReceiveLoadInfo",
+                    LogTag.CoreModule
+                );
+                CreateLoader(info);
+            }
+        }
+
+        protected abstract LoaderType GetLoaderType();
 
         protected abstract void OnLoadingError(Exception exception);
 
@@ -37,7 +53,28 @@ namespace Core
             RegisterLoadEvent();
         }
 
-        protected abstract void CreateLoader(ILoadInfo loadInfo);
+        protected virtual void CreateLoader(ILoadInfo loadInfo)
+        {
+            if (loadInfo is TLoadInfo typedLoadInfo)
+            {
+                var loader = GetComponent<TLoader>();
+                if (loader != null)
+                {
+                    Destroy(loader);
+                }
+
+                loader = gameObject.AddComponent<TLoader>();
+                loader.InitLoader(typedLoadInfo);
+                loader.SendLoader();
+            }
+            else
+            {
+                MessageBroker.Global.PublishErrorResume<LoadRequestEvent>(
+                    this,
+                    new LoadFailedException($"LoadInfo is not a {typeof(TLoadInfo).Name}")
+                );
+            }
+        }
 
         public virtual void RegisterLoadEvent()
         {
@@ -60,11 +97,6 @@ namespace Core
                 m_LoadEventSubscription.Dispose();
                 m_LoadEventSubscription = null;
             }
-
-            Logger.EditorLogVerbose(
-                $"SystemMonoModule: {GetType()} UnregisterLoadEvent",
-                LogTag.Loading
-            );
         }
 
         private System.IDisposable m_LoadEventSubscription;

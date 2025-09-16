@@ -17,12 +17,12 @@ namespace Core
         {
             public UInt32 maxWaitTimeInMs;
 
-            public static LoadSettings Default => new LoadSettings { maxWaitTimeInMs = 1000 };
+            public static LoadSettings Default => new() { maxWaitTimeInMs = 1000 };
         }
 
-        public LoadRequestEvent(string loadEventType)
+        public LoadRequestEvent(string loadDesc)
         {
-            m_LoadEventType = loadEventType;
+            m_LoadDesc = loadDesc;
         }
 
         public LoadRequestEvent(
@@ -31,7 +31,7 @@ namespace Core
             LoadSettings loadSettings
         )
         {
-            m_LoadEventType = loadEventType;
+            m_LoadDesc = loadEventType;
             m_LoadInfos = loadInfo;
             m_LoadSettings = loadSettings;
         }
@@ -57,7 +57,7 @@ namespace Core
 
         public LoadSettings m_LoadSettings { get; private set; } = LoadSettings.Default;
 
-        public string m_LoadEventType { get; private set; } = string.Empty;
+        public string m_LoadDesc { get; private set; } = string.Empty;
     }
 
     /// <summary>

@@ -8,6 +8,7 @@ namespace Core
     {
         #region Core Assembly Define
         SceneLoader,
+        ProgressBar,
         #endregion
 
         #region Core.Save Assembly Define

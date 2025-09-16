@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Core
@@ -15,5 +16,10 @@ namespace Core
         }
 
         public abstract bool Execute();
+
+        public virtual UniTask<bool> ExecuteAsync()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

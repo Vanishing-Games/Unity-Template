@@ -139,26 +139,6 @@ namespace Core
             }
         }
 
-        public override async UniTask LoadResource()
-        {
-            await UniTask.Yield();
-        }
-
-        public override async UniTask LoadPrefab()
-        {
-            await UniTask.Yield();
-        }
-
-        public override async UniTask InstantiatePrefab()
-        {
-            await UniTask.Yield();
-        }
-
-        public override async UniTask InitLoadedThings()
-        {
-            await UniTask.Yield();
-        }
-
         private SceneLoadInfo m_SceneLoadInfo;
 
         private AsyncOperationHandle<SceneInstance> m_AddressableSceneHandle;
