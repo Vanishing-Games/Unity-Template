@@ -39,11 +39,10 @@ namespace Core
                 succeed = loadEvent.IsSuccess;
             }
 
-            var subscription = MessageBroker.Global.Subscribe<LoadRequestEvent>(
+            using var subscription = MessageBroker.Global.Subscribe<LoadRequestEvent>(
                 _ => { },
                 OnLoadComplete
             );
-
             if (!Execute())
                 return false;
 

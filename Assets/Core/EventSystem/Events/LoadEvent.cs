@@ -6,6 +6,17 @@ using UnityEngine;
 
 namespace Core
 {
+    public enum LoadMode
+    {
+        // Summary:
+        //     Closes all current loaded and then load new things.
+        LoadOverwrite,
+
+        // Summary:
+        //     Adds the new things to the current loaded.
+        LoadAdditively,
+    }
+
     /// <summary>
     /// 加载请求事件
     /// Complete: 加载完成时,或失败无法继续
@@ -13,19 +24,13 @@ namespace Core
     /// </summary>
     public class LoadRequestEvent : IEvent
     {
-        public enum LoadMode
-        {
-            LoadAdditively,
-            LoadOverwrite,
-        }
-
         public struct LoadSettings
         {
             public UInt32 maxWaitTimeInMs;
             public LoadMode loadMode;
 
             public static LoadSettings Default =>
-                new() { maxWaitTimeInMs = 1000, loadMode = LoadMode.LoadAdditively };
+                new() { maxWaitTimeInMs = 1000, loadMode = LoadMode.LoadOverwrite };
         }
 
         public LoadRequestEvent(string loadDesc)
@@ -63,7 +68,7 @@ namespace Core
 
         public List<ILoadInfo> m_LoadInfos { get; private set; } = new();
 
-        public LoadSettings m_LoadSettings { get; private set; } = LoadSettings.Default;
+        public LoadSettings m_LoadSettings { get; set; } = LoadSettings.Default;
 
         public string m_LoadDesc { get; private set; } = string.Empty;
     }

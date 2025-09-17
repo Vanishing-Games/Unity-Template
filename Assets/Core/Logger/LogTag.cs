@@ -32,11 +32,13 @@ namespace Core
         // ========== Second Tags ==========
         public static readonly LogTag CodeUnfucker = new("CodeUnfucker", Editor.Path);
         public static readonly LogTag SceneLoader = new("SceneLoader", Loading.Path);
-        public static readonly LogTag GameCoreAwake = new("GameCoreAwake", GameCore.Path);
+        public static readonly LogTag GameCoreStart = new("GameCoreStart", GameCore.Path);
+        public static readonly LogTag GameCoreDestroy = new("GameCoreDestroy", GameCore.Path);
         public static readonly LogTag GameQuit = new("GameQuit", GameCore.Path);
+        public static readonly LogTag VgLoadProgressManager = new("VgLoadProgressManager", Loading.Path);
 
         // ========== Third Tags ==========
         public static readonly LogTag CodeUnfucker_3_Sample = new("Save", CodeUnfucker.Path); // MAX depth = 3
-        public static readonly LogTag GameRunCheck = new("GameSystem", GameCoreAwake.Path);
+        public static readonly LogTag GameRunCheck = new("GameSystem", GameCoreStart.Path);
     }
 }

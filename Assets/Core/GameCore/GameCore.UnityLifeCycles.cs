@@ -6,10 +6,9 @@ namespace Core
 {
     public partial class GameCore : MonoSingletonPersistent<GameCore>
     {
-        protected override async void Awake()
+        protected async void Start()
         {
-            Logger.ReleaseLogInfo("[GameCore] Awake...", LogTag.GameCoreAwake);
-            base.Awake();
+            Logger.ReleaseLogInfo("[GameCore] Start...", LogTag.GameCoreStart);
 
             if (!GameRunCheck())
             {
@@ -28,6 +27,9 @@ namespace Core
 
         private void Update() { }
 
-        private void OnDestroy() { }
+        private void OnDestroy()
+        {
+            Logger.ReleaseLogInfo("[GameCore] OnDestroy...", LogTag.GameCoreDestroy);
+        }
     }
 }

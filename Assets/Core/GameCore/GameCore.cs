@@ -22,16 +22,43 @@ namespace Core
 
         private async UniTask InitiatingGame()
         {
-            Logger.ReleaseLogInfo("[GameCore] Initiating Game...", LogTag.GameCoreAwake);
+            Logger.ReleaseLogInfo("[GameCore] Initiating Game...", LogTag.GameCoreStart);
 
             await InitProgressBar();
 
-            Logger.ReleaseLogInfo("[GameCore] Initiating Game Done", LogTag.GameCoreAwake);
+            using (var loadProgressManager = VgLoadProgressManager.Instance)
+            {
+                loadProgressManager.Show();
+
+                LoadRequestEvent loadEvent = new("Loading Game Start Scene");
+                loadEvent.AddLoadInfo(new SceneLoadInfo("GameStartScene"));
+                var loadGameEntry = new LoadRequestCommand(loadEvent);
+
+                bool loadCompleted = false;
+
+                await UniTask.WhenAny(
+                    loadGameEntry.ExecuteAsync(),
+                    UniTask.Create(async () =>
+                    {
+                        while (!loadCompleted)
+                        {
+                            if (loadProgressManager.GetProgress() < 0.99f)
+                                loadProgressManager.AddProgress(0.01f);
+
+                            await UniTask.DelayFrame(1);
+                        }
+                    })
+                );
+
+                loadCompleted = true;
+            }
+
+            Logger.ReleaseLogInfo("[GameCore] Initiating Game Done", LogTag.GameCoreStart);
         }
 
         private async UniTask InitProgressBar()
         {
-            Logger.ReleaseLogInfo("Initiating ProgressBar...", LogTag.GameCoreAwake);
+            Logger.ReleaseLogInfo("Initiating ProgressBar...", LogTag.GameCoreStart);
 
             var loadEvent = new LoadRequestEvent("Load Progress Bar");
             loadEvent.AddLoadInfo(new ProgressBarLoadInfo());
@@ -39,7 +66,7 @@ namespace Core
 
             await loadProgressBar.ExecuteAsync();
 
-            Logger.ReleaseLogInfo("Initiating ProgressBar Done", LogTag.GameCoreAwake);
+            Logger.ReleaseLogInfo("Initiating ProgressBar Done", LogTag.GameCoreStart);
 
             return;
         }

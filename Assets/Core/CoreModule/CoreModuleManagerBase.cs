@@ -7,13 +7,15 @@ using static Core.LoadRequestEvent;
 
 namespace Core
 {
-    public abstract class CoreModuleManagerBase<T,TLoadInfo,TLoader> : MonoSingletonLasy<T>
-        where T : MonoSingletonLasy<T>
+    public abstract class CoreModuleManagerBase<T, TLoadInfo, TLoader> : MonoSingletonPersistent<T>
+        where T : MonoSingletonPersistent<T>
         where TLoadInfo : ILoadInfo
         where TLoader : LoaderBase<TLoadInfo>
     {
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             RegisterLoadEvent();
 
             Logger.EditorLogVerbose($"SystemMonoModule: {GetType()} Awake", LogTag.Loading);
