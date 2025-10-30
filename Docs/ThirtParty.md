@@ -3,7 +3,7 @@
  * Copyright (c) 2025 Vanishing Games. All Rights Reserved.
  * @Author: VanishXiao
  * @Date: 2025-10-30 15:21:33
- * @LastEditTime: 2025-10-30 15:32:53
+ * @LastEditTime: 2025-10-30 15:33:54
  * --------------------------------------------------------------------------------
 -->
 
@@ -43,3 +43,6 @@
 
 ## 2. Capabilities-System (ECC)
 - 自研GamePlay框架
+
+## 3. UnityHFSM-v2.2.0
+- 层次状态机
