@@ -1,27 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEditor.VersionControl;
-using UnityEngine;
+using System.Text;
 
 namespace Core
 {
     public class LoadManager : MonoSingletonLasy<LoadManager>
     {
-        private void Awake()
-        {
-            RegisterEvents();
-        }
-
-        private void OnDestroy()
-        {
-            UnregisterEvents();
-        }
-
         public void PrepareForLoad(LoadRequestEvent loadEvent)
         {
+            SubscribeEvents();
             m_LoadInfos.AddRange(loadEvent.m_LoadInfos);
+
+            StringBuilder sb = new();
+            sb.AppendLine(
+                $"PrepareForLoad: {loadEvent.m_LoadDesc}. Needed Loaders: {loadEvent.m_LoadInfos.Count}"
+            );
+            foreach (var loadInfo in loadEvent.m_LoadInfos)
+            {
+                sb.AppendLine($"  {loadInfo.GetNeededLoaderType()}");
+            }
+            Logger.ReleaseLogInfo(sb.ToString(), LogTag.Loading);
         }
 
         public void RegisterLoader(ILoader newLoader)
@@ -76,6 +75,7 @@ namespace Core
         {
             m_Loaders.Clear();
             m_LoadInfos.Clear();
+            UnSubscribeEvents();
         }
 
         private void Load()
@@ -88,6 +88,12 @@ namespace Core
         {
             try
             {
+                MessageBroker.Global.Publish(new LoadProgressEvent("Loaders Preparing..."));
+                foreach (var loader in m_Loaders)
+                {
+                    await loader.BeforeLoad();
+                }
+
                 MessageBroker.Global.Publish(new LoadProgressEvent("Loading Scenes..."));
                 foreach (var loader in m_Loaders)
                 {
@@ -136,11 +142,58 @@ namespace Core
             }
         }
 
-        private void RegisterEvents() { }
+        private void SubscribeEvents()
+        {
+            m_LoadRequestEventSubscription = MessageBroker.Global.Subscribe<LoadRequestEvent>(
+                OnLoadRequest,
+                OnLoadRequestError,
+                OnLoadRequestComplete
+            );
+        }
 
-        private void UnregisterEvents() { }
+        private void OnLoadRequestComplete(R3.Result result)
+        {
+            Logger.ReleaseLogInfo("LoadRequestComplete", LogTag.Loading);
+        }
+
+        private void OnLoadRequestError(Exception exception)
+        {
+            Logger.ReleaseLogError("LoadRequestError", LogTag.Loading);
+        }
+
+        private void OnLoadRequest(LoadRequestEvent loadEvent)
+        {
+            var waitMs = (int)loadEvent.m_LoadSettings.maxWaitTimeInMs;
+            if (waitMs <= 0)
+            {
+                return;
+            }
+
+            UniTask.Void(async () =>
+            {
+                await UniTask.Delay(waitMs);
+
+                if (m_LoadRequestEventSubscription != null)
+                {
+                    var ex = new TimeoutException(
+                        $"Loading timeout after {waitMs} ms for '{loadEvent.m_LoadDesc}'. Registered loaders: {m_Loaders.Count}/{m_LoadInfos.Count}"
+                    );
+                    Logger.ReleaseLogError(ex.Message, LogTag.Loading);
+
+                    MessageBroker.Global.PublishErrorStop<LoadRequestEvent>(this, ex);
+                    Reset();
+                }
+            });
+        }
+
+        private void UnSubscribeEvents()
+        {
+            m_LoadRequestEventSubscription?.Dispose();
+            m_LoadRequestEventSubscription = null;
+        }
 
         private List<ILoader> m_Loaders = new();
         private List<ILoadInfo> m_LoadInfos = new();
+        private IDisposable m_LoadRequestEventSubscription;
     }
 }

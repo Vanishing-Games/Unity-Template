@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build.Content;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 namespace Core
 {
@@ -24,11 +21,34 @@ namespace Core
 
                 return false;
             }
-            
+
             m_Manager.PrepareForLoad(LoadEvent);
             MessageBroker.Global.Publish(LoadEvent);
 
             return true;
+        }
+
+        public override async UniTask<bool> ExecuteAsync()
+        {
+            bool completed = false;
+            bool succeed = false;
+
+            void OnLoadComplete(R3.Result loadEvent)
+            {
+                completed = true;
+                succeed = loadEvent.IsSuccess;
+            }
+
+            using var subscription = MessageBroker.Global.Subscribe<LoadRequestEvent>(
+                _ => { },
+                OnLoadComplete
+            );
+            if (!Execute())
+                return false;
+
+            await UniTask.WaitUntil(() => completed);
+
+            return succeed;
         }
     }
 }
