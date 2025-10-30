@@ -297,7 +297,7 @@ namespace FMODUnity
                     else
                     {
                         // editorSettings is populated via the static constructor of FMODUnity.EditorSettings when in the Unity editor.
-                        RuntimeUtils.DebugLogError("[FMOD] Attempted to instantiate Settings before EditorSettings was populated. " +
+                        RuntimeUtils.LogError("[FMOD] Attempted to instantiate Settings before EditorSettings was populated. " +
                             "Ensure that Settings.Instance is not being called from an InitializeOnLoad method or class.");
                     }
 #endif
@@ -307,7 +307,7 @@ namespace FMODUnity
 #if UNITY_EDITOR
                     if (AssetDatabase.GetAssetPath(instance).StartsWith("Packages"))
                     {
-                        RuntimeUtils.DebugLogError($"[FMOD] {SettingsAssetName} initialization failed. {SettingsAssetName} located in \"Packages\" folder. Please delete {SettingsAssetName} in file explorer.");
+                        RuntimeUtils.LogError($"[FMOD] {SettingsAssetName} initialization failed. {SettingsAssetName} located in \"Packages\" folder. Please delete {SettingsAssetName} in file explorer.");
                         instance = CreateInstance<Settings>();
                     }
 #endif
@@ -682,7 +682,7 @@ namespace FMODUnity
                         platformToDestroy = newPlatform;
                     }
 
-                    RuntimeUtils.DebugLogWarningFormat("FMOD: Cleaning up duplicate platform: ID  = {0}, name = '{1}', type = {2}",
+                    RuntimeUtils.LogWarningFormat("FMOD: Cleaning up duplicate platform: ID  = {0}, name = '{1}', type = {2}",
                         platformToDestroy.Identifier, platformToDestroy.DisplayName, platformToDestroy.GetType().Name);
 
                     DestroyImmediate(platformToDestroy, true);

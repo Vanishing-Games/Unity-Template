@@ -17,7 +17,7 @@ namespace Core
         {
             if (m_Manager == null)
             {
-                Logger.DebugLogError(
+                Logger.LogError(
                     "[SendLoaderCommand] SceneLoadManager is not initialized, making excution for SendLoaderCommand failed"
                 );
                 return false;

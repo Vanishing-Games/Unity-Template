@@ -101,11 +101,11 @@ namespace FMODUnity
 
             if (flags == FMOD.DEBUG_FLAGS.ERROR)
             {
-                RuntimeUtils.DebugLogError(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
+                RuntimeUtils.LogError(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
             }
             else if (flags == FMOD.DEBUG_FLAGS.WARNING)
             {
-                RuntimeUtils.DebugLogWarning(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
+                RuntimeUtils.LogWarning(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
             }
             else if (flags == FMOD.DEBUG_FLAGS.LOG)
             {
@@ -139,7 +139,7 @@ namespace FMODUnity
                 return FMOD.RESULT.OK;
             }
 
-            RuntimeUtils.DebugLogError(string.Format("[FMOD] {0}({1}) returned {2} for {3} (0x{4}).",
+            RuntimeUtils.LogError(string.Format("[FMOD] {0}({1}) returned {2} for {3} (0x{4}).",
                 (string)callbackInfo.functionname, (string)callbackInfo.functionparams, callbackInfo.result, callbackInfo.instancetype, callbackInfo.instance.ToString("X")));
             return FMOD.RESULT.OK;
         }
@@ -204,7 +204,7 @@ namespace FMODUnity
                             }
                             else
                             {
-                                RuntimeUtils.DebugLogWarning("[FMOD] Cannot initialize Java wrapper");
+                                RuntimeUtils.LogWarning("[FMOD] Cannot initialize Java wrapper");
                             }
                         }
                         #endif
@@ -310,7 +310,7 @@ namespace FMODUnity
             result = FMOD.Debug.Initialize(fmodSettings.LoggingLevel, FMOD.DEBUG_MODE.CALLBACK, debugCallback, null);
             if(result == FMOD.RESULT.ERR_UNSUPPORTED)
             {
-                RuntimeUtils.DebugLogWarning("[FMOD] Unable to initialize debug logging: Logging will be disabled.\nCheck the Import Settings of the FMOD libs to enable the logging library.");
+                RuntimeUtils.LogWarning("[FMOD] Unable to initialize debug logging: Logging will be disabled.\nCheck the Import Settings of the FMOD libs to enable the logging library.");
             }
             else
             {
@@ -383,7 +383,7 @@ retry:
             {
                 initResult = result; // Save this to throw at the end (we'll attempt NO SOUND to shield ourselves from unexpected device failures)
                 outputType = FMOD.OUTPUTTYPE.NOSOUND;
-                RuntimeUtils.DebugLogErrorFormat("[FMOD] Studio::System::initialize returned {0}, defaulting to no-sound mode.", result.ToString());
+                RuntimeUtils.LogErrorFormat("[FMOD] Studio::System::initialize returned {0}, defaulting to no-sound mode.", result.ToString());
 
                 goto retry;
             }
@@ -398,7 +398,7 @@ retry:
                 if (result == FMOD.RESULT.ERR_NET_SOCKET_ERROR)
                 {
                     studioInitFlags &= ~FMOD.Studio.INITFLAGS.LIVEUPDATE;
-                    RuntimeUtils.DebugLogWarning("[FMOD] Cannot open network port for Live Update (in-use), restarting with Live Update disabled.");
+                    RuntimeUtils.LogWarning("[FMOD] Cannot open network port for Live Update (in-use), restarting with Live Update disabled.");
 
                     result = studioSystem.release();
                     CheckInitResult(result, "FMOD.Studio.System.Release");
@@ -463,7 +463,7 @@ retry:
                 if (StudioListener.ListenerCount <= 0 && !listenerWarningIssued)
                 {
                     listenerWarningIssued = true;
-                    RuntimeUtils.DebugLogWarning("[FMOD] Please add an 'FMOD Studio Listener' component to your camera in the scene for correct 3D positioning of sounds.");
+                    RuntimeUtils.LogWarning("[FMOD] Please add an 'FMOD Studio Listener' component to your camera in the scene for correct 3D positioning of sounds.");
                 }
 
                 StudioEventEmitter.UpdateActiveEmitters();
@@ -537,7 +537,7 @@ retry:
                             FMOD.Studio.EventDescription desc;
                             eventPositionWarnings[i].getDescription(out desc);
                             desc.getPath(out path);
-                            RuntimeUtils.DebugLogWarningFormat("[FMOD] Instance of Event {0} has not had EventInstance.set3DAttributes() called on it yet!", path);
+                            RuntimeUtils.LogWarningFormat("[FMOD] Instance of Event {0} has not had EventInstance.set3DAttributes() called on it yet!", path);
                         }
                     }
                     eventPositionWarnings.RemoveAt(i);
@@ -859,7 +859,7 @@ retry:
             }
             else if (loadResult == FMOD.RESULT.ERR_EVENT_ALREADY_LOADED)
             {
-                RuntimeUtils.DebugLogWarningFormat("[FMOD] Unable to load {0} - bank already loaded. This may occur when attempting to load another localized bank before the first is unloaded, or if a bank has been loaded via the API.", bankName);
+                RuntimeUtils.LogWarningFormat("[FMOD] Unable to load {0} - bank already loaded. This may occur when attempting to load another localized bank before the first is unloaded, or if a bank has been loaded via the API.", bankName);
             }
             else
             {
@@ -908,7 +908,7 @@ retry:
             loadResult = Instance.studioSystem.loadBankMemory(loadWebResult, FMOD.Studio.LOAD_BANK_FLAGS.NORMAL, out loadedBank.Bank);
             if (loadResult != FMOD.RESULT.OK)
             {
-                RuntimeUtils.DebugLogWarningFormat("[FMOD] loadFromWeb.  Path = {0}, result = {1}.", bankPath, loadResult);
+                RuntimeUtils.LogWarningFormat("[FMOD] loadFromWeb.  Path = {0}, result = {1}.", bankPath, loadResult);
             }
             RegisterLoadedBank(loadedBank, bankPath, bankName, loadSamples, loadResult);
             loadingBanksRef--;
@@ -1017,7 +1017,7 @@ retry:
                 {
                     if (!obj.IsValid())
                     {
-                        RuntimeUtils.DebugLogError("[FMOD] Unable to load AssetReference: " + obj.OperationException);
+                        RuntimeUtils.LogError("[FMOD] Unable to load AssetReference: " + obj.OperationException);
                         return;
                     }
 
@@ -1244,7 +1244,7 @@ retry:
             }
             catch (EventNotFoundException)
             {
-                RuntimeUtils.DebugLogWarning("[FMOD] Event not found: " + eventReference);
+                RuntimeUtils.LogWarning("[FMOD] Event not found: " + eventReference);
             }
         }
 
@@ -1256,7 +1256,7 @@ retry:
             }
             catch (EventNotFoundException)
             {
-                RuntimeUtils.DebugLogWarning("[FMOD] Event not found: " + path);
+                RuntimeUtils.LogWarning("[FMOD] Event not found: " + path);
             }
         }
 
@@ -1278,7 +1278,7 @@ retry:
             }
             catch (EventNotFoundException)
             {
-                RuntimeUtils.DebugLogWarning("[FMOD] Event not found: " + eventReference);
+                RuntimeUtils.LogWarning("[FMOD] Event not found: " + eventReference);
             }
         }
 
@@ -1290,7 +1290,7 @@ retry:
             }
             catch (EventNotFoundException)
             {
-                RuntimeUtils.DebugLogWarning("[FMOD] Event not found: " + path);
+                RuntimeUtils.LogWarning("[FMOD] Event not found: " + path);
             }
         }
 
@@ -1606,20 +1606,20 @@ retry:
                     {
                         if (fmodOverlayLayer == -1)
                         {
-                            RuntimeUtils.DebugLogWarning("[FMOD] Missing 'fmodOverlayLayer' layer, Cannot display Debug Overlay");
+                            RuntimeUtils.LogWarning("[FMOD] Missing 'fmodOverlayLayer' layer, Cannot display Debug Overlay");
                         }
                         else if (mainCameraData == null)
                         {
-                            RuntimeUtils.DebugLogWarning("[FMOD] Universal Render Pipeline Required, Cannot display Debug Overlay");
+                            RuntimeUtils.LogWarning("[FMOD] Universal Render Pipeline Required, Cannot display Debug Overlay");
                         }
                         else
                         {
-                            RuntimeUtils.DebugLogWarning("[FMOD] Unknown Debug Overlay issue. Contact Support");
+                            RuntimeUtils.LogWarning("[FMOD] Unknown Debug Overlay issue. Contact Support");
                         }
                     }
                     break;
 #else
-                    RuntimeUtils.DebugLogWarning("[FMOD] UNITY_URP_EXIST is not defined. The VR debug overlay requires the Universal Render Pipeline.");
+                    RuntimeUtils.LogWarning("[FMOD] UNITY_URP_EXIST is not defined. The VR debug overlay requires the Universal Render Pipeline.");
                     break;
 #endif
                 default:

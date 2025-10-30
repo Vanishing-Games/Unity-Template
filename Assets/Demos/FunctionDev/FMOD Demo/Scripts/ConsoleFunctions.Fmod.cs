@@ -15,7 +15,7 @@ public partial class ConsoleFunctions
     [ConsoleMethod("echo", "Echoes the argument ")]
     public static void Echo(string arg)
     {
-        Logger.EditorLogInfo(arg, LogTag.Editor);
+        Logger.LogInfo(arg, LogTag.Editor);
     }
 
     [ConsoleMethod("PlayAudioEvent", "Play Fmod Event")]
@@ -24,12 +24,12 @@ public partial class ConsoleFunctions
         var ef = RuntimeManager.PathToEventReference(eventRef);
         if (ef.Guid == null)
         {
-            Logger.EditorLogError("Event not found: " + eventRef, LogTag.Editor);
+            Logger.LogError("Event not found: " + eventRef, LogTag.Editor);
             return;
         }
         else
         {
-            Logger.EditorLogInfo(
+            Logger.LogInfo(
                 "Event found: " + eventRef + "GUID: " + ef.Guid.ToString(),
                 LogTag.Editor
             );

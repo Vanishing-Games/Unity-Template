@@ -11,7 +11,7 @@ namespace Core
     {
         private bool GameRunCheck()
         {
-            Logger.ReleaseLogInfo("[GameCore] Runing Game Check...", LogTag.GameRunCheck);
+            Logger.LogInfo("[GameCore] Runing Game Check...", LogTag.GameRunCheck);
 
 #if UNITY_EDITOR
             if (!GameRunInEditorCheck())
@@ -22,7 +22,7 @@ namespace Core
 
         private async UniTask InitiatingGame()
         {
-            Logger.ReleaseLogInfo("[GameCore] Initiating Game...", LogTag.GameCoreStart);
+            Logger.LogInfo("[GameCore] Initiating Game...", LogTag.GameCoreStart);
 
             await InitProgressBar();
 
@@ -53,12 +53,12 @@ namespace Core
                 loadCompleted = true;
             }
 
-            Logger.ReleaseLogInfo("[GameCore] Initiating Game Done", LogTag.GameCoreStart);
+            Logger.LogInfo("[GameCore] Initiating Game Done", LogTag.GameCoreStart);
         }
 
         private async UniTask InitProgressBar()
         {
-            Logger.ReleaseLogInfo("Initiating ProgressBar...", LogTag.GameCoreStart);
+            Logger.LogInfo("Initiating ProgressBar...", LogTag.GameCoreStart);
 
             var loadEvent = new LoadRequestEvent("Load Progress Bar");
             loadEvent.AddLoadInfo(new ProgressBarLoadInfo());
@@ -66,7 +66,7 @@ namespace Core
 
             await loadProgressBar.ExecuteAsync();
 
-            Logger.ReleaseLogInfo("Initiating ProgressBar Done", LogTag.GameCoreStart);
+            Logger.LogInfo("Initiating ProgressBar Done", LogTag.GameCoreStart);
 
             return;
         }
@@ -90,7 +90,7 @@ namespace Core
             }
             catch (Exception ex)
             {
-                Logger.EditorLogError(
+                Logger.LogError(
                     $"Error during save operation: {ex.Message}",
                     LogTag.GameQuit
                 );

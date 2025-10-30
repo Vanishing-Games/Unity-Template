@@ -699,7 +699,7 @@ namespace FMODUnity
                             }
                             catch (Exception ex)
                             {
-                                RuntimeUtils.DebugLogWarningFormat("[FMOD] Failed to get enumerator for value in field '{0}': {1}", subObjectField.Name, ex.Message);
+                                RuntimeUtils.LogWarningFormat("[FMOD] Failed to get enumerator for value in field '{0}': {1}", subObjectField.Name, ex.Message);
                                 continue;
                             }
 

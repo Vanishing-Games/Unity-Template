@@ -78,7 +78,7 @@ namespace FMODUnity
                 }
                 catch (ArgumentException e)
                 {
-                    RuntimeUtils.DebugLogWarningFormat("Error watching {0}: {1}", pathToWatch, e.Message);
+                    RuntimeUtils.LogWarningFormat("Error watching {0}: {1}", pathToWatch, e.Message);
                 }
             }
         }

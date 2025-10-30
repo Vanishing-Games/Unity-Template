@@ -15,7 +15,7 @@ namespace Core
         {
             if (m_Manager == null)
             {
-                Logger.DebugLogError(
+                Logger.LogError(
                     "[LoadCommand] LoadManager is not initialized, making excution for LoadEvent failed"
                 );
 

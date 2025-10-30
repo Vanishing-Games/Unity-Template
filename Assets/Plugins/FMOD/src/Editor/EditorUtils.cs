@@ -42,7 +42,7 @@ namespace FMODUnity
         {
             if (result != FMOD.RESULT.OK)
             {
-                RuntimeUtils.DebugLogError(string.Format("FMOD Studio: Encountered Error: {0} {1}", result, FMOD.Error.String(result)));
+                RuntimeUtils.LogError(string.Format("FMOD Studio: Encountered Error: {0} {1}", result, FMOD.Error.String(result)));
             }
         }
 
@@ -532,7 +532,7 @@ namespace FMODUnity
             FMOD.RESULT result = FMOD.Debug.Initialize(FMOD.DEBUG_FLAGS.LOG, FMOD.DEBUG_MODE.FILE, null, "fmod_editor.log");
             if (result != FMOD.RESULT.OK)
             {
-                RuntimeUtils.DebugLogWarning("FMOD Studio: Cannot open fmod_editor.log. Logging will be disabled for importing and previewing");
+                RuntimeUtils.LogWarning("FMOD Studio: Cannot open fmod_editor.log. Logging will be disabled for importing and previewing");
             }
 
             CheckResult(FMOD.Studio.System.create(out system));
@@ -1519,7 +1519,7 @@ namespace FMODUnity
                             {
                                 if (!AssetDatabase.DeleteAsset(targetPath))
                                 {
-                                    RuntimeUtils.DebugLogError(string.Format("FMOD: Could not delete {0}", targetPath));
+                                    RuntimeUtils.LogError(string.Format("FMOD: Could not delete {0}", targetPath));
                                 }
                             }
 
@@ -1529,7 +1529,7 @@ namespace FMODUnity
 
                             if (!AssetDatabase.CopyAsset(sourcePath, targetPath))
                             {
-                                RuntimeUtils.DebugLogError(string.Format("FMOD: Could not copy {0} to {1}", sourcePath, targetPath));
+                                RuntimeUtils.LogError(string.Format("FMOD: Could not copy {0} to {1}", sourcePath, targetPath));
                                 allCopiesSucceeded = false;
                             }
                         }
@@ -1557,7 +1557,7 @@ namespace FMODUnity
                         }
                         else
                         {
-                            RuntimeUtils.DebugLogError(string.Format("FMOD: Could not remove staging folder {0}", StagingFolder));
+                            RuntimeUtils.LogError(string.Format("FMOD: Could not remove staging folder {0}", StagingFolder));
                         }
                     }
 

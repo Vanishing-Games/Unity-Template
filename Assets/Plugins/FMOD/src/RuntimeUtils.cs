@@ -323,7 +323,7 @@ namespace FMODUnity
                     {
                         pluginBasePath = PluginBasePathDefault;
 
-                        DebugLogWarningFormat("FMOD: Couldn't find base folder with GUID {0}; defaulting to {1}",
+                        LogWarningFormat("FMOD: Couldn't find base folder with GUID {0}; defaulting to {1}",
                             BaseFolderGUID, pluginBasePath);
                     }
                 }
@@ -571,7 +571,7 @@ namespace FMODUnity
             }
         }
 
-        public static void DebugLogWarning(string message)
+        public static void LogWarning(string message)
         {
             if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.WARNING)
             {
@@ -579,7 +579,7 @@ namespace FMODUnity
             }
         }
 
-        public static void DebugLogWarningFormat(string format, params object[] args)
+        public static void LogWarningFormat(string format, params object[] args)
         {
             if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.WARNING)
             {
@@ -587,7 +587,7 @@ namespace FMODUnity
             }
         }
 
-        public static void DebugLogError(string message)
+        public static void LogError(string message)
         {
             if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
             {
@@ -595,7 +595,7 @@ namespace FMODUnity
             }
         }
 
-        public static void DebugLogErrorFormat(string format, params object[] args)
+        public static void LogErrorFormat(string format, params object[] args)
         {
             if (!Settings.IsInitialized() || Settings.Instance.LoggingLevel >= FMOD.DEBUG_FLAGS.ERROR)
             {

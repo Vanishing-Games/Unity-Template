@@ -8,11 +8,11 @@ namespace Core
     {
         protected async void Start()
         {
-            Logger.ReleaseLogInfo("[GameCore] Start...", LogTag.GameCoreStart);
+            Logger.LogInfo("[GameCore] Start...", LogTag.GameCoreStart);
 
             if (!GameRunCheck())
             {
-                Logger.ReleaseLogInfo(
+                Logger.LogInfo(
                     "[GameCore] Game Check Failed, Quit Game...",
                     LogTag.GameRunCheck
                 );
@@ -29,7 +29,7 @@ namespace Core
 
         private void OnDestroy()
         {
-            Logger.ReleaseLogInfo("[GameCore] OnDestroy...", LogTag.GameCoreDestroy);
+            Logger.LogInfo("[GameCore] OnDestroy...", LogTag.GameCoreDestroy);
         }
     }
 }

@@ -18,14 +18,14 @@ namespace Core
 
             RegisterLoadEvent();
 
-            Logger.EditorLogVerbose($"SystemMonoModule: {GetType()} Awake", LogTag.Loading);
+            Logger.LogVerbose($"SystemMonoModule: {GetType()} Awake", LogTag.Loading);
         }
 
         private void OnDestroy()
         {
             UnregisterLoadEvent();
 
-            Logger.EditorLogVerbose($"SystemMonoModule: {GetType()} OnDestroy", LogTag.Loading);
+            Logger.LogVerbose($"SystemMonoModule: {GetType()} OnDestroy", LogTag.Loading);
         }
 
         protected virtual void OnReceiveLoadRequest(LoadRequestEvent loadEventInfo)
@@ -34,7 +34,7 @@ namespace Core
 
             if (info != null)
             {
-                Logger.EditorLogVerbose(
+                Logger.LogVerbose(
                     $"[CoreModuleManagerBase] {GetType()} ReceiveLoadInfo",
                     LogTag.CoreModule
                 );
@@ -86,7 +86,7 @@ namespace Core
                 OnLoadingEnd
             );
 
-            Logger.EditorLogVerbose(
+            Logger.LogVerbose(
                 $"SystemMonoModule: {GetType()} RegisterLoadEvent",
                 LogTag.Loading
             );

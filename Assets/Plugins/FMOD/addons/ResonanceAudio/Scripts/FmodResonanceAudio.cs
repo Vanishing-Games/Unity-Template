@@ -283,7 +283,7 @@ namespace FMODUnityResonance
                     busses[currentBus].unlockChannelGroup();
                 }
             }
-            RuntimeUtils.DebugLogError(listenerPluginName + " not found in the FMOD project.");
+            RuntimeUtils.LogError(listenerPluginName + " not found in the FMOD project.");
             return dsp;
         }
     }

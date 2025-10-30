@@ -85,7 +85,7 @@ namespace FMODUnity
                     }
                     catch (Exception e)
                     {
-                        RuntimeUtils.DebugLogWarningFormat("FMOD: Error platform {0} already added to build targets. : {1}", buildTarget, e.Message);
+                        RuntimeUtils.LogWarningFormat("FMOD: Error platform {0} already added to build targets. : {1}", buildTarget, e.Message);
                     }
                 }
             }
@@ -531,7 +531,7 @@ namespace FMODUnity
                 if (scriptingBackend == ScriptingImplementation.IL2CPP)
                 {
                     Action<string> reportError = message => {
-                        RuntimeUtils.DebugLogWarningFormat("FMOD: Error processing static plugins for platform {0}: {1}",
+                        RuntimeUtils.LogWarningFormat("FMOD: Error processing static plugins for platform {0}: {1}",
                             platform.DisplayName, message);
                     };
 
@@ -550,7 +550,7 @@ namespace FMODUnity
                 }
                 else
                 {
-                    RuntimeUtils.DebugLogWarningFormat(
+                    RuntimeUtils.LogWarningFormat(
                         "FMOD: Platform {0} has {1} static plugins specified, " +
                         "but static plugins are only supported on the IL2CPP scripting backend",
                         platform.DisplayName, platform.StaticPlugins.Count);
@@ -679,7 +679,7 @@ namespace FMODUnity
             string error;
             if (!CanBuildTarget(EditorUserBuildSettings.activeBuildTarget, binaryType, out error))
             {
-                RuntimeUtils.DebugLogWarning(error);
+                RuntimeUtils.LogWarning(error);
 
                 if (EditorWindow.HasOpenInstances<BuildPlayerWindow>())
                 {

@@ -525,7 +525,7 @@ namespace FMODUnity
             }
             else
             {
-                RuntimeUtils.DebugLogError(string.Format("FMOD Studio: Unable to load {0}: {1}", bankRef.Name, FMOD.Error.String(loadResult)));
+                RuntimeUtils.LogError(string.Format("FMOD Studio: Unable to load {0}: {1}", bankRef.Name, FMOD.Error.String(loadResult)));
                 eventCache.CacheTime = DateTime.MinValue;
             }
         }
@@ -631,7 +631,7 @@ namespace FMODUnity
             if (!string.IsNullOrEmpty(emitter.Event))
 #pragma warning restore 0618
             {
-                RuntimeUtils.DebugLogWarningFormat("FMOD: A Studio Event Emitter in scene '{0}' on GameObject '{1}' is using the "
+                RuntimeUtils.LogWarningFormat("FMOD: A Studio Event Emitter in scene '{0}' on GameObject '{1}' is using the "
                     + "obsolete Event field. {2}",
                     scene.name, EditorUtils.GameObjectPath(emitter), UpdaterInstructions);
             }
@@ -639,7 +639,7 @@ namespace FMODUnity
             bool changed;
             if (!ValidateEventReference(ref emitter.EventReference, emitter, scene, out changed))
             {
-                RuntimeUtils.DebugLogWarningFormat(
+                RuntimeUtils.LogWarningFormat(
                     "FMOD: A Studio Event Emitter in scene '{0}' on GameObject '{1}' has an invalid event reference: {2}",
                     scene.name, EditorUtils.GameObjectPath(emitter), emitter.EventReference);
             }
@@ -657,7 +657,7 @@ namespace FMODUnity
                 if (EditorUtils.HasAttribute<EventRefAttribute>(field))
 #pragma warning restore 0618
                 {
-                    RuntimeUtils.DebugLogWarningFormat("FMOD: A component of type {0} in scene '{1}' on GameObject '{2}' has an "
+                    RuntimeUtils.LogWarningFormat("FMOD: A component of type {0} in scene '{1}' on GameObject '{2}' has an "
                         + "obsolete [EventRef] attribute on field {3}. {4}",
                         type.Name, scene.name, EditorUtils.GameObjectPath(behaviour), field.Name,
                         UpdaterInstructions);
@@ -669,7 +669,7 @@ namespace FMODUnity
                     bool changed;
                     if (!ValidateEventReference(ref eventReference, behaviour, scene, out changed))
                     {
-                        RuntimeUtils.DebugLogWarningFormat(
+                        RuntimeUtils.LogWarningFormat(
                             "FMOD: A component of type {0} in scene '{1}' on GameObject '{2}' has an "
                             + "invalid event reference in field '{3}': {4}",
                             type.Name, scene.name, EditorUtils.GameObjectPath(behaviour), field.Name, eventReference);
@@ -709,7 +709,7 @@ namespace FMODUnity
 
                 if (eventReference.Path != editorEventRef.Path)
                 {
-                    RuntimeUtils.DebugLogWarningFormat(
+                    RuntimeUtils.LogWarningFormat(
                         "FMOD: EventReference path '{0}' doesn't match GUID {1} on object '{2}' in scene '{3}'. {4}",
                         eventReference.Path, eventReference.Guid, EditorUtils.GameObjectPath(parent), scene.name,
                         UpdaterInstructions);
@@ -728,7 +728,7 @@ namespace FMODUnity
 
                 if (eventReference.Guid != editorEventRef.Guid)
                 {
-                    RuntimeUtils.DebugLogWarningFormat(
+                    RuntimeUtils.LogWarningFormat(
                         "FMOD: Changing EventReference GUID to {0} to match path '{1}' on object '{2}' in scene '{3}'. {4}",
                         editorEventRef.Guid, eventReference.Path, EditorUtils.GameObjectPath(parent), scene.name,
                         UpdaterInstructions);
@@ -761,7 +761,7 @@ namespace FMODUnity
 
             if (platform == Settings.Instance.DefaultPlatform)
             {
-                RuntimeUtils.DebugLogWarningFormat("FMOD Studio: copy banks for platform {0} : Unsupported platform", buildTarget);
+                RuntimeUtils.LogWarningFormat("FMOD Studio: copy banks for platform {0} : Unsupported platform", buildTarget);
                 return;
             }
 
@@ -854,7 +854,7 @@ namespace FMODUnity
             }
             catch (Exception exception)
             {
-                RuntimeUtils.DebugLogErrorFormat("FMOD Studio: copy banks for platform {0} : copying banks from {1} to {2}",
+                RuntimeUtils.LogErrorFormat("FMOD Studio: copy banks for platform {0} : copying banks from {1} to {2}",
                     platform.DisplayName, bankSourceFolder, bankTargetFolder);
                 RuntimeUtils.DebugLogException(exception);
                 return;

@@ -1,3 +1,11 @@
+/*
+ * --------------------------------------------------------------------------------
+ * Copyright (c) 2025 Vanishing Games. All Rights Reserved.
+ * @Author: VanishXiao
+ * @Date: 2025-10-30 16:25:39
+ * @LastEditTime: 2025-10-30 16:39:09
+ * --------------------------------------------------------------------------------
+ */
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,6 +17,9 @@ using Debug = UnityEngine.Debug;
 
 namespace Core
 {
+    /// <summary>
+    /// 日志级别
+    /// </summary>
     public enum LogLevel
     {
         Verbose,
@@ -18,87 +29,66 @@ namespace Core
         Exception,
     }
 
+    /// <summary>
+    /// 日志系统
+    /// 通过编译宏控制日志输出：
+    /// - UNITY_EDITOR: 编辑器模式，输出所有级别日志
+    /// - ENABLE_DEBUG_LOG: Debug 构建，输出 Verbose/Info/Warning/Error
+    /// - ENABLE_RELEASE_LOG: Release 构建，仅输出 Warning/Error
+    /// - 如果都没定义，则不输出任何日志（Production 模式）
+    /// </summary>
     public static class Logger
     {
         // ========== 对外 API ==========
 
+        /// <summary>
+        /// 设置最低日志级别（运行时过滤）
+        /// </summary>
         public static void SetLogLevel(LogLevel logLevel)
         {
             currentLogLevel = logLevel;
         }
 
-        public static void EditorLogVerbose(string message, params LogTag[] tags)
-        {
-#if UNITY_EDITOR
-            Output(LogLevel.Verbose, message, tags);
-#endif
-        }
-
-        public static void DebugLogVerbose(string message, params LogTag[] tags)
-        {
-#if BUILD_MODE_DEBUG
-            Output(LogLevel.Verbose, message, tags);
-#endif
-        }
-
-        public static void ReleaseLogVerbose(string message, params LogTag[] tags)
+        /// <summary>
+        /// 输出 Verbose 级别日志
+        /// </summary>
+        [Conditional("UNITY_EDITOR"), Conditional("ENABLE_DEBUG_LOG")]
+        public static void LogVerbose(string message, params LogTag[] tags)
         {
             Output(LogLevel.Verbose, message, tags);
         }
 
-        public static void EditorLogInfo(string message, params LogTag[] tags)
-        {
-#if UNITY_EDITOR
-            Output(LogLevel.Info, message, tags);
-#endif
-        }
-
-        public static void DebugLogInfo(string message, params LogTag[] tags)
-        {
-#if BUILD_MODE_DEBUG
-            Output(LogLevel.Info, message, tags);
-#endif
-        }
-
-        public static void ReleaseLogInfo(string message, params LogTag[] tags)
+        /// <summary>
+        /// 输出 Info 级别日志
+        /// </summary>
+        [Conditional("UNITY_EDITOR"), Conditional("ENABLE_DEBUG_LOG")]
+        public static void LogInfo(string message, params LogTag[] tags)
         {
             Output(LogLevel.Info, message, tags);
         }
 
-        public static void EditorLogWarn(string message, params LogTag[] tags)
-        {
-#if UNITY_EDITOR
-            Output(LogLevel.Warning, message, tags);
-#endif
-        }
-
-        public static void DebugLogWarn(string message, params LogTag[] tags)
-        {
-#if BUILD_MODE_DEBUG
-            Output(LogLevel.Warning, message, tags);
-#endif
-        }
-
-        public static void ReleaseLogWarn(string message, params LogTag[] tags)
+        /// <summary>
+        /// 输出 Warning 级别日志
+        /// </summary>
+        [
+            Conditional("UNITY_EDITOR"),
+            Conditional("ENABLE_DEBUG_LOG"),
+            Conditional("ENABLE_RELEASE_LOG")
+        ]
+        public static void LogWarn(string message, params LogTag[] tags)
         {
             Output(LogLevel.Warning, message, tags);
         }
 
-        public static void EditorLogError(string message, params LogTag[] tags)
-        {
-#if UNITY_EDITOR
-            Output(LogLevel.Error, message, tags);
-#endif
-        }
-
-        public static void DebugLogError(string message, params LogTag[] tags)
-        {
-#if BUILD_MODE_DEBUG
-            Output(LogLevel.Error, message, tags);
-#endif
-        }
-
-        public static void ReleaseLogError(string message, params LogTag[] tags)
+        /// <summary>
+        /// 输出 Error 级别日志
+        /// </summary>
+        [
+            Conditional("UNITY_EDITOR"),
+            Conditional("ENABLE_DEBUG_LOG"),
+            Conditional("ENABLE_RELEASE_LOG")
+        ]
+        public static void LogError(string message, params LogTag[] tags)
         {
             Output(LogLevel.Error, message, tags);
         }
@@ -208,7 +198,7 @@ namespace Core
                 }
                 if (parts.Count > 0)
                 {
-                    tagLinesBuilder.AppendLine(string.Join(" ", parts));
+                    tagLinesBuilder.AppendJoin(" ", parts).AppendLine();
                 }
             }
             string tagStr = tagLinesBuilder.ToString().TrimEnd();
@@ -257,10 +247,7 @@ namespace Core
         }
 
         private static LogLevel currentLogLevel = LogLevel.Verbose;
-        private static readonly System.Collections.Generic.Dictionary<string, Color> rootTagColors =
-            new();
-        private static readonly System.Collections.Generic.Dictionary<string, Color> tagColorCache =
-            new();
+        private static readonly Dictionary<string, Color> rootTagColors = new();
 
         public static Dictionary<LogLevel, LogType> LogLevelToLogType = new()
         {

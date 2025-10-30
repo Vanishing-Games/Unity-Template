@@ -569,7 +569,7 @@ namespace FMODUnity
 
                 if (type == null)
                 {
-                    RuntimeUtils.DebugLogWarningFormat(
+                    RuntimeUtils.LogWarningFormat(
                         "FMOD: {0} static plugins specified, but the {1} class was not found.",
                         StaticPlugins.Count, className);
                     return;
@@ -580,7 +580,7 @@ namespace FMODUnity
 
                 if (method == null)
                 {
-                    RuntimeUtils.DebugLogWarningFormat(
+                    RuntimeUtils.LogWarningFormat(
                         "FMOD: {0} static plugins specified, but the {1}.{2} method was not found.",
                         StaticPlugins.Count, className, RegisterStaticPluginsFunctionName);
                     return;
@@ -588,7 +588,7 @@ namespace FMODUnity
 
                 method.Invoke(null, new object[] { coreSystem, reportResult });
 #else
-                RuntimeUtils.DebugLogWarningFormat(
+                RuntimeUtils.LogWarningFormat(
                     "FMOD: {0} static plugins specified, but static plugins are only supported on the IL2CPP scripting backend",
                     StaticPlugins.Count);
 #endif
