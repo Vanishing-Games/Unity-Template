@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -101,8 +103,6 @@ namespace Core
             Output(LogLevel.Error, message, tags);
         }
 
-        // ========== 内部方法 ==========
-
         private static bool ShouldLog(LogLevel level)
         {
             var logType = LogLevelToLogType
@@ -113,35 +113,41 @@ namespace Core
             return level >= currentLogLevel;
         }
 
-        private static Color GetTagColor(LogTag tag)
+        private static void EnsureRootColors()
         {
-            string key = string.Join("/", tag.Path);
-            if (tagColorCache.TryGetValue(key, out var cachedColor))
-                return cachedColor;
+            if (rootTagColors.Count > 0)
+                return;
 
-            string rootName = tag.Path[0];
+            var allRoots = typeof(LogTag)
+                .GetFields(BindingFlags.Public | BindingFlags.Static)
+                .Select(f => f.GetValue(null) as LogTag)
+                .Where(t => t.Path.Count == 1)
+                .Select(t => t.Name)
+                .Distinct()
+                .ToList();
 
-            if (!rootTagColors.ContainsKey(rootName))
+            for (int i = 0; i < allRoots.Count; i++)
             {
-                var allRoots = typeof(LogTag)
-                    .GetFields(BindingFlags.Public | BindingFlags.Static)
-                    .Select(f => f.GetValue(null) as LogTag)
-                    .Where(t => t.Path.Count == 1)
-                    .Select(t => t.Name)
-                    .Distinct()
-                    .ToList();
-
-                for (int i = 0; i < allRoots.Count; i++)
-                {
-                    float hue = i / (float)allRoots.Count;
-                    rootTagColors[allRoots[i]] = Color.HSVToRGB(hue, 0.8f, 0.8f);
-                }
+                float hue = i / (float)allRoots.Count;
+                rootTagColors[allRoots[i]] = Color.HSVToRGB(hue, 0.8f, 0.8f);
             }
+        }
 
-            Color baseColor = rootTagColors[rootName];
-            Color finalColor = baseColor;
+        private static Color GetTagColorAtDepth(LogTag tag, int depthIndex)
+        {
+            if (tag == null || tag.Path == null || tag.Path.Count == 0)
+                return Color.white;
 
-            for (int level = 1; level < tag.Path.Count; level++)
+            if (depthIndex < 0)
+                depthIndex = 0;
+            if (depthIndex >= tag.Path.Count)
+                depthIndex = tag.Path.Count - 1;
+
+            EnsureRootColors();
+            string rootName = tag.Path[0];
+            Color finalColor = rootTagColors[rootName];
+
+            for (int level = 1; level <= depthIndex; level++)
             {
                 Color.RGBToHSV(finalColor, out float h, out float s, out float v);
                 s *= 0.7f;
@@ -149,7 +155,6 @@ namespace Core
                 finalColor = Color.HSVToRGB(h, s, v);
             }
 
-            tagColorCache[key] = finalColor;
             return finalColor;
         }
 
@@ -159,16 +164,22 @@ namespace Core
             return $"#{c32.r:X2}{c32.g:X2}{c32.b:X2}";
         }
 
-        private static void Output(LogLevel level, string message, params LogTag[] tags)
+        private static async void Output(LogLevel level, string message, params LogTag[] tags)
         {
             if (!ShouldLog(level))
                 return;
 
             if (tags == null || tags.Length == 0)
             {
+                Debug.LogError("<color=red><b>[Logger]</b> =============================</color>");
+                Debug.LogError("<color=red><b>[Logger]</b> PUNISHMENT LANDING </color>");
                 Debug.LogError(
-                    "<color=red><b>[Logger]</b> Logger requires at least one LogTag.</color>"
+                    "<color=red><b>[Logger]</b> Logger REQUIRES at least one LogTag.</color>"
                 );
+                Debug.LogError("<color=red><b>[Logger]</b> PUNISHMENT LANDING </color>");
+                Debug.LogError("<color=red><b>[Logger]</b> =============================</color>");
+
+                await UniTask.WhenAny(GameCore.Instance.QuitGame(), UniTask.Delay(10000));
                 return;
             }
 
@@ -184,30 +195,40 @@ namespace Core
                 _ => "<b>LOG</b>",
             };
 
-            string tagStr = string.Join(
-                " ",
-                tags.Select(t =>
+            StringBuilder tagLinesBuilder = new();
+            foreach (var t in tags)
+            {
+                var parts = new List<string>();
+                for (int depth = 0; depth < t.Path.Count; depth++)
                 {
-                    Color c = GetTagColor(t);
+                    Color c = GetTagColorAtDepth(t, depth);
                     string hex = ColorToHex(c);
-                    string last = t.Path.Last();
-                    return $"<color={hex}>#{last}</color>";
-                })
-            );
+                    string seg = t.Path[depth];
+                    parts.Add($"<color={hex}>#{seg}</color>");
+                }
+                if (parts.Count > 0)
+                {
+                    tagLinesBuilder.AppendLine(string.Join(" ", parts));
+                }
+            }
+            string tagStr = tagLinesBuilder.ToString().TrimEnd();
 
-            string formatted = $"{assemblyStr}\n{logTypeText} {message}\n{tagStr}";
+            StringBuilder formatted = new();
+            formatted.AppendLine($"{logTypeText} {assemblyStr}");
+            formatted.AppendLine(message);
+            formatted.AppendLine(tagStr);
 
             switch (level)
             {
                 case LogLevel.Verbose:
                 case LogLevel.Info:
-                    Debug.Log(formatted);
+                    Debug.Log(formatted.ToString());
                     break;
                 case LogLevel.Warning:
-                    Debug.LogWarning(formatted);
+                    Debug.LogWarning(formatted.ToString());
                     break;
                 case LogLevel.Error:
-                    Debug.LogError(formatted);
+                    Debug.LogError(formatted.ToString());
                     break;
             }
         }

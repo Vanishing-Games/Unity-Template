@@ -23,12 +23,22 @@ namespace Core
         public override string ToString() => $"[{string.Join("][", Path)}]";
 
         // ========== Base Tags ==========
+        public static readonly LogTag GameCore = new("GameCore");
         public static readonly LogTag Editor = new("Editor");
+        public static readonly LogTag Loading = new("Loading");
+        public static readonly LogTag Event = new("Event");
+        public static readonly LogTag CoreModule = new("CoreModule");
 
         // ========== Second Tags ==========
         public static readonly LogTag CodeUnfucker = new("CodeUnfucker", Editor.Path);
+        public static readonly LogTag SceneLoader = new("SceneLoader", Loading.Path);
+        public static readonly LogTag GameCoreStart = new("GameCoreStart", GameCore.Path);
+        public static readonly LogTag GameCoreDestroy = new("GameCoreDestroy", GameCore.Path);
+        public static readonly LogTag GameQuit = new("GameQuit", GameCore.Path);
+        public static readonly LogTag VgLoadProgressManager = new("VgLoadProgressManager", Loading.Path);
 
         // ========== Third Tags ==========
         public static readonly LogTag CodeUnfucker_3_Sample = new("Save", CodeUnfucker.Path); // MAX depth = 3
+        public static readonly LogTag GameRunCheck = new("GameSystem", GameCoreStart.Path);
     }
 }

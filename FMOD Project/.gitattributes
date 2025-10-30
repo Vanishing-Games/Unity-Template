@@ -1,0 +1,33 @@
+# ============================
+# FMOD Studio 项目 gitattributes
+# ============================
+
+# --- 默认文本规范化 ---
+* text=auto
+
+# --- FMOD 工程文件（文本，可 diff）---
+*.fspro text eol=lf
+*.xml   text eol=lf
+*.json  text eol=lf
+*.txt   text eol=lf
+
+# --- 脚本/代码（如果 FMOD 里有工具脚本）---
+*.cs    text diff=csharp
+*.cpp   text diff=cpp
+*.h     text diff=cpp
+*.py    text diff=python
+
+# --- Git LFS 管理的大文件 ---
+# 音频源文件
+*.wav   filter=lfs diff=lfs merge=lfs -text
+*.aiff  filter=lfs diff=lfs merge=lfs -text
+*.ogg   filter=lfs diff=lfs merge=lfs -text
+*.mp3   filter=lfs diff=lfs merge=lfs -text
+
+# FMOD 构建产物
+*.bank  filter=lfs diff=lfs merge=lfs -text
+*.fsse  filter=lfs diff=lfs merge=lfs -text
+
+# --- 其他二进制（不走 LFS 的话，至少禁用 diff）---
+*.bin   binary
+*.dat   binary

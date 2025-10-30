@@ -1,0 +1,21 @@
+{
+    "name": "FMOD_Demo",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3de88c88fbbb8f944b9210d496af9762",
+        "GUID:466e67dabd1db22468246c39eddb6c3f",
+        "GUID:198f161f050714b85981e87f526d009e",
+        "GUID:0c752da273b17c547ae705acf0f2adf2",
+        "GUID:44d09cf463b68274884d8a3c8a94e528",
+        "GUID:77221876cc6b8244180b96e320b1bcd4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
