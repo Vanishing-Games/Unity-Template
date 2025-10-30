@@ -1,0 +1,16 @@
+{
+    "name": "Prototype-v0",
+    "rootNamespace": "Prototype_v0",
+    "references": [
+        "GUID:198f161f050714b85981e87f526d009e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
