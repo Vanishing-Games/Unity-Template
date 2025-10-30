@@ -19,7 +19,7 @@ public class MoveComponent : EccComponent
             });
 
         Observable
-            .EveryUpdate()
+            .EveryUpdate(UnityFrameProvider.EarlyUpdate)
             .Subscribe(_ =>
             {
                 Core.Logger.LogInfo("FixedUpdate");
