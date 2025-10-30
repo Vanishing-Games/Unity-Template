@@ -59,7 +59,9 @@ MonoBehaviour:
     - UniTask.Linq
     - UniTask.TextMeshPro
     - UnitTestDemo
+    - UnityHFSM
     - VanishingGames.ECC.Runtime
+    - Zenject
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
