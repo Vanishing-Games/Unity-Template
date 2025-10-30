@@ -36,7 +36,33 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - Assembly-CSharp-firstpass
-    - Assembly-CSharp
+    - CodeUnfuckerTest
+    - Core
+    - Domain_Reload
+    - EasySave3
+    - EccDemo
+    - FMOD_Demo
+    - FMODUnity
+    - FMODUnityResonance
+    - FpDemo
+    - InGameConsoleTestDemo
+    - IngameDebugConsole.Runtime
+    - LoadingDemo
+    - PlayMode
+    - R3.Unity
+    - R3.Unity.TextMeshPro
+    - R3.Unity.XRInteractionToolkit
+    - Sirenix.OdinInspector.Modules.Unity.Addressables
+    - Sirenix.OdinInspector.Modules.UnityLocalization
+    - UniTask
+    - UniTask.Addressables
+    - UniTask.DOTween
+    - UniTask.Linq
+    - UniTask.TextMeshPro
+    - UnitTestDemo
+    - UnityHFSM
+    - VanishingGames.ECC.Runtime
+    - Zenject
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
