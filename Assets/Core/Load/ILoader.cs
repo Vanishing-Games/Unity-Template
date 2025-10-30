@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 
 namespace Core
 {
@@ -11,6 +11,8 @@ namespace Core
         public LoaderType GetLoaderType();
 
         public void SendLoader();
+
+        public UniTask BeforeLoad();
 
         public UniTask LoadScene();
 
@@ -26,21 +28,42 @@ namespace Core
     /// <summary>
     /// - 错误处理: 直接抛出, 由上层处理
     /// </summary>
-    public abstract class LoaderBase<TLoadInfo> : MonoBehaviour, ILoader where TLoadInfo : ILoadInfo
+    public abstract class LoaderBase<TLoadInfo> : MonoBehaviour, ILoader
+        where TLoadInfo : ILoadInfo
     {
         public abstract LoaderType GetLoaderType();
 
         public abstract void InitLoader(TLoadInfo loadInfo);
 
-        public abstract UniTask LoadScene();
+        public virtual UniTask BeforeLoad()
+        {
+            return UniTask.CompletedTask;
+        }
 
-        public abstract UniTask LoadResource();
+        public virtual UniTask LoadScene()
+        {
+            return UniTask.CompletedTask;
+        }
 
-        public abstract UniTask LoadPrefab();
+        public virtual UniTask LoadResource()
+        {
+            return UniTask.CompletedTask;
+        }
 
-        public abstract UniTask InstantiatePrefab();
+        public virtual UniTask LoadPrefab()
+        {
+            return UniTask.CompletedTask;
+        }
 
-        public abstract UniTask InitLoadedThings();
+        public virtual UniTask InstantiatePrefab()
+        {
+            return UniTask.CompletedTask;
+        }
+
+        public virtual UniTask InitLoadedThings()
+        {
+            return UniTask.CompletedTask;
+        }
 
         public virtual void SendLoader()
         {
