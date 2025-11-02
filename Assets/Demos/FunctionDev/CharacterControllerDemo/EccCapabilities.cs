@@ -62,7 +62,7 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            if (VgInput.GetAxis(InputAxis.Horizontal) == 0)
+            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
                 return false;
 
             if (!mPlayerMovementComponent.IsInputAlignedWithVelocityX())
@@ -76,7 +76,7 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldDeactivate()
         {
-            if (VgInput.GetAxis(InputAxis.Horizontal) != 0)
+            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
                 return false;
 
             if (mPlayerMovementComponent.IsInputAlignedWithVelocityX())
@@ -90,14 +90,16 @@ namespace CharacterControllerDemo
 
         protected override void OnTick(float deltaTime)
         {
-            float inputX = VgInput.GetAxis(InputAxis.Horizontal);
+            float inputX = VgInput.GetAxis(InputAxis.LeftStickHorizontal);
             var velocity = mPlayerMovementComponent.Velocity;
-            velocity.x += inputX * mPlayerMovementComponent.AccelerationOnGround * deltaTime;
-            velocity.x = Mathf.Clamp(
-                velocity.x,
+
+            velocity.x = Mathf.MoveTowards(
+                velocity.x
+                    + (inputX * mPlayerMovementComponent.InverseAccelerationOnGround * deltaTime),
                 -mPlayerMovementComponent.MaxVelocityX,
                 mPlayerMovementComponent.MaxVelocityX
             );
+
             mPlayerMovementComponent.Velocity = velocity;
         }
     }
@@ -113,17 +115,44 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
+                return false;
+
+            if (mPlayerMovementComponent.IsInputAlignedWithVelocityX())
+                return false;
+
+            if (!mPlayerMovementComponent.IsGrounded())
+                return false;
+
+            return true;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
+                return false;
+
+            if (!mPlayerMovementComponent.IsInputAlignedWithVelocityX())
+                return false;
+
+            if (mPlayerMovementComponent.IsGrounded())
+                return false;
+
+            return true;
         }
 
         protected override void OnTick(float deltaTime)
         {
-            throw new System.NotImplementedException();
+            float inputX = VgInput.GetAxis(InputAxis.LeftStickHorizontal);
+            var velocity = mPlayerMovementComponent.Velocity;
+
+            velocity.x = Mathf.MoveTowards(
+                velocity.x,
+                0,
+                inputX * mPlayerMovementComponent.InverseAccelerationOnGround * deltaTime
+            );
+
+            mPlayerMovementComponent.Velocity = velocity;
         }
     }
 
@@ -138,17 +167,37 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
+                return false;
+
+            if (!mPlayerMovementComponent.IsGrounded())
+                return false;
+
+            return true;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
+                return false;
+
+            if (mPlayerMovementComponent.IsGrounded())
+                return false;
+
+            return true;
         }
 
         protected override void OnTick(float deltaTime)
         {
-            throw new System.NotImplementedException();
+            var velocity = mPlayerMovementComponent.Velocity;
+
+            velocity.x = Mathf.MoveTowards(
+                velocity.x,
+                0f,
+                mPlayerMovementComponent.DeAccelerationOnGround * deltaTime
+            );
+
+            mPlayerMovementComponent.Velocity = velocity;
         }
     }
 
@@ -163,18 +212,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerInverseAccelerateOnAirCapability : PlayerMoveCapability
@@ -188,18 +234,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerDeAccelerateOnAirCapability : PlayerMoveCapability
@@ -213,18 +256,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerAccelerateWhileOverspeedOnGroundCapability : PlayerMoveCapability
@@ -238,18 +278,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerInverseAccelerateWhileOverspeedOnGroundCapability : PlayerMoveCapability
@@ -263,18 +300,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerDeAccelerateWhileOverspeedOnGroundCapability : PlayerMoveCapability
@@ -288,18 +322,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerAccelerateWhileOverspeedOnAirCapability : PlayerMoveCapability
@@ -313,18 +344,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerInverseAccelerateWhileOverspeedOnAirCapability : PlayerMoveCapability
@@ -338,18 +366,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerDeAccelerateWhileOverspeedOnAirCapability : PlayerMoveCapability
@@ -363,18 +388,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerGravityCapability : PlayerMoveCapability
@@ -388,18 +410,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerJumpCapability : PlayerMoveCapability
@@ -413,18 +432,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerJumpApexModifiersCapability : PlayerMoveCapability
@@ -438,18 +454,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerJumpBufferingCapability : PlayerMoveCapability
@@ -463,18 +476,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerCoyoteTimeCapability : PlayerMoveCapability
@@ -488,18 +498,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerClampedFallSpeedCapability : PlayerMoveCapability
@@ -513,18 +520,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerEdgeSlidingCapability : PlayerMoveCapability
@@ -538,18 +542,15 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerJumpExtraSpeedCapability : PlayerMoveCapability
@@ -563,17 +564,14 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        protected override void OnTick(float deltaTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnTick(float deltaTime) { }
     }
 }

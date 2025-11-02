@@ -152,7 +152,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float InverseAccelerationOnGound { get; set; }
+        public float InverseAccelerationOnGround { get; set; }
 
         [
             BoxGroup("水平移动设置-地面"),
@@ -160,7 +160,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float DeAccelerationOnGound { get; set; }
+        public float DeAccelerationOnGround { get; set; }
 
         #endregion // 水平移动设置-地面
 

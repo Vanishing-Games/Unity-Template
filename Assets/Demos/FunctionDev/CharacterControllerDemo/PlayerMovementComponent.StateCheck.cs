@@ -14,7 +14,7 @@ namespace CharacterControllerDemo
         }
 
         public bool IsInputAlignedWithVelocityX() =>
-            VgInput.GetAxis(InputAxis.Horizontal) * Velocity.x > 0;
+            VgInput.GetAxis(InputAxis.LeftStickHorizontal) * Velocity.x > 0;
 
         public bool IsMovingRight() => Velocity.x > 0;
 

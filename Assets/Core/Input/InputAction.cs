@@ -1,17 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Core
 {
     public enum InputAxis
     {
-        Horizontal,
-        Vertical,
+        LeftStickHorizontal,
+        LeftStickVertical,
+        RightStickHorizontal,
+        RightStickVertical,
+        LeftTrigger,
+        RightTrigger,
+        MouseX,
+        MouseY,
+        MouseScrollWheel,
     }
 
     public enum InputAction
     {
         Jump,
+    }
+
+    public enum InputDeviceType
+    {
+        Keyboard,
+        Mouse,
+        Gamepad,
     }
 }
