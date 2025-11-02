@@ -13,9 +13,12 @@ charset = utf-8                      # 文件编码为 UTF-8，支持中文等�
 indent_size = 4                      # C# 文件使用 4 个空格宽度的缩进
 
 # Disable diagnostics
+dotnet_diagnostic.RCS1001.severity = none  # 禁用"when expression spans over multiple lines"警告 (Roslynator)
 dotnet_diagnostic.RCS1169.severity = none  # 禁用"标记字段为只读"警告 (Roslynator)
+dotnet_diagnostic.RCS1188.severity = none  # 禁用"移除不必要初始化"警告 (Roslynator)
 dotnet_diagnostic.RCS1213.severity = none  # 禁用"未使用的方法"警告 (Roslynator)
 dotnet_diagnostic.IDE0003.severity = none  # 禁用"可以简化名称"提示
+dotnet_diagnostic.IDE0130.severity = none  # 禁用"命名空间与文件夹结构不符"提示
 dotnet_diagnostic.IDE0044.severity = none  # 禁用"添加只读修饰符"提示
 dotnet_diagnostic.IDE0052.severity = none  # 禁用"删除未读取的私有成员"提示
 

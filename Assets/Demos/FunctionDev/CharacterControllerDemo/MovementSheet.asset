@@ -1,0 +1,706 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae1ca2bdc1984585b33ef0403cc49e2, type: 3}
+  m_Name: MovementSheet
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: mComponents
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccComponent,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|CharacterControllerDemo.PlayerMovementComponent, CharacterControllerDemo
+    - Name: Velocity
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: MaxVelocityX
+      Entry: 4
+      Data: 0
+    - Name: ClampVelocityX
+      Entry: 4
+      Data: 0
+    - Name: ClampVelocityY
+      Entry: 4
+      Data: 0
+    - Name: JumpSpeedY
+      Entry: 4
+      Data: 0
+    - Name: MinJumpScaledTime
+      Entry: 4
+      Data: 0
+    - Name: JumpExtraSpeedX
+      Entry: 4
+      Data: 0
+    - Name: JumpBufferingUnscaledTime
+      Entry: 4
+      Data: 0
+    - Name: CoyoteTimeScaledTime
+      Entry: 4
+      Data: 0
+    - Name: JumpApexModifiersScaledTime
+      Entry: 4
+      Data: 0
+    - Name: JumpApexGravityModifier
+      Entry: 4
+      Data: 0
+    - Name: JumpApexSpeedLimitModifier
+      Entry: 4
+      Data: 0
+    - Name: AccelerationOnGround
+      Entry: 4
+      Data: 0
+    - Name: InverseAccelerationOnGound
+      Entry: 4
+      Data: 0
+    - Name: DeAccelerationOnGound
+      Entry: 4
+      Data: 0
+    - Name: AccelerationOnAir
+      Entry: 4
+      Data: 0
+    - Name: InverseAccelerationOnAir
+      Entry: 4
+      Data: 0
+    - Name: DeAccelerationOnAir
+      Entry: 4
+      Data: 0
+    - Name: AccelerationWhileOverspeedOnGround
+      Entry: 4
+      Data: 0
+    - Name: InverseAccelerationWhileOverspeedOnGround
+      Entry: 4
+      Data: 0
+    - Name: DeAccelerationWhileOverspeedOnGround
+      Entry: 4
+      Data: 0
+    - Name: AccelerationWhileOverspeedOnAir
+      Entry: 4
+      Data: 0
+    - Name: InverseAccelerationWhileOverspeedOnAir
+      Entry: 4
+      Data: 0
+    - Name: DeAccelerationWhileOverspeedOnAir
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: mCapabilities
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccCapability,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 20
+    - Name: 
+      Entry: 7
+      Data: 3|CharacterControllerDemo.PlayerAccelerateOnAirCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 3
+    - Name: Tags
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|CharacterControllerDemo.PlayerAccelerateOnGroundCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 0
+    - Name: Tags
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|CharacterControllerDemo.PlayerAccelerateWhileOverspeedOnAirCapability,
+        CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 9
+    - Name: Tags
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|CharacterControllerDemo.PlayerAccelerateWhileOverspeedOnGroundCapability,
+        CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 6
+    - Name: Tags
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|CharacterControllerDemo.PlayerDeAccelerateOnAirCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 5
+    - Name: Tags
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 13|CharacterControllerDemo.PlayerDeAccelerateOnGroundCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 2
+    - Name: Tags
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|CharacterControllerDemo.PlayerDeAccelerateWhileOverspeedOnAirCapability,
+        CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 12
+    - Name: Tags
+      Entry: 7
+      Data: 16|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|CharacterControllerDemo.PlayerDeAccelerateWhileOverspeedOnGroundCapability,
+        CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 8
+    - Name: Tags
+      Entry: 7
+      Data: 18|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|CharacterControllerDemo.PlayerInverseAccelerateOnAirCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 4
+    - Name: Tags
+      Entry: 7
+      Data: 20|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 21|CharacterControllerDemo.PlayerInverseAccelerateOnGroundCapability,
+        CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 1
+    - Name: Tags
+      Entry: 7
+      Data: 22|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 23|CharacterControllerDemo.PlayerInverseAccelerateWhileOverspeedOnAirCapability,
+        CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 10
+    - Name: Tags
+      Entry: 7
+      Data: 24|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|CharacterControllerDemo.PlayerInverseAccelerateWhileOverspeedOnGroundCapability,
+        CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 7
+    - Name: Tags
+      Entry: 7
+      Data: 26|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 27|CharacterControllerDemo.PlayerGravityCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 12
+    - Name: Tags
+      Entry: 7
+      Data: 28|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 29|CharacterControllerDemo.PlayerJumpCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 13
+    - Name: Tags
+      Entry: 7
+      Data: 30|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 31|CharacterControllerDemo.PlayerJumpApexModifiersCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 14
+    - Name: Tags
+      Entry: 7
+      Data: 32|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 33|CharacterControllerDemo.PlayerJumpBufferingCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 15
+    - Name: Tags
+      Entry: 7
+      Data: 34|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 35|CharacterControllerDemo.PlayerCoyoteTimeCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 16
+    - Name: Tags
+      Entry: 7
+      Data: 36|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 37|CharacterControllerDemo.PlayerClampedFallSpeedCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 17
+    - Name: Tags
+      Entry: 7
+      Data: 38|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 39|CharacterControllerDemo.PlayerEdgeSlidingCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 18
+    - Name: Tags
+      Entry: 7
+      Data: 40|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 41|CharacterControllerDemo.PlayerJumpExtraSpeedCapability, CharacterControllerDemo
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 19
+    - Name: Tags
+      Entry: 7
+      Data: 42|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: mCapabilitySheets
+      Entry: 6
+      Data: 

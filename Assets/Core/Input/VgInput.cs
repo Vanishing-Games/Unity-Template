@@ -1,21 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Core
 {
-    public class VgInput : MonoBehaviour
+    public static class VgInput
     {
-        // Start is called before the first frame update
-        void Start()
+        public static float GetAxis(InputAxis axis)
         {
-        
+            return Input.GetAxis(axis.ToString());
         }
 
-        // Update is called once per frame
-        void Update()
+        public static bool PressedButton(InputAction action)
         {
-        
+            return Input.GetKeyDown(action.ToString());
+        }
+
+        public static bool HeldingButton(InputAction action)
+        {
+            return Input.GetKey(action.ToString());
+        }
+
+        public static bool ReleasedButton(InputAction action)
+        {
+            return Input.GetKeyUp(action.ToString());
         }
     }
 }

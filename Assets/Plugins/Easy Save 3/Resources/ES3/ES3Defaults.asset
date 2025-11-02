@@ -36,6 +36,7 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - Assembly-CSharp-firstpass
+    - CharacterControllerDemo
     - CodeUnfuckerTest
     - Core
     - Domain_Reload

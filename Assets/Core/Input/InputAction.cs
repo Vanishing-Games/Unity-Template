@@ -4,18 +4,14 @@ using UnityEngine;
 
 namespace Core
 {
-    public class InputAction : MonoBehaviour
+    public enum InputAxis
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        Horizontal,
+        Vertical,
+    }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+    public enum InputAction
+    {
+        Jump,
     }
 }

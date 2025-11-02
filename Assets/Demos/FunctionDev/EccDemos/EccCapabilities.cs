@@ -1,7 +1,8 @@
-using VanishingGames.ECC.Runtime;
+// using VanishingGames.ECC.Runtime;
 
-[System.Serializable]
-public class MoveCapability : EccCapability { }
+// namespace EccDemo
+// {
+//     public class MoveCapability : EccCapability { }
 
-[System.Serializable]
-public class HealthCapability : EccCapability { }
+//     public class HealthCapability : EccCapability { }
+// }
