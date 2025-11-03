@@ -76,16 +76,16 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldDeactivate()
         {
-            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
-                return false;
+            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
+                return true;
 
-            if (mPlayerMovementComponent.IsInputAlignedWithVelocityX())
-                return false;
+            if (!mPlayerMovementComponent.IsInputAlignedWithVelocityX())
+                return true;
 
-            if (mPlayerMovementComponent.IsGrounded())
-                return false;
+            if (!mPlayerMovementComponent.IsGrounded())
+                return true;
 
-            return true;
+            return false;
         }
 
         protected override void OnTick(float deltaTime)
@@ -128,16 +128,16 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldDeactivate()
         {
-            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
-                return false;
+            if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
+                return true;
 
-            if (!mPlayerMovementComponent.IsInputAlignedWithVelocityX())
-                return false;
+            if (mPlayerMovementComponent.IsInputAlignedWithVelocityX())
+                return true;
 
-            if (mPlayerMovementComponent.IsGrounded())
-                return false;
+            if (!mPlayerMovementComponent.IsGrounded())
+                return true;
 
-            return true;
+            return false;
         }
 
         protected override void OnTick(float deltaTime)
@@ -169,6 +169,9 @@ namespace CharacterControllerDemo
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
                 return false;
 
+            if (mPlayerMovementComponent.Velocity.x == 0)
+                return false;
+
             if (!mPlayerMovementComponent.IsGrounded())
                 return false;
 
@@ -178,12 +181,15 @@ namespace CharacterControllerDemo
         protected override bool OnShouldDeactivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
-                return false;
+                return true;
 
-            if (mPlayerMovementComponent.IsGrounded())
-                return false;
+            if (mPlayerMovementComponent.Velocity.x == 0)
+                return true;
 
-            return true;
+            if (!mPlayerMovementComponent.IsGrounded())
+                return true;
+
+            return false;
         }
 
         protected override void OnTick(float deltaTime)
