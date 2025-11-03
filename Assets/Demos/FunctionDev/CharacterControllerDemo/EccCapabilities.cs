@@ -51,16 +51,16 @@ namespace CharacterControllerDemo
         protected PlayerMovementComponent mPlayerMovementComponent;
     }
 
-    public class PlayerAccelerateOnGroundCapability : PlayerMoveCapability
+    public abstract class PlayerAccelerateCapability : PlayerMoveCapability
     {
-        protected override void SetUpTickSettings()
+        protected sealed override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
             TickOrderInGroup = PlayerMovementTiceOrder.AccelerateOnGround;
             Tags = new List<EccTag> { EccTag.Move };
         }
 
-        protected override bool OnShouldActivate()
+        protected sealed override bool OnShouldActivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
                 return false;
@@ -68,13 +68,13 @@ namespace CharacterControllerDemo
             if (!mPlayerMovementComponent.IsInputAlignedWithVelocityX())
                 return false;
 
-            if (!mPlayerMovementComponent.IsGrounded())
+            if (!ShouldActivateConditions())
                 return false;
 
             return true;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected sealed override bool OnShouldDeactivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
                 return true;
@@ -82,7 +82,7 @@ namespace CharacterControllerDemo
             if (!mPlayerMovementComponent.IsInputAlignedWithVelocityX())
                 return true;
 
-            if (!mPlayerMovementComponent.IsGrounded())
+            if (!ShouldActivateConditions())
                 return true;
 
             return false;
@@ -94,25 +94,49 @@ namespace CharacterControllerDemo
             var velocity = mPlayerMovementComponent.Velocity;
 
             velocity.x = Mathf.Clamp(
-                velocity.x + (inputX * mPlayerMovementComponent.AccelerationOnGround * deltaTime),
+                velocity.x + (inputX * GetAcceleration() * deltaTime),
                 -mPlayerMovementComponent.MaxVelocityX,
                 mPlayerMovementComponent.MaxVelocityX
             );
 
             mPlayerMovementComponent.Velocity = velocity;
         }
+
+        protected abstract bool ShouldActivateConditions();
+
+        protected abstract bool ShouldDeactivateConditions();
+
+        protected abstract float GetAcceleration();
     }
 
-    public class PlayerInverseAccelerateOnGroundCapability : PlayerMoveCapability
+    public class PlayerAccelerateOnGroundCapability : PlayerAccelerateCapability
     {
-        protected override void SetUpTickSettings()
+        protected override float GetAcceleration()
+        {
+            return mPlayerMovementComponent.AccelerationOnGround;
+        }
+
+        protected override bool ShouldActivateConditions()
+        {
+            return mPlayerMovementComponent.IsGrounded();
+        }
+
+        protected override bool ShouldDeactivateConditions()
+        {
+            return !mPlayerMovementComponent.IsGrounded();
+        }
+    }
+
+    public abstract class PlayerInverseAccelerateCapability : PlayerMoveCapability
+    {
+        protected sealed override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
             TickOrderInGroup = PlayerMovementTiceOrder.InverseAccelerateOnGround;
             Tags = new List<EccTag> { EccTag.Move };
         }
 
-        protected override bool OnShouldActivate()
+        protected sealed override bool OnShouldActivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
                 return false;
@@ -120,13 +144,13 @@ namespace CharacterControllerDemo
             if (mPlayerMovementComponent.IsInputAlignedWithVelocityX())
                 return false;
 
-            if (!mPlayerMovementComponent.IsGrounded())
+            if (!ShouldActivateConditions())
                 return false;
 
             return true;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected sealed override bool OnShouldDeactivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
                 return true;
@@ -134,7 +158,7 @@ namespace CharacterControllerDemo
             if (mPlayerMovementComponent.IsInputAlignedWithVelocityX())
                 return true;
 
-            if (!mPlayerMovementComponent.IsGrounded())
+            if (!ShouldActivateConditions())
                 return true;
 
             return false;
@@ -148,23 +172,47 @@ namespace CharacterControllerDemo
             velocity.x = Mathf.MoveTowards(
                 velocity.x,
                 0,
-                inputX * mPlayerMovementComponent.InverseAccelerationOnGround * deltaTime
+                inputX * GetInverseAcceleration() * deltaTime
             );
 
             mPlayerMovementComponent.Velocity = velocity;
         }
+
+        protected abstract bool ShouldActivateConditions();
+
+        protected abstract bool ShouldDeactivateConditions();
+
+        protected abstract float GetInverseAcceleration();
     }
 
-    public class PlayerDeAccelerateOnGroundCapability : PlayerMoveCapability
+    public class PlayerInverseAccelerateOnGroundCapability : PlayerInverseAccelerateCapability
     {
-        protected override void SetUpTickSettings()
+        protected override float GetInverseAcceleration()
+        {
+            return mPlayerMovementComponent.InverseAccelerationOnGround;
+        }
+
+        protected override bool ShouldActivateConditions()
+        {
+            return mPlayerMovementComponent.IsGrounded();
+        }
+
+        protected override bool ShouldDeactivateConditions()
+        {
+            return !mPlayerMovementComponent.IsGrounded();
+        }
+    }
+
+    public abstract class PlayerDeAccelerateCapability : PlayerMoveCapability
+    {
+        protected sealed override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
             TickOrderInGroup = PlayerMovementTiceOrder.DeAccelerateOnGround;
             Tags = new List<EccTag> { EccTag.Move };
         }
 
-        protected override bool OnShouldActivate()
+        protected sealed override bool OnShouldActivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
                 return false;
@@ -172,13 +220,13 @@ namespace CharacterControllerDemo
             if (mPlayerMovementComponent.Velocity.x == 0)
                 return false;
 
-            if (!mPlayerMovementComponent.IsGrounded())
+            if (!ShouldActivateConditions())
                 return false;
 
             return true;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected sealed override bool OnShouldDeactivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) != 0)
                 return true;
@@ -186,7 +234,7 @@ namespace CharacterControllerDemo
             if (mPlayerMovementComponent.Velocity.x == 0)
                 return true;
 
-            if (!mPlayerMovementComponent.IsGrounded())
+            if (!ShouldActivateConditions())
                 return true;
 
             return false;
@@ -196,13 +244,33 @@ namespace CharacterControllerDemo
         {
             var velocity = mPlayerMovementComponent.Velocity;
 
-            velocity.x = Mathf.MoveTowards(
-                velocity.x,
-                0f,
-                mPlayerMovementComponent.DeAccelerationOnGround * deltaTime
-            );
+            velocity.x = Mathf.MoveTowards(velocity.x, 0f, GetDeAcceleration() * deltaTime);
 
             mPlayerMovementComponent.Velocity = velocity;
+        }
+
+        protected abstract bool ShouldActivateConditions();
+
+        protected abstract bool ShouldDeactivateConditions();
+
+        protected abstract float GetDeAcceleration();
+    }
+
+    public class PlayerDeAccelerateOnGroundCapability : PlayerDeAccelerateCapability
+    {
+        protected override float GetDeAcceleration()
+        {
+            return mPlayerMovementComponent.DeAccelerationOnGround;
+        }
+
+        protected override bool ShouldActivateConditions()
+        {
+            return mPlayerMovementComponent.IsGrounded();
+        }
+
+        protected override bool ShouldDeactivateConditions()
+        {
+            return !mPlayerMovementComponent.IsGrounded();
         }
     }
 
