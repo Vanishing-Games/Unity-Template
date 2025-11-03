@@ -5,8 +5,8 @@ namespace Core
 {
     public class InputEventArgs : EventArgs
     {
-        public InputAction Action { get; private set; }
-        public float Timestamp { get; private set; }
+        public InputAction Action { get; }
+        public float Timestamp { get; }
 
         public InputEventArgs(InputAction action)
         {
@@ -17,9 +17,9 @@ namespace Core
 
     public class AxisEventArgs : EventArgs
     {
-        public InputAxis Axis { get; private set; }
-        public float Value { get; private set; }
-        public float Timestamp { get; private set; }
+        public InputAxis Axis { get; }
+        public float Value { get; }
+        public float Timestamp { get; }
 
         public AxisEventArgs(InputAxis axis, float value)
         {

@@ -45,73 +45,73 @@ MonoBehaviour:
       Data: 
     - Name: MaxVelocityX
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: ClampVelocityX
       Entry: 4
-      Data: 0
+      Data: 20
     - Name: ClampVelocityY
       Entry: 4
-      Data: 0
+      Data: 20
     - Name: JumpSpeedY
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: MinJumpScaledTime
       Entry: 4
-      Data: 0
+      Data: 0.5
     - Name: JumpExtraSpeedX
       Entry: 4
       Data: 0
     - Name: JumpBufferingUnscaledTime
       Entry: 4
-      Data: 0
+      Data: 0.3
     - Name: CoyoteTimeScaledTime
       Entry: 4
-      Data: 0
+      Data: 0.3
     - Name: JumpApexModifiersScaledTime
       Entry: 4
-      Data: 0
+      Data: 0.3
     - Name: JumpApexGravityModifier
       Entry: 4
-      Data: 0
+      Data: 6
     - Name: JumpApexSpeedLimitModifier
       Entry: 4
-      Data: 0
+      Data: 6
     - Name: AccelerationOnGround
       Entry: 4
-      Data: 0
-    - Name: InverseAccelerationOnGound
+      Data: 10
+    - Name: InverseAccelerationOnGround
       Entry: 4
-      Data: 0
-    - Name: DeAccelerationOnGound
+      Data: 10
+    - Name: DeAccelerationOnGround
       Entry: 4
-      Data: 0
+      Data: 10
     - Name: AccelerationOnAir
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: InverseAccelerationOnAir
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: DeAccelerationOnAir
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: AccelerationWhileOverspeedOnGround
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: InverseAccelerationWhileOverspeedOnGround
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: DeAccelerationWhileOverspeedOnGround
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: AccelerationWhileOverspeedOnAir
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: InverseAccelerationWhileOverspeedOnAir
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: DeAccelerationWhileOverspeedOnAir
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: 
       Entry: 8
       Data: 

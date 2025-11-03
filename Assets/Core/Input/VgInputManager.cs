@@ -30,10 +30,7 @@ namespace Core
             VgInput.Update();
 
 #if UNITY_EDITOR
-            if (showRealTimeInput)
-            {
-                UpdateDebugDisplay();
-            }
+            UpdateDebugDisplay();
 #endif
         }
 
@@ -78,36 +75,57 @@ namespace Core
 
         private void UpdateDebugDisplay()
         {
-            // Update InputAction states
-            foreach (InputAction action in Enum.GetValues(typeof(InputAction)))
+            if (!showRealTimeInput)
+                return;
+
+            try
             {
-                var state = inputActionStates[action];
-                state.isPressed = VgInput.GetButtonDown(action);
-                state.isHeld = VgInput.GetButton(action);
-                state.isReleased = VgInput.GetButtonUp(action);
+                foreach (InputAction action in Enum.GetValues(typeof(InputAction)))
+                {
+                    if (!inputActionStates.ContainsKey(action))
+                    {
+                        inputActionStates[action] = new InputActionState();
+                    }
 
-                // Get bindings info
-                var bindings = VgInput.Settings.GetBindings(action);
-                state.bindingCount = bindings.Count;
-                state.bindingInfo = string.Join(
-                    ", ",
-                    bindings.Select(b => b.GetDisplayName())
-                );
+                    var state = inputActionStates[action];
+                    state.isPressed = VgInput.GetButtonDown(action);
+                    state.isHeld = VgInput.GetButton(action);
+                    state.isReleased = VgInput.GetButtonUp(action);
+                }
+
+                foreach (InputAxis axis in Enum.GetValues(typeof(InputAxis)))
+                {
+                    if (!inputAxisValues.ContainsKey(axis))
+                    {
+                        inputAxisValues[axis] = 0f;
+                    }
+
+                    inputAxisValues[axis] = VgInput.GetAxis(axis);
+                }
+
+                movementVector = VgInput.GetMovementVector();
+                movementVectorNormalized = VgInput.GetMovementVectorNormalized();
+                lookVector = VgInput.GetLookVector();
+                rightStickVector = VgInput.GetRightStickVector();
+                mousePosition = VgInput.GetMousePosition();
+                mouseScrollWheel = VgInput.GetMouseScrollWheel();
+
+                // Debug logging for troubleshooting
+                if (Input.GetKeyDown(KeyCode.F1))
+                {
+                    Logger.LogInfo(
+                        $"Debug Input Status:\n"
+                            + $"Movement Vector: {movementVector}\n"
+                            + $"Jump State: Pressed={inputActionStates[InputAction.Jump].isPressed}, Held={inputActionStates[InputAction.Jump].isHeld}\n"
+                            + $"Show Real-Time Input: {showRealTimeInput}",
+                        LogTag.Input
+                    );
+                }
             }
-
-            // Update InputAxis values
-            foreach (InputAxis axis in Enum.GetValues(typeof(InputAxis)))
+            catch (System.Exception e)
             {
-                inputAxisValues[axis] = VgInput.GetAxis(axis);
+                Logger.LogError($"Error in UpdateDebugDisplay: {e.Message}", LogTag.Input);
             }
-
-            // Update composite inputs
-            movementVector = VgInput.GetMovementVector();
-            movementVectorNormalized = VgInput.GetMovementVectorNormalized();
-            lookVector = VgInput.GetLookVector();
-            rightStickVector = VgInput.GetRightStickVector();
-            mousePosition = VgInput.GetMousePosition();
-            mouseScrollWheel = VgInput.GetMouseScrollWheel();
         }
 
         [Serializable]
@@ -127,14 +145,6 @@ namespace Core
             [LabelWidth(80)]
             [ShowInInspector, ReadOnly]
             public bool isReleased;
-
-            [ShowInInspector, ReadOnly]
-            [LabelText("Bindings")]
-            public string bindingInfo = "";
-
-            [ShowInInspector, ReadOnly]
-            [LabelText("Count")]
-            public int bindingCount = 0;
         }
 
         #region Settings

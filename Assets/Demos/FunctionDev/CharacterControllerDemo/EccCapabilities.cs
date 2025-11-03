@@ -93,9 +93,8 @@ namespace CharacterControllerDemo
             float inputX = VgInput.GetAxis(InputAxis.LeftStickHorizontal);
             var velocity = mPlayerMovementComponent.Velocity;
 
-            velocity.x = Mathf.MoveTowards(
-                velocity.x
-                    + (inputX * mPlayerMovementComponent.InverseAccelerationOnGround * deltaTime),
+            velocity.x = Mathf.Clamp(
+                velocity.x + (inputX * mPlayerMovementComponent.AccelerationOnGround * deltaTime),
                 -mPlayerMovementComponent.MaxVelocityX,
                 mPlayerMovementComponent.MaxVelocityX
             );
@@ -143,7 +142,7 @@ namespace CharacterControllerDemo
 
         protected override void OnTick(float deltaTime)
         {
-            float inputX = VgInput.GetAxis(InputAxis.LeftStickHorizontal);
+            float inputX = Mathf.Abs(VgInput.GetAxis(InputAxis.LeftStickHorizontal));
             var velocity = mPlayerMovementComponent.Velocity;
 
             velocity.x = Mathf.MoveTowards(

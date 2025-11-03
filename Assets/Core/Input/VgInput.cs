@@ -31,6 +31,9 @@ namespace Core
 
             settings = InputSettings.Load();
 
+            inputActions = new VgInputActions();
+            inputActions.Enable();
+
             keyboard = Keyboard.current;
             mouse = Mouse.current;
             gamepad = Gamepad.current;
@@ -40,9 +43,6 @@ namespace Core
             Logger.LogInfo("VgInput system initialized with New Input System.", LogTag.Input);
         }
 
-        /// <summary>
-        /// Should be called in Update(), which is done by VgInputManager
-        /// </summary>
         public static void Update()
         {
             if (!initialized)
@@ -55,7 +55,6 @@ namespace Core
 
         private static void RefreshDevices()
         {
-            // Update device references if they change
             keyboard ??= Keyboard.current;
             mouse ??= Mouse.current;
             gamepad ??= Gamepad.current;
@@ -66,14 +65,12 @@ namespace Core
             if (!initialized)
                 Initialize();
 
-            foreach (var binding in settings.GetBindings(action))
+            var unityAction = GetUnityInputAction(action);
+            if (unityAction?.WasPressedThisFrame() == true)
             {
-                if (binding.IsPressed())
-                {
-                    InputEvents.TriggerButtonPressed(action);
-                    inputBuffer.AddInput(action);
-                    return true;
-                }
+                InputEvents.TriggerButtonPressed(action);
+                inputBuffer.AddInput(action);
+                return true;
             }
             return false;
         }
@@ -83,14 +80,8 @@ namespace Core
             if (!initialized)
                 Initialize();
 
-            foreach (var binding in settings.GetBindings(action))
-            {
-                if (binding.IsHeld())
-                {
-                    return true;
-                }
-            }
-            return false;
+            var unityAction = GetUnityInputAction(action);
+            return unityAction?.IsPressed() == true;
         }
 
         public static bool GetButtonUp(InputAction action)
@@ -98,13 +89,11 @@ namespace Core
             if (!initialized)
                 Initialize();
 
-            foreach (var binding in settings.GetBindings(action))
+            var unityAction = GetUnityInputAction(action);
+            if (unityAction != null && unityAction.WasReleasedThisFrame())
             {
-                if (binding.IsReleased())
-                {
-                    InputEvents.TriggerButtonReleased(action);
-                    return true;
-                }
+                InputEvents.TriggerButtonReleased(action);
+                return true;
             }
             return false;
         }
@@ -114,20 +103,8 @@ namespace Core
             if (!initialized)
                 Initialize();
 
-            var binding = settings.GetAxisBinding(axis);
-            if (binding != null)
-            {
-                return binding.GetValue();
-            }
-
-            try
-            {
-                return Input.GetAxis(axis.ToString());
-            }
-            catch
-            {
-                return 0f;
-            }
+            float value = GetAxisRaw(axis);
+            return Mathf.Clamp(value, -1f, 1f);
         }
 
         public static float GetAxisRaw(InputAxis axis)
@@ -135,41 +112,29 @@ namespace Core
             if (!initialized)
                 Initialize();
 
-            var binding = settings.GetAxisBinding(axis);
-            if (binding != null)
+            return axis switch
             {
-                return binding.GetRawValue();
-            }
-
-            try
-            {
-                return Input.GetAxisRaw(axis.ToString());
-            }
-            catch
-            {
-                return 0f;
-            }
+                InputAxis.LeftStickHorizontal => GetVector2Value(inputActions.Gameplay.Move).x,
+                InputAxis.LeftStickVertical => GetVector2Value(inputActions.Gameplay.Move).y,
+                InputAxis.RightStickHorizontal => GetVector2Value(
+                    inputActions.Gameplay.RightStick
+                ).x,
+                InputAxis.RightStickVertical => GetVector2Value(inputActions.Gameplay.RightStick).y,
+                InputAxis.LeftTrigger => GetFloatValue(inputActions.Gameplay.LeftTrigger),
+                InputAxis.RightTrigger => GetFloatValue(inputActions.Gameplay.RightTrigger),
+                InputAxis.MouseX => GetVector2Value(inputActions.Gameplay.Look).x,
+                InputAxis.MouseY => GetVector2Value(inputActions.Gameplay.Look).y,
+                InputAxis.MouseScrollWheel => GetFloatValue(inputActions.Gameplay.ScrollWheel),
+                _ => 0f,
+            };
         }
 
         public static Vector2 GetMovementVector()
         {
-            float horizontal = GetAxis(InputAxis.LeftStickHorizontal);
-            float vertical = GetAxis(InputAxis.LeftStickVertical);
+            if (!initialized)
+                Initialize();
 
-            // Also check keyboard for WASD/Arrow keys
-            if (keyboard != null)
-            {
-                if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed)
-                    vertical = 1f;
-                if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed)
-                    vertical = -1f;
-                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
-                    horizontal = 1f;
-                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
-                    horizontal = -1f;
-            }
-
-            return new Vector2(horizontal, vertical);
+            return GetVector2Value(inputActions.Gameplay.Move);
         }
 
         public static Vector2 GetMovementVectorNormalized()
@@ -215,9 +180,10 @@ namespace Core
 
         public static Vector3 GetMousePosition()
         {
-            if (mouse != null)
-                return mouse.position.ReadValue();
-            return Vector3.zero;
+            if (!initialized)
+                Initialize();
+
+            return GetVector2Value(inputActions.Gameplay.MousePosition);
         }
 
         public static Vector3 GetMouseWorldPosition(Camera camera = null)
@@ -255,72 +221,12 @@ namespace Core
             return false;
         }
 
-        public static void SaveSettings()
-        {
-            if (initialized)
-            {
-                settings.Save();
-            }
-        }
-
-        public static void ReloadSettings()
-        {
-            settings = InputSettings.Load();
-            Logger.LogInfo("Input settings reloaded.", LogTag.Input);
-        }
-
-        public static void ResetToDefault()
-        {
-            throw new NotImplementedException();
-            // settings = InputSettings.GetDefault();
-            // SaveSettings();
-            // Logger.LogInfo("Input settings reset to default.", LogTag.Input);
-        }
-
-        public static void RebindKey(InputAction action, KeyCode newKey)
-        {
-            if (!initialized)
-                Initialize();
-
-            var oldBindings = settings
-                .GetBindings(action)
-                .Where(b => b.deviceType == InputDeviceType.Keyboard)
-                .ToList();
-
-            foreach (var binding in oldBindings)
-            {
-                settings.RemoveBinding(binding);
-            }
-
-            settings.AddBinding(new InputBinding(action, newKey));
-            SaveSettings();
-        }
-
-        public static void AddBinding(InputAction action, KeyCode key)
-        {
-            if (!initialized)
-                Initialize();
-
-            settings.AddBinding(new InputBinding(action, key));
-            SaveSettings();
-        }
-
-        public static void ClearBindings(InputAction action)
-        {
-            if (!initialized)
-                Initialize();
-
-            settings.ClearBindings(action);
-            SaveSettings();
-        }
-
         public static void SetMouseSensitivity(float sensitivity)
         {
             if (!initialized)
                 Initialize();
 
             settings.mouseSensitivity = Mathf.Clamp(sensitivity, 0.1f, 10f);
-            SaveSettings();
         }
 
         public static void SetGamepadSensitivity(float sensitivity)
@@ -329,7 +235,6 @@ namespace Core
                 Initialize();
 
             settings.gamepadSensitivity = Mathf.Clamp(sensitivity, 0.1f, 10f);
-            SaveSettings();
         }
 
         public static void ToggleInvertMouseY()
@@ -338,7 +243,54 @@ namespace Core
                 Initialize();
 
             settings.invertMouseY = !settings.invertMouseY;
-            SaveSettings();
+        }
+
+        private static UnityEngine.InputSystem.InputAction GetUnityInputAction(InputAction action)
+        {
+            if (inputActions == null)
+                return null;
+
+            if (!actionCache.TryGetValue(action, out var unityAction))
+            {
+                var actionName = action.ToString();
+                var gameplayActions = inputActions.Gameplay;
+                var actionProperty = gameplayActions
+                    .GetType()
+                    .GetProperty(
+                        actionName,
+                        System.Reflection.BindingFlags.Public
+                            | System.Reflection.BindingFlags.Instance
+                    );
+
+                if (
+                    actionProperty != null
+                    && actionProperty.PropertyType == typeof(UnityEngine.InputSystem.InputAction)
+                )
+                {
+                    unityAction =
+                        actionProperty.GetValue(gameplayActions)
+                        as UnityEngine.InputSystem.InputAction;
+                    actionCache[action] = unityAction;
+                }
+            }
+
+            return unityAction;
+        }
+
+        private static Vector2 GetVector2Value(UnityEngine.InputSystem.InputAction action)
+        {
+            if (action == null)
+                return Vector2.zero;
+
+            return action.ReadValue<Vector2>();
+        }
+
+        private static float GetFloatValue(UnityEngine.InputSystem.InputAction action)
+        {
+            if (action == null)
+                return 0f;
+
+            return action.ReadValue<float>();
         }
 
         private static void UpdateActions()
@@ -382,14 +334,16 @@ namespace Core
         }
 
         // csharpier-ignore-start
-        private static InputSettings                settings           ;
-        private static bool                         initialized        = false!; // Suppresses RCS1129
-        private static InputBuffer                  inputBuffer        = new();
-        private static Dictionary<InputAxis, float> previousAxisValues = new();
-        private static HashSet<InputAction>         heldActions        = new();
-        private static Keyboard                     keyboard           ;
-        private static Mouse                        mouse              ;
-        private static Gamepad                      gamepad            ;
+        private static VgInputActions                                                     inputActions       ;
+        private static InputSettings                                                      settings           ;
+        private static bool                                                               initialized        = false!;
+        private static InputBuffer                                                        inputBuffer        = new();
+        private static Dictionary<InputAxis, float>                                       previousAxisValues = new();
+        private static HashSet<InputAction>                                               heldActions        = new();
+        private static Dictionary<InputAction, UnityEngine.InputSystem.InputAction>       actionCache        = new();
+        private static Keyboard                                                           keyboard           ;
+        private static Mouse                                                              mouse              ;
+        private static Gamepad                                                            gamepad            ;
         // csharpier-ignore-end
     }
 }
