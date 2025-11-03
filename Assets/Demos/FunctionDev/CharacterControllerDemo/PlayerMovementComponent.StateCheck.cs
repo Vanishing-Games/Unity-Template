@@ -8,6 +8,10 @@ namespace CharacterControllerDemo
 {
     public partial class PlayerMovementComponent : EccComponent
     {
+        public Vector2 Position() => mTransform.position;
+
+        public Vector2 VelocityNormalized() => Velocity.normalized;
+
         public bool IsGrounded()
         {
             return true;

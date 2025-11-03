@@ -13,6 +13,7 @@ namespace CharacterControllerDemo
         protected override void OnSetup()
         {
             GetAndSetRigidBody();
+            GetAndSetCapsuleCollider();
 
             mCollisionEnterSubscription = mGameObject
                 .OnCollisionEnter2DAsObservable()
@@ -57,7 +58,20 @@ namespace CharacterControllerDemo
             // csharpier-ignore-end
         }
 
+        private void GetAndSetCapsuleCollider()
+        {
+            mCollider ??=
+                mGameObject.GetComponent<CapsuleCollider2D>()
+                ?? mGameObject.AddComponent<CapsuleCollider2D>();
+            // csharpier-ignore-start
+            mCollider.offset    = Vector2.zero;
+            mCollider.size      = new Vector2(1, 2);
+            mCollider.direction = CapsuleDirection2D.Vertical;
+            // csharpier-ignore-end
+        }
+
         private Rigidbody2D mRigidbody;
+        private CapsuleCollider2D mCollider;
         private IDisposable mCollisionEnterSubscription;
         private IDisposable mCollisionExitSubscription;
         private IDisposable mCollisionStaySubscription;
