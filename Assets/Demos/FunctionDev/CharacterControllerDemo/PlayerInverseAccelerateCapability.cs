@@ -68,7 +68,7 @@ namespace CharacterControllerDemo
     public class PlayerInverseAccelerateOnGroundCapability : PlayerInverseAccelerateCapability
     {
         protected override uint GetTickOrderInGroup() =>
-            PlayerMovementTickOrder.InverseAccelerateOnGround;
+			(uint)PlayerMovementTickOrder.InverseAccelerateOnGround;
 
         protected override float GetInverseAcceleration() =>
             mPlayerMovementComponent.InverseAccelerationOnGround;
@@ -83,7 +83,7 @@ namespace CharacterControllerDemo
     public class PlayerInverseAccelerateOnAirCapability : PlayerInverseAccelerateCapability
     {
         protected override uint GetTickOrderInGroup() =>
-            PlayerMovementTickOrder.InverseAccelerateOnAir;
+			(uint)PlayerMovementTickOrder.InverseAccelerateOnAir;
 
         protected override float GetInverseAcceleration() =>
             mPlayerMovementComponent.InverseAccelerationOnAir;
@@ -99,7 +99,7 @@ namespace CharacterControllerDemo
         : PlayerInverseAccelerateCapability
     {
         protected override uint GetTickOrderInGroup() =>
-            PlayerMovementTickOrder.InverseAccelerateWhileOverspeedOnGround;
+			(uint)PlayerMovementTickOrder.InverseAccelerateWhileOverspeedOnGround;
 
         protected override float GetInverseAcceleration() =>
             mPlayerMovementComponent.InverseAccelerationWhileOverspeedOnGround;
@@ -115,7 +115,7 @@ namespace CharacterControllerDemo
         : PlayerInverseAccelerateCapability
     {
         protected override uint GetTickOrderInGroup() =>
-            PlayerMovementTickOrder.InverseAccelerateWhileOverspeedOnAir;
+			(uint)PlayerMovementTickOrder.InverseAccelerateWhileOverspeedOnAir;
 
         protected override float GetInverseAcceleration() =>
             mPlayerMovementComponent.InverseAccelerationWhileOverspeedOnAir;

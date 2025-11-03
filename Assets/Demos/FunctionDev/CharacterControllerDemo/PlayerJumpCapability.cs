@@ -8,7 +8,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
-            TickOrderInGroup = PlayerMovementTickOrder.Jump;
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.Jump;
             Tags = new List<EccTag> { EccTag.Jump };
         }
 
@@ -30,7 +30,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
-            TickOrderInGroup = PlayerMovementTickOrder.JumpApexModifiers;
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.JumpApexModifiers;
             Tags = new List<EccTag> { EccTag.Jump };
         }
 
@@ -52,7 +52,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
-            TickOrderInGroup = PlayerMovementTickOrder.JumpBuffering;
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.JumpBuffering;
             Tags = new List<EccTag> { EccTag.Jump };
         }
 
@@ -74,7 +74,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
-            TickOrderInGroup = PlayerMovementTickOrder.CoyoteTime;
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.CoyoteTime;
             Tags = new List<EccTag> { EccTag.Jump };
         }
 
@@ -96,7 +96,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
-            TickOrderInGroup = PlayerMovementTickOrder.JumpExtraSpeed;
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.JumpExtraSpeed;
             Tags = new List<EccTag> { EccTag.Move };
         }
 

@@ -8,7 +8,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
-            TickOrderInGroup = PlayerMovementTickOrder.Gravity;
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.Gravity;
             Tags = new List<EccTag> { EccTag.Gravity };
         }
 
@@ -30,7 +30,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
-            TickOrderInGroup = PlayerMovementTickOrder.ClampedFallSpeed;
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.ClampedFallSpeed;
             Tags = new List<EccTag> { EccTag.Move };
         }
 

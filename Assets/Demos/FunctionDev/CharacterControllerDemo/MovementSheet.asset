@@ -36,7 +36,7 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0
+      Data: -0.4457422
     - Name: 
       Entry: 4
       Data: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
       Data: 10
     - Name: InverseAccelerationOnGround
       Entry: 4
-      Data: 10
+      Data: 20
     - Name: DeAccelerationOnGround
       Entry: 4
       Data: 10
@@ -307,7 +307,7 @@ MonoBehaviour:
       Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 12
+      Data: 11
     - Name: Tags
       Entry: 7
       Data: 16|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,

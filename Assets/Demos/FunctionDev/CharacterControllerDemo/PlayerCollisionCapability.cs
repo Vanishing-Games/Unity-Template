@@ -8,7 +8,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
-            TickOrderInGroup = PlayerMovementTickOrder.EdgeSliding;
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.EdgeSliding;
             Tags = new List<EccTag> { EccTag.Move };
         }
 
