@@ -13,6 +13,8 @@ namespace CharacterControllerDemo
             return true;
         }
 
+        public bool IsOverSpeed() => Velocity.x > MaxVelocityX;
+
         public bool IsInputAlignedWithVelocityX() =>
             Velocity.x == 0 || VgInput.GetAxis(InputAxis.LeftStickHorizontal) * Velocity.x > 0;
 
