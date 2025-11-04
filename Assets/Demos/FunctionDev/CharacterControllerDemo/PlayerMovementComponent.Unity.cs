@@ -49,6 +49,7 @@ namespace CharacterControllerDemo
             mRigidbody ??=
                 mGameObject.GetComponent<Rigidbody2D>() ?? mGameObject.AddComponent<Rigidbody2D>();
             // csharpier-ignore-start
+            mGameObject.layer                   = LayerMask.NameToLayer("Character");
             mRigidbody.bodyType                 = RigidbodyType2D.Kinematic;
             mRigidbody.simulated                = true;
             mRigidbody.useFullKinematicContacts = true;

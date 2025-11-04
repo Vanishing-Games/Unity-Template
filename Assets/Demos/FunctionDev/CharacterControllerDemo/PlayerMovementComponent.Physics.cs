@@ -7,8 +7,10 @@ namespace CharacterControllerDemo
 {
     public partial class PlayerMovementComponent : EccComponent
     {
-        public Vector2 CapsuleCollierOffset() => mCollider.offset;
-        public Vector2 CapsuleCollierSize() => mCollider.size;
+        public Vector2 CapsuleColliderOffset() => mCollider.offset;
+
+        public Vector2 CapsuleColliderSize() => mCollider.size;
+
         public CapsuleDirection2D CpasuleCollierDirection() => mCollider.direction;
     }
 }

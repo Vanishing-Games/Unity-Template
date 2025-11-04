@@ -29,6 +29,7 @@ namespace Core
         public static readonly LogTag Event = new("Event");
         public static readonly LogTag CoreModule = new("CoreModule");
         public static readonly LogTag Input = new("Input");
+        public static readonly LogTag Math = new("Math");
 
         // ========== Second Tags ==========
         public static readonly LogTag CodeUnfucker = new("CodeUnfucker", Editor.Path);
