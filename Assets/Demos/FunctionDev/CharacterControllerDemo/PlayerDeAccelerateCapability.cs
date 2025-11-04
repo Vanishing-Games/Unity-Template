@@ -63,7 +63,7 @@ namespace CharacterControllerDemo
     public class PlayerDeAccelerateOnGroundCapability : PlayerDeAccelerateCapability
     {
         protected override uint GetTickOrderInGroup() =>
-			(uint)PlayerMovementTickOrder.DeAccelerateOnGround;
+            (uint)PlayerMovementTickOrder.DeAccelerateOnGround;
 
         protected override float GetDeAcceleration() =>
             mPlayerMovementComponent.DeAccelerationOnGround;
@@ -77,7 +77,8 @@ namespace CharacterControllerDemo
 
     public class PlayerDeAccelerateOnAirCapability : PlayerDeAccelerateCapability
     {
-        protected override uint GetTickOrderInGroup() => (uint)PlayerMovementTickOrder.DeAccelerateOnAir;
+        protected override uint GetTickOrderInGroup() =>
+            (uint)PlayerMovementTickOrder.DeAccelerateOnAir;
 
         protected override float GetDeAcceleration() =>
             mPlayerMovementComponent.DeAccelerationOnAir;
@@ -92,7 +93,7 @@ namespace CharacterControllerDemo
     public class PlayerDeAccelerateWhileOverspeedOnGroundCapability : PlayerDeAccelerateCapability
     {
         protected override uint GetTickOrderInGroup() =>
-			(uint)PlayerMovementTickOrder.DeAccelerateWhileOverspeedOnGround;
+            (uint)PlayerMovementTickOrder.DeAccelerateWhileOverspeedOnGround;
 
         protected override float GetDeAcceleration() =>
             mPlayerMovementComponent.DeAccelerationWhileOverspeedOnGround;
@@ -107,7 +108,7 @@ namespace CharacterControllerDemo
     public class PlayerDeAccelerateWhileOverspeedOnAirCapability : PlayerDeAccelerateCapability
     {
         protected override uint GetTickOrderInGroup() =>
-			(uint)PlayerMovementTickOrder.DeAccelerateWhileOverspeedOnAir;
+            (uint)PlayerMovementTickOrder.DeAccelerateWhileOverspeedOnAir;
 
         protected override float GetDeAcceleration() =>
             mPlayerMovementComponent.DeAccelerationWhileOverspeedOnAir;

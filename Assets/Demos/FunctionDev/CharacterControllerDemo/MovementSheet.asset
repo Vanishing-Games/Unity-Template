@@ -31,18 +31,6 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 1|CharacterControllerDemo.PlayerMovementComponent, CharacterControllerDemo
-    - Name: Velocity
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: MaxVelocityX
       Entry: 4
       Data: 5
@@ -60,7 +48,7 @@ MonoBehaviour:
       Data: 0.5
     - Name: JumpExtraSpeedX
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: JumpBufferingUnscaledTime
       Entry: 4
       Data: 0.3

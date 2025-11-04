@@ -13,10 +13,9 @@ namespace CharacterControllerDemo
             BoxGroup("运动状态"),
             Tooltip("玩家当前移动速度, 与刚体速度同步"),
             ShowInInspector,
-            OdinSerialize,
             ReadOnly
         ]
-        public Vector2 Velocity { get; set; }
+        public Vector2 Velocity { get; set; } = Vector2.zero;
 
         [
             BoxGroup("运动状态"),

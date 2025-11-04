@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using VanishingGames.ECC.Runtime;
 
 namespace CharacterControllerDemo
@@ -36,14 +37,20 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            return false;
+            return mPlayerMovementComponent.Velocity.y > mPlayerMovementComponent.ClampVelocityY;
         }
 
         protected override bool OnShouldDeactivate()
         {
-            return true;
+            return mPlayerMovementComponent.Velocity.y <= mPlayerMovementComponent.ClampVelocityY;
         }
 
-        protected override void OnTick(float deltaTime) { }
+        protected override void OnTick(float deltaTime)
+        {
+            mPlayerMovementComponent.Velocity = new Vector2(
+                mPlayerMovementComponent.Velocity.x,
+                mPlayerMovementComponent.ClampVelocityY
+            );
+        }
     }
 }

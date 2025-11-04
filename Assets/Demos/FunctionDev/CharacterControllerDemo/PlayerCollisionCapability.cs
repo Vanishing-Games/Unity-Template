@@ -59,7 +59,7 @@ namespace CharacterControllerDemo
                     snapToSurface = Vector2.zero;
 
                 float leftMagnitude = leftVelocity.magnitude;
-                leftVelocity = leftVelocity.ProjectOnLine(mHit.normal);
+                leftVelocity = leftVelocity.ProjectOnLine(mHit.normal).normalized;
                 leftVelocity *= leftMagnitude;
 
                 return snapToSurface
