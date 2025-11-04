@@ -36,7 +36,7 @@ MonoBehaviour:
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: -0.4457422
+      Data: 0
     - Name: 
       Entry: 4
       Data: 0
@@ -657,13 +657,16 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: mColliderSkinWidth
+      Entry: 4
+      Data: 0.03
     - Name: 
       Entry: 8
       Data: 
