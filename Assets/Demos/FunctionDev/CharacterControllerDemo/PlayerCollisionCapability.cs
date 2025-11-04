@@ -43,6 +43,11 @@ namespace CharacterControllerDemo
 
             var newVelocity = CollideAndSlide(velocity, position);
             mPlayerMovementComponent.Velocity = newVelocity;
+
+#if UNITY_EDITOR
+            mOriginalVelocity = velocity;
+            mNewVelocity = newVelocity;
+#endif
         }
 
         private Vector2 CollideAndSlide(Vector2 velocity, Vector2 position, uint depth = 0)
@@ -123,12 +128,16 @@ namespace CharacterControllerDemo
                 direction,
                 distance,
                 size,
-                capsuleDirection
+                capsuleDirection,
+                mOriginalVelocity,
+                mNewVelocity
             );
         }
 
         private IDisposable mUpdateSubscription;
         private CollideAndSlideDebugger mCollideAndSlideDebugger;
+        private Vector2 mOriginalVelocity;
+        private Vector2 mNewVelocity;
 #endif
     }
 }

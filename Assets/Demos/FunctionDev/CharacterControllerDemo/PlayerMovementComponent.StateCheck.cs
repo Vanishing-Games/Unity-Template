@@ -14,7 +14,14 @@ namespace CharacterControllerDemo
 
         public bool IsGrounded()
         {
-            return true;
+            var hit = Physics2D.Raycast(
+                mTransform.position,
+                Vector2.down,
+                GroundCheckDistance + CapsuleColliderSize().y * 0.5f,
+                LayerMask.GetMask("Static Object")
+            );
+
+            return hit.collider != null;
         }
 
         public bool IsOverSpeed() => Velocity.x > MaxVelocityX;

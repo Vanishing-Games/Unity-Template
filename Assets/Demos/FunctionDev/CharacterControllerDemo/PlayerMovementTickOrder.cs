@@ -15,7 +15,6 @@ namespace CharacterControllerDemo
         AccelerateWhileOverspeedOnAir           ,
         InverseAccelerateWhileOverspeedOnAir    ,
         DeAccelerateWhileOverspeedOnAir         ,
-        Gravity                                 ,
         Jump                                    ,
         JumpApexModifiers                       ,
         JumpBuffering                           ,
@@ -23,6 +22,7 @@ namespace CharacterControllerDemo
         ClampedFallSpeed                        ,
         EdgeSliding                             ,
         JumpExtraSpeed                          ,
+        Gravity                                 ,
     }
     // csharpier-ignore-end
 }

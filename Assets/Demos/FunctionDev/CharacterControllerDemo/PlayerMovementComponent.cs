@@ -43,6 +43,30 @@ namespace CharacterControllerDemo
 
         #endregion // 运动状态
 
+        #region 重力设置
+
+        [
+            BoxGroup("重力设置"),
+            Tooltip("作用在玩家身上的 重力 加速度 (正值)"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float GravityAcceleration { get; set; }
+
+        #endregion // 重力设置
+
+        #region 物理设置
+
+        [
+            BoxGroup("物理设置"),
+            Tooltip("用于检测玩家是否在地面的 射线长度"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float GroundCheckDistance { get; set; }
+
+        #endregion // 物理设置
+
         #region 跳跃设置
 
         [

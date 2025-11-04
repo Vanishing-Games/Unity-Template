@@ -15,15 +15,25 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            return false;
+            return !mPlayerMovementComponent.IsGrounded();
         }
 
         protected override bool OnShouldDeactivate()
         {
-            return true;
+            return mPlayerMovementComponent.IsGrounded();
         }
 
-        protected override void OnTick(float deltaTime) { }
+        protected override void OnTick(float deltaTime)
+        {
+            var velocity = mPlayerMovementComponent.Velocity;
+
+            velocity.y = Mathf.Max(
+                velocity.y - (mPlayerMovementComponent.GravityAcceleration * deltaTime),
+                -mPlayerMovementComponent.ClampVelocityY
+            );
+
+            mPlayerMovementComponent.Velocity = velocity;
+        }
     }
 
     public class PlayerClampedFallSpeedCapability : PlayerMoveCapability
