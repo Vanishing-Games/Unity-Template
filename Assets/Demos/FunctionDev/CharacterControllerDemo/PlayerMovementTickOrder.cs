@@ -20,6 +20,7 @@ namespace CharacterControllerDemo
         JumpBuffering                           ,
         CoyoteTime                              ,
         ClampedFallSpeed                        ,
+        GeometricDepenetration                  ,
         EdgeSliding                             ,
         JumpExtraSpeed                          ,
         Gravity                                 ,

@@ -7,6 +7,93 @@ using VanishingGames.ECC.Runtime;
 
 namespace CharacterControllerDemo
 {
+    public class PlayerGeometricDepenetrationCapability : PlayerMoveCapability
+    {
+        protected override void SetUpTickSettings()
+        {
+            base.SetUpTickSettings();
+            TickOrderInGroup = (uint)PlayerMovementTickOrder.EdgeSliding;
+            Tags = new List<EccTag> { EccTag.CollideAndSlide };
+        }
+
+        protected override bool OnShouldActivate()
+        {
+            return CheckIfOverlapping();
+        }
+
+        protected override bool OnShouldDeactivate()
+        {
+            return !CheckIfOverlapping();
+        }
+
+        protected override void OnTick(float deltaTime)
+        {
+            GeometricDepenetration();
+        }
+
+        private bool CheckIfOverlapping()
+        {
+            var colliders = Physics2D.OverlapCapsuleAll(
+                mPlayerMovementComponent.Position(),
+                mPlayerMovementComponent.CapsuleColliderSize(),
+                mPlayerMovementComponent.CpasuleCollierDirection(),
+                0,
+                LayerMask.GetMask("Static Object")
+            );
+
+            return colliders.Length > 0;
+        }
+
+        private void GeometricDepenetration(uint depth = 0)
+        {
+            if (depth > RECURSIVE_DEPTH)
+                return;
+
+            var colliders = Physics2D.OverlapCapsuleAll(
+                mPlayerMovementComponent.Position(),
+                mPlayerMovementComponent.CapsuleColliderSize(),
+                mPlayerMovementComponent.CpasuleCollierDirection(),
+                0,
+                LayerMask.GetMask("Static Object")
+            );
+
+            if (colliders.Length == 0)
+                return;
+
+            var player = mPlayerMovementComponent.GetCapsuleCollider();
+            var (cloestCollider, cloestColliderDistance2D) = (
+                null as Collider2D,
+                new ColliderDistance2D()
+            );
+            cloestColliderDistance2D.distance = float.MaxValue;
+            foreach (var collider in colliders)
+            {
+                var distance = player.Distance(collider);
+                cloestCollider =
+                    distance.distance < cloestColliderDistance2D.distance
+                        ? collider
+                        : cloestCollider;
+                cloestColliderDistance2D =
+                    distance.distance < cloestColliderDistance2D.distance
+                        ? distance
+                        : cloestColliderDistance2D;
+            }
+
+            if (cloestCollider != null && cloestColliderDistance2D.distance < 0)
+            {
+                var depenetrationVector =
+                    cloestColliderDistance2D.normal * cloestColliderDistance2D.distance;
+                mPlayerMovementComponent.SetPosition(
+                    mPlayerMovementComponent.Position() + depenetrationVector
+                );
+
+                // GeometricDepenetration(++depth);
+            }
+        }
+
+        public const int RECURSIVE_DEPTH = 5;
+    }
+
     public class PlayerEdgeSlidingCapability : PlayerMoveCapability
     {
         protected override void OnSetup()
@@ -83,7 +170,7 @@ namespace CharacterControllerDemo
                 mPlayerMovementComponent.Position()
                 + mPlayerMovementComponent.VelocityNormalized() * mColliderSkinWidth;
             var size = mPlayerMovementComponent.CapsuleColliderSize();
-            size -= new Vector2(mColliderSkinWidth, mColliderSkinWidth);
+            size -= new Vector2(0, mColliderSkinWidth);
             var direction = mPlayerMovementComponent.VelocityNormalized();
             var capsuleDirection = mPlayerMovementComponent.CpasuleCollierDirection();
             var distance =

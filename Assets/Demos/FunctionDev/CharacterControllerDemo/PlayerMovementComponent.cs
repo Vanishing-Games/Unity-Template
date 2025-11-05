@@ -85,6 +85,14 @@ namespace CharacterControllerDemo
         ]
         public float MinJumpScaledTime { get; set; }
 
+        [
+            BoxGroup("跳跃设置"),
+            Tooltip("玩家 输入跳跃操作时, 最多会持续MaxJumpScaledTime的跳跃"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float MaxJumpScaledTime { get; set; }
+
         #endregion // 跳跃设置
 
         #region 跳跃设置-Jump Extra Speed
@@ -270,5 +278,17 @@ namespace CharacterControllerDemo
         public float DeAccelerationWhileOverspeedOnAir { get; set; }
 
         #endregion // 水平移动设置-天空-超速
+
+        #region 辅助值状态
+
+        [
+            BoxGroup("辅助值状态"),
+            Tooltip("玩家 从按下跳跃开始 跳跃 按下时长"),
+            ShowInInspector,
+            ReadOnly
+        ]
+        public float JumpPressedScaledTime { get; set; }
+
+        #endregion // 辅助值状态
     }
 }

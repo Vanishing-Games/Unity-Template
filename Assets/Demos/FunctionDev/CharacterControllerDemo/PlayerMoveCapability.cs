@@ -12,6 +12,7 @@ namespace CharacterControllerDemo
         protected override void SetUpTickSettings()
         {
             TickGroup = EccTickGroup.Movement;
+            TickType = EccTickType.Fixed;
         }
 
         protected override void OnActivate() { }

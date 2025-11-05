@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Core;
+using UnityEngine;
 using VanishingGames.ECC.Runtime;
 
 namespace CharacterControllerDemo
@@ -14,15 +16,38 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            return false;
+            return VgInput.GetButton(InputAction.Jump) && mPlayerMovementComponent.IsGrounded();
         }
 
         protected override bool OnShouldDeactivate()
         {
-            return true;
+            return !VgInput.GetButton(InputAction.Jump)
+                || mPlayerMovementComponent.JumpPressedScaledTime
+                    >= mPlayerMovementComponent.MaxJumpScaledTime;
         }
 
-        protected override void OnTick(float deltaTime) { }
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            mPlayerMovementComponent.JumpPressedScaledTime = 0f;
+        }
+
+        protected override void OnDeactivate()
+        {
+            base.OnDeactivate();
+            mPlayerMovementComponent.JumpPressedScaledTime = 0f;
+        }
+
+        protected override void OnTick(float deltaTime)
+        {
+            mPlayerMovementComponent.JumpPressedScaledTime += deltaTime;
+
+            var velocity = mPlayerMovementComponent.Velocity;
+
+            velocity.y = mPlayerMovementComponent.JumpSpeedY;
+
+            mPlayerMovementComponent.Velocity = velocity;
+        }
     }
 
     public class PlayerJumpApexModifiersCapability : PlayerMoveCapability

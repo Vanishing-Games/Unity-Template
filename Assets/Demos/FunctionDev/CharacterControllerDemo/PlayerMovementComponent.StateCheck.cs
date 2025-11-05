@@ -10,6 +10,8 @@ namespace CharacterControllerDemo
     {
         public Vector2 Position() => mTransform.position;
 
+        public void SetPosition(Vector2 position) => mTransform.position = position;
+
         public Vector2 VelocityNormalized() => Velocity.normalized;
 
         public bool IsGrounded()

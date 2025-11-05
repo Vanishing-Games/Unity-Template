@@ -12,5 +12,7 @@ namespace CharacterControllerDemo
         public Vector2 CapsuleColliderSize() => mCollider.size;
 
         public CapsuleDirection2D CpasuleCollierDirection() => mCollider.direction;
+
+        public CapsuleCollider2D GetCapsuleCollider() => mCollider;
     }
 }
