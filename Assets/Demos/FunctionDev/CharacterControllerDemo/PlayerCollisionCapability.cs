@@ -144,15 +144,15 @@ namespace CharacterControllerDemo
 
             if (CheckCollide())
             {
-                Vector2 snapToSurface = velocity.normalized * (mHit.distance - mColliderSkinWidth);
+                Vector2 snapToSurface = velocity.normalized * (mHit.distance + mColliderSkinWidth);
                 Vector2 leftVelocity = velocity - snapToSurface;
 
                 if (snapToSurface.magnitude <= mColliderSkinWidth)
                     snapToSurface = Vector2.zero;
 
-                float leftMagnitude = leftVelocity.magnitude;
-                leftVelocity = leftVelocity.ProjectOnLine(mHit.normal).normalized;
-                leftVelocity *= leftMagnitude;
+                // float leftMagnitude = leftVelocity.magnitude;
+                leftVelocity = leftVelocity.ProjectOnLine(mHit.normal);
+                // leftVelocity *= leftMagnitude;
 
                 return snapToSurface
                     + CollideAndSlide(leftVelocity, position + snapToSurface, ++depth);
@@ -166,9 +166,7 @@ namespace CharacterControllerDemo
             if (mPlayerMovementComponent.Velocity.magnitude <= 0.0f)
                 return false;
 
-            var origin =
-                mPlayerMovementComponent.Position()
-                + mPlayerMovementComponent.VelocityNormalized() * mColliderSkinWidth;
+            var origin = mPlayerMovementComponent.Position();
             var size = mPlayerMovementComponent.CapsuleColliderSize();
             size -= new Vector2(0, mColliderSkinWidth);
             var direction = mPlayerMovementComponent.VelocityNormalized();
