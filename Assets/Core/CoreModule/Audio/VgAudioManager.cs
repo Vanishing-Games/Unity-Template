@@ -5,5 +5,5 @@ using UnityEngine;
 
 namespace Core
 {
-    public class VgAudioManager {}
+    public class VgAudioManager { }
 }
