@@ -74,10 +74,10 @@ namespace CharacterControllerDemo
             mPlayerMovementComponent.InverseAccelerationOnGround;
 
         protected override bool ShouldActivateConditions() =>
-            mPlayerMovementComponent.IsGrounded() && !mPlayerMovementComponent.IsOverSpeed();
+            mPlayerMovementComponent.IsOnGroundFast() && !mPlayerMovementComponent.IsOverSpeed();
 
         protected override bool ShouldDeactivateConditions() =>
-            !mPlayerMovementComponent.IsGrounded() || mPlayerMovementComponent.IsOverSpeed();
+            !mPlayerMovementComponent.IsOnGroundFast() || mPlayerMovementComponent.IsOverSpeed();
     }
 
     public class PlayerInverseAccelerateOnAirCapability : PlayerInverseAccelerateCapability
@@ -89,26 +89,26 @@ namespace CharacterControllerDemo
             mPlayerMovementComponent.InverseAccelerationOnAir;
 
         protected override bool ShouldActivateConditions() =>
-            !mPlayerMovementComponent.IsGrounded() && !mPlayerMovementComponent.IsOverSpeed();
+            !mPlayerMovementComponent.IsOnGroundFast() && !mPlayerMovementComponent.IsOverSpeed();
 
         protected override bool ShouldDeactivateConditions() =>
-            mPlayerMovementComponent.IsGrounded() || mPlayerMovementComponent.IsOverSpeed();
+            mPlayerMovementComponent.IsOnGroundFast() || mPlayerMovementComponent.IsOverSpeed();
     }
 
     public class PlayerInverseAccelerateWhileOverspeedOnGroundCapability
         : PlayerInverseAccelerateCapability
     {
         protected override uint GetTickOrderInGroup() =>
-			(uint)PlayerMovementTickOrder.InverseAccelerateWhileOverspeedOnGround;
+            (uint)PlayerMovementTickOrder.InverseAccelerateWhileOverspeedOnGround;
 
         protected override float GetInverseAcceleration() =>
             mPlayerMovementComponent.InverseAccelerationWhileOverspeedOnGround;
 
         protected override bool ShouldActivateConditions() =>
-            mPlayerMovementComponent.IsGrounded() && mPlayerMovementComponent.IsOverSpeed();
+            mPlayerMovementComponent.IsOnGroundFast() && mPlayerMovementComponent.IsOverSpeed();
 
         protected override bool ShouldDeactivateConditions() =>
-            !mPlayerMovementComponent.IsGrounded() || !mPlayerMovementComponent.IsOverSpeed();
+            !mPlayerMovementComponent.IsOnGroundFast() || !mPlayerMovementComponent.IsOverSpeed();
     }
 
     public class PlayerInverseAccelerateWhileOverspeedOnAirCapability
@@ -121,9 +121,9 @@ namespace CharacterControllerDemo
             mPlayerMovementComponent.InverseAccelerationWhileOverspeedOnAir;
 
         protected override bool ShouldActivateConditions() =>
-            !mPlayerMovementComponent.IsGrounded() && mPlayerMovementComponent.IsOverSpeed();
+            !mPlayerMovementComponent.IsOnGroundFast() && mPlayerMovementComponent.IsOverSpeed();
 
         protected override bool ShouldDeactivateConditions() =>
-            mPlayerMovementComponent.IsGrounded() || !mPlayerMovementComponent.IsOverSpeed();
+            mPlayerMovementComponent.IsOnGroundFast() || !mPlayerMovementComponent.IsOverSpeed();
     }
 }

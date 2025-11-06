@@ -60,6 +60,9 @@ namespace Core
             gamepad ??= Gamepad.current;
         }
 
+        public static bool GetButtonDownBuffered(InputAction action) =>
+            GetButtonDown(action) || inputBuffer.HasRecentInput(action);
+
         public static bool GetButtonDown(InputAction action)
         {
             if (!initialized)

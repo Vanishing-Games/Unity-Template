@@ -93,9 +93,6 @@ namespace Core
             public float timestamp;
         }
 
-        private readonly System.Collections.Generic.List<InputRecord> buffer = new();
-        private readonly float bufferTime;
-
         public InputBuffer(float bufferTime = 0.5f)
         {
             this.bufferTime = bufferTime;
@@ -152,5 +149,7 @@ namespace Core
         }
 
         public int Count => buffer.Count;
+        private readonly System.Collections.Generic.List<InputRecord> buffer = new();
+        private readonly float bufferTime;
     }
 }

@@ -14,6 +14,7 @@ namespace CharacterControllerDemo
         {
             GetAndSetRigidBody();
             GetAndSetCapsuleCollider();
+            InitializeEvents();
 
             mCollisionEnterSubscription = mGameObject
                 .OnCollisionEnter2DAsObservable()
@@ -68,6 +69,19 @@ namespace CharacterControllerDemo
             mCollider.offset    = Vector2.zero;
             mCollider.size      = new Vector2(1, 2);
             mCollider.direction = CapsuleDirection2D.Vertical;
+            // csharpier-ignore-end
+        }
+
+        private partial void InitializeEvents()
+        {
+            // csharpier-ignore-start
+            OnPlayerStartJumpEvent     = new();
+            OnPlayerEndJumpEvent       = new();
+            OnPlayerEnterJumpApexEvent = new();
+            OnPlayerLeaveJumpApexEvent = new();
+            OnPlayerStartFreefallEvent = new();
+            OnPlayerLandedEvent        = new();
+            OnPlayerLeaveGroundEvent = new();
             // csharpier-ignore-end
         }
 

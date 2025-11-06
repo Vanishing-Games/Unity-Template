@@ -15,12 +15,18 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            return !mPlayerMovementComponent.IsGrounded();
+            return !mPlayerMovementComponent.IsOnGroundFast();
         }
 
         protected override bool OnShouldDeactivate()
         {
-            return mPlayerMovementComponent.IsGrounded();
+            return mPlayerMovementComponent.IsOnGroundFast();
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            mPlayerMovementComponent.OnPlayerStartFreefallEvent.OnNext(0);
         }
 
         protected override void OnTick(float deltaTime)

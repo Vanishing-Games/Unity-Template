@@ -3,6 +3,7 @@ namespace CharacterControllerDemo
     // csharpier-ignore-start
     public enum PlayerMovementTickOrder
     {
+        GroundCheck                             ,
         AccelerateOnGround                      ,
         InverseAccelerateOnGround               ,
         DeAccelerateOnGround                    ,
@@ -17,7 +18,6 @@ namespace CharacterControllerDemo
         DeAccelerateWhileOverspeedOnAir         ,
         Jump                                    ,
         JumpApexModifiers                       ,
-        JumpBuffering                           ,
         CoyoteTime                              ,
         ClampedFallSpeed                        ,
         GeometricDepenetration                  ,

@@ -69,10 +69,10 @@ namespace CharacterControllerDemo
             mPlayerMovementComponent.DeAccelerationOnGround;
 
         protected override bool ShouldActivateConditions() =>
-            mPlayerMovementComponent.IsGrounded() && !mPlayerMovementComponent.IsOverSpeed();
+            mPlayerMovementComponent.IsOnGroundFast() && !mPlayerMovementComponent.IsOverSpeed();
 
         protected override bool ShouldDeactivateConditions() =>
-            !mPlayerMovementComponent.IsGrounded() || mPlayerMovementComponent.IsOverSpeed();
+            !mPlayerMovementComponent.IsOnGroundFast() || mPlayerMovementComponent.IsOverSpeed();
     }
 
     public class PlayerDeAccelerateOnAirCapability : PlayerDeAccelerateCapability
@@ -84,10 +84,10 @@ namespace CharacterControllerDemo
             mPlayerMovementComponent.DeAccelerationOnAir;
 
         protected override bool ShouldActivateConditions() =>
-            !mPlayerMovementComponent.IsGrounded() && !mPlayerMovementComponent.IsOverSpeed();
+            !mPlayerMovementComponent.IsOnGroundFast() && !mPlayerMovementComponent.IsOverSpeed();
 
         protected override bool ShouldDeactivateConditions() =>
-            mPlayerMovementComponent.IsGrounded() || mPlayerMovementComponent.IsOverSpeed();
+            mPlayerMovementComponent.IsOnGroundFast() || mPlayerMovementComponent.IsOverSpeed();
     }
 
     public class PlayerDeAccelerateWhileOverspeedOnGroundCapability : PlayerDeAccelerateCapability
@@ -99,10 +99,10 @@ namespace CharacterControllerDemo
             mPlayerMovementComponent.DeAccelerationWhileOverspeedOnGround;
 
         protected override bool ShouldActivateConditions() =>
-            mPlayerMovementComponent.IsGrounded() && mPlayerMovementComponent.IsOverSpeed();
+            mPlayerMovementComponent.IsOnGroundFast() && mPlayerMovementComponent.IsOverSpeed();
 
         protected override bool ShouldDeactivateConditions() =>
-            !mPlayerMovementComponent.IsGrounded() || !mPlayerMovementComponent.IsOverSpeed();
+            !mPlayerMovementComponent.IsOnGroundFast() || !mPlayerMovementComponent.IsOverSpeed();
     }
 
     public class PlayerDeAccelerateWhileOverspeedOnAirCapability : PlayerDeAccelerateCapability
@@ -114,9 +114,9 @@ namespace CharacterControllerDemo
             mPlayerMovementComponent.DeAccelerationWhileOverspeedOnAir;
 
         protected override bool ShouldActivateConditions() =>
-            !mPlayerMovementComponent.IsGrounded() && mPlayerMovementComponent.IsOverSpeed();
+            !mPlayerMovementComponent.IsOnGroundFast() && mPlayerMovementComponent.IsOverSpeed();
 
         protected override bool ShouldDeactivateConditions() =>
-            mPlayerMovementComponent.IsGrounded() || !mPlayerMovementComponent.IsOverSpeed();
+            mPlayerMovementComponent.IsOnGroundFast() || !mPlayerMovementComponent.IsOverSpeed();
     }
 }

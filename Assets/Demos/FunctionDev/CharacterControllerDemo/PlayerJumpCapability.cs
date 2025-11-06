@@ -1,52 +1,105 @@
+using System;
 using System.Collections.Generic;
 using Core;
+using R3;
 using UnityEngine;
 using VanishingGames.ECC.Runtime;
 
 namespace CharacterControllerDemo
 {
-    public class PlayerJumpCapability : PlayerMoveCapability
+    public abstract class PlayerJumpCapabilityBase : PlayerMoveCapability
     {
-        protected override void SetUpTickSettings()
+        protected sealed override void SetUpTickSettings()
         {
             base.SetUpTickSettings();
             TickOrderInGroup = (uint)PlayerMovementTickOrder.Jump;
             Tags = new List<EccTag> { EccTag.Jump };
         }
 
-        protected override bool OnShouldActivate()
+        protected sealed override bool OnShouldActivate()
         {
-            return VgInput.GetButton(InputAction.Jump) && mPlayerMovementComponent.IsGrounded();
+            return VgInput.GetButtonDownBuffered(InputAction.Jump) && ShouldActivateConditions();
         }
 
-        protected override bool OnShouldDeactivate()
+        protected abstract bool ShouldActivateConditions();
+
+        protected sealed override bool OnShouldDeactivate()
         {
             return !VgInput.GetButton(InputAction.Jump)
-                || mPlayerMovementComponent.JumpPressedScaledTime
-                    >= mPlayerMovementComponent.MaxJumpScaledTime;
+                || mPlayerMovementComponent.IsUnderCeilingFast()
+                || mPlayerMovementComponent.ReachesMaxJumpTime()
+                || ShouldDeactivateConditions();
         }
+
+        protected abstract bool ShouldDeactivateConditions();
 
         protected override void OnActivate()
         {
             base.OnActivate();
-            mPlayerMovementComponent.JumpPressedScaledTime = 0f;
+            mPlayerMovementComponent.JumpScaledTimeSinceStarted = 0f;
+            mPlayerMovementComponent.CurrentMovementState = PlayerMoveState.Jumping;
+            mOwner.BlockCapabilities(EccTag.Gravity, this);
+            mPlayerMovementComponent.OnPlayerStartJumpEvent.OnNext(0);
         }
 
         protected override void OnDeactivate()
         {
             base.OnDeactivate();
-            mPlayerMovementComponent.JumpPressedScaledTime = 0f;
+            mPlayerMovementComponent.JumpScaledTimeSinceStarted = Mathf.Min(
+                mPlayerMovementComponent.JumpScaledTimeSinceStarted,
+                mPlayerMovementComponent.MaxJumpScaledTime
+            );
+            mPlayerMovementComponent.CurrentMovementState = PlayerMoveState.OnAir;
+            mOwner.UnblockCapabilities(this);
+            mPlayerMovementComponent.OnPlayerEndJumpEvent.OnNext(0);
+
+            // reset jump time when landed
+            Observable
+                .EveryUpdate()
+                .Where(_ => mPlayerMovementComponent.IsOnGroundFast())
+                .Take(1)
+                .Subscribe(_ =>
+                {
+                    mPlayerMovementComponent.JumpScaledTimeSinceStarted = 0f;
+                });
         }
 
-        protected override void OnTick(float deltaTime)
+        protected sealed override void OnTick(float deltaTime)
         {
-            mPlayerMovementComponent.JumpPressedScaledTime += deltaTime;
+            mPlayerMovementComponent.JumpScaledTimeSinceStarted += deltaTime;
 
             var velocity = mPlayerMovementComponent.Velocity;
 
             velocity.y = mPlayerMovementComponent.JumpSpeedY;
 
             mPlayerMovementComponent.Velocity = velocity;
+        }
+    }
+
+    public class PlayerJumpOnGroundCapability : PlayerJumpCapabilityBase
+    {
+        protected override bool ShouldActivateConditions()
+        {
+            return mPlayerMovementComponent.IsOnGroundFast();
+        }
+
+        protected override bool ShouldDeactivateConditions()
+        {
+            return false;
+        }
+    }
+
+    public class PlayerCoyoteJumpCapability : PlayerJumpCapabilityBase
+    {
+        protected override bool ShouldActivateConditions()
+        {
+            return !mPlayerMovementComponent.IsJumping()
+                && mPlayerMovementComponent.WithinCoyoteTime();
+        }
+
+        protected override bool ShouldDeactivateConditions()
+        {
+            return false;
         }
     }
 
@@ -61,59 +114,75 @@ namespace CharacterControllerDemo
 
         protected override bool OnShouldActivate()
         {
-            return false;
+            return VgInput.GetButton(InputAction.Jump)
+                && !mPlayerMovementComponent.IsOnGroundFast()
+                && !mPlayerMovementComponent.IsUnderCeilingFast()
+                && mPlayerMovementComponent.WithinJumpApexModifierTime();
         }
 
         protected override bool OnShouldDeactivate()
         {
-            return true;
+            return !VgInput.GetButton(InputAction.Jump)
+                || mPlayerMovementComponent.IsOnGroundFast()
+                || mPlayerMovementComponent.IsUnderCeilingFast()
+                || !mPlayerMovementComponent.WithinJumpApexModifierTime();
         }
 
-        protected override void OnTick(float deltaTime) { }
-    }
-
-    public class PlayerJumpBufferingCapability : PlayerMoveCapability
-    {
-        protected override void SetUpTickSettings()
+        protected override void OnActivate()
         {
-            base.SetUpTickSettings();
-            TickOrderInGroup = (uint)PlayerMovementTickOrder.JumpBuffering;
-            Tags = new List<EccTag> { EccTag.Jump };
+            base.OnActivate();
+
+            mOwner.BlockCapabilities(EccTag.Gravity, this);
+
+            mPlayerMovementComponent.CurrentMovementState = PlayerMoveState.Apex;
+
+            mPlayerMovementComponent.MaxVelocityX +=
+                mPlayerMovementComponent.JumpApexSpeedLimitModifier;
+
+            mPlayerMovementComponent.JumpApexModifierScaledTimeSinceStarted = 0f;
+
+            mPlayerMovementComponent.OnPlayerEnterJumpApexEvent.OnNext(0);
         }
 
-        protected override bool OnShouldActivate()
+        protected override void OnDeactivate()
         {
-            return false;
+            base.OnDeactivate();
+
+            mOwner.UnblockCapabilities(this);
+
+            mPlayerMovementComponent.CurrentMovementState = PlayerMoveState.OnAir;
+
+            mPlayerMovementComponent.MaxVelocityX -=
+                mPlayerMovementComponent.JumpApexSpeedLimitModifier;
+
+            mPlayerMovementComponent.OnPlayerLeaveJumpApexEvent.OnNext(0);
+
+            Observable
+                .EveryUpdate()
+                .Where(_ => mPlayerMovementComponent.IsOnGroundFast())
+                .Take(1)
+                .Subscribe(_ =>
+                {
+                    mPlayerMovementComponent.JumpApexModifierScaledTimeSinceStarted = 0f;
+                });
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override void OnTick(float deltaTime)
         {
-            return true;
+            SimulateGravityEffect(deltaTime);
         }
 
-        protected override void OnTick(float deltaTime) { }
-    }
-
-    public class PlayerCoyoteTimeCapability : PlayerMoveCapability
-    {
-        protected override void SetUpTickSettings()
+        private void SimulateGravityEffect(float deltaTime)
         {
-            base.SetUpTickSettings();
-            TickOrderInGroup = (uint)PlayerMovementTickOrder.CoyoteTime;
-            Tags = new List<EccTag> { EccTag.Jump };
-        }
+            var velocity = mPlayerMovementComponent.Velocity;
 
-        protected override bool OnShouldActivate()
-        {
-            return false;
-        }
+            velocity.y = Mathf.Max(
+                velocity.y - (mPlayerMovementComponent.JumpApexGravityValue * deltaTime),
+                -mPlayerMovementComponent.ClampVelocityY
+            );
 
-        protected override bool OnShouldDeactivate()
-        {
-            return true;
+            mPlayerMovementComponent.Velocity = velocity;
         }
-
-        protected override void OnTick(float deltaTime) { }
     }
 
     public class PlayerJumpExtraSpeedCapability : PlayerMoveCapability
@@ -122,7 +191,23 @@ namespace CharacterControllerDemo
         {
             base.SetUpTickSettings();
             TickOrderInGroup = (uint)PlayerMovementTickOrder.JumpExtraSpeed;
-            Tags = new List<EccTag> { EccTag.Move };
+            Tags = new List<EccTag> { EccTag.Jump };
+        }
+
+        protected override void OnSetup()
+        {
+            base.OnSetup();
+
+            mPlayerMovementComponent.OnPlayerStartJumpEvent.Subscribe(_ =>
+            {
+                var velocity = mPlayerMovementComponent.Velocity;
+
+                velocity.x +=
+                    mPlayerMovementComponent.JumpExtraSpeedX
+                    * Math.Sign(VgInput.GetAxis(InputAxis.LeftStickHorizontal));
+
+                mPlayerMovementComponent.Velocity = velocity;
+            });
         }
 
         protected override bool OnShouldActivate()
@@ -135,6 +220,9 @@ namespace CharacterControllerDemo
             return true;
         }
 
-        protected override void OnTick(float deltaTime) { }
+        protected override void OnTick(float deltaTime)
+        {
+            return;
+        }
     }
 }

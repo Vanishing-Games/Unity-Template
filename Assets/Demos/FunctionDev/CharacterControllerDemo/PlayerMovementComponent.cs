@@ -1,3 +1,4 @@
+using Core;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -110,17 +111,20 @@ namespace CharacterControllerDemo
         #endregion // 跳跃设置-Jump Extra Speed
 
         #region 跳跃设置-Jump Buffering
+#if UNITY_EDITOR
 
         [
             BoxGroup("跳跃设置-Jump Buffering"),
             Tooltip(
-                "玩家 输入跳跃操作后 如果还没有到达地面, 则缓存这个跳跃指令一段时间, 在玩家到达地面时会立刻执行跳跃以增强动作连续性"
+                "玩家 输入跳跃操作后 如果还没有到达地面, 则缓存这个跳跃指令一段时间, 在玩家到达地面时会立刻执行跳跃以增强动作连续性\n 这个值应该在VgInput系统中设置"
             ),
             ShowInInspector,
-            OdinSerialize
+            OdinSerialize,
+            ReadOnly
         ]
-        public float JumpBufferingUnscaledTime { get; set; }
+        public float JumpBufferingUnscaledTime { get; set; } = 0.2f;
 
+#endif // UNITY_EDITOR
         #endregion // 跳跃设置-Jump Buffering
 
         #region 跳跃设置-Coyote Time
@@ -133,7 +137,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float CoyoteTimeScaledTime { get; set; }
+        public float CoyoteJumpScaledTime { get; set; }
 
         #endregion // 跳跃设置-Coyote Time
 
@@ -155,11 +159,11 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float JumpApexGravityModifier { get; set; }
+        public float JumpApexGravityValue { get; set; }
 
         [
             BoxGroup("跳跃设置-Apex Modifiers"),
-            Tooltip("窗口期间内的 最高速度的 新值 (正值)"),
+            Tooltip("窗口期间内的 最高速度的 增加值 (正值)"),
             ShowInInspector,
             OdinSerialize
         ]
@@ -280,14 +284,40 @@ namespace CharacterControllerDemo
         #endregion // 水平移动设置-天空-超速
 
         #region 辅助值状态
+        [BoxGroup("辅助值状态"), Tooltip("玩家当前移动状态"), ShowInInspector, ReadOnly]
+        public PlayerMoveState CurrentMovementState { get; set; }
+
+        [BoxGroup("辅助值状态"), Tooltip("玩家是否在地面上"), ShowInInspector, ReadOnly]
+        public bool IsOnGround { get; set; }
+
+        [BoxGroup("辅助值状态"), Tooltip("玩家是否顶到天花板"), ShowInInspector, ReadOnly]
+        public bool IsUnderCeiling { get; set; }
+
+        [BoxGroup("辅助值状态"), Tooltip("玩家待在 地面上 的连续时长"), ShowInInspector, ReadOnly]
+        public float ScaledTimeOnGround { get; set; }
+
+        [BoxGroup("辅助值状态"), Tooltip("玩家待在 天空中 的连续时长"), ShowInInspector, ReadOnly]
+        public float ScaledTimeInAir { get; set; }
 
         [
             BoxGroup("辅助值状态"),
-            Tooltip("玩家 从按下跳跃开始 跳跃 按下时长"),
+            Tooltip(
+                "玩家 从跳跃开始 到未达到跳跃最高时间时 的时长\n(人话: 已经跳跃了多久, 但是这个时间不会超过最长跳跃时间)"
+            ),
             ShowInInspector,
-            ReadOnly
+            ReadOnly,
         ]
-        public float JumpPressedScaledTime { get; set; }
+        public float JumpScaledTimeSinceStarted { get; set; }
+
+        [
+            BoxGroup("辅助值状态"),
+            Tooltip(
+                "玩家 进入跳跃顶点修改窗口 到未达到窗口结束时间时 的时长\n(人话: 已经进入跳跃顶点修改窗口了多久, 但是这个时间不会超过最长窗口时间)"
+            ),
+            ShowInInspector,
+            ReadOnly,
+        ]
+        public float JumpApexModifierScaledTimeSinceStarted { get; set; }
 
         #endregion // 辅助值状态
     }
