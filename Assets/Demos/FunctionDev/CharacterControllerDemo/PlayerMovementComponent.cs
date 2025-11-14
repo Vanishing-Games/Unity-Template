@@ -56,15 +56,71 @@ namespace CharacterControllerDemo
 
         #endregion // 重力设置
 
-        #region 物理设置
+        #region 射线检测
 
         [
-            BoxGroup("物理设置"),
-            Tooltip("用于检测玩家是否在地面的 射线长度"),
+            BoxGroup("射线检测"),
+            Tooltip("用于检测玩家是否 在地面 的射矩长度, 检测是否在天花板也是使用这个值"),
             ShowInInspector,
             OdinSerialize
         ]
-        public FramedFloat GroundCheckDistance { get; set; }
+        public float GroundCheckDistance { get; set; }
+
+        [
+            BoxGroup("射线检测"),
+            Tooltip("用于检测玩家是否 在地面 的射矩宽度, 检测是否在天花板也是使用这个值"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float GroundCheckWidth { get; set; }
+
+        [
+            BoxGroup("射线检测"),
+            Tooltip("用于检测玩家是否 能抓住平台边缘 的Top射矩的Y偏移"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float PlatformTopCheckBoxOffsetY { get; set; }
+
+        [
+            BoxGroup("射线检测"),
+            Tooltip("用于检测玩家是否 能抓住平台边缘 的Top射矩的height"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float PlatformTopCheckBoxHeight { get; set; }
+
+        [
+            BoxGroup("射线检测"),
+            Tooltip("用于检测玩家是否 能抓住平台边缘 的Buttom射矩的Y偏移"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float PlatformButtomCheckBoxOffsetY { get; set; }
+
+        [
+            BoxGroup("射线检测"),
+            Tooltip("用于检测玩家是否 能抓住平台边缘 的Buttom射矩的height"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float PlatformButtomCheckBoxHeight { get; set; }
+
+        [
+            BoxGroup("射线检测"),
+            Tooltip("用于检测玩家是否 能抓住平台边缘 的射矩的宽度"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float PlatformCheckBoxWidth { get; set; }
+
+        [
+            BoxGroup("射线检测"),
+            Tooltip("用于检测玩家是否 能抓住平台边缘 的射矩的X偏移"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public float PlatformCheckBoxOffsetX { get; set; }
 
         #endregion // 物理设置
 

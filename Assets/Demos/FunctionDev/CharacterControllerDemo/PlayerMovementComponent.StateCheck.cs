@@ -37,7 +37,7 @@ namespace CharacterControllerDemo
         {
             var hit = Physics2D.BoxCast(
                 mTransform.position,
-                new Vector2(1.0f, 1.0f),
+                new Vector2(GroundCheckWidth, 1.0f),
                 0,
                 Vector2.down,
                 GroundCheckDistance + CapsuleColliderSize().y * 0.5f,
@@ -63,7 +63,7 @@ namespace CharacterControllerDemo
         {
             var hit = Physics2D.BoxCast(
                 mTransform.position,
-                new Vector2(1.0f, 1.0f),
+                new Vector2(GroundCheckWidth, 1.0f),
                 0,
                 Vector2.up,
                 GroundCheckDistance + CapsuleColliderSize().y * 0.5f,
@@ -103,7 +103,7 @@ namespace CharacterControllerDemo
             CurrentMovementState == PlayerMoveState.Jumping
             || CurrentMovementState == PlayerMoveState.Apex;
 
-        public bool IsFalling() => CurrentMovementState == PlayerMoveState.OnAir;
+        public bool IsFalling() => Velocity.y < 0;
 
         public bool IsAtJumpApex() => CurrentMovementState == PlayerMoveState.Apex;
     }
