@@ -47,9 +47,9 @@ public class BoxCastDebugger : MonoBehaviour
     {
         // Top Box 检测
         Vector2 topBoxPos =
-            (Vector2)transform.position
+            (Vector2)playerTransform.position
             + new Vector2(
-                playerMovement.PlatformCheckBoxOffsetX,
+                playerMovement.PlatformCheckBoxOffsetX * Mathf.Sign(playerMovement.Velocity.x),
                 playerMovement.PlatformTopCheckBoxOffsetY
             );
 
@@ -70,9 +70,9 @@ public class BoxCastDebugger : MonoBehaviour
 
         // Bottom Box 检测
         Vector2 bottomBoxPos =
-            (Vector2)transform.position
+            (Vector2)playerTransform.position
             + new Vector2(
-                playerMovement.PlatformCheckBoxOffsetX,
+                playerMovement.PlatformCheckBoxOffsetX * Mathf.Sign(playerMovement.Velocity.x),
                 playerMovement.PlatformButtomCheckBoxOffsetY
             );
 

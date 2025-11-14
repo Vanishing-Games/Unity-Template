@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using CharacterControllerDemo;
 using Core;
+using UnityEngine;
 using VanishingGames.ECC.Runtime;
 
 public abstract class PlayerGrabCapabilityBase : PlayerMoveCapability
@@ -16,6 +17,28 @@ public abstract class PlayerGrabCapabilityBase : PlayerMoveCapability
 
 public class PlayerGrabEnterCapability : PlayerGrabCapabilityBase
 {
+    protected override void OnActivate()
+    {
+        base.OnActivate();
+        mOwner.BlockCapabilities(
+            new[]
+            {
+                EccTag.Move,
+                EccTag.Gravity,
+                EccTag.Jump,
+                EccTag.CollideAndSlide,
+                EccTag.GeometricDepenetration,
+            },
+            this
+        );
+    }
+
+    protected override void OnDeactivate()
+    {
+        base.OnDeactivate();
+        mOwner.UnblockCapabilities(this);
+    }
+
     protected override bool OnShouldActivate()
     {
         if (!VgInput.GetButton(InputAction.Grab))
@@ -24,20 +47,29 @@ public class PlayerGrabEnterCapability : PlayerGrabCapabilityBase
         if (!mPlayerMovementComponent.IsFalling())
             return false;
 
-        // if (!mPlayerMovementComponent.IsInGrabZone())
-        //     return false;
+        if (!mPlayerMovementComponent.GrabCheck_Platform())
+            return false;
 
         return true;
     }
 
     protected override bool OnShouldDeactivate()
     {
+        if (VgInput.GetButton(InputAction.Grab))
+            return true;
+
+        if (mPlayerMovementComponent.IsFalling())
+            return true;
+
+        if (mPlayerMovementComponent.GrabCheck_Platform())
+            return true;
+
         return false;
     }
 
     protected override void OnTick(float deltaTime)
     {
-        // Do nothing
+        mPlayerMovementComponent.Velocity = Vector2.zero;
     }
 }
 

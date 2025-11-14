@@ -80,17 +80,29 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: GroundCheckDistance
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
       Entry: 4
-      Data: 0.001
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0.1
+    - Name: GroundCheckWidth
+      Entry: 4
+      Data: 0.5
+    - Name: PlatformTopCheckBoxOffsetY
+      Entry: 4
+      Data: 0.4
+    - Name: PlatformTopCheckBoxHeight
+      Entry: 4
+      Data: 0.3
+    - Name: PlatformButtomCheckBoxOffsetY
+      Entry: 4
+      Data: 0
+    - Name: PlatformButtomCheckBoxHeight
+      Entry: 4
+      Data: 0.2
+    - Name: PlatformCheckBoxWidth
+      Entry: 4
+      Data: 1
+    - Name: PlatformCheckBoxOffsetX
+      Entry: 4
+      Data: 0.7
     - Name: JumpSpeedY
       Entry: 7
       Data: Core.FramedFloat, Core
@@ -358,7 +370,7 @@ MonoBehaviour:
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 21
+      Data: 22
     - Name: 
       Entry: 7
       Data: 3|PlayerGroundCheckCapability, CharacterControllerDemo
@@ -1017,6 +1029,37 @@ MonoBehaviour:
     - Name: mColliderSkinWidth
       Entry: 4
       Data: 0.03
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 45|PlayerGrabEnterCapability, CharacterControllerDemo
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 3
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 0
+    - Name: Tags
+      Entry: 7
+      Data: 46|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

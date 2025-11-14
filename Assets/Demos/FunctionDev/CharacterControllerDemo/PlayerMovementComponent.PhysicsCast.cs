@@ -16,27 +16,35 @@ namespace CharacterControllerDemo
         {
             var pos =
                 (Vector2)mTransform.position
-                + new Vector2(PlatformCheckBoxOffsetX, PlatformTopCheckBoxOffsetY);
+                + new Vector2(
+                    PlatformCheckBoxOffsetX * Mathf.Sign(Velocity.x),
+                    PlatformTopCheckBoxOffsetY
+                );
 
             var hit = Physics2D.OverlapBox(
                 pos,
                 new Vector2(PlatformCheckBoxWidth, PlatformTopCheckBoxHeight),
-                0
+                0,
+                LayerMask.GetMask("Static Object")
             );
 
-            return hit != null;
+            return hit == null;
         }
 
         private bool PlatformGrabCheck_ButtomBoxCheck()
         {
             var pos =
                 (Vector2)mTransform.position
-                + new Vector2(PlatformCheckBoxOffsetX, PlatformButtomCheckBoxOffsetY);
+                + new Vector2(
+                    PlatformCheckBoxOffsetX * Mathf.Sign(Velocity.x),
+                    PlatformButtomCheckBoxOffsetY
+                );
 
             var hit = Physics2D.OverlapBox(
                 pos,
                 new Vector2(PlatformCheckBoxWidth, PlatformButtomCheckBoxHeight),
-                0
+                0,
+                LayerMask.GetMask("Static Object")
             );
 
             return hit != null;

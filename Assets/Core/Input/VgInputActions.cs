@@ -267,7 +267,7 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0403a009-01c9-4d97-8c19-ed45a92c8c37"",
-                    ""path"": ""<Keyboard>/k"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
