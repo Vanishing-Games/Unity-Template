@@ -20,6 +20,12 @@ public class BoxCastDebugger : MonoBehaviour
     [Tooltip("底部盒子的基础颜色")]
     public Color bottomBoxColor = Color.cyan;
 
+    [Tooltip("地面检测的基础颜色")]
+    public Color groundCheckColor = Color.green;
+
+    [Tooltip("天花板检测的基础颜色")]
+    public Color ceilingCheckColor = Color.red;
+
     [Tooltip("碰撞检测到时颜色变深的程度 (0-1)")]
     [Range(0f, 1f)]
     public float darkenAmount = 0.5f;
@@ -41,6 +47,8 @@ public class BoxCastDebugger : MonoBehaviour
             return;
 
         DrawPlatformGrabChecks();
+        DrawGroundCheck();
+        DrawCeilingCheck();
     }
 
     private void DrawPlatformGrabChecks()
@@ -66,7 +74,10 @@ public class BoxCastDebugger : MonoBehaviour
         Gizmos.color = topColor;
 
         // 绘制顶部盒子
-        Gizmos.DrawCube(new Vector3(topBoxPos.x, topBoxPos.y, 0), new Vector3(topBoxSize.x, topBoxSize.y, 1));
+        Gizmos.DrawCube(
+            new Vector3(topBoxPos.x, topBoxPos.y, 0),
+            new Vector3(topBoxSize.x, topBoxSize.y, 1)
+        );
 
         // Bottom Box 检测
         Vector2 bottomBoxPos =
@@ -89,7 +100,10 @@ public class BoxCastDebugger : MonoBehaviour
         Gizmos.color = bottomColor;
 
         // 绘制底部盒子
-        Gizmos.DrawCube(new Vector3(bottomBoxPos.x, bottomBoxPos.y, 0), new Vector3(bottomBoxSize.x, bottomBoxSize.y, 1));
+        Gizmos.DrawCube(
+            new Vector3(bottomBoxPos.x, bottomBoxPos.y, 0),
+            new Vector3(bottomBoxSize.x, bottomBoxSize.y, 1)
+        );
     }
 
     /// <summary>
@@ -102,6 +116,96 @@ public class BoxCastDebugger : MonoBehaviour
             color.g * (1f - darkenAmount),
             color.b * (1f - darkenAmount),
             color.a
+        );
+    }
+
+    private void DrawGroundCheck()
+    {
+        // 获取检测参数
+        Vector2 startPos = playerTransform.position;
+        Vector2 boxSize = new Vector2(playerMovement.GroundCheckWidth, 1.0f);
+        Vector2 direction = Vector2.down;
+        float distance =
+            playerMovement.GroundCheckDistance + playerMovement.CapsuleColliderSize().y * 0.5f;
+
+        // 执行 BoxCast 检测
+        RaycastHit2D hit = Physics2D.BoxCast(
+            startPos,
+            boxSize,
+            0,
+            direction,
+            distance,
+            LayerMask.GetMask("Static Object")
+        );
+
+        bool hasHit = hit.collider != null;
+        Color color = hasHit ? DarkenColor(groundCheckColor) : groundCheckColor;
+        color.a = gizmoAlpha;
+
+        // 绘制起始盒子
+        Gizmos.color = color;
+        Gizmos.DrawWireCube(
+            new Vector3(startPos.x, startPos.y, 0),
+            new Vector3(boxSize.x, boxSize.y, 1)
+        );
+
+        // 计算结束位置
+        Vector2 endPos = hasHit
+            ? startPos + direction * hit.distance
+            : startPos + direction * distance;
+
+        // 绘制结束盒子
+        Gizmos.DrawCube(new Vector3(endPos.x, endPos.y, 0), new Vector3(boxSize.x, boxSize.y, 1));
+
+        // 绘制连接线
+        Gizmos.DrawLine(
+            new Vector3(startPos.x, startPos.y - boxSize.y * 0.5f, 0),
+            new Vector3(endPos.x, endPos.y + boxSize.y * 0.5f, 0)
+        );
+    }
+
+    private void DrawCeilingCheck()
+    {
+        // 获取检测参数
+        Vector2 startPos = playerTransform.position;
+        Vector2 boxSize = new Vector2(playerMovement.GroundCheckWidth, 1.0f);
+        Vector2 direction = Vector2.up;
+        float distance =
+            playerMovement.GroundCheckDistance + playerMovement.CapsuleColliderSize().y * 0.5f;
+
+        // 执行 BoxCast 检测
+        RaycastHit2D hit = Physics2D.BoxCast(
+            startPos,
+            boxSize,
+            0,
+            direction,
+            distance,
+            LayerMask.GetMask("Static Object")
+        );
+
+        bool hasHit = hit.collider != null;
+        Color color = hasHit ? DarkenColor(ceilingCheckColor) : ceilingCheckColor;
+        color.a = gizmoAlpha;
+
+        // 绘制起始盒子
+        Gizmos.color = color;
+        Gizmos.DrawWireCube(
+            new Vector3(startPos.x, startPos.y, 0),
+            new Vector3(boxSize.x, boxSize.y, 1)
+        );
+
+        // 计算结束位置
+        Vector2 endPos = hasHit
+            ? startPos + direction * hit.distance
+            : startPos + direction * distance;
+
+        // 绘制结束盒子
+        Gizmos.DrawCube(new Vector3(endPos.x, endPos.y, 0), new Vector3(boxSize.x, boxSize.y, 1));
+
+        // 绘制连接线
+        Gizmos.DrawLine(
+            new Vector3(startPos.x, startPos.y + boxSize.y * 0.5f, 0),
+            new Vector3(endPos.x, endPos.y - boxSize.y * 0.5f, 0)
         );
     }
 }
