@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae1ca2bdc1984585b33ef0403cc49e2, type: 3}
+  m_Name: EveryThingSheet
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 7721b09387d0d4a8095deaa910aa01fc, type: 2}
+    - {fileID: 11400000, guid: f194445d80f524e63a13518ba9846b23, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: mComponents
+      Entry: 6
+      Data: 
+    - Name: mCapabilities
+      Entry: 6
+      Data: 
+    - Name: mCapabilitySheets
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccCapabilitySheet,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

@@ -1,0 +1,33 @@
+root = true  # 标记这是根配置文件，停止向上查找父目录配置
+
+# All files
+[*]
+indent_style = tab                   # 使用制表符 (Tab) 进行缩进
+insert_final_newline = true          # 文件末尾自动添加空行
+trim_trailing_whitespace = true      # 自动删除行尾多余空格
+charset = utf-8                      # 文件编码为 UTF-8，支持中文等多语言
+
+# C# files
+[*.cs]
+# Indentation
+indent_size = 4                      # C# 文件使用 4 个空格宽度的缩进
+
+# Disable diagnostics
+dotnet_diagnostic.RCS1001.severity = none  # 禁用"when expression spans over multiple lines"警告 (Roslynator)
+dotnet_diagnostic.RCS1169.severity = none  # 禁用"标记字段为只读"警告 (Roslynator)
+dotnet_diagnostic.RCS1188.severity = none  # 禁用"移除不必要初始化"警告 (Roslynator)
+dotnet_diagnostic.RCS1213.severity = none  # 禁用"未使用的方法"警告 (Roslynator)
+dotnet_diagnostic.IDE0003.severity = none  # 禁用"可以简化名称"提示
+dotnet_diagnostic.IDE0130.severity = none  # 禁用"命名空间与文件夹结构不符"提示
+dotnet_diagnostic.IDE0044.severity = none  # 禁用"添加只读修饰符"提示
+dotnet_diagnostic.IDE0052.severity = none  # 禁用"删除未读取的私有成员"提示
+
+# New line preferences
+csharp_new_line_before_open_brace = all    # 所有左大括号前换行 (Allman 风格)
+csharp_new_line_before_else = true         # else 语句前换行
+csharp_new_line_before_catch = true        # catch 语句前换行
+csharp_new_line_before_finally = true      # finally 语句前换行
+
+# Code style rules
+dotnet_sort_system_directives_first = true         # System 命名空间排在最前面
+csharp_preserve_single_line_blocks = true          # 允许保留单行代码块
