@@ -14,14 +14,19 @@ public class BoxCastDebugger : MonoBehaviour
     public Transform playerTransform;
 
     [Header("Debug Settings")]
-    [Tooltip("检测到碰撞时的颜色")]
-    public Color hitColor = Color.green;
+    [Tooltip("顶部盒子的基础颜色")]
+    public Color topBoxColor = Color.yellow;
 
-    [Tooltip("未检测到碰撞时的颜色")]
-    public Color noHitColor = Color.red;
+    [Tooltip("底部盒子的基础颜色")]
+    public Color bottomBoxColor = Color.cyan;
 
-    [Tooltip("是否显示碰撞检测结果文本")]
-    public bool showResultText = true;
+    [Tooltip("碰撞检测到时颜色变深的程度 (0-1)")]
+    [Range(0f, 1f)]
+    public float darkenAmount = 0.5f;
+
+    [Tooltip("Gizmo 透明度")]
+    [Range(0f, 1f)]
+    public float gizmoAlpha = 0.5f;
 
     void Start()
     {
@@ -40,34 +45,63 @@ public class BoxCastDebugger : MonoBehaviour
 
     private void DrawPlatformGrabChecks()
     {
-        // Top Box
-        Gizmos.DrawCube(
-            transform.position
-                + new Vector3(
-                    playerMovement.PlatformCheckBoxOffsetX,
-                    playerMovement.PlatformTopCheckBoxOffsetY,
-                    0
-                ),
-            new Vector3(
-                playerMovement.PlatformCheckBoxWidth,
-                playerMovement.PlatformTopCheckBoxHeight,
-                1
-            )
+        // Top Box 检测
+        Vector2 topBoxPos =
+            (Vector2)transform.position
+            + new Vector2(
+                playerMovement.PlatformCheckBoxOffsetX,
+                playerMovement.PlatformTopCheckBoxOffsetY
+            );
+
+        Vector2 topBoxSize = new Vector2(
+            playerMovement.PlatformCheckBoxWidth,
+            playerMovement.PlatformTopCheckBoxHeight
         );
 
-        // Buttom Box
-        Gizmos.DrawCube(
-            transform.position
-                + new Vector3(
-                    playerMovement.PlatformCheckBoxOffsetX,
-                    playerMovement.PlatformButtomCheckBoxOffsetY,
-                    0
-                ),
-            new Vector3(
-                playerMovement.PlatformCheckBoxWidth,
-                playerMovement.PlatformButtomCheckBoxHeight,
-                1
-            )
+        bool topBoxHit = Physics2D.OverlapBox(topBoxPos, topBoxSize, 0) != null;
+
+        // 设置顶部盒子颜色
+        Color topColor = topBoxHit ? DarkenColor(topBoxColor) : topBoxColor;
+        topColor.a = gizmoAlpha;
+        Gizmos.color = topColor;
+
+        // 绘制顶部盒子
+        Gizmos.DrawCube(new Vector3(topBoxPos.x, topBoxPos.y, 0), new Vector3(topBoxSize.x, topBoxSize.y, 1));
+
+        // Bottom Box 检测
+        Vector2 bottomBoxPos =
+            (Vector2)transform.position
+            + new Vector2(
+                playerMovement.PlatformCheckBoxOffsetX,
+                playerMovement.PlatformButtomCheckBoxOffsetY
+            );
+
+        Vector2 bottomBoxSize = new Vector2(
+            playerMovement.PlatformCheckBoxWidth,
+            playerMovement.PlatformButtomCheckBoxHeight
+        );
+
+        bool bottomBoxHit = Physics2D.OverlapBox(bottomBoxPos, bottomBoxSize, 0) != null;
+
+        // 设置底部盒子颜色
+        Color bottomColor = bottomBoxHit ? DarkenColor(bottomBoxColor) : bottomBoxColor;
+        bottomColor.a = gizmoAlpha;
+        Gizmos.color = bottomColor;
+
+        // 绘制底部盒子
+        Gizmos.DrawCube(new Vector3(bottomBoxPos.x, bottomBoxPos.y, 0), new Vector3(bottomBoxSize.x, bottomBoxSize.y, 1));
+    }
+
+    /// <summary>
+    /// 将颜色变深
+    /// </summary>
+    private Color DarkenColor(Color color)
+    {
+        return new Color(
+            color.r * (1f - darkenAmount),
+            color.g * (1f - darkenAmount),
+            color.b * (1f - darkenAmount),
+            color.a
         );
     }
 }

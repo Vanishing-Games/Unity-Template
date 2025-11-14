@@ -98,6 +98,15 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Grab"",
+                    ""type"": ""Button"",
+                    ""id"": ""2689af08-d97b-4beb-871d-30abd6c02b3a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -254,6 +263,39 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0403a009-01c9-4d97-8c19-ed45a92c8c37"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""626f3481-e606-4fb6-974a-458bd11cc6a3"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05ae315d-bdb3-46ec-a3ae-3ff98603c2e7"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -298,6 +340,7 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_LeftTrigger = m_Gameplay.FindAction("LeftTrigger", throwIfNotFound: true);
         m_Gameplay_RightTrigger = m_Gameplay.FindAction("RightTrigger", throwIfNotFound: true);
         m_Gameplay_MousePosition = m_Gameplay.FindAction("MousePosition", throwIfNotFound: true);
+        m_Gameplay_Grab = m_Gameplay.FindAction("Grab", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -367,6 +410,7 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_LeftTrigger;
     private readonly InputAction m_Gameplay_RightTrigger;
     private readonly InputAction m_Gameplay_MousePosition;
+    private readonly InputAction m_Gameplay_Grab;
     public struct GameplayActions
     {
         private @VgInputActions m_Wrapper;
@@ -379,6 +423,7 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
         public InputAction @LeftTrigger => m_Wrapper.m_Gameplay_LeftTrigger;
         public InputAction @RightTrigger => m_Wrapper.m_Gameplay_RightTrigger;
         public InputAction @MousePosition => m_Wrapper.m_Gameplay_MousePosition;
+        public InputAction @Grab => m_Wrapper.m_Gameplay_Grab;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -412,6 +457,9 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
+            @Grab.started += instance.OnGrab;
+            @Grab.performed += instance.OnGrab;
+            @Grab.canceled += instance.OnGrab;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -440,6 +488,9 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
+            @Grab.started -= instance.OnGrab;
+            @Grab.performed -= instance.OnGrab;
+            @Grab.canceled -= instance.OnGrab;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -485,5 +536,6 @@ public partial class @VgInputActions: IInputActionCollection2, IDisposable
         void OnLeftTrigger(InputAction.CallbackContext context);
         void OnRightTrigger(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnGrab(InputAction.CallbackContext context);
     }
 }
