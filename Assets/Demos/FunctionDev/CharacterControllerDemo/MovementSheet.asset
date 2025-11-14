@@ -32,83 +32,317 @@ MonoBehaviour:
       Entry: 7
       Data: 1|CharacterControllerDemo.PlayerMovementComponent, CharacterControllerDemo
     - Name: MaxVelocityX
-      Entry: 4
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
       Data: 5
+    - Name: Seconds
+      Entry: 4
+      Data: 0.0833333358
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: ClampVelocityX
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 5
+    - Name: Seconds
       Entry: 4
-      Data: 20
+      Data: 0.0833333358
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: ClampVelocityY
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 20
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: GravityAcceleration
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: GroundCheckDistance
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 0.1
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: JumpSpeedY
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: MinJumpScaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 0.5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: MaxJumpScaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 0.8
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: JumpExtraSpeedX
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 15
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: JumpBufferingUnscaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 0.3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: CoyoteJumpScaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 2
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: JumpApexModifiersScaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: JumpApexGravityValue
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 1
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: JumpApexSpeedLimitModifier
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 20
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: AccelerationOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: InverseAccelerationOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 20
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: DeAccelerationOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: AccelerationOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: InverseAccelerationOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: DeAccelerationOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: AccelerationWhileOverspeedOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: InverseAccelerationWhileOverspeedOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: DeAccelerationWhileOverspeedOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: AccelerationWhileOverspeedOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: InverseAccelerationWhileOverspeedOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: DeAccelerationWhileOverspeedOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
       Entry: 4
-      Data: 5
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

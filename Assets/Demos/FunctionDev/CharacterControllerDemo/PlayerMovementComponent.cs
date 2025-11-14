@@ -24,7 +24,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize,
         ]
-        public float MaxVelocityX { get; set; }
+        public FramedFloat MaxVelocityX { get; set; }
 
         [
             BoxGroup("运动状态"),
@@ -32,7 +32,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize,
         ]
-        public float ClampVelocityX { get; set; }
+        public FramedFloat ClampVelocityX { get; set; }
 
         [
             BoxGroup("运动状态"),
@@ -40,7 +40,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize,
         ]
-        public float ClampVelocityY { get; set; }
+        public FramedFloat ClampVelocityY { get; set; }
 
         #endregion // 运动状态
 
@@ -52,7 +52,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float GravityAcceleration { get; set; }
+        public FramedFloat GravityAcceleration { get; set; }
 
         #endregion // 重力设置
 
@@ -64,7 +64,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float GroundCheckDistance { get; set; }
+        public FramedFloat GroundCheckDistance { get; set; }
 
         #endregion // 物理设置
 
@@ -76,7 +76,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float JumpSpeedY { get; set; }
+        public FramedFloat JumpSpeedY { get; set; }
 
         [
             BoxGroup("跳跃设置"),
@@ -84,7 +84,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float MinJumpScaledTime { get; set; }
+        public FramedFloat MinJumpScaledTime { get; set; }
 
         [
             BoxGroup("跳跃设置"),
@@ -92,7 +92,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float MaxJumpScaledTime { get; set; }
+        public FramedFloat MaxJumpScaledTime { get; set; }
 
         #endregion // 跳跃设置
 
@@ -106,7 +106,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float JumpExtraSpeedX { get; set; }
+        public FramedFloat JumpExtraSpeedX { get; set; }
 
         #endregion // 跳跃设置-Jump Extra Speed
 
@@ -122,7 +122,7 @@ namespace CharacterControllerDemo
             OdinSerialize,
             ReadOnly
         ]
-        public float JumpBufferingUnscaledTime { get; set; } = 0.2f;
+        public FramedFloat JumpBufferingUnscaledTime { get; set; } = 0.2f;
 
 #endif // UNITY_EDITOR
         #endregion // 跳跃设置-Jump Buffering
@@ -137,7 +137,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float CoyoteJumpScaledTime { get; set; }
+        public FramedFloat CoyoteJumpScaledTime { get; set; }
 
         #endregion // 跳跃设置-Coyote Time
 
@@ -151,7 +151,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float JumpApexModifiersScaledTime { get; set; }
+        public FramedFloat JumpApexModifiersScaledTime { get; set; }
 
         [
             BoxGroup("跳跃设置-Apex Modifiers"),
@@ -159,7 +159,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float JumpApexGravityValue { get; set; }
+        public FramedFloat JumpApexGravityValue { get; set; }
 
         [
             BoxGroup("跳跃设置-Apex Modifiers"),
@@ -167,7 +167,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float JumpApexSpeedLimitModifier { get; set; }
+        public FramedFloat JumpApexSpeedLimitModifier { get; set; }
 
         #endregion // 跳跃设置-Apex Modifiers
 
@@ -179,7 +179,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float AccelerationOnGround { get; set; }
+        public FramedFloat AccelerationOnGround { get; set; }
 
         [
             BoxGroup("水平移动设置-地面"),
@@ -187,7 +187,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float InverseAccelerationOnGround { get; set; }
+        public FramedFloat InverseAccelerationOnGround { get; set; }
 
         [
             BoxGroup("水平移动设置-地面"),
@@ -195,7 +195,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float DeAccelerationOnGround { get; set; }
+        public FramedFloat DeAccelerationOnGround { get; set; }
 
         #endregion // 水平移动设置-地面
 
@@ -207,7 +207,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float AccelerationOnAir { get; set; }
+        public FramedFloat AccelerationOnAir { get; set; }
 
         [
             BoxGroup("水平移动设置-天空"),
@@ -215,7 +215,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float InverseAccelerationOnAir { get; set; }
+        public FramedFloat InverseAccelerationOnAir { get; set; }
 
         [
             BoxGroup("水平移动设置-天空"),
@@ -223,7 +223,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float DeAccelerationOnAir { get; set; }
+        public FramedFloat DeAccelerationOnAir { get; set; }
 
         #endregion // 水平移动设置-天空
 
@@ -235,7 +235,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float AccelerationWhileOverspeedOnGround { get; set; }
+        public FramedFloat AccelerationWhileOverspeedOnGround { get; set; }
 
         [
             BoxGroup("水平移动设置-地面-超速"),
@@ -243,7 +243,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float InverseAccelerationWhileOverspeedOnGround { get; set; }
+        public FramedFloat InverseAccelerationWhileOverspeedOnGround { get; set; }
 
         [
             BoxGroup("水平移动设置-地面-超速"),
@@ -251,7 +251,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float DeAccelerationWhileOverspeedOnGround { get; set; }
+        public FramedFloat DeAccelerationWhileOverspeedOnGround { get; set; }
 
         #endregion // 水平移动设置-地面-超速
 
@@ -263,7 +263,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float AccelerationWhileOverspeedOnAir { get; set; }
+        public FramedFloat AccelerationWhileOverspeedOnAir { get; set; }
 
         [
             BoxGroup("水平移动设置-天空-超速"),
@@ -271,7 +271,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float InverseAccelerationWhileOverspeedOnAir { get; set; }
+        public FramedFloat InverseAccelerationWhileOverspeedOnAir { get; set; }
 
         [
             BoxGroup("水平移动设置-天空-超速"),
@@ -279,7 +279,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             OdinSerialize
         ]
-        public float DeAccelerationWhileOverspeedOnAir { get; set; }
+        public FramedFloat DeAccelerationWhileOverspeedOnAir { get; set; }
 
         #endregion // 水平移动设置-天空-超速
 
@@ -294,10 +294,10 @@ namespace CharacterControllerDemo
         public bool IsUnderCeiling { get; set; }
 
         [BoxGroup("辅助值状态"), Tooltip("玩家待在 地面上 的连续时长"), ShowInInspector, ReadOnly]
-        public float ScaledTimeOnGround { get; set; }
+        public FramedFloat ScaledTimeOnGround { get; set; }
 
         [BoxGroup("辅助值状态"), Tooltip("玩家待在 天空中 的连续时长"), ShowInInspector, ReadOnly]
-        public float ScaledTimeInAir { get; set; }
+        public FramedFloat ScaledTimeInAir { get; set; }
 
         [
             BoxGroup("辅助值状态"),
@@ -307,7 +307,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             ReadOnly,
         ]
-        public float JumpScaledTimeSinceStarted { get; set; }
+        public FramedFloat JumpScaledTimeSinceStarted { get; set; }
 
         [
             BoxGroup("辅助值状态"),
@@ -317,7 +317,7 @@ namespace CharacterControllerDemo
             ShowInInspector,
             ReadOnly,
         ]
-        public float JumpApexModifierScaledTimeSinceStarted { get; set; }
+        public FramedFloat JumpApexModifierScaledTimeSinceStarted { get; set; }
 
         #endregion // 辅助值状态
     }
