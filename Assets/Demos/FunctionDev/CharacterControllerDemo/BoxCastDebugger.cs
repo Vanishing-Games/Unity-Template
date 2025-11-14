@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using CharacterControllerDemo;
+using UnityEngine;
 using VanishingGames.ECC.Runtime;
 
 public class BoxCastDebugger : MonoBehaviour
@@ -30,7 +30,7 @@ public class BoxCastDebugger : MonoBehaviour
             .GetEccComponent<PlayerMovementComponent>();
     }
 
-	private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (playerMovement == null || playerTransform == null)
             return;
