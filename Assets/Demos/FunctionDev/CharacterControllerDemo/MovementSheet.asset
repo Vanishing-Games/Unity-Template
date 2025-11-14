@@ -36,10 +36,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 5
+      Data: 480
     - Name: Seconds
       Entry: 4
-      Data: 0.0833333358
+      Data: 8
     - Name: 
       Entry: 8
       Data: 
@@ -48,10 +48,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 5
+      Data: 1200
     - Name: Seconds
       Entry: 4
-      Data: 0.0833333358
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
@@ -60,10 +60,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 840
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 14
     - Name: 
       Entry: 8
       Data: 
@@ -72,10 +72,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 3600
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 60
     - Name: 
       Entry: 8
       Data: 
@@ -87,7 +87,7 @@ MonoBehaviour:
       Data: 0
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 0.001
     - Name: 
       Entry: 8
       Data: 
@@ -96,10 +96,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 720
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 12
     - Name: 
       Entry: 8
       Data: 
@@ -108,10 +108,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 4
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 0.06666667
     - Name: 
       Entry: 8
       Data: 
@@ -120,10 +120,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 11
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 0.183333337
     - Name: 
       Entry: 8
       Data: 
@@ -132,10 +132,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 240
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
@@ -156,10 +156,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 4
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 0.06666667
     - Name: 
       Entry: 8
       Data: 
@@ -204,10 +204,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 4500
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -216,10 +216,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 4500
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -228,10 +228,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 4500
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -240,10 +240,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 2700
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 45
     - Name: 
       Entry: 8
       Data: 
@@ -252,10 +252,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 2700
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 45
     - Name: 
       Entry: 8
       Data: 
@@ -264,10 +264,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 2700
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 45
     - Name: 
       Entry: 8
       Data: 
@@ -276,10 +276,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 2700
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 45
     - Name: 
       Entry: 8
       Data: 
@@ -288,10 +288,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 4500
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -300,10 +300,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 4500
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -312,10 +312,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 2700
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 45
     - Name: 
       Entry: 8
       Data: 
@@ -324,10 +324,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 2700
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 45
     - Name: 
       Entry: 8
       Data: 
@@ -336,10 +336,10 @@ MonoBehaviour:
       Data: Core.FramedFloat, Core
     - Name: Frames
       Entry: 3
-      Data: 0
+      Data: 2700
     - Name: Seconds
       Entry: 4
-      Data: 0
+      Data: 45
     - Name: 
       Entry: 8
       Data: 

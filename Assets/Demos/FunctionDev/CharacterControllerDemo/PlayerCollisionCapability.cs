@@ -189,7 +189,7 @@ namespace CharacterControllerDemo
 
         // csharpier-ignore-start
         public  const int RECURSIVE_DEPTH = 5;
-        public  float mColliderSkinWidth  = 0.05f;
+        public  float mColliderSkinWidth  = 0.001f;
         private RaycastHit2D mHit         = new ();
         // csharpier-ignore-end
 
