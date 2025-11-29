@@ -1,0 +1,2072 @@
+fileFormatVersion: 2
+guid: 571f0b12c15a0418b87c0032182c6388
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tilemap_oldCastle_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 968
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e26d48e5bffd45ebbdf3113bc28fdee
+      internalID: 1209878356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_1
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 968
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c64841e6fa6bc465d9439ac73e3eee55
+      internalID: -364087231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_2
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 968
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1da35a098e5b342c5b751c8c524393bb
+      internalID: 1155231313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_3
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 968
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50444198c60e24156a66b4d4f216552e
+      internalID: -1275200884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_4
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 968
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e70188c34d194470bb3e3e83747d788
+      internalID: -962023048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_5
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 968
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e9feab4f097e42afb530f85a93ee9a5
+      internalID: 455292401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_6
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 968
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78b7b436fdb714787aebaff4b6c9f93c
+      internalID: 1120911900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_7
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 904
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78c0741fa49ad4051b6e569112260bfa
+      internalID: 681793501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_8
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 904
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf60c11be4d68438ea47ff357062d2ef
+      internalID: -152484701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_9
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 904
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7cb2d696ad97412197410096b3a1606
+      internalID: 1472566567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_10
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 904
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34ed46239bfea46e7a949338ef1dd46d
+      internalID: 340328851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_11
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 904
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea7b00dc24ddf4b3eab0dbb91ed9811e
+      internalID: -1287776317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_12
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 904
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9a40299f8df14a1dae27f7bb96444ec
+      internalID: -2068184106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_13
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 904
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d22b4d07cb7748908043ce1eba7e209
+      internalID: 1009622441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_14
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 840
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0603acb4e0d01477887818c6d03d8b3b
+      internalID: 1619472651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_15
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 840
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ea014c2bfbf64c0fb4c062d61d42183
+      internalID: -552248901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_16
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 840
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a89c216a02f34c5da067f4285beccb8
+      internalID: 606192403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_17
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 840
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0242334c854f41b886efd5ceb24ca5d
+      internalID: -1668793295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_18
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 840
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 111deb0c42786433b8cc8ebfd5a63ea4
+      internalID: -1797101557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_19
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 840
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20444859bd1ae4e88a70d869f7ba2c13
+      internalID: 961458782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_20
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 840
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ece9bbfea035f444994bcdf37dd42eda
+      internalID: -139468410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_21
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 776
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeb07f2bf3246433f99a26d4b4b32505
+      internalID: -516635447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_22
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 776
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdc79a9a727cb4fcba238489034bb486
+      internalID: 2072889319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_23
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 776
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea0a18e0dbfbf492c9d225cbff719baf
+      internalID: 340687784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_24
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 776
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7918dd5d3e2424da6ab75a81c272101b
+      internalID: -1286410470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_25
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 776
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2dd8d2195279454e9c5488a7db07ecd
+      internalID: 1972580769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_26
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 776
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09070b885ab0743b0b2010e4053ce47f
+      internalID: 1329524381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_27
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 776
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: faf399b8628e34a99bc27978ab62eb4a
+      internalID: -336925470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_28
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 712
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c16cb0c43c2a4f6fa8fd12654137ccc
+      internalID: 1506322534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_29
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 712
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d05b114656522465b95f02af4ca99e51
+      internalID: 1223267551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_30
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 712
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76aadc739dec347978abea5df64f9d8d
+      internalID: 674485686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_31
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 712
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e79b08e27652472585c0372c26dfdc6
+      internalID: 596808719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_32
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 648
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e89758fa872540529f10a4312e4a6b5
+      internalID: 1299390501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_33
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 648
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 565765172e4dd42119c1dc6d65ea74f2
+      internalID: 2087405736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_34
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 648
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d5f6e0870aa04ab8b22d1500826694c
+      internalID: 107209786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_35
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 648
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ff672e24bf50402390d1e6c5120d62a
+      internalID: -983649221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_36
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 648
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d900276ff38a040f49b07564cddcb619
+      internalID: 1893033358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_37
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 584
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 240093d40f0574eaa815c00cd4aa5bbb
+      internalID: 4876357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_38
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 584
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd48a004acdb94a3d956c0795c287e3f
+      internalID: 946559698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_39
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 584
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ede392eb6cc4a48b992a12e419436c51
+      internalID: 1701856340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_40
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 584
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56588eeb70ad1449099695645edae73a
+      internalID: -310143229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_41
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 584
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8286a57bd082a4e688ba8845a99d13ad
+      internalID: 295220911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_42
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 584
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 172056e767ee04b5d9323574b025f290
+      internalID: -263457887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_43
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 520
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b83c4fcad93d44f69846b2039a12710f
+      internalID: 82868270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_44
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 520
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15a07f54c2fa74b5cb083070e2d7847b
+      internalID: -1763370909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_45
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 520
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c754690acf124d88bba5306ac59ebc3
+      internalID: -1431462088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_46
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 520
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88b1dc521702d41d7aa3e5431e62980f
+      internalID: -15488869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_47
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 520
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6cecbf2d87a74cec8b0261fd80ca71b
+      internalID: -1261761421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_48
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 520
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bbd4a0836e5b41968faf0b100c89afa
+      internalID: -2092401091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_49
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 456
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a685ef5b08f484129be26e5d0a7ef6f8
+      internalID: -967554361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_50
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 456
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e6511dc4111f40999ff49f5dd0a9c5a
+      internalID: 698111154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_51
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 456
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9463ba527167450eb7c2ee764e6bddd
+      internalID: 501349662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_52
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 456
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4dc750972f7d4b5e82d063bda70b276
+      internalID: 144027071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_53
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 456
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eee3298069f743668a674270e63ef8e
+      internalID: 133899984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_54
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 456
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40ee555aeed014449a55787a92330e79
+      internalID: -1503272746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_55
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 392
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13080e37ff77f4c50bd4b4144cfb51d9
+      internalID: 1825660518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_56
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 392
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92bc6c05e239d4c2fa89afc3f13dfed4
+      internalID: -784186097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_57
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 392
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60b9aa58244404ef7b295092da7842bf
+      internalID: 702605570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_58
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 392
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efd5e96aab78d451fad9daa9901834ae
+      internalID: 1860726702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_59
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 392
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 877126104eb5c4f719efe71abf5910e8
+      internalID: -495898686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_60
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 392
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31a9234f774fe40edb4d893b12fc3b42
+      internalID: 532085560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_61
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 328
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e64c2b938a514a088e6daaff1dfa900
+      internalID: 438912655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_62
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 328
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8b3a9041a2094b808b9f21fafaae155
+      internalID: 1071059169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_63
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 328
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c075051cebd7416bb4eb738497adbd1
+      internalID: 1849486933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_64
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 328
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6f7ee7782b3744f783e292fbd64bb2a
+      internalID: -2023484710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_65
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 328
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cbc028e551df4dd3895a69601b48f41
+      internalID: 342852079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_66
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 264
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 279454746f3834a3d9ad52e5c9d79a1b
+      internalID: 1150091329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_67
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 264
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1942ed38ae0f74551947310ec0463300
+      internalID: 703336222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_68
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 264
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe07b8d6778bf4ef59af5fdacbf2aec7
+      internalID: -1699089887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_69
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 264
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2835eb7a94da34a4196e52ad28523dd7
+      internalID: 1412913900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_70
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 264
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb91cf613a8344889a4aec10a2ef6465
+      internalID: -245284632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_71
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 264
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e991455ba646749f2b17f9c39a3699d3
+      internalID: 748374239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_72
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b0202d31d52c4f7aa05426089a0d082
+      internalID: 1997485191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_73
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20d2ff47ccc8246a488b9f63430101ae
+      internalID: 1608692390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_74
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a7b2027cb59b4747abfccd9995b0d2b
+      internalID: 896608673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_75
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bbed015e26a54d3f9d6e570301ef234
+      internalID: 640198254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_76
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 551e7e13956524d59b3530542568d06d
+      internalID: 366473935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_77
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc4fe6bff224140d4a2547044e7082f7
+      internalID: -263670948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_78
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 342e904700dad42af9add6cd3e95e5cd
+      internalID: 1466101687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_79
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef7862c6df1a4498b8b1f9319860bb6e
+      internalID: -1065911859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_80
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fc0264a0e8434211babeec918e8ad19
+      internalID: -65699520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_81
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9194cc871f9d6455f8041454762d8ef1
+      internalID: -668715320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_82
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00e296a0807784831939c74e0864affe
+      internalID: 1256350373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_83
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6943a2876f27d4799b5eada1071552da
+      internalID: 551435981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_84
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21f392924aba041b59a40d5c3047c574
+      internalID: 818685060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_85
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ca7b21d7d6734f89a5c8315d40d424a
+      internalID: -1071475365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_86
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b99f58025137740f6b79b8d235a5a1a1
+      internalID: -900619081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_87
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b593649389c147a48f9a422053320a3
+      internalID: -131615345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_oldCastle_88
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c061b841dea748cd86aad16c916d9e8
+      internalID: -390897653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      tilemap_oldCastle_0: 1209878356
+      tilemap_oldCastle_1: -364087231
+      tilemap_oldCastle_10: 340328851
+      tilemap_oldCastle_11: -1287776317
+      tilemap_oldCastle_12: -2068184106
+      tilemap_oldCastle_13: 1009622441
+      tilemap_oldCastle_14: 1619472651
+      tilemap_oldCastle_15: -552248901
+      tilemap_oldCastle_16: 606192403
+      tilemap_oldCastle_17: -1668793295
+      tilemap_oldCastle_18: -1797101557
+      tilemap_oldCastle_19: 961458782
+      tilemap_oldCastle_2: 1155231313
+      tilemap_oldCastle_20: -139468410
+      tilemap_oldCastle_21: -516635447
+      tilemap_oldCastle_22: 2072889319
+      tilemap_oldCastle_23: 340687784
+      tilemap_oldCastle_24: -1286410470
+      tilemap_oldCastle_25: 1972580769
+      tilemap_oldCastle_26: 1329524381
+      tilemap_oldCastle_27: -336925470
+      tilemap_oldCastle_28: 1506322534
+      tilemap_oldCastle_29: 1223267551
+      tilemap_oldCastle_3: -1275200884
+      tilemap_oldCastle_30: 674485686
+      tilemap_oldCastle_31: 596808719
+      tilemap_oldCastle_32: 1299390501
+      tilemap_oldCastle_33: 2087405736
+      tilemap_oldCastle_34: 107209786
+      tilemap_oldCastle_35: -983649221
+      tilemap_oldCastle_36: 1893033358
+      tilemap_oldCastle_37: 4876357
+      tilemap_oldCastle_38: 946559698
+      tilemap_oldCastle_39: 1701856340
+      tilemap_oldCastle_4: -962023048
+      tilemap_oldCastle_40: -310143229
+      tilemap_oldCastle_41: 295220911
+      tilemap_oldCastle_42: -263457887
+      tilemap_oldCastle_43: 82868270
+      tilemap_oldCastle_44: -1763370909
+      tilemap_oldCastle_45: -1431462088
+      tilemap_oldCastle_46: -15488869
+      tilemap_oldCastle_47: -1261761421
+      tilemap_oldCastle_48: -2092401091
+      tilemap_oldCastle_49: -967554361
+      tilemap_oldCastle_5: 455292401
+      tilemap_oldCastle_50: 698111154
+      tilemap_oldCastle_51: 501349662
+      tilemap_oldCastle_52: 144027071
+      tilemap_oldCastle_53: 133899984
+      tilemap_oldCastle_54: -1503272746
+      tilemap_oldCastle_55: 1825660518
+      tilemap_oldCastle_56: -784186097
+      tilemap_oldCastle_57: 702605570
+      tilemap_oldCastle_58: 1860726702
+      tilemap_oldCastle_59: -495898686
+      tilemap_oldCastle_6: 1120911900
+      tilemap_oldCastle_60: 532085560
+      tilemap_oldCastle_61: 438912655
+      tilemap_oldCastle_62: 1071059169
+      tilemap_oldCastle_63: 1849486933
+      tilemap_oldCastle_64: -2023484710
+      tilemap_oldCastle_65: 342852079
+      tilemap_oldCastle_66: 1150091329
+      tilemap_oldCastle_67: 703336222
+      tilemap_oldCastle_68: -1699089887
+      tilemap_oldCastle_69: 1412913900
+      tilemap_oldCastle_7: 681793501
+      tilemap_oldCastle_70: -245284632
+      tilemap_oldCastle_71: 748374239
+      tilemap_oldCastle_72: 1997485191
+      tilemap_oldCastle_73: 1608692390
+      tilemap_oldCastle_74: 896608673
+      tilemap_oldCastle_75: 640198254
+      tilemap_oldCastle_76: 366473935
+      tilemap_oldCastle_77: -263670948
+      tilemap_oldCastle_78: 1466101687
+      tilemap_oldCastle_79: -1065911859
+      tilemap_oldCastle_8: -152484701
+      tilemap_oldCastle_80: -65699520
+      tilemap_oldCastle_81: -668715320
+      tilemap_oldCastle_82: 1256350373
+      tilemap_oldCastle_83: 551435981
+      tilemap_oldCastle_84: 818685060
+      tilemap_oldCastle_85: -1071475365
+      tilemap_oldCastle_86: -900619081
+      tilemap_oldCastle_87: -131615345
+      tilemap_oldCastle_88: -390897653
+      tilemap_oldCastle_9: 1472566567
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
