@@ -1,0 +1,382 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae1ca2bdc1984585b33ef0403cc49e2, type: 3}
+  m_Name: Sheet_Oris
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: mComponents
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccComponent,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|Oris1.PlayerMovementComponent, CharacterControllerDemo 1
+    - Name: MaxVelocityX
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ClampVelocityX
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ClampVelocityY
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GravityAcceleration
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GroundCheckDistance
+      Entry: 4
+      Data: 0
+    - Name: GroundCheckWidth
+      Entry: 4
+      Data: 0
+    - Name: PlatformTopCheckBoxOffsetY
+      Entry: 4
+      Data: 0
+    - Name: PlatformTopCheckBoxHeight
+      Entry: 4
+      Data: 0
+    - Name: PlatformButtomCheckBoxOffsetY
+      Entry: 4
+      Data: 0
+    - Name: PlatformButtomCheckBoxHeight
+      Entry: 4
+      Data: 0
+    - Name: PlatformCheckBoxWidth
+      Entry: 4
+      Data: 0
+    - Name: PlatformCheckBoxOffsetX
+      Entry: 4
+      Data: 0
+    - Name: JumpSpeedY
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: MinJumpScaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: MaxJumpScaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: JumpExtraSpeedX
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: JumpBufferingUnscaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CoyoteJumpScaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: JumpApexModifiersScaledTime
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: JumpApexGravityValue
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: JumpApexSpeedLimitModifier
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AccelerationOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InverseAccelerationOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DeAccelerationOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AccelerationOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InverseAccelerationOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DeAccelerationOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AccelerationWhileOverspeedOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InverseAccelerationWhileOverspeedOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DeAccelerationWhileOverspeedOnGround
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AccelerationWhileOverspeedOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InverseAccelerationWhileOverspeedOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DeAccelerationWhileOverspeedOnAir
+      Entry: 7
+      Data: Core.FramedFloat, Core
+    - Name: Frames
+      Entry: 3
+      Data: 0
+    - Name: Seconds
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: mCapabilities
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccCapability,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: mCapabilitySheets
+      Entry: 6
+      Data: 
