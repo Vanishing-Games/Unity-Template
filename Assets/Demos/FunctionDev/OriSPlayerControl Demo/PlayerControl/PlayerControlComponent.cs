@@ -8,57 +8,50 @@ using Sirenix.Serialization;
 
 namespace PlayerControlByOris
 {
+	public enum PlayerStateMachine
+	{
+		NormalState,
+		GrabState,
+		DashState,
+		DeathState,
+	}
+
     public partial class PlayerControlComponent : EccComponent
     {
 		#region 状态变量信息
+		[BoxGroup("状态变量信息"), Tooltip("角色状态机"), ShowInInspector, ReadOnly]
+		public PlayerStateMachine CurrentState { get; set; }
+		[BoxGroup("状态变量信息"), Tooltip("是否在地面状态判断"), ShowInInspector, ReadOnly]
+		public bool IsOnGround { get; set; }		
+		[BoxGroup("状态变量信息"), Tooltip("是否跳跃状态判断"), ShowInInspector, ReadOnly]
+		public bool IsJumping { get; set; }
+
 
 		#endregion
 
 		#region 按键输入信息
 
-		[
-			BoxGroup("按键输入信息"),
-			Tooltip("X轴方向输入"),
-			ShowInInspector,
-			ReadOnly
-		]
+		[BoxGroup("按键输入信息"),Tooltip("X轴方向输入"),ShowInInspector,ReadOnly]
 		public float InputX { get; set; }
 
-		[
-			BoxGroup("按键输入信息"),
-			Tooltip("Y轴方向输入"),
-			ShowInInspector,
-			ReadOnly
-		]
+		[BoxGroup("按键输入信息"),Tooltip("Y轴方向输入"),ShowInInspector,ReadOnly]
 		public float InputY { get; set; }
 
-		[
-			BoxGroup("按键输入信息"),
-			Tooltip("跳跃按键输入"),
-			ShowInInspector,
-			ReadOnly
-		]
+		[BoxGroup("按键输入信息"),Tooltip("跳跃按键输入"),ShowInInspector,ReadOnly]
 		public bool InputJump { get; set; }
 
-		[
-			BoxGroup("按键输入信息"),
-			Tooltip("特殊能力按键输入"),
-			ShowInInspector,
-			ReadOnly
-		]
+		[BoxGroup("按键输入信息"),Tooltip("特殊能力按键输入"),ShowInInspector,ReadOnly]
 		public bool InputAct { get; set; }
 		#endregion
 
 		#region 角色基本属性
 
-		[
-			BoxGroup("角色基本属性"),
-			Tooltip("角色面朝方向"),
-			ShowInInspector,
-			ReadOnly
-		]
+		[BoxGroup("角色基本属性"),Tooltip("角色面朝方向"),ShowInInspector,ReadOnly]
 		public int FacingDir { get; set; } = 1;
-
+		[BoxGroup("角色基本属性"), Tooltip("角色将要移动方向"), ShowInInspector, ReadOnly]
+		public int MoveX { get; set; } = 0;
+		[BoxGroup("角色基本属性"), Tooltip("角色被强制的移动方向"), ShowInInspector, ReadOnly]
+		public int ForceMoveX { get; set; } = 0;
 		[
 			BoxGroup("角色基本属性"),
 			Tooltip("角色最终总速度"),
@@ -101,7 +94,7 @@ namespace PlayerControlByOris
 			ShowInInspector,
 			ReadOnly
 		]
-		public int CoyoteJumpInputTimer { get; set; } = 0;
+		public int CoyoteJumpInputRevTimer { get; set; } = 0;
 
 		#endregion
 
@@ -113,6 +106,13 @@ namespace PlayerControlByOris
 			ReadOnly
 		]
 		public int JumpingTimer { get; set; } = 0;
+		[
+			BoxGroup("角色运行计时器"),
+			Tooltip("角色失控水平移动计时器（单位：帧）"),
+			ShowInInspector,
+			ReadOnly
+		]
+		public int ForceMoveXRevTimer { get; set; } = 0;
 
 		#endregion
 
@@ -148,7 +148,7 @@ namespace PlayerControlByOris
 			ShowInInspector,
 			OdinSerialize,
 		]
-		public float lowGravMult { get; set; }
+		public float LowGravMult { get; set; }
 
 		#endregion
 

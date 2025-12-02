@@ -30,330 +30,51 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Oris1.PlayerMovementComponent, CharacterControllerDemo 1
-    - Name: MaxVelocityX
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
+      Data: 1|PlayerControlByOris.PlayerControlComponent, PlayerControlByOris
+    - Name: MaxFallSpeedY
       Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: ClampVelocityX
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
+      Data: 14
+    - Name: GravityAccY
       Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: ClampVelocityY
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
+      Data: 1
+    - Name: LowGravThresholdSpeedY
       Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GravityAcceleration
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
+      Data: 5
+    - Name: LowGravMult
       Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GroundCheckDistance
+      Data: 0.6
+    - Name: MaxSpeedX
       Entry: 4
-      Data: 0
-    - Name: GroundCheckWidth
+      Data: 8
+    - Name: AccX
       Entry: 4
-      Data: 0
-    - Name: PlatformTopCheckBoxOffsetY
+      Data: 1.25
+    - Name: OverReduceX
       Entry: 4
-      Data: 0
-    - Name: PlatformTopCheckBoxHeight
+      Data: 0.75
+    - Name: AirAccMultX
       Entry: 4
-      Data: 0
-    - Name: PlatformButtomCheckBoxOffsetY
-      Entry: 4
-      Data: 0
-    - Name: PlatformButtomCheckBoxHeight
-      Entry: 4
-      Data: 0
-    - Name: PlatformCheckBoxWidth
-      Entry: 4
-      Data: 0
-    - Name: PlatformCheckBoxOffsetX
-      Entry: 4
-      Data: 0
+      Data: 0.6
     - Name: JumpSpeedY
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
       Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: MinJumpScaledTime
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
+      Data: 12
+    - Name: JumpBoostMultX
       Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: MaxJumpScaledTime
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
+      Data: 0.5
+    - Name: MinJumpTime
       Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: JumpExtraSpeedX
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
+      Data: 4
+    - Name: MaxJumpTime
       Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: JumpBufferingUnscaledTime
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
+      Data: 11
+    - Name: PreJumpInputTime
       Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: CoyoteJumpScaledTime
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
+      Data: 6
+    - Name: CoyoteJumpInputTime
       Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: JumpApexModifiersScaledTime
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: JumpApexGravityValue
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: JumpApexSpeedLimitModifier
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AccelerationOnGround
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: InverseAccelerationOnGround
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DeAccelerationOnGround
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AccelerationOnAir
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: InverseAccelerationOnAir
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DeAccelerationOnAir
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AccelerationWhileOverspeedOnGround
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: InverseAccelerationWhileOverspeedOnGround
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DeAccelerationWhileOverspeedOnGround
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AccelerationWhileOverspeedOnAir
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: InverseAccelerationWhileOverspeedOnAir
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DeAccelerationWhileOverspeedOnAir
-      Entry: 7
-      Data: Core.FramedFloat, Core
-    - Name: Frames
-      Entry: 3
-      Data: 0
-    - Name: Seconds
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
+      Data: 6
+    - Name: mRigidbody
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -370,7 +91,175 @@ MonoBehaviour:
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 3|PlayerControlByOris.PlayerControlJump, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
       Data: 0
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 100
+    - Name: Tags
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|PlayerControlByOris.PlayerControlGravity, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 0
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 100
+    - Name: Tags
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|PlayerControlByOris.PlayerControlHorizontal, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 0
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 100
+    - Name: Tags
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|PlayerControlByOris.PlayerControlInputTemp, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 0
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 100
+    - Name: Tags
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|PlayerControlByOris.PlayerStateEndSet, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 0
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 100
+    - Name: Tags
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 13|PlayerControlByOris.PlayerStateStartSet, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 0
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 100
+    - Name: Tags
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

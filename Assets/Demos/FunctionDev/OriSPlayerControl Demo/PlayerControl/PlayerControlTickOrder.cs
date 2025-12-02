@@ -5,6 +5,9 @@ namespace PlayerControlByOris
 	{
 		CollisionStartCheck,
 		StateStartSet,
+		HorizontalControl,
+		GravityControl,
+		JumpControl,
 		CollisionEndCheck,
 		StateEndSet,
 	}

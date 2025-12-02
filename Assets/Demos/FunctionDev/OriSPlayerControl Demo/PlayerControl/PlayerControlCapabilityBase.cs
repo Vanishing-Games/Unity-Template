@@ -19,6 +19,47 @@ namespace PlayerControlByOris
 			TickType = EccTickType.Fixed;
 		}
 
+		protected float Approach (float currentValue, float targetValue, float Accelerate)
+		{
+			float backValue = targetValue;
+			if (currentValue > targetValue)
+			{
+				backValue = currentValue - Accelerate;
+				if (backValue < targetValue)
+					backValue = targetValue;
+			}
+			else if (currentValue < targetValue)
+			{
+				backValue = currentValue + Accelerate;
+				if (backValue > targetValue)
+					backValue = targetValue;
+			}
+			return backValue;
+		}
+
 		protected PlayerControlComponent mPCComponent;
-    }
+
+		protected bool IsOnGround => mPCComponent.IsOnGround;
+		protected bool IsJumping => mPCComponent.IsJumping;
+
+		protected bool InputJump => mPCComponent.InputJump;
+
+		protected float JumpSpeedY => mPCComponent.JumpSpeedY;
+		protected float JumpBoostSpeedX => mPCComponent.JumpBoostSpeedX;
+		protected int MinJumpTime => mPCComponent.MinJumpTime;
+		protected int MaxJumpTime => mPCComponent.MaxJumpTime;
+		protected int PreJumpInputTime => mPCComponent.PreJumpInputTime;
+		protected int CoyoteJumpInputTime => mPCComponent.CoyoteJumpInputTime;
+
+		protected float MaxSpeedX => mPCComponent.MaxSpeedX;
+		protected float AccX => mPCComponent.AccX;
+		protected float OverReduceX => mPCComponent.OverReduceX;
+		protected float AirAccMultX => mPCComponent.AirAccMultX;
+		protected float MoveX => mPCComponent.MoveX;
+
+		protected float MaxFallSpeedY => mPCComponent.MaxFallSpeedY;
+		protected float GravityAccY => mPCComponent.GravityAccY;
+		protected float LowGravThresholdSpeedY => mPCComponent.LowGravThresholdSpeedY;
+		protected float LowGravMult => mPCComponent.LowGravMult;
+	}
 }
