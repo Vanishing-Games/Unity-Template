@@ -13,7 +13,7 @@ namespace Core
 
         public override bool Execute()
         {
-            if (m_Manager == null)
+            if (Manager == null)
             {
                 Logger.LogError(
                     "[LoadCommand] LoadManager is not initialized, making excution for LoadEvent failed"
@@ -22,7 +22,7 @@ namespace Core
                 return false;
             }
 
-            m_Manager.PrepareForLoad(LoadEvent);
+            Manager.PrepareForLoad(LoadEvent);
             MessageBroker.Global.Publish(LoadEvent);
 
             return true;

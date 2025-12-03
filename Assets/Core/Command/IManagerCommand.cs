@@ -5,10 +5,8 @@ using UnityEngine;
 
 namespace Core
 {
-    public interface IManagerCommand
+    public interface IManagerCommand : ITriggerCommand
     {
-        public bool Execute();
-
         public UniTask<bool> ExecuteAsync();
     }
 }

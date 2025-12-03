@@ -30,6 +30,9 @@ namespace Core
         public static readonly LogTag CoreModule = new("CoreModule");
         public static readonly LogTag Input = new("Input");
         public static readonly LogTag Math = new("Math");
+        public static readonly LogTag Addressables = new("Addressables");
+        public static readonly LogTag Test = new("Test");
+        public static readonly LogTag Command = new("Command");
 
         // ========== Second Tags ==========
         public static readonly LogTag CodeUnfucker = new("CodeUnfucker", Editor.Path);
@@ -37,7 +40,10 @@ namespace Core
         public static readonly LogTag GameCoreStart = new("GameCoreStart", GameCore.Path);
         public static readonly LogTag GameCoreDestroy = new("GameCoreDestroy", GameCore.Path);
         public static readonly LogTag GameQuit = new("GameQuit", GameCore.Path);
-        public static readonly LogTag VgLoadProgressManager = new("VgLoadProgressManager", Loading.Path);
+        public static readonly LogTag VgLoadProgressManager = new(
+            "VgLoadProgressManager",
+            Loading.Path
+        );
 
         // ========== Third Tags ==========
         public static readonly LogTag CodeUnfucker_3_Sample = new("Save", CodeUnfucker.Path); // MAX depth = 3

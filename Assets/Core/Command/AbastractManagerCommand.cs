@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Core
 {
-    public abstract class AbastractManagerCommand<TManager> : IManagerCommand
+    public abstract class AbastractManagerCommand<TManager> : IUniTaskCommand<bool>
         where TManager : MonoSingletonLasy<TManager>
     {
-        protected TManager m_Manager => GetManager();
+        protected TManager Manager => GetManager();
 
         protected TManager GetManager()
         {
@@ -20,6 +20,11 @@ namespace Core
         public virtual UniTask<bool> ExecuteAsync()
         {
             throw new System.NotImplementedException();
+        }
+
+        public bool Undo()
+        {
+            return false;
         }
     }
 }
