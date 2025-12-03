@@ -13,6 +13,7 @@ namespace PlayerControlByOris
 		{
 			base.SetUpTickSettings();
 			TickOrderInGroup = (uint)PlayerControlTickOrder.StateStartSet;
+			
 		}
 		protected override bool OnShouldActivate()
 		{
@@ -37,8 +38,10 @@ namespace PlayerControlByOris
 				mPCComponent.MoveX = (int)Math.Sign(mPCComponent.InputX);
 			}
 
+			mPCComponent.FacingDir = 1;
 			//角色朝向修改
-			mPCComponent.FacingDir = mPCComponent.MoveX * -1;
+			if (MoveX != 0)
+				mPCComponent.FacingDir = mPCComponent.MoveX * -1;
 
 			//角色跳跃输入计时器
 			if (InputJump && mPCComponent.PreJumpInputTimer > 0)

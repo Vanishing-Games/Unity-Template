@@ -13,6 +13,8 @@ namespace PlayerControlByOris
 		protected override void OnSetup()
 		{
 			mRigidbody = mGameObject.GetComponent<Rigidbody2D>();
+			mAnim = mGameObject.GetComponent<Animator>();
+			mTranform = mGameObject.GetComponent<Transform>();
 
 			mCollisionEnterSubscription = mGameObject
 				.OnCollisionEnter2DAsObservable()
@@ -34,7 +36,7 @@ namespace PlayerControlByOris
 
 		protected override void OnUpdateGo(float deltaTime)
 		{
-			
+			AnimControl();
 		}
 
 		private void OnCollisionEnter2D(Collision2D collision)
@@ -57,12 +59,33 @@ namespace PlayerControlByOris
 			{
 				for (int i = 0, len = collision.contactCount; i < len; i++)
 				{
-					Vector2 normal = collision.GetContact(0).normal;
+					Vector2 normal = collision.GetContact(i).normal;
+					
 					if (normal.y >= 0.9f && Mathf.Abs(normal.x) < 0.1f)
 					{
 						IsOnGround = true;
 						if (CtrlVelocity.y < 0)
 							CtrlVelocity = new Vector2(CtrlVelocity.x, 0);
+					}
+					else if (normal.y <= -0.9f && Mathf.Abs(normal.x) < 0.1f)
+					{
+						IsJumping = false;
+						if (CtrlVelocity.y > 0)
+							CtrlVelocity = new Vector2(CtrlVelocity.x, 0);
+					}
+					else if (normal.x <= -0.9f && Mathf.Abs(normal.y) < 0.1f)
+					{
+						if (CtrlVelocity.y > 0)
+							IsOnGround = false;
+						if (CtrlVelocity.x > 0)
+							CtrlVelocity = new Vector2(0, CtrlVelocity.y);
+					}
+					else if (normal.x >= 0.9f && Mathf.Abs(normal.y) < 0.1f)
+					{
+						if (CtrlVelocity.y > 0)
+							IsOnGround = false;
+						if (CtrlVelocity.x < 0)
+							CtrlVelocity = new Vector2(0, CtrlVelocity.y);
 					}
 				}
 			}
@@ -74,8 +97,9 @@ namespace PlayerControlByOris
 				IsOnGround = false;
 		}
 
-
+		public Transform mTranform;
 		public Rigidbody2D mRigidbody;
+		public Animator mAnim;
 		private IDisposable mCollisionEnterSubscription;
 		private IDisposable mCollisionExitSubscription;
 		private IDisposable mCollisionStaySubscription;

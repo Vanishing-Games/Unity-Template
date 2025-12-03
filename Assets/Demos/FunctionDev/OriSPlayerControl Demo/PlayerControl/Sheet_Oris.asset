@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -36,7 +37,7 @@ MonoBehaviour:
       Data: 14
     - Name: GravityAccY
       Entry: 4
-      Data: 1
+      Data: 1.2
     - Name: LowGravThresholdSpeedY
       Entry: 4
       Data: 5
@@ -74,8 +75,8 @@ MonoBehaviour:
       Entry: 3
       Data: 6
     - Name: mRigidbody
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -100,17 +101,20 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 4
     - Name: Tags
       Entry: 7
       Data: 4|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 7
     - Name: 
       Entry: 13
       Data: 
@@ -128,17 +132,20 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 3
     - Name: Tags
       Entry: 7
       Data: 6|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 7
     - Name: 
       Entry: 13
       Data: 
@@ -156,17 +163,20 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 2
     - Name: Tags
       Entry: 7
       Data: 8|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 7
     - Name: 
       Entry: 13
       Data: 
@@ -181,7 +191,7 @@ MonoBehaviour:
       Data: 9|PlayerControlByOris.PlayerControlInputTemp, PlayerControlByOris
     - Name: TickType
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: TickGroup
       Entry: 3
       Data: 0
@@ -212,7 +222,7 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
       Data: 100
@@ -240,10 +250,10 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 1
     - Name: Tags
       Entry: 7
       Data: 14|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,

@@ -17,9 +17,12 @@ namespace PlayerControlByOris
 		{
 			mPCComponent.JumpingTimer = 0;
 			mPCComponent.IsJumping = true;
+			mPCComponent.IsOnGround = false;
+
 			Vector2 velocity = mPCComponent.CtrlVelocity;
 			velocity.x += MoveX * JumpBoostSpeedX;
 			mPCComponent.CtrlVelocity = velocity;
+
 			mPCComponent.CoyoteJumpInputRevTimer = 0;
 		}
 
@@ -72,8 +75,7 @@ namespace PlayerControlByOris
 				return false;
 		}
 
-		//可以用订阅?
-		protected bool CollisionEndJump() => false;
+		protected bool CollisionEndJump() => !IsJumping;
 	}
 
 		
