@@ -20,11 +20,11 @@ namespace PlayerControlByOris
 			mAnim.SetFloat("SpeedX", CtrlVelocity.x);
 
 			if (MathF.Abs(CtrlVelocity.x) <= 0.5f * MaxSpeedX)
-				mAnim.SetBool("HerizontalFast", false);
+				mAnim.SetBool("HorizontalFast", false);
 			else if (MoveX * CtrlVelocity.x < -0.5f * MaxSpeedX)
-				mAnim.SetBool("HerizontalFast", false);
+				mAnim.SetBool("HorizontalFast", false);
 			else
-				mAnim.SetBool("HerizontalFast", true);
+				mAnim.SetBool("HorizontalFast", true);
 
 		}
     }

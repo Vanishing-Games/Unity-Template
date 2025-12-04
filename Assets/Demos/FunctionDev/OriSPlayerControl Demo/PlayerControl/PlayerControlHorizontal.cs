@@ -25,11 +25,6 @@ namespace PlayerControlByOris
 			base.OnDeactivate();
 		}
 
-		protected override void OnSetup()
-		{
-			base.OnSetup();
-		}
-
 		protected override bool OnShouldActivate()
 		{
 			return true;

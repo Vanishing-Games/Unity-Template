@@ -14,7 +14,9 @@ namespace PlayerControlByOris
 		{
 			mRigidbody = mGameObject.GetComponent<Rigidbody2D>();
 			mAnim = mGameObject.GetComponent<Animator>();
+			mBoxCollider = mGameObject.GetComponent<BoxCollider2D>();
 			mTranform = mGameObject.GetComponent<Transform>();
+			
 
 			mCollisionEnterSubscription = mGameObject
 				.OnCollisionEnter2DAsObservable()
@@ -99,6 +101,7 @@ namespace PlayerControlByOris
 
 		public Transform mTranform;
 		public Rigidbody2D mRigidbody;
+		public BoxCollider2D mBoxCollider;
 		public Animator mAnim;
 		private IDisposable mCollisionEnterSubscription;
 		private IDisposable mCollisionExitSubscription;

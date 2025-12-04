@@ -38,7 +38,7 @@ namespace PlayerControlByOris
 				mPCComponent.MoveX = (int)Math.Sign(mPCComponent.InputX);
 			}
 
-			mPCComponent.FacingDir = 1;
+
 			//角色朝向修改
 			if (MoveX != 0)
 				mPCComponent.FacingDir = mPCComponent.MoveX * -1;
