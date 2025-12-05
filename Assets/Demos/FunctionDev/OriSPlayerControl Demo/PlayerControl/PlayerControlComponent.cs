@@ -142,6 +142,8 @@ namespace PlayerControlByOris
 		#region 抓住相关
 		[BoxGroup("抓住相关"), Tooltip("抓住暂留的时长"), ShowInInspector, OdinSerialize,]
 		public int GrabStayTime { get; set; }
+		[BoxGroup("抓住相关"), Tooltip("抓住暂留的时长"), ShowInInspector, OdinSerialize,]
+		public int GrabThresholdSpeedY { get; set; }
 		[BoxGroup("抓住相关"), Tooltip("抓住拐角的范围"), ShowInInspector, OdinSerialize,]
 		public float CornerGrabOffsetY { get; set; }
 		[BoxGroup("抓住相关"), Tooltip("抓住拐角的范围"), ShowInInspector, OdinSerialize,]

@@ -42,6 +42,8 @@ namespace PlayerControlByOris
 			return backValue;
 		}
 
+		
+
 		protected void SetStateMachine(PlayerStateMachine ToState, EccTag ToTag)
 		{
 			mPCComponent.CurrentState = ToState;

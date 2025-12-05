@@ -15,6 +15,11 @@ namespace PlayerControlByOris
 			TickOrderInGroup = (uint)PlayerControlTickOrder.CollisionStartCheck;
 		}
 
+		protected override void OnSetup()
+		{
+			//SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
+		}
+
 		protected override bool OnShouldActivate()
 		{
 			return true;
@@ -27,9 +32,10 @@ namespace PlayerControlByOris
 
 		protected override void OnTick(float deltaTime)
 		{
-			if (mPCComponent.CurrentState == PlayerStateMachine.NormalState && !mPCComponent.IsOnGround)
+			if (!IsOnGround
+				&& mPCComponent.CtrlVelocity.y < LowGravThresholdSpeedY)
 			{
-				Debug.Log(mPCComponent.mTranform.position);
+				//Debug.Log(mPCComponent.mTranform.position);
 				CornerGrabCheck(mPCComponent.mTranform.position, Vector2.right);
 				CornerGrabCheck(mPCComponent.mTranform.position, Vector2.left);
 			}
@@ -39,7 +45,6 @@ namespace PlayerControlByOris
 		{
 			Vector2 StartPoint =PlayerPosition +
 				PlayerColliderOffsetX * Dir + new Vector2(0, PlayerColliderOffsetUpY);
-			Debug.Log(StartPoint);
 			RaycastHit2D HeadHit = Physics2D.Raycast(
 				StartPoint - new Vector2(0, VerticalDistance),
 				Dir,
@@ -47,7 +52,6 @@ namespace PlayerControlByOris
 				LayerMask.GetMask("Wall")
 				);
 			Debug.DrawRay(StartPoint - new Vector2(0, VerticalDistance), Dir * HorizontalDistance, Color.red);
-			Debug.Log(HeadHit.collider == null);
 
 			if (HeadHit.collider == null)
 				return;
@@ -63,7 +67,7 @@ namespace PlayerControlByOris
 			Debug.Log(DownHit.collider == null);
 
 			Debug.DrawRay(DownStartPoint, Vector2.down * VerticalDistance, Color.yellow);
-			Debug.Log("2");
+			//Debug.Log("2");
 			if (DownHit.collider)
 			{
 				
@@ -71,20 +75,22 @@ namespace PlayerControlByOris
 				{					
 					Vector2 targetPoint =DownHit.point -
 						PlayerColliderOffsetX * Dir - new Vector2(0, PlayerColliderOffsetUpY);
-					GrabSet(targetPoint, true, false);
+					GrabSet(targetPoint, true, false, Dir);
 				}
 			}
 		}
 
-		private void GrabSet(Vector2 targetPoint, bool IsCorner, bool IsSafe)
+		private void GrabSet(Vector2 targetPoint, bool IsCorner, bool IsSafe, Vector2 dir)
 		{
 			SetStateMachine(PlayerStateMachine.GrabState, EccTag.GrabState);
 			mPCComponent.IsCornerGrab = IsCorner;
 			mPCComponent.IsSafeGrab = IsSafe;
 			mPCComponent.CtrlVelocity = Vector2.zero;
 
+			//mPCComponent.FacingDir = (int)dir.x * -1;
 			mPCComponent.mTranform.position = targetPoint;
 		}
+
 
 		private float PlayerColliderOffsetX => mPCComponent.mBoxCollider.size.x * 0.5f;
 		private float PlayerColliderOffsetUpY => mPCComponent.mBoxCollider.size.y * 0.5f + mPCComponent.mBoxCollider.offset.y;

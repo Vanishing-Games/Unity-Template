@@ -59,6 +59,8 @@ namespace PlayerControlByOris
 				&& mPCComponent.PreJumpInputTimer < PreJumpInputTime
 				&& mPCComponent.CoyoteJumpInputRevTimer > 0)
 				return true;
+			else if (IsJumping)
+				return true;
 			else
 				return false;
 		}
@@ -78,5 +80,5 @@ namespace PlayerControlByOris
 		protected bool CollisionEndJump() => !IsJumping;
 	}
 
-		
+	
 }

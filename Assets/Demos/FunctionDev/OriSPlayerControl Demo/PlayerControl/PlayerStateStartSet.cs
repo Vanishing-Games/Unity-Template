@@ -40,7 +40,7 @@ namespace PlayerControlByOris
 
 
 			//角色朝向修改
-			if (MoveX != 0)
+			if (MoveX != 0 && mPCComponent.CurrentState != PlayerStateMachine.GrabState)
 				mPCComponent.FacingDir = mPCComponent.MoveX * -1;
 
 			//角色跳跃输入计时器

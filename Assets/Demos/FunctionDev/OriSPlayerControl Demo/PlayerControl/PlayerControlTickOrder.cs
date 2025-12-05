@@ -7,6 +7,7 @@ namespace PlayerControlByOris
 		StateStartSet,
 		HorizontalControl,
 		GravityControl,
+		GrabJumpControl,
 		JumpControl,
 		CollisionEndCheck,
 		StateEndSet,
