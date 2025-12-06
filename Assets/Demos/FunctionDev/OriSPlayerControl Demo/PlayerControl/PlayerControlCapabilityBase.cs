@@ -13,9 +13,6 @@ namespace PlayerControlByOris
 		protected override void OnSetup()
 		{
 			mPCComponent = mOwner.GetEccComponent<PlayerControlComponent>();
-			mPCComponent.FacingDir = 1;
-			
-			SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
 		}
 
 		protected override void SetUpTickSettings()
@@ -42,20 +39,22 @@ namespace PlayerControlByOris
 			return backValue;
 		}
 
-		
 
-		protected void SetStateMachine(PlayerStateMachine ToState, EccTag ToTag)
+
+		protected void SetStateMachine(PlayerStateMachine ToState,EccTag ToTag)
 		{
 			mPCComponent.CurrentState = ToState;
-			mOwner.UnblockCapabilities(ToTag, this);
 			List<EccTag> CurrentTag = new List<EccTag> { ToTag };
+			mOwner.UnblockCapabilities(StateTag);
 			List<EccTag> totalTags = new() { EccTag.NormalState, EccTag.GrabState, EccTag.DashState, EccTag.DeathState };
 			foreach (var tag in totalTags)
 			{
 				if (tag != ToTag)
-					mOwner.BlockCapabilities(tag, this);
+					mOwner.BlockCapabilities(tag, StateTag);
 			}
 		}
+
+		protected static IEccInstigator StateTag;
 
 		protected PlayerControlComponent mPCComponent;
 		protected BoxCollider2D mBoxCollision;

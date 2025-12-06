@@ -144,10 +144,16 @@ namespace PlayerControlByOris
 		public int GrabStayTime { get; set; }
 		[BoxGroup("抓住相关"), Tooltip("抓住暂留的时长"), ShowInInspector, OdinSerialize,]
 		public int GrabThresholdSpeedY { get; set; }
-		[BoxGroup("抓住相关"), Tooltip("抓住拐角的范围"), ShowInInspector, OdinSerialize,]
+		[BoxGroup("抓住相关"), Tooltip("抓住拐角的范围y"), ShowInInspector, OdinSerialize,]
 		public float CornerGrabOffsetY { get; set; }
-		[BoxGroup("抓住相关"), Tooltip("抓住拐角的范围"), ShowInInspector, OdinSerialize,]
+		[BoxGroup("抓住相关"), Tooltip("抓住拐角的范围x"), ShowInInspector, OdinSerialize,]
 		public float CornerGrabOffsetX { get; set; }
+		[BoxGroup("抓住相关"), Tooltip("抓住的范围x"), ShowInInspector, OdinSerialize,]
+		public float GrabRangeX { get; set; }
+		[BoxGroup("抓住相关"), Tooltip("抓住的范围y"), ShowInInspector, OdinSerialize,]
+		public float GrabRangeY { get; set; }
+		[BoxGroup("抓住相关"), Tooltip("抓住的范围的起点偏移点"), ShowInInspector, OdinSerialize,]
+		public Vector2 GrabRangeOffset { get; set; }
 		#endregion
 	}
 }

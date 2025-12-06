@@ -53,6 +53,9 @@ namespace PlayerControlByOris
 				mPCComponent.CoyoteJumpInputRevTimer = CoyoteJumpInputTime;
 			else if (mPCComponent.CoyoteJumpInputRevTimer > 0)
 				mPCComponent.CoyoteJumpInputRevTimer--;
+			//滑落计时器
+			if (mPCComponent.CurrentState != PlayerStateMachine.GrabState)
+				mPCComponent.GrabStayRevTimer = mPCComponent.GrabStayTime;
 		}
 
 

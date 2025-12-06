@@ -33,7 +33,7 @@ namespace PlayerControlByOris
 			TickOrderInGroup = (uint)PlayerControlTickOrder.GravityControl;
 			Tags = new List<EccTag> { EccTag.NormalState };
 		}
-
-		
 	}
+
+	
 }

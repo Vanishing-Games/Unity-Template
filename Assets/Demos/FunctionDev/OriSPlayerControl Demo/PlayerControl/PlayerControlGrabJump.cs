@@ -16,12 +16,12 @@ namespace PlayerControlByOris
 
 		protected override bool OnShouldActivate()
 		{
-			return true;
+			return mPCComponent.PreJumpInputTimer > 0
+				&& mPCComponent.PreJumpInputTimer < PreJumpInputTime;
 		}
 
 		protected override void OnActivate()
 		{
-			Debug.Log("1");
 			mPCComponent.IsJumping = true;
 			SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
 			Vector2 Velocity = mPCComponent.CtrlVelocity;
@@ -31,12 +31,12 @@ namespace PlayerControlByOris
 
 		protected override bool OnShouldDeactivate()
 		{
-			return false;
+			return true;
 		}
 
 		protected override void OnTick(float deltaTime)
 		{
-			Debug.Log("2");
+			
 		}
 	}
 }

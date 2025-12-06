@@ -80,5 +80,5 @@ namespace PlayerControlByOris
 		protected bool CollisionEndJump() => !IsJumping;
 	}
 
-	
+
 }
