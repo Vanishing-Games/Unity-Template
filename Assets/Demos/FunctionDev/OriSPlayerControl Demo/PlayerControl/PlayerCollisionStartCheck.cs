@@ -39,7 +39,11 @@ namespace PlayerControlByOris
 				CornerGrabCheck(mPCComponent.mTranform.position, Vector2.left);
 			}
 
-			NormalGrabCheck(mPCComponent.mTranform.position);
+			if ((!mPCComponent.IsCornerGrab &&
+				mPCComponent.CurrentState == PlayerStateMachine.GrabState) ||
+				mPCComponent.CurrentState == PlayerStateMachine.NormalState
+				)
+				NormalGrabCheck(mPCComponent.mTranform.position);
 		}
 
 		private void CornerGrabCheck(Vector2 PlayerPosition, Vector2 Dir)
@@ -74,7 +78,10 @@ namespace PlayerControlByOris
 				if (Vector2.Distance(DownHit.point, DownStartPoint) > 0.01)
 				{					
 					Vector2 targetPoint =DownHit.point -
-						PlayerColliderOffsetX * Dir - new Vector2(0, PlayerColliderOffsetUpY);
+						PlayerColliderOffsetX * Dir -
+						new Vector2(0, PlayerColliderOffsetUpY);
+					Debug.Log(targetPoint);
+					Debug.Log(DownHit.point);
 					GrabSet(targetPoint, true, false, Dir);
 				}
 			}

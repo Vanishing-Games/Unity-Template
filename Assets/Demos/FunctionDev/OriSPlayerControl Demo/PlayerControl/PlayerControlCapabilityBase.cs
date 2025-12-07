@@ -39,14 +39,33 @@ namespace PlayerControlByOris
 			return backValue;
 		}
 
-
+		protected Vector2 ApproachInTime (
+			Vector2 currentVelocity,
+			float targetSpeed,
+			int currentTime
+			)
+		{
+			Vector2 dir = currentVelocity.normalized;
+			float Speed = currentVelocity.magnitude;
+			float Accel = 0;
+			if (currentTime > 0)
+				Accel = (targetSpeed - Speed) / currentTime;
+			Speed += Accel;
+			return dir * Speed;
+		}
 
 		protected void SetStateMachine(PlayerStateMachine ToState,EccTag ToTag)
 		{
 			mPCComponent.CurrentState = ToState;
 			List<EccTag> CurrentTag = new List<EccTag> { ToTag };
 			mOwner.UnblockCapabilities(StateTag);
-			List<EccTag> totalTags = new() { EccTag.NormalState, EccTag.GrabState, EccTag.DashState, EccTag.DeathState };
+			List<EccTag> totalTags = new() {
+				EccTag.NormalState,
+				EccTag.GrabState,
+				EccTag.ThrowState,
+				EccTag.DashState,
+				EccTag.DeathState
+			};
 			foreach (var tag in totalTags)
 			{
 				if (tag != ToTag)
@@ -62,6 +81,7 @@ namespace PlayerControlByOris
 		protected bool IsJumping => mPCComponent.IsJumping;
 
 		protected bool InputJump => mPCComponent.InputJump;
+		protected bool InputAct => mPCComponent.InputAct;
 
 		protected float JumpSpeedY => mPCComponent.JumpSpeedY;
 		protected float JumpBoostSpeedX => mPCComponent.JumpBoostSpeedX;
@@ -80,5 +100,10 @@ namespace PlayerControlByOris
 		protected float GravityAccY => mPCComponent.GravityAccY;
 		protected float LowGravThresholdSpeedY => mPCComponent.LowGravThresholdSpeedY;
 		protected float LowGravMult => mPCComponent.LowGravMult;
+
+		protected int PreThrowInputTimer => mPCComponent.PreThrowInputTimer;
+		protected int ThrowStartTimer => mPCComponent.ThrowStartTimer;
+		protected int ThrowMoveTimer => mPCComponent.ThrowMoveTimer;
+		protected Vector2 ThrowMoveVelocity => mPCComponent.ThrowMoveVelocity;
 	}
 }

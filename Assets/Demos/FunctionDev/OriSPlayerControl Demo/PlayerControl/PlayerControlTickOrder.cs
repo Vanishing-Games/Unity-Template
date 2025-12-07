@@ -6,6 +6,8 @@ namespace PlayerControlByOris
 		InitialSet,
 		CollisionStartCheck,
 		StateStartSet,
+		ThrowControl,
+		DashControl,
 		HorizontalControl,
 		GrabGravity,
 		GravityControl,

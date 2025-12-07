@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using VanishingGames.ECC.Runtime;
 using Core;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine;
+using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
@@ -12,12 +13,17 @@ namespace PlayerControlByOris
 	{
 		NormalState,
 		GrabState,
+		ThrowState,
 		DashState,
 		DeathState,
 	}
 
     public partial class PlayerControlComponent : EccComponent
     {
+		[NonSerialized]
+		public GameObject ThrownHook;
+		[BoxGroup("预制体"), Tooltip("投出的勾绳"), ShowInInspector, OdinSerialize,]
+		public GameObject PreHook;
 		#region 状态变量信息
 		[BoxGroup("状态变量信息"), Tooltip("角色状态机"), ShowInInspector, ReadOnly]
 		public PlayerStateMachine CurrentState { get; set; }
@@ -29,6 +35,8 @@ namespace PlayerControlByOris
 		public bool IsCornerGrab { get; set; }
 		[BoxGroup("状态变量信息"), Tooltip("是否抓稳定点判断"), ShowInInspector, ReadOnly]
 		public bool IsSafeGrab { get; set; }
+		[BoxGroup("状态变量信息"), Tooltip("是否可以投掷"), ShowInInspector, ReadOnly]
+		public bool IsCanThrow { get; set; }
 
 		#endregion
 
@@ -66,10 +74,14 @@ namespace PlayerControlByOris
 
 		#region 角色输入计时器
 
-		[BoxGroup("角色帧数计时器"),Tooltip("预输入跳跃按键时长计时器（单位：帧）"),ShowInInspector,ReadOnly		]
+		[BoxGroup("角色输入计时器"),Tooltip("预输入跳跃按键时长计时器（单位：帧）"),ShowInInspector,ReadOnly		]
 		public int PreJumpInputTimer { get; set; } = 0;
-		[BoxGroup("角色帧数计时器"),Tooltip("土狼跳输入窗口计时器（单位：帧）"),ShowInInspector,ReadOnly]
+		[BoxGroup("角色输入计时器"),Tooltip("土狼跳输入窗口计时器（单位：帧）"),ShowInInspector,ReadOnly]
 		public int CoyoteJumpInputRevTimer { get; set; } = 0;
+		[BoxGroup("角色输入计时器"), Tooltip("投掷预输入计时器"), ShowInInspector, ReadOnly]
+		public int PreThrowInputTimer { get; set; } = 0;
+		[BoxGroup("角色输入计时器"), Tooltip("投掷输入cd计时器"), ShowInInspector, ReadOnly]
+		public int ThrowCdInputTimer { get; set; } = 0;
 
 		#endregion
 
@@ -80,6 +92,14 @@ namespace PlayerControlByOris
 		public int ForceMoveXRevTimer { get; set; } = 0;
 		[BoxGroup("角色运行计时器"), Tooltip("跳跃保持计时器（单位：帧）"), ShowInInspector, ReadOnly]
 		public int GrabStayRevTimer { get; set; }
+		[BoxGroup("角色运行计时器"), Tooltip("投掷预备计时器"), ShowInInspector, ReadOnly]
+		public int ThrowStartTimer { get; set; }
+		[BoxGroup("角色运行计时器"), Tooltip("投掷后跳计时器"), ShowInInspector, ReadOnly]
+		public int ThrowMoveTimer { get; set; }
+		[BoxGroup("角色运行计时器"), Tooltip("拉动冲刺计时器"), ShowInInspector, ReadOnly]
+		public int DashTimer { get; set; }
+		[BoxGroup("角色运行计时器"), Tooltip("拉动冲刺计时器"), ShowInInspector, ReadOnly]
+		public int DashWaitTimer { get; set; }
 		#endregion
 
 		#region 重力相关
@@ -154,6 +174,31 @@ namespace PlayerControlByOris
 		public float GrabRangeY { get; set; }
 		[BoxGroup("抓住相关"), Tooltip("抓住的范围的起点偏移点"), ShowInInspector, OdinSerialize,]
 		public Vector2 GrabRangeOffset { get; set; }
+		#endregion
+
+		#region 投掷与拉动相关
+		[BoxGroup("投掷与拉动相关"), Tooltip("预输入投掷的时间"), ShowInInspector, OdinSerialize,]
+		public int PreThrowTime { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("投掷未命中的cd"), ShowInInspector, OdinSerialize,]
+		public int ThrowCdTime { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("投掷预备时间"), ShowInInspector, OdinSerialize,]
+		public int ThrowStartTime { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("投掷后跳时间"), ShowInInspector, OdinSerialize,]
+		public int ThrowMoveTime { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("投掷后跳速度"), ShowInInspector, OdinSerialize,]
+		public Vector2 ThrowMoveVelocity { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("投掷物速度"), ShowInInspector, OdinSerialize,]
+		public Vector2 ThrowHookVelocity { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("拉动冲刺的速度"), ShowInInspector, OdinSerialize,]
+		public float DashSpeed { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("拉动冲刺的时间"), ShowInInspector, OdinSerialize,]
+		public int DashWaitTime { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("拉动冲刺的时间"), ShowInInspector, OdinSerialize,]
+		public int DashTime { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("冲刺末段减速的时间"), ShowInInspector, OdinSerialize,]
+		public int DashEndSlowTime { get; set; }
+		[BoxGroup("投掷与拉动相关"), Tooltip("减速的倍率"), ShowInInspector, OdinSerialize,]
+		public float EndSlowMult { get; set; }
 		#endregion
 	}
 }

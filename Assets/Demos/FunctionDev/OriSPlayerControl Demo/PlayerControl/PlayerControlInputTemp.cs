@@ -36,6 +36,7 @@ namespace PlayerControlByOris
 			mPCComponent.InputX = UnityEngine.Input.GetAxisRaw("Horizontal");
 			mPCComponent.InputY = UnityEngine.Input.GetAxisRaw("Vertical");
 			mPCComponent.InputJump = UnityEngine.Input.GetButton("Jump");
+			mPCComponent.InputAct = UnityEngine.Input.GetButton("Act");
 		}
 
 		protected override void SetUpTickSettings()
