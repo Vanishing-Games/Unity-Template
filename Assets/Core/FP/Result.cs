@@ -3,20 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using R3;
 using UnityEngine;
 
 namespace Core
 {
     public class Result<T, E>
     {
-        private readonly T m_Value;
-        private readonly E m_Error;
+        private readonly T mValue;
+        private readonly E mError;
         public bool IsSuccess { get; }
 
         private Result(T value, E error, bool isSuccess)
         {
-            m_Value = value;
-            m_Error = error;
+            mValue = value;
+            mError = error;
             IsSuccess = isSuccess;
         }
 
@@ -26,7 +27,7 @@ namespace Core
             {
                 if (!IsSuccess)
                     throw new InvalidOperationException("无法从失败的结果中获取 Value。");
-                return m_Value;
+                return mValue;
             }
         }
 
@@ -36,7 +37,7 @@ namespace Core
             {
                 if (IsSuccess)
                     throw new InvalidOperationException("无法从成功的结果中获取 Error。");
-                return m_Error;
+                return mError;
             }
         }
 
@@ -47,45 +48,45 @@ namespace Core
         public Result<TNew, E> Map<TNew>(Func<T, TNew> mapper)
         {
             return IsSuccess
-                ? Result<TNew, E>.Success(mapper(m_Value))
-                : Result<TNew, E>.Failure(m_Error);
+                ? Result<TNew, E>.Success(mapper(mValue))
+                : Result<TNew, E>.Failure(mError);
         }
 
         public Result<T, ENew> MapError<ENew>(Func<E, ENew> errorMapper)
         {
             return IsSuccess
-                ? Result<T, ENew>.Success(m_Value)
-                : Result<T, ENew>.Failure(errorMapper(m_Error));
+                ? Result<T, ENew>.Success(mValue)
+                : Result<T, ENew>.Failure(errorMapper(mError));
         }
 
         public Result<TResult, E> Bind<TResult>(Func<T, Result<TResult, E>> func)
         {
-            return IsSuccess ? func(m_Value) : Result<TResult, E>.Failure(m_Error);
+            return IsSuccess ? func(mValue) : Result<TResult, E>.Failure(mError);
         }
 
         public T GetValueOrDefault(T defaultValue = default)
         {
-            return IsSuccess ? m_Value : defaultValue;
+            return IsSuccess ? mValue : defaultValue;
         }
 
         public T GetValueOrThrow()
         {
             if (!IsSuccess)
-                throw new InvalidOperationException($"Result is not successful. Error: {m_Error}");
-            return m_Value;
+                throw new InvalidOperationException($"Result is not successful. Error: {mError}");
+            return mValue;
         }
 
         public void Match(Action<T> onSuccess, Action<E> onError)
         {
             if (IsSuccess)
-                onSuccess(m_Value);
+                onSuccess(mValue);
             else
-                onError(m_Error);
+                onError(mError);
         }
 
         public TResult Match<TResult>(Func<T, TResult> onSuccess, Func<E, TResult> onError)
         {
-            return IsSuccess ? onSuccess(m_Value) : onError(m_Error);
+            return IsSuccess ? onSuccess(mValue) : onError(mError);
         }
     }
 
@@ -206,5 +207,10 @@ namespace Core
         {
             return funcs.Aggregate(source, (current, func) => func(current));
         }
+    }
+
+    public class AsyncResult<T,E>
+    {
+        
     }
 }

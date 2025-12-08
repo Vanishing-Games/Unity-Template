@@ -3,7 +3,7 @@
  * Copyright (c) 2025 Vanishing Games. All Rights Reserved.
  * @Author: VanishXiao
  * @Date: 2025-10-30 16:25:39
- * @LastEditTime: 2025-10-30 16:39:09
+ * @LastEditTime: 2025-12-03 19:17:50
  * --------------------------------------------------------------------------------
  */
 using System.Collections.Generic;
@@ -174,7 +174,7 @@ namespace Core
             }
 
             string assemblyName = GetCallingAssemblyName();
-            string assemblyStr = $"<b><color=#2196F3>▶▶▶{assemblyName}</color></b>";
+            string assemblyStr = $"<b><color=#2196F3>>>>{assemblyName}</color></b>";
 
             string logTypeText = level switch
             {

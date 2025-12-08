@@ -15,7 +15,7 @@ namespace Core
 
         public override bool Execute()
         {
-            if (m_Manager == null)
+            if (Manager == null)
             {
                 Logger.LogError(
                     "[SendLoaderCommand] SceneLoadManager is not initialized, making excution for SendLoaderCommand failed"
@@ -23,7 +23,7 @@ namespace Core
                 return false;
             }
 
-            m_Manager.RegisterLoader(m_Loader);
+            Manager.RegisterLoader(m_Loader);
             return true;
         }
     }
