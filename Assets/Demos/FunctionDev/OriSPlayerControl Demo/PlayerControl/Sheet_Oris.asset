@@ -79,7 +79,7 @@ MonoBehaviour:
       Data: 6
     - Name: GrabStayTime
       Entry: 3
-      Data: 30
+      Data: 60
     - Name: GrabThresholdSpeedY
       Entry: 3
       Data: -1
@@ -127,7 +127,7 @@ MonoBehaviour:
       Data: 12
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -145,10 +145,10 @@ MonoBehaviour:
       Data: 
     - Name: DashSpeed
       Entry: 4
-      Data: 20
+      Data: 18
     - Name: DashWaitTime
       Entry: 3
-      Data: 12
+      Data: 6
     - Name: DashTime
       Entry: 3
       Data: 10
@@ -157,7 +157,7 @@ MonoBehaviour:
       Data: 2
     - Name: EndSlowMult
       Entry: 4
-      Data: 0.8
+      Data: 1
     - Name: PreHook
       Entry: 10
       Data: 0

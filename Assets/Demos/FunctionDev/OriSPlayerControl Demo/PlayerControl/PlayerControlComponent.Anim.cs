@@ -26,6 +26,9 @@ namespace PlayerControlByOris
 			else
 				mAnim.SetBool("HorizontalFast", true);
 
+			mAnim.SetBool("IsGrab", CurrentState == PlayerStateMachine.GrabState);
+			mAnim.SetBool("IsCorner", IsCornerGrab);
+
 		}
     }
 }
