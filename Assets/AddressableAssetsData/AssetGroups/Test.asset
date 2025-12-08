@@ -18,14 +18,16 @@ MonoBehaviour:
   m_GUID: 243077c32a41a4efba28aaab007f0b20
   m_SerializeEntries:
   - m_GUID: 00859eff014814ad78d8fc3e3dcbffb3
-    m_Address: Test/cube
+    m_Address: testRes_prefab_cube
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Testing
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6d32ad7bd68364ad4a4bac4202ae0ad9
-    m_Address: Test/sphere
+    m_Address: testRes_prefab_sphere
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Testing
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: c86ea30432783452e87589a012114daf, type: 2}
