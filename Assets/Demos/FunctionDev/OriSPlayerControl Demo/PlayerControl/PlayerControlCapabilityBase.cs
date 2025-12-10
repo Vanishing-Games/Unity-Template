@@ -1,110 +1,112 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
-	public abstract class PlayerControlCapabilityBase : EccCapability
-	{
-		protected override void OnActivate() { }
+    public abstract class PlayerControlCapabilityBase : EccCapability
+    {
+        protected override void OnActivate() { }
 
-		protected override void OnDeactivate() { }
+        protected override void OnDeactivate() { }
 
-		protected override void OnSetup()
-		{
-			mPCComponent = mOwner.GetEccComponent<PlayerControlComponent>();
-		}
+        protected override void OnSetup()
+        {
+            mPCComponent = mOwner.GetEccComponent<PlayerControlComponent>();
+        }
 
-		protected override void SetUpTickSettings()
-		{
-			TickGroup = EccTickGroup.Movement;
-			TickType = EccTickType.Fixed;
-		}
+        protected override void SetUpTickSettings()
+        {
+            TickGroup = EccTickGroup.Movement;
+            TickType = EccTickType.Fixed;
+        }
 
-		protected float Approach(float currentValue, float targetValue, float Accelerate)
-		{
-			float backValue = targetValue;
-			if (currentValue > targetValue)
-			{
-				backValue = currentValue - Accelerate;
-				if (backValue < targetValue)
-					backValue = targetValue;
-			}
-			else if (currentValue < targetValue)
-			{
-				backValue = currentValue + Accelerate;
-				if (backValue > targetValue)
-					backValue = targetValue;
-			}
-			return backValue;
-		}
+        protected float Approach(float currentValue, float targetValue, float Accelerate)
+        {
+            float backValue = targetValue;
+            if (currentValue > targetValue)
+            {
+                backValue = currentValue - Accelerate;
+                if (backValue < targetValue)
+                    backValue = targetValue;
+            }
+            else if (currentValue < targetValue)
+            {
+                backValue = currentValue + Accelerate;
+                if (backValue > targetValue)
+                    backValue = targetValue;
+            }
+            return backValue;
+        }
 
-		protected Vector2 ApproachInTime(
-			Vector2 currentVelocity,
-			float targetSpeed,
-			int currentTime
-			)
-		{
-			Vector2 dir = currentVelocity.normalized;
-			float Speed = currentVelocity.magnitude;
-			float Accel = 0;
-			if (currentTime > 0)
-				Accel = (targetSpeed - Speed) / currentTime;
-			Speed += Accel;
-			return dir * Speed;
-		}
+        protected Vector2 ApproachInTime(
+            Vector2 currentVelocity,
+            float targetSpeed,
+            int currentTime
+        )
+        {
+            Vector2 dir = currentVelocity.normalized;
+            float Speed = currentVelocity.magnitude;
+            float Accel = 0;
+            if (currentTime > 0)
+                Accel = (targetSpeed - Speed) / currentTime;
+            Speed += Accel;
+            return dir * Speed;
+        }
 
-		protected void SetStateMachine(PlayerStateMachine ToState, EccTag ToTag)
-		{
-			mPCComponent.CurrentState = ToState;
-			List<EccTag> CurrentTag = new List<EccTag> { ToTag };
-			mOwner.UnblockCapabilities(StateTag);			
-			foreach (var tag in totalTags)
-			{
-				if (tag != ToTag)
-					mOwner.BlockCapabilities(tag, StateTag);
-			}
-		}
+        protected void SetStateMachine(PlayerStateMachine ToState, EccTag ToTag)
+        {
+            mPCComponent.CurrentState = ToState;
+            List<EccTag> CurrentTag = new List<EccTag> { ToTag };
+            mOwner.UnblockCapabilities(StateTag);
+            foreach (var tag in totalTags)
+            {
+                if (tag != ToTag)
+                    mOwner.BlockCapabilities(tag, StateTag);
+            }
+        }
 
-		protected static IEccInstigator StateTag;
+        protected static IEccInstigator StateTag;
+        protected static List<EccTag> totalTags = new()
+        {
+            EccTag.NormalState,
+            EccTag.GrabState,
+            EccTag.ThrowState,
+            EccTag.DashState,
+            EccTag.DeathState,
+        };
 
-		protected static List<EccTag> totalTags = new() {
-				EccTag.NormalState,
-				EccTag.GrabState,
-				EccTag.ThrowState,
-				EccTag.DashState,
-				EccTag.DeathState
-			};
+        protected PlayerControlComponent mPCComponent;
+        protected BoxCollider2D mBoxCollision;
+        protected bool IsOnGround => mPCComponent.IsOnGround;
+        protected bool IsJumping => mPCComponent.IsJumping;
 
-		protected PlayerControlComponent mPCComponent;
-		protected BoxCollider2D mBoxCollision;
-		protected bool IsOnGround => mPCComponent.IsOnGround;
-		protected bool IsJumping => mPCComponent.IsJumping;
+        protected bool InputJump => mPCComponent.InputJump;
+        protected bool InputAct => mPCComponent.InputAct;
 
-		protected bool InputJump => mPCComponent.InputJump;
-		protected bool InputAct => mPCComponent.InputAct;
+        protected float JumpSpeedY => mPCComponent.JumpSpeedY;
+        protected float JumpBoostSpeedX => mPCComponent.JumpBoostSpeedX;
+        protected int MinJumpTime => mPCComponent.MinJumpTime;
+        protected int MaxJumpTime => mPCComponent.MaxJumpTime;
+        protected int PreJumpInputTime => mPCComponent.PreJumpInputTime;
+        protected int CoyoteJumpInputTime => mPCComponent.CoyoteJumpInputTime;
 
-		protected float JumpSpeedY => mPCComponent.JumpSpeedY;
-		protected float JumpBoostSpeedX => mPCComponent.JumpBoostSpeedX;
-		protected int MinJumpTime => mPCComponent.MinJumpTime;
-		protected int MaxJumpTime => mPCComponent.MaxJumpTime;
-		protected int PreJumpInputTime => mPCComponent.PreJumpInputTime;
-		protected int CoyoteJumpInputTime => mPCComponent.CoyoteJumpInputTime;
+        protected float MaxSpeedX => mPCComponent.MaxSpeedX;
+        protected float AccX => mPCComponent.AccX;
+        protected float OverReduceX => mPCComponent.OverReduceX;
+        protected float AirAccMultX => mPCComponent.AirAccMultX;
+        protected float MoveX => mPCComponent.MoveX;
 
-		protected float MaxSpeedX => mPCComponent.MaxSpeedX;
-		protected float AccX => mPCComponent.AccX;
-		protected float OverReduceX => mPCComponent.OverReduceX;
-		protected float AirAccMultX => mPCComponent.AirAccMultX;
-		protected float MoveX => mPCComponent.MoveX;
+        protected float MaxFallSpeedY => mPCComponent.MaxFallSpeedY;
+        protected float GravityAccY => mPCComponent.GravityAccY;
+        protected float LowGravThresholdSpeedY => mPCComponent.LowGravThresholdSpeedY;
+        protected float LowGravMult => mPCComponent.LowGravMult;
 
-		protected float MaxFallSpeedY => mPCComponent.MaxFallSpeedY;
-		protected float GravityAccY => mPCComponent.GravityAccY;
-		protected float LowGravThresholdSpeedY => mPCComponent.LowGravThresholdSpeedY;
-		protected float LowGravMult => mPCComponent.LowGravMult;
-
-		protected int PreThrowInputTimer => mPCComponent.PreThrowInputTimer;
-		protected int ThrowStartTimer => mPCComponent.ThrowStartTimer;
-		protected int ThrowMoveTimer => mPCComponent.ThrowMoveTimer;
-		protected Vector2 ThrowMoveVelocity => mPCComponent.ThrowMoveVelocity;
-	}
+        protected int PreThrowInputTimer => mPCComponent.PreThrowInputTimer;
+        protected int ThrowStartTimer => mPCComponent.ThrowStartTimer;
+        protected int ThrowMoveTimer => mPCComponent.ThrowMoveTimer;
+        protected Vector2 ThrowMoveVelocity => mPCComponent.ThrowMoveVelocity;
+    }
 }
