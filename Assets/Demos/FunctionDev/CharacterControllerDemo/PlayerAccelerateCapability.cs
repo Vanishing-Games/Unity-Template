@@ -56,14 +56,28 @@ namespace CharacterControllerDemo
             mPlayerMovementComponent.Velocity = velocity;
         }
 
-        protected abstract bool ShouldActivateConditions();
+        protected        abstract bool ShouldActivateConditions();
+   
+        protected abstract bool    ShouldDeactivateConditions();
 
-        protected abstract bool ShouldDeactivateConditions();
+
+
+
+
 
         protected abstract float GetAcceleration();
 
-        protected abstract uint GetTickOrderInGroup();
+        protected 
+        
+        abstract             uint GetTickOrderInGroup();
+
+
     }
+
+
+
+
+
 
     public class PlayerAccelerateOnGroundCapability : PlayerAccelerateCapability
     {
