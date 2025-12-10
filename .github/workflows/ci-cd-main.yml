@@ -430,6 +430,8 @@ jobs:
         run: |
           echo "⬇️ 安装 .NET Tool: CSharpier..."
           dotnet tool install -g csharpier
+
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
           charpier --version
 
       - name: 📖 加载与解析配置
