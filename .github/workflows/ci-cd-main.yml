@@ -412,7 +412,7 @@ jobs:
           fi
 
   # =============================================================================
-  # 阶段1: 代码风格检查 - 使用roslynator检查代码格式
+  # 阶段1: 代码风格检查 - 使用CSharpier检查代码格式
   # =============================================================================
   code-style-check:
     name: 🎨 代码风格检查
@@ -421,56 +421,118 @@ jobs:
     if: needs.flow-prediction.outputs.should_run_style == 'true'
     
     steps:
-      - name: 检出代码
+      - name: 📥 检出代码
         uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0 # 必须为 0 以进行 git diff
 
-      - name: 📖 加载代码检查配置
-        id: load-style-config
+      - name: ⚙️ 安装 CSharpier
         run: |
-          echo "🔧 加载代码风格检查配置..."
-          
+          echo "⬇️ 安装 .NET Tool: CSharpier..."
+          dotnet tool install -g csharpier
+
+      - name: 📖 加载与解析配置
+        id: config
+        run: |
+          echo "🔧 读取 Pipeline 配置..."
           CONFIG_FILE=".github/workflows/Pipeline Config/pipeline-settings.json"
           
-          # 提取代码检查配置
+          # 1. 提取检查路径 (处理为单行空格分隔字符串)
           CHECK_PATHS=$(jq -r '.jobs.code_style.settings.checkPaths[]' "$CONFIG_FILE" | tr '\n' ' ')
-          EXCLUDE_PATHS=$(jq -r '.jobs.code_style.settings.excludePaths[]' "$CONFIG_FILE" | tr '\n' ' ')
+          
+          # 2. 提取是否自动修复 (虽然本Action强制为check模式，但作为元数据展示)
           AUTO_FIX=$(jq -r '.jobs.code_style.settings.autoFix' "$CONFIG_FILE")
           
-          echo "检查路径: $CHECK_PATHS"  
-          echo "排除路径: $EXCLUDE_PATHS"
-          echo "自动修复: $AUTO_FIX"
+          # 设置默认值：如果未配置路径，默认为当前目录 "."
+          if [ -z "$CHECK_PATHS" ]; then CHECK_PATHS="."; fi
           
+          echo "📂 包含路径: $CHECK_PATHS"
+          
+          # 输出到 Output
           echo "check_paths=$CHECK_PATHS" >> $GITHUB_OUTPUT
-          echo "exclude_paths=$EXCLUDE_PATHS" >> $GITHUB_OUTPUT
           echo "auto_fix=$AUTO_FIX" >> $GITHUB_OUTPUT
 
-      - name: 🧹 运行代码格式检查
+      - name: 🧹 执行增量代码检查
+        id: run_check
+        env:
+          CHECK_PATHS: ${{ steps.config.outputs.check_paths }}
         run: |
-          echo "🎨 开始代码风格检查..."
-          echo "本步骤将检查代码格式是否符合项目规范"
-          echo ""
-          echo "检查路径: ${{ steps.load-style-config.outputs.check_paths }}"
-          echo "排除路径: ${{ steps.load-style-config.outputs.exclude_paths }}"
-          echo "自动修复: ${{ steps.load-style-config.outputs.auto_fix }}"
-          echo ""
+          echo "🎨 准备计算变更文件..."
           
-          # 这里应该集成实际的代码格式检查工具
-          # 比如使用CSharpier、Roslynator等
-          
-          # 模拟代码检查过程
-          echo "✅ 代码风格检查通过"
-          echo "📋 检查结果: 所有文件都符合代码规范"
+          # 1. 确定基准分支
+          BASE_REF="origin/${{ github.base_ref || 'main' }}"
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            BASE_REF="HEAD^"
+          fi
+          echo "🔍 对比基准: $BASE_REF"
 
-      - name: 📊 代码检查摘要
+          # 2. 获取变更文件列表 (核心简化部分)
+          # git diff <commit> <commit> -- <paths> 
+          # 仅在 CHECK_PATHS 指定的目录中查找变更
+          echo "🔍 检索路径范围: $CHECK_PATHS"
+          
+          # --name-only: 只显示文件名
+          # --diff-filter=ACMR: 包含 新增(A)、复制(C)、修改(M)、重命名(R)
+          # grep '\.cs$': 严格过滤后缀
+          # tr '\n' ' ': 将换行转换为为空格，以便传递给 csharpier 命令
+          FINAL_FILES=$(git diff --name-only --diff-filter=ACMR $BASE_REF HEAD -- $CHECK_PATHS | grep '\.cs$' | tr '\n' ' ' || true)
+          
+          # 3. 检查是否有文件需要处理
+          # 去除可能存在的首尾空格以便判断
+          TRIMMED_FILES=$(echo "$FINAL_FILES" | xargs)
+          
+          if [ -z "$TRIMMED_FILES" ]; then
+            echo "✅ 在指定路径下无 .cs 文件变更。"
+            echo "status=skipped" >> $GITHUB_OUTPUT
+            echo "files_count=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # 计算文件数量
+          COUNT=$(echo $TRIMMED_FILES | wc -w)
+          echo "📝 即将检查 $COUNT 个文件..."
+          echo "files_count=$COUNT" >> $GITHUB_OUTPUT
+
+          echo "🚀 运行 CSharpier..."
+          
+          # 4. 执行检查
+          # 注意：$FINAL_FILES 不加引号，以便让 shell 将其识别为多个参数
+          if dotnet csharpier --check $FINAL_FILES; then
+            echo "✅ 检查通过！"
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "❌ 检查失败！存在格式问题。"
+            echo "status=failure" >> $GITHUB_OUTPUT
+            exit 1 # 标记步骤失败
+          fi
+
+      - name: 📊 生成检查报告
+        if: always() 
         run: |
-          echo "## 🎨 代码风格检查结果" >> $GITHUB_STEP_SUMMARY
+          STATUS="${{ steps.run_check.outputs.status }}"
+          COUNT="${{ steps.run_check.outputs.files_count }}"
+          
+          echo "## 🎨 代码风格检查报告" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **检查状态:** 通过" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "$STATUS" == "success" ]; then
+            echo "✅ **结果:** 通过" >> $GITHUB_STEP_SUMMARY
+            echo "🎉 所有变更的 C# 文件格式正确。" >> $GITHUB_STEP_SUMMARY
+          elif [ "$STATUS" == "skipped" ]; then
+            echo "⚪ **结果:** 跳过" >> $GITHUB_STEP_SUMMARY
+            echo "✨ 指定路径内无 .cs 文件变更。" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **结果:** 失败" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ 发现代码格式问题，请在本地运行 \`dotnet csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
+          fi
+          
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**配置信息:**" >> $GITHUB_STEP_SUMMARY
-          echo "- 检查路径: \`${{ steps.load-style-config.outputs.check_paths }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- 排除路径: \`${{ steps.load-style-config.outputs.exclude_paths }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- 自动修复: \`${{ steps.load-style-config.outputs.auto_fix }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "### ⚙️ 配置详情" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **检查路径** | \`${{ steps.config.outputs.check_paths }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **检查文件数** | $COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| **自动修复** |
 
   # =============================================================================  
   # 阶段2: 单元测试 - 运行Unity项目中的单元测试
