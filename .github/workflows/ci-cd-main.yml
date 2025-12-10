@@ -459,16 +459,12 @@ jobs:
           
           BASE_REF="origin/${{ github.base_ref || 'main' }}"
           if [[ "${{ github.event_name }}" == "push" ]]; then
-            # 对于 push 事件，我们通常对比 HEAD^，或者使用特定逻辑获取合并基准
-            BASE_REF="HEAD^" 
+            BASE_REF="HEAD^"
           fi
           echo "🔍 对比基准: $BASE_REF"
-
           echo "🔍 检索路径范围: $CHECK_PATHS"
           
-          # 1. 获取变更文件列表
           FINAL_FILES=$(git diff --name-only --diff-filter=ACMR $BASE_REF HEAD -- $CHECK_PATHS | grep '\.cs$' | tr '\n' ' ' || true)
-          
           TRIMMED_FILES=$(echo "$FINAL_FILES" | xargs)
           
           if [ -z "$TRIMMED_FILES" ]; then
@@ -482,54 +478,40 @@ jobs:
           COUNT=$(echo $TRIMMED_FILES | wc -w)
           echo "📝 即将检查 $COUNT 个文件..."
           echo "files_count=$COUNT" >> $GITHUB_OUTPUT
+          
+          echo "📄 即将检查的文件列表:"
+          echo "$TRIMMED_FILES"
+          
+          # 保存到 output，以供 summary 使用
+          echo "checked_files_list=$(echo "$TRIMMED_FILES" | tr ' ' '\n' | base64 -w 0)" >> $GITHUB_OUTPUT
 
           echo "🚀 运行 CSharpier..."
-          
-          # 2. 执行检查并捕获输出
           set +e
           CSHARPIER_OUTPUT=$(csharpier --check $FINAL_FILES 2>&1)
           EXIT_CODE=$?
           set -e
           echo "csharpier_raw=$CSHARPIER_OUTPUT" >> $GITHUB_OUTPUT
           
-          # 3. 解析输出以找到失败文件并清理路径
-          # 查找包含 '.cs' 的行 (过滤掉耗时日志)，然后使用 sed 清理行首尾的非路径字符。
-          # sed -E: 使用扩展正则。
-          # s/^[[:space:]]*[\["]?//: 移除行首的空格、可选的 [ 或 "。
-          # s/[\]"]?[[:space:]]*$//: 移除行尾的可选 ] 或 "、以及空格。
           FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep -oE '[^ ]+\.cs')
           
-          # 4. 格式化失败文件列表为 Markdown 列表
           FAILED_FILES_LIST=""
           if [ -n "$FAILED_FILES_RAW" ]; then
-              # 使用 while 循环逐行处理，确保每一行都被正确捕获
               while IFS= read -r line; do
-                  # 再次使用 xargs 确保移除残留的首尾空格
                   CLEAN_LINE=$(echo "$line" | xargs)
-                  
                   if [ -n "$CLEAN_LINE" ]; then
                     FAILED_FILES_LIST+="- \`$CLEAN_LINE\`"$'\n'
                   fi
               done <<< "$FAILED_FILES_RAW"
           fi
 
-          # 5. 根据退出码设置最终状态
           if [ $EXIT_CODE -eq 0 ]; then
-            echo "✅ 检查通过！"
             echo "status=success" >> $GITHUB_OUTPUT
             echo "failed_files=''" >> $GITHUB_OUTPUT
           else
-            echo "❌ 检查失败！存在格式问题。"
             echo "status=failure" >> $GITHUB_OUTPUT
-            
-            # 使用 base64 编码来安全地传递多行数据
             ENCODED_FAILED_FILES=$(echo "$FAILED_FILES_LIST" | base64 -w 0)
             echo "failed_files=$ENCODED_FAILED_FILES" >> $GITHUB_OUTPUT
-          fi
-          
-          # 如果失败，则强制 Action 失败
-          if [ $EXIT_CODE -ne 0 ]; then
-              exit 1
+            exit 1
           fi
 
       - name: 📊 生成检查报告
@@ -578,6 +560,14 @@ jobs:
           echo "| **检查路径** | \`${{ steps.config.outputs.check_paths }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **检查文件数** | $COUNT |" >> $GITHUB_STEP_SUMMARY
           echo "| **自动修复** | ❌ (已禁用) |" >> $GITHUB_STEP_SUMMARY
+
+          CHECKED_FILES=$(echo "${{ steps.run_check.outputs.checked_files_list }}" | base64 -d)
+          echo "### 📂 所有接受检查的文件 ($COUNT 个)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "$CHECKED_FILES" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📄 CSharpier 原始输出" >> $GITHUB_STEP_SUMMARY
