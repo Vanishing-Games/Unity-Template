@@ -430,6 +430,7 @@ jobs:
         run: |
           echo "⬇️ 安装 .NET Tool: CSharpier..."
           dotnet tool install -g csharpier
+          charpier --version
 
       - name: 📖 加载与解析配置
         id: config
@@ -488,7 +489,6 @@ jobs:
           EXIT_CODE=$?
           set -e
           echo "csharpier_raw=$CSHARPIER_OUTPUT" >> $GITHUB_OUTPUT
-
           
           # 3. 解析输出以找到失败文件并清理路径
           # 查找包含 '.cs' 的行 (过滤掉耗时日志)，然后使用 sed 清理行首尾的非路径字符。
@@ -588,7 +588,6 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
 
           echo "</details>" >> $GITHUB_STEP_SUMMARY
-
 
   # =============================================================================  
   # 阶段2: 单元测试 - 运行Unity项目中的单元测试
