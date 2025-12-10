@@ -481,34 +481,23 @@ jobs:
 
           echo "🚀 运行 CSharpier..."
           
-          # 2. 执行检查并捕获输出
+          # 2. 核心改进：执行检查并捕获输出
           set +e
-          # 捕获所有输出，包括日志和错误信息
           CSHARPIER_OUTPUT=$(dotnet csharpier --check $FINAL_FILES 2>&1)
           EXIT_CODE=$?
           set -e
           
-          # 打印 CSharpier 原始输出，帮助调试
-          echo "--- CSharpier 原始输出 ---"
-          echo "$CSHARPIER_OUTPUT"
-          echo "-------------------------"
-          
           # 3. 解析输出以找到失败文件
-          # 策略：如果 EXIT_CODE != 0，则意味着失败。
-          # 失败的行通常包含文件路径。由于上一次的解析失败，这次我们使用更简单的匹配，
-          # 只要求包含 ".cs" 且不包含耗时/成功信息。
-          
-          # 查找包含 ".cs" 且不包含 "[info]"、"ms" 等日志关键词的行
-          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep -E '\.cs' | grep -v 'ms' | grep -v 'Formatting finished')
+          # 查找包含 `.cs` 且不包含 `ms` (耗时日志) 的行
+          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep '\.cs$' | grep -v 'ms')
           
           # 4. 格式化失败文件列表为 Markdown 列表
           FAILED_FILES_LIST=""
           if [ -n "$FAILED_FILES_RAW" ]; then
               # 使用 while 循环逐行处理，确保每一行都被正确捕获
               while IFS= read -r line; do
-                  # 移除前后的空格和潜在的日志前缀
-                  CLEAN_LINE=$(echo "$line" | sed 's/^.*[a-zA-Z] \+\(.*\)/\1/' | xargs)
-                  
+                  CLEAN_LINE=$(echo "$line" | xargs)
+                  # 排除空的行，防止空行被编码
                   if [ -n "$CLEAN_LINE" ]; then
                     FAILED_FILES_LIST+="- \`$CLEAN_LINE\`"$'\n'
                   fi
@@ -524,12 +513,6 @@ jobs:
             echo "❌ 检查失败！存在格式问题。"
             echo "status=failure" >> $GITHUB_OUTPUT
             
-            # 检查解析结果是否为空，如果为空，则使用备用方案
-            if [ -z "$FAILED_FILES_LIST" ]; then
-                # 备用：如果解析失败，但我们知道 EXIT_CODE != 0，则假定所有检查的文件都有问题
-                echo "⚠️ 警告：未能解析具体失败文件，可能 CSharpier 输出格式已更改。"
-            fi
-
             # 使用 base64 编码来安全地传递多行数据
             ENCODED_FAILED_FILES=$(echo "$FAILED_FILES_LIST" | base64 -w 0)
             echo "failed_files=$ENCODED_FAILED_FILES" >> $GITHUB_OUTPUT
@@ -540,6 +523,54 @@ jobs:
               exit 1
           fi
 
+      - name: 📊 生成检查报告
+        if: always() 
+        run: |
+          STATUS="${{ steps.run_check.outputs.status }}"
+          COUNT="${{ steps.run_check.outputs.files_count }}"
+          ENCODED_FAILED_FILES="${{ steps.run_check.outputs.failed_files }}"
+          
+          # 解码失败文件列表
+          if [ -n "$ENCODED_FAILED_FILES" ]; then
+              FAILED_FILES=$(echo "$ENCODED_FAILED_FILES" | base64 --decode)
+          else
+              FAILED_FILES=""
+          fi
+          
+          echo "## 🎨 代码风格检查报告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "$STATUS" == "success" ]; then
+            echo "✅ **结果:** 通过" >> $GITHUB_STEP_SUMMARY
+            echo "🎉 所有变更的 C# 文件格式正确。" >> $GITHUB_STEP_SUMMARY
+          elif [ "$STATUS" == "skipped" ]; then
+            echo "⚪ **结果:** 跳过" >> $GITHUB_STEP_SUMMARY
+            echo "✨ 指定路径内无 .cs 文件变更。" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **结果:** 失败" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ 发现代码格式问题，请在本地运行 \`dotnet csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # 报告失败文件列表
+            if [ -n "$FAILED_FILES" ]; then
+              echo "### 📄 未通过格式检查的文件 (${COUNT} 个)" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "$FAILED_FILES" >> $GITHUB_STEP_SUMMARY
+            else
+              # 备份逻辑：如果解析失败，但退出码是非零，说明 CSharpier 报错
+              echo "❓ **注意:** CSharpier 检查失败，但未能解析出具体文件列表。请检查 Action Log 获取详细信息。" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "### ⚙️ 配置详情" >> $GITHUB_STEP_SUMMARY
+          echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **检查路径** | \`${{ steps.config.outputs.check_paths }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **检查文件数** | $COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| **自动修复** | ❌ (已禁用) |" >> $GITHUB_STEP_SUMMARY
+          
       - name: 📊 生成检查报告
         if: always() 
         run: |
