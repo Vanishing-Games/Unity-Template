@@ -456,71 +456,68 @@ jobs:
           CHECK_PATHS: ${{ steps.config.outputs.check_paths }}
         run: |
           echo "🎨 准备计算变更文件..."
-          
+
           BASE_REF="origin/develop"
-          if [[ "${{ github.event_name }}" == "push" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
             BASE_REF="HEAD^"
           fi
+                  
           echo "🔍 对比基准: $BASE_REF"
           echo "🔍 检索路径范围: $CHECK_PATHS"
-          
-          FINAL_FILES=$(git diff --name-only --diff-filter=ACMR $BASE_REF HEAD -- $CHECK_PATHS | grep '\.cs$' || true)
-          TRIMMED_FILES=$(echo "$FINAL_FILES" | xargs)
-          
-          if [ -z "$TRIMMED_FILES" ]; then
+                  
+          # 读取变更文件（逐行，保留空格）
+          mapfile -t FINAL_FILES_ARRAY < <(
+            git diff --name-only --diff-filter=ACMR $BASE_REF HEAD -- $CHECK_PATHS | grep '\.cs$' || true
+          )
+                  
+          if [ ${#FINAL_FILES_ARRAY[@]} -eq 0 ]; then
             echo "✅ 在指定路径下无 .cs 文件变更。"
             echo "status=skipped" >> $GITHUB_OUTPUT
             echo "files_count=0" >> $GITHUB_OUTPUT
             echo "failed_files=''" >> $GITHUB_OUTPUT 
             exit 0
           fi
-          
-          COUNT=$(echo $TRIMMED_FILES | wc -w)
+                  
+          COUNT=${#FINAL_FILES_ARRAY[@]}
           echo "📝 即将检查 $COUNT 个文件..."
           echo "files_count=$COUNT" >> $GITHUB_OUTPUT
-          
+                  
           echo "📄 即将检查的文件列表:"
-          echo "$TRIMMED_FILES"
-          
-          # 保存检查文件列表
-          echo "checked_files_list=$(echo "$TRIMMED_FILES" | tr ' ' '\n' | base64 -w 0)" >> $GITHUB_OUTPUT
-
+          printf '%s\n' "${FINAL_FILES_ARRAY[@]}"
+                  
+          # Base64 保存文件列表
+          printf "%s\n" "${FINAL_FILES_ARRAY[@]}" | base64 -w 0 | \
+            xargs -I {} echo "checked_files_list={}" >> $GITHUB_OUTPUT
+                  
           echo "🚀 运行 CSharpier..."
           set +e
-          CSHARPIER_OUTPUT=$(csharpier check $FINAL_FILES 2>&1)
+          CSHARPIER_OUTPUT=$(csharpier check "${FINAL_FILES_ARRAY[@]}" 2>&1)
           EXIT_CODE=$?
           set -e
-
-          # Base64 安全存储原始输出，防止破坏 GITHUB_OUTPUT
+                  
           echo "💼 保存CSharpier 输出..."
-          ENCODED_RAW=$(echo "$CSHARPIER_OUTPUT" | base64 -w 0)
-          echo "csharpier_raw=$ENCODED_RAW" >> $GITHUB_OUTPUT
-          
-          # 提取失败文件（不包含反引号、不包含特殊字符）
+          echo "csharpier_raw=$(echo "$CSHARPIER_OUTPUT" | base64 -w 0)" >> $GITHUB_OUTPUT
+                  
+          # 解析失败的文件
           FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep -oE '^Error .*\.cs' | sed -E 's/^Error (.*\.cs).*/\1/')
-          
+                  
           FAILED_FILES_LIST=""
           if [ -n "$FAILED_FILES_RAW" ]; then
-              while IFS= read -r line; do
-                  CLEAN_LINE=$(echo "$line" | xargs)
-                  if [ -n "$CLEAN_LINE" ]; then
-                    FAILED_FILES_LIST+="- $CLEAN_LINE"$'\n'
-                  fi
-              done <<< "$FAILED_FILES_RAW"
+            while IFS= read -r line; do
+              CLEAN_LINE=$(echo "$line" | xargs)
+              [ -n "$CLEAN_LINE" ] && FAILED_FILES_LIST+="- $CLEAN_LINE"$'\n'
+            done <<< "$FAILED_FILES_RAW"
           fi
-
+                  
           if [ $EXIT_CODE -eq 0 ]; then
             echo "status=success" >> $GITHUB_OUTPUT
             echo "failed_files=" >> $GITHUB_OUTPUT
           else
             echo "status=failure" >> $GITHUB_OUTPUT
-
-            # Base64 编码失败文件列表，保证安全写入
-            ENCODED_FAILED_FILES=$(echo "$FAILED_FILES_LIST" | base64 -w 0)
-            echo "failed_files=$ENCODED_FAILED_FILES" >> $GITHUB_OUTPUT
-
+            echo "failed_files=$(echo "$FAILED_FILES_LIST" | base64 -w 0)" >> $GITHUB_OUTPUT
             exit 1
           fi
+
 
       - name: 📊 生成检查报告
         if: always()
