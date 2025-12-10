@@ -437,18 +437,13 @@ jobs:
           echo "🔧 读取 Pipeline 配置..."
           CONFIG_FILE=".github/workflows/Pipeline Config/pipeline-settings.json"
           
-          # 1. 提取检查路径 (处理为单行空格分隔字符串)
           CHECK_PATHS=$(jq -r '.jobs.code_style.settings.checkPaths[]' "$CONFIG_FILE" | tr '\n' ' ')
-          
-          # 2. 提取是否自动修复 (虽然本Action强制为check模式，但作为元数据展示)
           AUTO_FIX=$(jq -r '.jobs.code_style.settings.autoFix' "$CONFIG_FILE")
           
-          # 设置默认值：如果未配置路径，默认为当前目录 "."
           if [ -z "$CHECK_PATHS" ]; then CHECK_PATHS="."; fi
           
           echo "📂 包含路径: $CHECK_PATHS"
           
-          # 输出到 Output
           echo "check_paths=$CHECK_PATHS" >> $GITHUB_OUTPUT
           echo "auto_fix=$AUTO_FIX" >> $GITHUB_OUTPUT
 
@@ -459,51 +454,85 @@ jobs:
         run: |
           echo "🎨 准备计算变更文件..."
           
-          # 1. 确定基准分支
           BASE_REF="origin/${{ github.base_ref || 'main' }}"
           if [[ "${{ github.event_name }}" == "push" ]]; then
             BASE_REF="HEAD^"
           fi
           echo "🔍 对比基准: $BASE_REF"
 
-          # 2. 获取变更文件列表 (核心简化部分)
-          # git diff <commit> <commit> -- <paths> 
-          # 仅在 CHECK_PATHS 指定的目录中查找变更
           echo "🔍 检索路径范围: $CHECK_PATHS"
           
-          # --name-only: 只显示文件名
-          # --diff-filter=ACMR: 包含 新增(A)、复制(C)、修改(M)、重命名(R)
-          # grep '\.cs$': 严格过滤后缀
-          # tr '\n' ' ': 将换行转换为为空格，以便传递给 csharpier 命令
+          # 1. 获取变更文件列表
           FINAL_FILES=$(git diff --name-only --diff-filter=ACMR $BASE_REF HEAD -- $CHECK_PATHS | grep '\.cs$' | tr '\n' ' ' || true)
           
-          # 3. 检查是否有文件需要处理
-          # 去除可能存在的首尾空格以便判断
           TRIMMED_FILES=$(echo "$FINAL_FILES" | xargs)
           
           if [ -z "$TRIMMED_FILES" ]; then
             echo "✅ 在指定路径下无 .cs 文件变更。"
             echo "status=skipped" >> $GITHUB_OUTPUT
             echo "files_count=0" >> $GITHUB_OUTPUT
+            # 必须设置一个空的 failed_files，防止下一步引用时出错
+            echo "failed_files=''" >> $GITHUB_OUTPUT 
             exit 0
           fi
           
-          # 计算文件数量
           COUNT=$(echo $TRIMMED_FILES | wc -w)
           echo "📝 即将检查 $COUNT 个文件..."
           echo "files_count=$COUNT" >> $GITHUB_OUTPUT
 
           echo "🚀 运行 CSharpier..."
           
-          # 4. 执行检查
-          # 注意：$FINAL_FILES 不加引号，以便让 shell 将其识别为多个参数
-          if dotnet csharpier --check $FINAL_FILES; then
+          # 2. 核心改进：执行检查并捕获输出
+          # 使用 `set +e` 暂时关闭脚本的非零退出码失败特性，以便捕获输出。
+          # 检查结果（需要修复的文件）通常会输出到 stdout。
+          set +e
+          # 使用 `2>&1` 将 stderr 合并到 stdout，确保捕获所有日志和结果
+          # 使用 --json 模式获取更容易解析的结果，但 CSharpier 的 --check 模式不支持 JSON 输出，
+          # 因此我们继续依赖其文本输出。
+          CSHARPIER_OUTPUT=$(dotnet csharpier --check $FINAL_FILES 2>&1)
+          EXIT_CODE=$?
+          set -e # 恢复脚本的非零退出码失败特性
+
+          # 3. 解析输出以找到失败文件
+          # 失败的行通常以 "Formatting changed:" 开头，后接文件路径。
+          # 注意：由于 CSharpier 可能会有不同的日志格式，我们使用一个稳健的方式：
+          # 失败的输出通常包含需要修改的文件名。
+          
+          # 尝试使用 grep 过滤出需要格式化的文件路径（根据 CSharpier 的典型输出格式）
+          # CSharpier 在 --check 模式下会直接打印出需要格式化的文件名。
+          # 失败时，它会输出类似 "some/path/file.cs (2ms)" 的行。
+          
+          # 这里我们使用一个简单的匹配逻辑，查找输出中包含 `.cs` 且不在日志中的行
+          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep '\.cs$' | grep -v 'ms\)')
+          
+          # 4. 格式化失败文件列表为 Markdown 列表
+          FAILED_FILES_LIST=""
+          if [ "$FAILED_FILES_RAW" ]; then
+              while IFS= read -r line; do
+                  # 移除前后的空格
+                  CLEAN_LINE=$(echo "$line" | xargs)
+                  # 格式化为 Markdown 列表项
+                  FAILED_FILES_LIST+="- \`$CLEAN_LINE\`"$'\n'
+              done <<< "$FAILED_FILES_RAW"
+          fi
+
+          # 5. 根据退出码设置最终状态
+          if [ $EXIT_CODE -eq 0 ]; then
             echo "✅ 检查通过！"
             echo "status=success" >> $GITHUB_OUTPUT
+            echo "failed_files=''" >> $GITHUB_OUTPUT
           else
             echo "❌ 检查失败！存在格式问题。"
             echo "status=failure" >> $GITHUB_OUTPUT
-            exit 1 # 标记步骤失败
+            # 确保 failed_files_list 在 output 中是单行，否则会被截断
+            # 使用 base64 编码来安全地传递多行数据
+            ENCODED_FAILED_FILES=$(echo "$FAILED_FILES_LIST" | base64 -w 0)
+            echo "failed_files=$ENCODED_FAILED_FILES" >> $GITHUB_OUTPUT
+          fi
+          
+          # 如果失败，则强制 Action 失败
+          if [ $EXIT_CODE -ne 0 ]; then
+              exit 1
           fi
 
       - name: 📊 生成检查报告
@@ -511,6 +540,14 @@ jobs:
         run: |
           STATUS="${{ steps.run_check.outputs.status }}"
           COUNT="${{ steps.run_check.outputs.files_count }}"
+          ENCODED_FAILED_FILES="${{ steps.run_check.outputs.failed_files }}"
+          
+          # 解码失败文件列表
+          if [ -n "$ENCODED_FAILED_FILES" ]; then
+              FAILED_FILES=$(echo "$ENCODED_FAILED_FILES" | base64 --decode)
+          else
+              FAILED_FILES=""
+          fi
           
           echo "## 🎨 代码风格检查报告" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -523,10 +560,22 @@ jobs:
             echo "✨ 指定路径内无 .cs 文件变更。" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ **结果:** 失败" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ 发现代码格式问题，请在本地对应文件夹运行 \`dotnet csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ 发现代码格式问题，请在本地运行 \`dotnet csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # 报告失败文件列表
+            if [ -n "$FAILED_FILES" ]; then
+              echo "### 📄 未通过格式检查的文件 (${COUNT} 个)" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "$FAILED_FILES" >> $GITHUB_STEP_SUMMARY
+            else
+              # 备份逻辑：如果解析失败，但退出码是非零，说明 CSharpier 报错
+              echo "❓ **注意:** CSharpier 检查失败，但未能解析出具体文件列表。请检查 Action Log 获取详细信息。" >> $GITHUB_STEP_SUMMARY
+            fi
           fi
           
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
           echo "### ⚙️ 配置详情" >> $GITHUB_STEP_SUMMARY
           echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
@@ -762,8 +811,6 @@ jobs:
       always() &&
       needs.flow-prediction.outputs.should_run_deploy == 'true' &&
       (needs.build-tests.result == 'success' || needs.build-tests.result == 'failure')
-    
-
     
     steps:
       - name: 检出代码
