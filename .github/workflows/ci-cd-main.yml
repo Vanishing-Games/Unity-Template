@@ -432,7 +432,7 @@ jobs:
           dotnet tool install -g csharpier
 
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-          charpier --version
+          csharpier --version
 
       - name: 📖 加载与解析配置
         id: config
