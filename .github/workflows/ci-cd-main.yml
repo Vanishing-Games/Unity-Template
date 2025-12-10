@@ -744,6 +744,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+          submodules: recursive
 
       - name: 📖 加载构建配置
         id: load-build-config
