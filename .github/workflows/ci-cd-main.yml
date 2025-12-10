@@ -497,7 +497,7 @@ jobs:
           echo "csharpier_raw=$ENCODED_RAW" >> $GITHUB_OUTPUT
           
           # 提取失败文件（不包含反引号、不包含特殊字符）
-          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep -oE '[^ ]+\.cs')
+          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep -oE '^Error .*\.cs' | sed -E 's/^Error (.*\.cs).*/\1/')
           
           FAILED_FILES_LIST=""
           if [ -n "$FAILED_FILES_RAW" ]; then
