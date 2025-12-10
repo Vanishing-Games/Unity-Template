@@ -457,7 +457,7 @@ jobs:
         run: |
           echo "🎨 准备计算变更文件..."
           
-          BASE_REF="origin/${{ github.base_ref || 'main' }}"
+          BASE_REF="origin/develop"
           if [[ "${{ github.event_name }}" == "push" ]]; then
             BASE_REF="HEAD^"
           fi
@@ -482,7 +482,7 @@ jobs:
           echo "📄 即将检查的文件列表:"
           echo "$TRIMMED_FILES"
           
-          # 保存到 output，以供 summary 使用
+          # 保存检查文件列表
           echo "checked_files_list=$(echo "$TRIMMED_FILES" | tr ' ' '\n' | base64 -w 0)" >> $GITHUB_OUTPUT
 
           echo "🚀 运行 CSharpier..."
@@ -490,8 +490,12 @@ jobs:
           CSHARPIER_OUTPUT=$(csharpier --check $FINAL_FILES 2>&1)
           EXIT_CODE=$?
           set -e
-          echo "csharpier_raw=$CSHARPIER_OUTPUT" >> $GITHUB_OUTPUT
+
+          # Base64 安全存储原始输出，防止破坏 GITHUB_OUTPUT
+          ENCODED_RAW=$(echo "$CSHARPIER_OUTPUT" | base64 -w 0)
+          echo "csharpier_raw=$ENCODED_RAW" >> $GITHUB_OUTPUT
           
+          # 提取失败文件（不包含反引号、不包含特殊字符）
           FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep -oE '[^ ]+\.cs')
           
           FAILED_FILES_LIST=""
@@ -499,7 +503,7 @@ jobs:
               while IFS= read -r line; do
                   CLEAN_LINE=$(echo "$line" | xargs)
                   if [ -n "$CLEAN_LINE" ]; then
-                    FAILED_FILES_LIST+="- \`$CLEAN_LINE\`"$'\n'
+                    FAILED_FILES_LIST+="- $CLEAN_LINE"$'\n'
                   fi
               done <<< "$FAILED_FILES_RAW"
           fi
@@ -509,8 +513,11 @@ jobs:
             echo "failed_files=''" >> $GITHUB_OUTPUT
           else
             echo "status=failure" >> $GITHUB_OUTPUT
+
+            # Base64 编码失败文件列表，保证安全写入
             ENCODED_FAILED_FILES=$(echo "$FAILED_FILES_LIST" | base64 -w 0)
             echo "failed_files=$ENCODED_FAILED_FILES" >> $GITHUB_OUTPUT
+
             exit 1
           fi
 
