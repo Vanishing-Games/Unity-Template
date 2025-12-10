@@ -537,7 +537,6 @@ jobs:
           
           # 解码失败文件列表
           if [ -n "$ENCODED_FAILED_FILES" ]; then
-              # -d: decode, -w 0: 不换行
               FAILED_FILES=$(echo "$ENCODED_FAILED_FILES" | base64 -d) 
           else
               FAILED_FILES=""
@@ -557,20 +556,16 @@ jobs:
             echo "⚠️ 发现代码格式问题，请在本地运行 \`dotnet csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             
-            # 报告失败文件列表
             if [ -n "$FAILED_FILES" ]; then
-              # 使用 wc -l 计算失败的文件数量（行数）
               FAILED_COUNT=$(echo "$FAILED_FILES" | wc -l)
-              
               echo "### 📄 未通过格式检查的文件 (${FAILED_COUNT} 个)" >> $GITHUB_STEP_SUMMARY
               echo "" >> $GITHUB_STEP_SUMMARY
               echo "$FAILED_FILES" >> $GITHUB_STEP_SUMMARY
             else
-              # 备份逻辑：如果解析失败，但退出码是非零，说明 CSharpier 报错
               echo "❓ **注意:** CSharpier 检查失败，但未能解析出具体文件列表。请检查 Action Log 获取详细信息。" >> $GITHUB_STEP_SUMMARY
             fi
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "### ⚙️ 配置详情" >> $GITHUB_STEP_SUMMARY
@@ -579,6 +574,19 @@ jobs:
           echo "| **检查路径** | \`${{ steps.config.outputs.check_paths }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **检查文件数** | $COUNT |" >> $GITHUB_STEP_SUMMARY
           echo "| **自动修复** | ❌ (已禁用) |" >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📄 CSharpier 原始输出" >> $GITHUB_STEP_SUMMARY
+          echo "<details><summary>点击展开原始输出</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # 将原始输出安全写入 summary（保留换行）
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.run_check.outputs.csharpier_raw }}" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
+
 
   # =============================================================================  
   # 阶段2: 单元测试 - 运行Unity项目中的单元测试
