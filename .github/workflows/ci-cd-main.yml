@@ -471,7 +471,6 @@ jobs:
             echo "✅ 在指定路径下无 .cs 文件变更。"
             echo "status=skipped" >> $GITHUB_OUTPUT
             echo "files_count=0" >> $GITHUB_OUTPUT
-            # 必须设置一个空的 failed_files，防止下一步引用时出错
             echo "failed_files=''" >> $GITHUB_OUTPUT 
             exit 0
           fi
@@ -483,36 +482,25 @@ jobs:
           echo "🚀 运行 CSharpier..."
           
           # 2. 核心改进：执行检查并捕获输出
-          # 使用 `set +e` 暂时关闭脚本的非零退出码失败特性，以便捕获输出。
-          # 检查结果（需要修复的文件）通常会输出到 stdout。
           set +e
-          # 使用 `2>&1` 将 stderr 合并到 stdout，确保捕获所有日志和结果
-          # 使用 --json 模式获取更容易解析的结果，但 CSharpier 的 --check 模式不支持 JSON 输出，
-          # 因此我们继续依赖其文本输出。
           CSHARPIER_OUTPUT=$(dotnet csharpier --check $FINAL_FILES 2>&1)
           EXIT_CODE=$?
-          set -e # 恢复脚本的非零退出码失败特性
-
+          set -e
+          
           # 3. 解析输出以找到失败文件
-          # 失败的行通常以 "Formatting changed:" 开头，后接文件路径。
-          # 注意：由于 CSharpier 可能会有不同的日志格式，我们使用一个稳健的方式：
-          # 失败的输出通常包含需要修改的文件名。
-          
-          # 尝试使用 grep 过滤出需要格式化的文件路径（根据 CSharpier 的典型输出格式）
-          # CSharpier 在 --check 模式下会直接打印出需要格式化的文件名。
-          # 失败时，它会输出类似 "some/path/file.cs (2ms)" 的行。
-          
-          # 这里我们使用一个简单的匹配逻辑，查找输出中包含 `.cs` 且不在日志中的行
-          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep '\.cs$' | grep -v 'ms\)')
+          # 查找包含 `.cs` 且不包含 `ms` (耗时日志) 的行
+          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep '\.cs$' | grep -v 'ms')
           
           # 4. 格式化失败文件列表为 Markdown 列表
           FAILED_FILES_LIST=""
-          if [ "$FAILED_FILES_RAW" ]; then
+          if [ -n "$FAILED_FILES_RAW" ]; then
+              # 使用 while 循环逐行处理，确保每一行都被正确捕获
               while IFS= read -r line; do
-                  # 移除前后的空格
                   CLEAN_LINE=$(echo "$line" | xargs)
-                  # 格式化为 Markdown 列表项
-                  FAILED_FILES_LIST+="- \`$CLEAN_LINE\`"$'\n'
+                  # 排除空的行，防止空行被编码
+                  if [ -n "$CLEAN_LINE" ]; then
+                    FAILED_FILES_LIST+="- \`$CLEAN_LINE\`"$'\n'
+                  fi
               done <<< "$FAILED_FILES_RAW"
           fi
 
@@ -524,7 +512,7 @@ jobs:
           else
             echo "❌ 检查失败！存在格式问题。"
             echo "status=failure" >> $GITHUB_OUTPUT
-            # 确保 failed_files_list 在 output 中是单行，否则会被截断
+            
             # 使用 base64 编码来安全地传递多行数据
             ENCODED_FAILED_FILES=$(echo "$FAILED_FILES_LIST" | base64 -w 0)
             echo "failed_files=$ENCODED_FAILED_FILES" >> $GITHUB_OUTPUT
