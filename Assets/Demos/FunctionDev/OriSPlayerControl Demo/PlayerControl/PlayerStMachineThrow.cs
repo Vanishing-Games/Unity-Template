@@ -6,8 +6,8 @@ using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
-    public class PlayerControlThrow : PlayerControlCapabilityBase
-    {
+	public class PlayerStMachineThrow : PlayerControlCapabilityBase
+	{
 		protected override void SetUpTickSettings()
 		{
 			base.SetUpTickSettings();
@@ -16,10 +16,7 @@ namespace PlayerControlByOris
 
 		protected override bool OnShouldActivate()
 		{
-			return PreThrowInputTimer > 0
-				&& PreThrowInputTimer < mPCComponent.PreThrowTime
-				&& mPCComponent.IsCanThrow
-				&& mPCComponent.ThrowCdInputTimer == 0;
+			return CanThrowCheck();
 		}
 
 		protected override void OnActivate()
@@ -48,7 +45,7 @@ namespace PlayerControlByOris
 				TempHC.DestroyThis();
 				TempHC = null;
 				mPCComponent.ThrownHook = null;
-			}				
+			}
 		}
 
 		protected override void OnTick(float deltaTime)
@@ -61,7 +58,6 @@ namespace PlayerControlByOris
 
 			if (ThrowStartTimer == 0 && ThrowMoveTimer == mPCComponent.ThrowMoveTime)
 			{
-				Debug.Log("1");
 				CreateHook();
 			}
 
@@ -87,7 +83,7 @@ namespace PlayerControlByOris
 
 		private void ThrowStartGoing()
 		{
-			//之后加一个缓速减速到0
+			//TODO(OriS):之后加一个缓速减速到0
 			mPCComponent.CtrlVelocity = Vector2.zero;
 		}
 
@@ -97,7 +93,12 @@ namespace PlayerControlByOris
 				new Vector2(ThrowMoveVelocity.x * mPCComponent.FacingDir, ThrowMoveVelocity.y);
 		}
 
+		private bool CanThrowCheck() => PreThrowInputTimer > 0
+				&& PreThrowInputTimer < mPCComponent.PreThrowTime
+				&& mPCComponent.IsCanThrow
+				&& mPCComponent.ThrowCdInputTimer == 0;
+
 		private TempHookControl TempHC;
 		private bool IsHookThing;
-    }
+	}
 }

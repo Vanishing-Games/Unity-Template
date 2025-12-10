@@ -5,7 +5,7 @@ using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
-	public class PlayerControlDash : PlayerControlCapabilityBase
+	public class PlayerStMachineDash : PlayerControlCapabilityBase
 	{
 		protected override void SetUpTickSettings()
 		{
@@ -44,6 +44,7 @@ namespace PlayerControlByOris
 				mPCComponent.CtrlVelocity = Vector2.zero;
 			}
 
+			//Wait计时结束后开始冲刺
 			if (mPCComponent.DashTimer > 0 && mPCComponent.DashWaitTimer == 0)
 			{
 				if (mPCComponent.DashTimer > mPCComponent.DashEndSlowTime)

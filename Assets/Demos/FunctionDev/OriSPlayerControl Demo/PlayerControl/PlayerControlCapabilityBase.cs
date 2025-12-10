@@ -4,8 +4,8 @@ using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
-    public abstract class PlayerControlCapabilityBase : EccCapability
-    {
+	public abstract class PlayerControlCapabilityBase : EccCapability
+	{
 		protected override void OnActivate() { }
 
 		protected override void OnDeactivate() { }
@@ -21,7 +21,7 @@ namespace PlayerControlByOris
 			TickType = EccTickType.Fixed;
 		}
 
-		protected float Approach (float currentValue, float targetValue, float Accelerate)
+		protected float Approach(float currentValue, float targetValue, float Accelerate)
 		{
 			float backValue = targetValue;
 			if (currentValue > targetValue)
@@ -39,7 +39,7 @@ namespace PlayerControlByOris
 			return backValue;
 		}
 
-		protected Vector2 ApproachInTime (
+		protected Vector2 ApproachInTime(
 			Vector2 currentVelocity,
 			float targetSpeed,
 			int currentTime
@@ -54,18 +54,11 @@ namespace PlayerControlByOris
 			return dir * Speed;
 		}
 
-		protected void SetStateMachine(PlayerStateMachine ToState,EccTag ToTag)
+		protected void SetStateMachine(PlayerStateMachine ToState, EccTag ToTag)
 		{
 			mPCComponent.CurrentState = ToState;
 			List<EccTag> CurrentTag = new List<EccTag> { ToTag };
-			mOwner.UnblockCapabilities(StateTag);
-			List<EccTag> totalTags = new() {
-				EccTag.NormalState,
-				EccTag.GrabState,
-				EccTag.ThrowState,
-				EccTag.DashState,
-				EccTag.DeathState
-			};
+			mOwner.UnblockCapabilities(StateTag);			
 			foreach (var tag in totalTags)
 			{
 				if (tag != ToTag)
@@ -74,6 +67,14 @@ namespace PlayerControlByOris
 		}
 
 		protected static IEccInstigator StateTag;
+
+		protected static List<EccTag> totalTags = new() {
+				EccTag.NormalState,
+				EccTag.GrabState,
+				EccTag.ThrowState,
+				EccTag.DashState,
+				EccTag.DeathState
+			};
 
 		protected PlayerControlComponent mPCComponent;
 		protected BoxCollider2D mBoxCollision;

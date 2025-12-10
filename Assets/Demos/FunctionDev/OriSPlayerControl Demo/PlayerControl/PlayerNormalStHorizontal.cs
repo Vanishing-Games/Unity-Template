@@ -7,7 +7,7 @@ using System;
 
 namespace PlayerControlByOris
 {
-	public class PlayerControlHorizontal : PlayerControlCapabilityBase
+	public class PlayerNormalStHorizontal : PlayerControlCapabilityBase
 	{
 		protected override void SetUpTickSettings()
 		{

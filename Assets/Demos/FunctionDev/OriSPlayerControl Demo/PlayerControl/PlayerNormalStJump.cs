@@ -5,7 +5,7 @@ using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
-	public class PlayerControlJump : PlayerControlCapabilityBase
+	public class PlayerNormalStJump : PlayerControlCapabilityBase
 	{
 		protected override void SetUpTickSettings()
 		{
@@ -52,12 +52,9 @@ namespace PlayerControlByOris
 
 		protected bool IsReadyJump()
 		{
-			if (IsOnGround && mPCComponent.PreJumpInputTimer > 0
-				&& mPCComponent.PreJumpInputTimer < PreJumpInputTime)
+			if (GroundJumpCheck())
 				return true;
-			else if (!IsOnGround && mPCComponent.PreJumpInputTimer > 0
-				&& mPCComponent.PreJumpInputTimer < PreJumpInputTime
-				&& mPCComponent.CoyoteJumpInputRevTimer > 0)
+			else if (CoyoteJumpCheck())
 				return true;
 			else if (IsJumping)
 				return true;
@@ -78,7 +75,12 @@ namespace PlayerControlByOris
 		}
 
 		protected bool CollisionEndJump() => !IsJumping;
+		protected bool GroundJumpCheck() => IsOnGround && mPCComponent.PreJumpInputTimer > 0
+				&& mPCComponent.PreJumpInputTimer < PreJumpInputTime;
+		protected bool CoyoteJumpCheck() => !IsOnGround && mPCComponent.PreJumpInputTimer > 0
+				&& mPCComponent.PreJumpInputTimer < PreJumpInputTime
+				&& mPCComponent.CoyoteJumpInputRevTimer > 0;
 	}
 
-
+	
 }

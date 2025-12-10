@@ -20,7 +20,7 @@ namespace PlayerControlByOris
 
     public partial class PlayerControlComponent : EccComponent
     {
-		[NonSerialized]
+		[HideInInspector]
 		public GameObject ThrownHook;
 		[BoxGroup("预制体"), Tooltip("投出的勾绳"), ShowInInspector, OdinSerialize,]
 		public GameObject PreHook;
@@ -164,6 +164,8 @@ namespace PlayerControlByOris
 		public int GrabStayTime { get; set; }
 		[BoxGroup("抓住相关"), Tooltip("抓住暂留的时长"), ShowInInspector, OdinSerialize,]
 		public int GrabThresholdSpeedY { get; set; }
+		[BoxGroup("抓住相关"), Tooltip("抓住拐角的起点(基于头顶)y"), ShowInInspector, OdinSerialize,]
+		public float CornerGrabStartOffsetY { get; set; }
 		[BoxGroup("抓住相关"), Tooltip("抓住拐角的范围y"), ShowInInspector, OdinSerialize,]
 		public float CornerGrabOffsetY { get; set; }
 		[BoxGroup("抓住相关"), Tooltip("抓住拐角的范围x"), ShowInInspector, OdinSerialize,]

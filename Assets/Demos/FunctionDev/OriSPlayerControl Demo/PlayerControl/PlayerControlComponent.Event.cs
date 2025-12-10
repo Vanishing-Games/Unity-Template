@@ -12,7 +12,7 @@ namespace PlayerControlByOris
 {
 	public partial class PlayerControlComponent : EccComponent
 	{
-		[NonSerialized]
+		[HideInInspector]
 		public Subject<EccTag> TagChangeEvent = new Subject<EccTag>();
-    }
+	}
 }

@@ -6,8 +6,13 @@ using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
-	public class PlayerControlInputTemp : EccCapability
+	public class PlayerInputTemp : EccCapability
 	{
+		protected override void SetUpTickSettings()
+		{
+			TickGroup = EccTickGroup.Input;
+			TickType = EccTickType.ByFrame;
+		}
 		protected override void OnActivate()
 		{
 		}
@@ -37,12 +42,6 @@ namespace PlayerControlByOris
 			mPCComponent.InputY = UnityEngine.Input.GetAxisRaw("Vertical");
 			mPCComponent.InputJump = UnityEngine.Input.GetButton("Jump");
 			mPCComponent.InputAct = UnityEngine.Input.GetButton("Act");
-		}
-
-		protected override void SetUpTickSettings()
-		{
-			TickGroup = EccTickGroup.Input;
-			TickType = EccTickType.ByFrame;
 		}
 
 		protected PlayerControlComponent mPCComponent;

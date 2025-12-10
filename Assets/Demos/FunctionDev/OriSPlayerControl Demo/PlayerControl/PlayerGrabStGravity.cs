@@ -5,7 +5,7 @@ using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
-	public class PlayerControlGrabGravity : PlayerControlCapabilityBase
+	public class PlayerGrabStGravity : PlayerControlCapabilityBase
 	{
 		protected override void SetUpTickSettings()
 		{

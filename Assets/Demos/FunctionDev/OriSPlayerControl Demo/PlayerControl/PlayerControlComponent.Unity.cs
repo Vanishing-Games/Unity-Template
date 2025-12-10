@@ -8,8 +8,8 @@ using VanishingGames.ECC.Runtime;
 
 namespace PlayerControlByOris
 {
-    public partial class PlayerControlComponent : EccComponent
-    {
+	public partial class PlayerControlComponent : EccComponent
+	{
 		protected override void OnSetup()
 		{
 			mRigidbody = mGameObject.GetComponent<Rigidbody2D>();
@@ -45,7 +45,7 @@ namespace PlayerControlByOris
 			if (collision.transform.CompareTag("Wall"))
 			{
 				Vector2 normal = collision.GetContact(0).normal;
-				if (normal.y >= 0.9f && Mathf.Abs(normal.x) < 0.1f)
+				if (IsNormalUp(normal))
 				{
 					IsOnGround = true;
 					if (CtrlVelocity.y < 0)
@@ -61,27 +61,27 @@ namespace PlayerControlByOris
 				for (int i = 0, len = collision.contactCount; i < len; i++)
 				{
 					Vector2 normal = collision.GetContact(i).normal;
-					
-					if (normal.y >= 0.9f && Mathf.Abs(normal.x) < 0.1f)
+
+					if (IsNormalUp(normal))
 					{
 						IsOnGround = true;
 						if (CtrlVelocity.y < 0)
 							CtrlVelocity = new Vector2(CtrlVelocity.x, 0);
 					}
-					else if (normal.y <= -0.9f && Mathf.Abs(normal.x) < 0.1f)
+					else if (IsNormalDown(normal))
 					{
 						IsJumping = false;
 						if (CtrlVelocity.y > 0)
 							CtrlVelocity = new Vector2(CtrlVelocity.x, 0);
 					}
-					else if (normal.x <= -0.9f && Mathf.Abs(normal.y) < 0.1f)
+					else if (IsNormalLeft(normal))
 					{
 						if (CtrlVelocity.y > 0)
 							IsOnGround = false;
 						if (CtrlVelocity.x > 0)
 							CtrlVelocity = new Vector2(0, CtrlVelocity.y);
 					}
-					else if (normal.x >= 0.9f && Mathf.Abs(normal.y) < 0.1f)
+					else if (IsNormalRight(normal))
 					{
 						if (CtrlVelocity.y > 0)
 							IsOnGround = false;
@@ -98,15 +98,21 @@ namespace PlayerControlByOris
 				IsOnGround = false;
 		}
 
-		[NonSerialized]
+		private bool IsNormalUp(Vector2 normal) => normal.y >= 0.9f && Mathf.Abs(normal.x) < 0.1f;
+		private bool IsNormalDown(Vector2 normal) => normal.y <= -0.9f && Mathf.Abs(normal.x) < 0.1f;
+		private bool IsNormalLeft(Vector2 normal) => normal.x <= -0.9f && Mathf.Abs(normal.y) < 0.1f;
+		private bool IsNormalRight(Vector2 normal) => normal.x >= 0.9f && Mathf.Abs(normal.y) < 0.1f;
+
+
+		[HideInInspector]
 		public Transform mTranform;
-		[NonSerialized]
+		[HideInInspector]
 		public Rigidbody2D mRigidbody;
-		[NonSerialized]
+		[HideInInspector]
 		public BoxCollider2D mBoxCollider;
-		[NonSerialized]
+		[HideInInspector]
 		public Animator mAnim;
-		[NonSerialized]
+		[HideInInspector]
 		public GameObject mGO;
 		private IDisposable mCollisionEnterSubscription;
 		private IDisposable mCollisionExitSubscription;

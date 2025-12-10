@@ -15,12 +15,6 @@ namespace PlayerControlByOris
 			TickOrderInGroup = (uint)PlayerControlTickOrder.CollisionStartCheck;
 		}
 
-		protected override void OnSetup()
-		{
-			base.OnSetup();
-			
-		}
-
 		protected override bool OnShouldActivate()
 		{
 			return true;
@@ -34,7 +28,7 @@ namespace PlayerControlByOris
 		protected override void OnTick(float deltaTime)
 		{
 			if (IsCanGrab())
-			{			
+			{
 				CornerGrabCheck(mPCComponent.mTranform.position, Vector2.right);
 				CornerGrabCheck(mPCComponent.mTranform.position, Vector2.left);
 			}
@@ -48,40 +42,56 @@ namespace PlayerControlByOris
 
 		private void CornerGrabCheck(Vector2 PlayerPosition, Vector2 Dir)
 		{
-			Vector2 StartPoint =PlayerPosition +
-				PlayerColliderOffsetX * Dir + new Vector2(0, PlayerColliderOffsetUpY);
-			RaycastHit2D HeadHit = Physics2D.Raycast(
+			//TODO(Vanish):Results变量在外面声明初始化都不行
+			RaycastHit2D[] HeadHitResults = new RaycastHit2D[1];
+			RaycastHit2D[] DownHitResults = new RaycastHit2D[1];
+
+			Vector2 StartPoint = PlayerPosition
+				+ PlayerColliderOffsetX * Dir
+				+ new Vector2(0, PlayerColliderOffsetUpY);
+			int HeadCount = Physics2D.RaycastNonAlloc(
 				StartPoint - new Vector2(0, VerticalDistance),
 				Dir,
+				HeadHitResults,
 				HorizontalDistance,
 				LayerMask.GetMask("Wall")
 				);
+
 			Debug.DrawRay(StartPoint - new Vector2(0, VerticalDistance), Dir * HorizontalDistance, Color.red);
 
-			if (HeadHit.collider == null)
+			RaycastHit2D HeadHit;
+			if (HeadCount > 0)
+			{
+				HeadHit = HeadHitResults[0];
+				HeadHitResults[0] = default;
+			}
+			else
+			{
 				return;
+			}
 
-			Vector2 DownStartPoint = HeadHit.point + (Vector2.up * VerticalDistance * 2)
+			Vector2 DownStartPoint = HeadHit.point
+				+ (Vector2.up * VerticalDistance * 2)
 				+ Dir * 0.1f;
-
-			RaycastHit2D DownHit = Physics2D.Raycast(
+			int DownCount = Physics2D.RaycastNonAlloc(
 				DownStartPoint,
 				Vector2.down,
+				DownHitResults,
 				VerticalDistance * 2f,
 				LayerMask.GetMask("Wall")
 				);
+
+			RaycastHit2D DownHit = DownHitResults[0];
+			DownHitResults[0] = default;
+
 			Debug.DrawRay(DownStartPoint, Vector2.down * VerticalDistance, Color.yellow);
 			if (DownHit.collider)
 			{
-				Debug.Log(DownHit.point);
-				Debug.Log(DownStartPoint);
 				if (Vector2.Distance(DownHit.point, DownStartPoint) > 0.01)
-				{					
-					Vector2 targetPoint =DownHit.point -
-						PlayerColliderOffsetX * Dir -
-						new Vector2(0, PlayerColliderOffsetUpY);
-					Debug.Log(targetPoint);
-					Debug.Log(DownHit.point);
+				{
+					Vector2 targetPoint = DownHit.point
+						- PlayerColliderOffsetX * Dir
+						- new Vector2(0, PlayerColliderOffsetUpY);
 					GrabSet(targetPoint, true, false, Dir);
 				}
 			}
@@ -89,13 +99,20 @@ namespace PlayerControlByOris
 
 		private void NormalGrabCheck(Vector2 PlayerPosition)
 		{
+			//TODO(Vanish):这个应该也是
+			Collider2D[] ColliderHitResults = new Collider2D[1];
+
 			Vector2 BoxRange = new Vector2(mPCComponent.GrabRangeX, mPCComponent.GrabRangeY);
-			Collider2D hitCollider = Physics2D.OverlapBox(
+			int count = Physics2D.OverlapBoxNonAlloc(
 				PlayerPosition + mPCComponent.GrabRangeOffset,
 				BoxRange,
 				0f,
+				ColliderHitResults,
 				LayerMask.GetMask("VerticalGrab")
 				);
+
+			Collider2D hitCollider = ColliderHitResults[0];
+			ColliderHitResults[0] = default;
 
 			if (hitCollider != null && IsCanGrab())
 			{
@@ -122,17 +139,22 @@ namespace PlayerControlByOris
 			mPCComponent.mTranform.position = targetPoint;
 		}
 
+		private RaycastHit2D[] HeadHitResults;
+		private RaycastHit2D[] DownHitResults;
+		private Collider2D[] ColliderHitResults;
+
 		private bool IsCanGrab() => !IsOnGround
 			&& mPCComponent.CurrentState == PlayerStateMachine.NormalState
 			&& mPCComponent.CtrlVelocity.y < mPCComponent.GrabThresholdSpeedY;
 		private float PlayerColliderOffsetX => mPCComponent.mBoxCollider.size.x * 0.5f;
-		private float PlayerColliderOffsetUpY => mPCComponent.mBoxCollider.size.y * 0.5f + mPCComponent.mBoxCollider.offset.y;
-
-
+		private float PlayerColliderOffsetUpY =>
+			mPCComponent.mBoxCollider.size.y * 0.5f
+			+ mPCComponent.mBoxCollider.offset.y
+			+ mPCComponent.CornerGrabStartOffsetY;
 
 		private float HorizontalDistance => mPCComponent.CornerGrabOffsetX;
 		private float VerticalDistance => mPCComponent.CornerGrabOffsetY;
 
-		
+
 	}
 }
