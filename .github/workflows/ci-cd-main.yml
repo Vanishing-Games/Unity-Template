@@ -532,7 +532,7 @@ jobs:
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
           echo "| **检查路径** | \`${{ steps.config.outputs.check_paths }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **检查文件数** | $COUNT |" >> $GITHUB_STEP_SUMMARY
-          echo "| **自动修复** |
+          echo "| **自动修复** | ❌ (已禁用) |" >> $GITHUB_STEP_SUMMARY
 
   # =============================================================================  
   # 阶段2: 单元测试 - 运行Unity项目中的单元测试
