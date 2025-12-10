@@ -487,13 +487,8 @@ jobs:
           CSHARPIER_OUTPUT=$(dotnet csharpier --check $FINAL_FILES 2>&1)
           EXIT_CODE=$?
           set -e
+          echo "csharpier_raw=$CSHARPIER_OUTPUT" >> $GITHUB_OUTPUT
 
-          RAW_BASE64=$(printf "%s" "$CSHARPIER_OUTPUT" | base64 -w 0)
-          {
-            echo "csharpier_raw<<EOF"
-            echo "$RAW_BASE64"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
           
           # 3. 解析输出以找到失败文件并清理路径
           # 查找包含 '.cs' 的行 (过滤掉耗时日志)，然后使用 sed 清理行首尾的非路径字符。
