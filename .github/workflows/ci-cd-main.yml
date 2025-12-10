@@ -522,45 +522,85 @@ jobs:
           fi
 
       - name: 📊 生成检查报告
-        if: always() 
+        if: always()
         run: |
           STATUS="${{ steps.run_check.outputs.status }}"
           COUNT="${{ steps.run_check.outputs.files_count }}"
           ENCODED_FAILED_FILES="${{ steps.run_check.outputs.failed_files }}"
-          
-          # 解码失败文件列表
+          ENCODED_CHECKED_FILES="${{ steps.run_check.outputs.checked_files_list }}"
+          ENCODED_RAW_OUTPUT="${{ steps.run_check.outputs.csharpier_raw }}"
+
+          # --- 解码失败文件列表 ---
           if [ -n "$ENCODED_FAILED_FILES" ]; then
-              FAILED_FILES=$(echo "$ENCODED_FAILED_FILES" | base64 -d) 
+              FAILED_FILES=$(echo "$ENCODED_FAILED_FILES" | base64 -d)
           else
               FAILED_FILES=""
           fi
-          
+
+          # --- 解码所有接受检查的文件 ---
+          if [ -n "$ENCODED_CHECKED_FILES" ]; then
+              CHECKED_FILES=$(echo "$ENCODED_CHECKED_FILES" | base64 -d)
+          else
+              CHECKED_FILES=""
+          fi
+
+          # --- 解码 CSharpier 原始输出 ---
+          if [ -n "$ENCODED_RAW_OUTPUT" ]; then
+              RAW_OUTPUT=$(echo "$ENCODED_RAW_OUTPUT" | base64 -d)
+          else
+              RAW_OUTPUT="(无输出)"
+          fi
+
           echo "## 🎨 代码风格检查报告" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
+          # --- 状态显示 ---
           if [ "$STATUS" == "success" ]; then
             echo "✅ **结果:** 通过" >> $GITHUB_STEP_SUMMARY
             echo "🎉 所有变更的 C# 文件格式正确。" >> $GITHUB_STEP_SUMMARY
+
           elif [ "$STATUS" == "skipped" ]; then
             echo "⚪ **结果:** 跳过" >> $GITHUB_STEP_SUMMARY
             echo "✨ 指定路径内无 .cs 文件变更。" >> $GITHUB_STEP_SUMMARY
+
           else
             echo "❌ **结果:** 失败" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ 发现代码格式问题，请在本地运行 \`dotnet csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ 发现代码格式问题，请在本地运行 \`csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            
+
+            # --- 失败文件列表 ---
             if [ -n "$FAILED_FILES" ]; then
               FAILED_COUNT=$(echo "$FAILED_FILES" | wc -l)
-              echo "### 📄 未通过格式检查的文件 (${FAILED_COUNT} 个)" >> $GITHUB_STEP_SUMMARY
+              echo "### 📄 未通过格式检查的文件（${FAILED_COUNT} 个）" >> $GITHUB_STEP_SUMMARY
               echo "" >> $GITHUB_STEP_SUMMARY
+
+              echo '```' >> $GITHUB_STEP_SUMMARY
               echo "$FAILED_FILES" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
             else
-              echo "❓ **注意:** CSharpier 检查失败，但未能解析出具体文件列表。请检查 Action Log 获取详细信息。" >> $GITHUB_STEP_SUMMARY
+              echo "❓ **注意:** CSharpier 检查失败，但未能解析出具体文件列表。" >> $GITHUB_STEP_SUMMARY
             fi
           fi
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
+
+          # --- 所有检查文件 ---
+          echo "### 📂 所有接受检查的文件（$COUNT 个）" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -n "$CHECKED_FILES" ]; then
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "$CHECKED_FILES" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "_（无文件）_" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+
+          # --- 配置详情 ---
           echo "### ⚙️ 配置详情" >> $GITHUB_STEP_SUMMARY
           echo "| 配置项 | 值 |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
@@ -568,25 +608,20 @@ jobs:
           echo "| **检查文件数** | $COUNT |" >> $GITHUB_STEP_SUMMARY
           echo "| **自动修复** | ❌ (已禁用) |" >> $GITHUB_STEP_SUMMARY
 
-          CHECKED_FILES=$(echo "${{ steps.run_check.outputs.checked_files_list }}" | base64 -d)
-          echo "### 📂 所有接受检查的文件 ($COUNT 个)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "$CHECKED_FILES" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
 
-
-          echo "" >> $GITHUB_STEP_SUMMARY
+          # --- CSharpier 原始输出（已解码） ---
           echo "### 📄 CSharpier 原始输出" >> $GITHUB_STEP_SUMMARY
           echo "<details><summary>点击展开原始输出</summary>" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          # 将原始输出安全写入 summary（保留换行）
           echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.run_check.outputs.csharpier_raw }}" >> $GITHUB_STEP_SUMMARY
+          echo "$RAW_OUTPUT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
           echo "</details>" >> $GITHUB_STEP_SUMMARY
+
 
   # =============================================================================  
   # 阶段2: 单元测试 - 运行Unity项目中的单元测试
