@@ -523,7 +523,7 @@ jobs:
             echo "✨ 指定路径内无 .cs 文件变更。" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ **结果:** 失败" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ 发现代码格式问题，请在本地运行 \`dotnet csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ 发现代码格式问题，请在本地对应文件夹运行 \`dotnet csharpier .\` 进行修复。" >> $GITHUB_STEP_SUMMARY
           fi
           
           echo "" >> $GITHUB_STEP_SUMMARY
