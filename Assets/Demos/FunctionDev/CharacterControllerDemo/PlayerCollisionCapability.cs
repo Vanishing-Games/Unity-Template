@@ -26,6 +26,8 @@ namespace CharacterControllerDemo
             return !CheckIfOverlapping();
         }
 
+        public void NotUsed() { }
+
         protected override void OnTick(float deltaTime)
         {
             GeometricDepenetration();
