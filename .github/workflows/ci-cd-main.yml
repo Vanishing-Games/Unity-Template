@@ -437,7 +437,6 @@ jobs:
           echo "🔧 读取 Pipeline 配置..."
           CONFIG_FILE=".github/workflows/Pipeline Config/pipeline-settings.json"
           
-          # 注意：jq 必须安装在运行器上，通常 ubuntu-latest 自带，但若遇到问题需手动安装
           CHECK_PATHS=$(jq -r '.jobs.code_style.settings.checkPaths[]' "$CONFIG_FILE" | tr '\n' ' ')
           AUTO_FIX=$(jq -r '.jobs.code_style.settings.autoFix' "$CONFIG_FILE")
           
