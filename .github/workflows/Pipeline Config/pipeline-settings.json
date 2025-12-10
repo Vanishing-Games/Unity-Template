@@ -114,13 +114,12 @@
     },
     "code_style": {
       "name": "代码风格检测与校准",
-      "description": "使用roslynator检查代码格式",
+      "description": "使用CSharpier检查代码格式",
       "timeout": 15,
       "failureAction": "stop_pipeline",
       "settings": {
-        "autoFix": true,
-        "checkPaths": ["Assets", "CodeUnfucker"],
-        "excludePaths": ["Assets/Tests", "Assets/Plugins", "Assets/StreamingAssets"]
+        "autoFix": false,
+        "checkPaths": ["Assets/Core","Assets/GameMain","Assets/Demos"]
       }
     },
     "deploy_pages": {
