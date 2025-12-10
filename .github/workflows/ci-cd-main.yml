@@ -437,6 +437,7 @@ jobs:
           echo "🔧 读取 Pipeline 配置..."
           CONFIG_FILE=".github/workflows/Pipeline Config/pipeline-settings.json"
           
+          # 注意：jq 必须安装在运行器上，通常 ubuntu-latest 自带，但若遇到问题需手动安装
           CHECK_PATHS=$(jq -r '.jobs.code_style.settings.checkPaths[]' "$CONFIG_FILE" | tr '\n' ' ')
           AUTO_FIX=$(jq -r '.jobs.code_style.settings.autoFix' "$CONFIG_FILE")
           
@@ -456,7 +457,8 @@ jobs:
           
           BASE_REF="origin/${{ github.base_ref || 'main' }}"
           if [[ "${{ github.event_name }}" == "push" ]]; then
-            BASE_REF="HEAD^"
+            # 对于 push 事件，我们通常对比 HEAD^，或者使用特定逻辑获取合并基准
+            BASE_REF="HEAD^" 
           fi
           echo "🔍 对比基准: $BASE_REF"
 
@@ -481,23 +483,31 @@ jobs:
 
           echo "🚀 运行 CSharpier..."
           
-          # 2. 核心改进：执行检查并捕获输出
+          # 2. 执行检查并捕获输出
           set +e
           CSHARPIER_OUTPUT=$(dotnet csharpier --check $FINAL_FILES 2>&1)
           EXIT_CODE=$?
           set -e
           
-          # 3. 解析输出以找到失败文件
-          # 查找包含 `.cs` 且不包含 `ms` (耗时日志) 的行
-          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | grep '\.cs$' | grep -v 'ms')
+          # 3. 核心改进：解析输出以找到失败文件并清理路径
+          # 查找包含 '.cs' 的行 (过滤掉耗时日志)，然后使用 sed 清理行首尾的非路径字符。
+          # sed -E: 使用扩展正则。
+          # s/^[[:space:]]*[\["]?//: 移除行首的空格、可选的 [ 或 "。
+          # s/[\]"]?[[:space:]]*$//: 移除行尾的可选 ] 或 "、以及空格。
+          FAILED_FILES_RAW=$(echo "$CSHARPIER_OUTPUT" | \
+            grep '\.cs' | \
+            grep -v 'ms' | \
+            sed -E 's/^[[:space:]]*[\["]?//; s/[\]"]?[[:space:]]*$//' \
+          )
           
           # 4. 格式化失败文件列表为 Markdown 列表
           FAILED_FILES_LIST=""
           if [ -n "$FAILED_FILES_RAW" ]; then
               # 使用 while 循环逐行处理，确保每一行都被正确捕获
               while IFS= read -r line; do
+                  # 再次使用 xargs 确保移除残留的首尾空格
                   CLEAN_LINE=$(echo "$line" | xargs)
-                  # 排除空的行，防止空行被编码
+                  
                   if [ -n "$CLEAN_LINE" ]; then
                     FAILED_FILES_LIST+="- \`$CLEAN_LINE\`"$'\n'
                   fi
@@ -532,7 +542,8 @@ jobs:
           
           # 解码失败文件列表
           if [ -n "$ENCODED_FAILED_FILES" ]; then
-              FAILED_FILES=$(echo "$ENCODED_FAILED_FILES" | base64 --decode)
+              # -d: decode, -w 0: 不换行
+              FAILED_FILES=$(echo "$ENCODED_FAILED_FILES" | base64 -d) 
           else
               FAILED_FILES=""
           fi
@@ -553,7 +564,10 @@ jobs:
             
             # 报告失败文件列表
             if [ -n "$FAILED_FILES" ]; then
-              echo "### 📄 未通过格式检查的文件 (${COUNT} 个)" >> $GITHUB_STEP_SUMMARY
+              # 使用 wc -l 计算失败的文件数量（行数）
+              FAILED_COUNT=$(echo "$FAILED_FILES" | wc -l)
+              
+              echo "### 📄 未通过格式检查的文件 (${FAILED_COUNT} 个)" >> $GITHUB_STEP_SUMMARY
               echo "" >> $GITHUB_STEP_SUMMARY
               echo "$FAILED_FILES" >> $GITHUB_STEP_SUMMARY
             else
