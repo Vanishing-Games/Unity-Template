@@ -487,7 +487,7 @@ jobs:
 
           echo "🚀 运行 CSharpier..."
           set +e
-          CSHARPIER_OUTPUT=$(csharpier check $FINAL_FILES --config-path "./csharpierrc.json")
+          CSHARPIER_OUTPUT=$(csharpier check $FINAL_FILES --config-path "./csharpierrc.json" 2>&1)
           EXIT_CODE=$?
           set -e
 
