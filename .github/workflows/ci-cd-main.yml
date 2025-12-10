@@ -487,7 +487,7 @@ jobs:
           
           # 2. 执行检查并捕获输出
           set +e
-          CSHARPIER_OUTPUT=$(dotnet csharpier --check $FINAL_FILES 2>&1)
+          CSHARPIER_OUTPUT=$(csharpier --check $FINAL_FILES 2>&1)
           EXIT_CODE=$?
           set -e
           echo "csharpier_raw=$CSHARPIER_OUTPUT" >> $GITHUB_OUTPUT
