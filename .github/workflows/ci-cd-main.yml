@@ -464,7 +464,7 @@ jobs:
           echo "🔍 对比基准: $BASE_REF"
           echo "🔍 检索路径范围: $CHECK_PATHS"
           
-          FINAL_FILES=$(git diff --name-only --diff-filter=ACMR $BASE_REF HEAD -- $CHECK_PATHS | grep '\.cs$' | tr '\n' ' ' || true)
+          FINAL_FILES=$(git diff --name-only --diff-filter=ACMR $BASE_REF HEAD -- $CHECK_PATHS | grep '\.cs$' || true)
           TRIMMED_FILES=$(echo "$FINAL_FILES" | xargs)
           
           if [ -z "$TRIMMED_FILES" ]; then
