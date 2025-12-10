@@ -487,11 +487,12 @@ jobs:
 
           echo "🚀 运行 CSharpier..."
           set +e
-          CSHARPIER_OUTPUT=$(csharpier check $FINAL_FILES 2>&1)
+          CSHARPIER_OUTPUT=$(csharpier check $FINAL_FILES)
           EXIT_CODE=$?
           set -e
 
           # Base64 安全存储原始输出，防止破坏 GITHUB_OUTPUT
+          echo "💼 保存CSharpier 输出..."
           ENCODED_RAW=$(echo "$CSHARPIER_OUTPUT" | base64 -w 0)
           echo "csharpier_raw=$ENCODED_RAW" >> $GITHUB_OUTPUT
           
