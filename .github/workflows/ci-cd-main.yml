@@ -640,10 +640,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-
-      - name: 更新子模块
-        run: |
-          git submodule update --init --recursive
+          submodules: recursive
 
       - name: 📖 加载测试配置
         id: load-test-config  
