@@ -641,6 +641,10 @@ jobs:
         with:
           lfs: true
 
+      - name: 更新子模块
+        run: |
+          git submodule update --init --recursive
+
       - name: 📖 加载测试配置
         id: load-test-config  
         run: |
