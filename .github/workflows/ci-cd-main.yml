@@ -381,7 +381,7 @@ jobs:
           echo "|------|------|------|" >> $GITHUB_STEP_SUMMARY
           
           if [[ "${{ steps.predict.outputs.should_run_style }}" == "true" ]]; then
-            echo "| 🎨 代码风格检查 | ✅ 执行 | 使用roslynator检查代码格式 |" >> $GITHUB_STEP_SUMMARY
+            echo "| 🎨 代码风格检查 | ✅ 执行 | 使用CSharpier检查代码格式 |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| 🎨 代码风格检查 | ⏭️ 跳过 | - |" >> $GITHUB_STEP_SUMMARY
           fi
