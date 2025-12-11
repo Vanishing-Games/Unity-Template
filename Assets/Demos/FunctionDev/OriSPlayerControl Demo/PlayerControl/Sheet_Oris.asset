@@ -234,20 +234,17 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
       Entry: 7
-      Data: 5|PlayerControlByOris.PlayerCollisionStartCheck, PlayerControlByOris
+      Data: 5|PlayerControlByOris.PlayerInputTemp, PlayerControlByOris
     - Name: TickType
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: TickGroup
       Entry: 3
-      Data: 2
+      Data: 0
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 1
+      Data: 100
     - Name: Tags
       Entry: 7
       Data: 6|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -266,7 +263,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 7|PlayerControlByOris.PlayerStateStartSet, PlayerControlByOris
+      Data: 7|PlayerControlByOris.PlayerCollisionStartCheck, PlayerControlByOris
     - Name: TickType
       Entry: 3
       Data: 1
@@ -275,7 +272,7 @@ MonoBehaviour:
       Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 2
+      Data: 1
     - Name: Tags
       Entry: 7
       Data: 8|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -293,26 +290,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
       Entry: 7
-      Data: 9|PlayerControlByOris.PlayerStateEndSet, PlayerControlByOris
+      Data: 9|PlayerControlByOris.PlayerStateStartSet, PlayerControlByOris
     - Name: TickType
       Entry: 3
       Data: 1
@@ -321,7 +300,7 @@ MonoBehaviour:
       Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 2
     - Name: Tags
       Entry: 7
       Data: 10|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -339,7 +318,243 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 6
+      Entry: 7
+      Data: 11|PlayerControlByOris.PlayerStMachineThrow, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 3
+    - Name: Tags
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 13|PlayerControlByOris.PlayerStMachineDash, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 4
+    - Name: Tags
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|PlayerControlByOris.PlayerGrabStJump, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 8
+    - Name: Tags
+      Entry: 7
+      Data: 16|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 9
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|PlayerControlByOris.PlayerGrabStGravity, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 6
+    - Name: Tags
+      Entry: 7
+      Data: 18|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 9
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|PlayerControlByOris.PlayerNormalStGravity, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 7
+    - Name: Tags
+      Entry: 7
+      Data: 20|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 21|PlayerControlByOris.PlayerNormalStJump, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 9
+    - Name: Tags
+      Entry: 7
+      Data: 22|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 23|PlayerControlByOris.PlayerNormalStHorizontal, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 5
+    - Name: Tags
+      Entry: 7
+      Data: 24|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|PlayerControlByOris.PlayerStateEndSet, PlayerControlByOris
+    - Name: TickType
+      Entry: 3
+      Data: 1
+    - Name: TickGroup
+      Entry: 3
+      Data: 2
+    - Name: TickOrderInGroup
+      Entry: 3
+      Data: 100
+    - Name: Tags
+      Entry: 7
+      Data: 26|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
+        VanishingGames.ECC.Runtime]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 13
