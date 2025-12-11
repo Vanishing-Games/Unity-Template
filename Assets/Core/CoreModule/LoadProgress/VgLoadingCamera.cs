@@ -98,7 +98,9 @@ namespace Core
 
         private bool HasActiveTransitions()
         {
-            VgLoadingTransition[] transitions = FindObjectsOfType<VgLoadingTransition>();
+            VgLoadingTransition[] transitions = FindObjectsByType<VgLoadingTransition>(
+                FindObjectsSortMode.None
+            );
             return transitions.Length > 0;
         }
 

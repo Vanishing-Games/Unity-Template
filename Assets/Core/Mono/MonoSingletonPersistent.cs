@@ -20,7 +20,7 @@ namespace Core
                 {
                     if (instance == null)
                     {
-                        instance = FindObjectOfType<T>();
+                        instance = FindFirstObjectByType<T>();
 
                         if (instance == null)
                         {

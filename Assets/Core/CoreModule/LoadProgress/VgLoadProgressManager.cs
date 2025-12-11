@@ -33,7 +33,10 @@ namespace Core
             if (m_Inited)
                 return;
 
-            var progressables = FindObjectsOfType<MonoProgressable>(true);
+            var progressables = FindObjectsByType<MonoProgressable>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None
+            );
             foreach (var progressable in progressables)
                 m_Progressables.Add(progressable);
 
