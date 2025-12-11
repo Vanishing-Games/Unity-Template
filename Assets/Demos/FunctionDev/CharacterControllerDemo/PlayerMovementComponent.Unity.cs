@@ -81,7 +81,7 @@ namespace CharacterControllerDemo
             OnPlayerLeaveJumpApexEvent = new();
             OnPlayerStartFreefallEvent = new();
             OnPlayerLandedEvent        = new();
-            OnPlayerLeaveGroundEvent = new();
+            OnPlayerLeaveGroundEvent   = new();
             // csharpier-ignore-end
         }
 
