@@ -36,7 +36,7 @@ namespace CharacterControllerDemo
 
         protected override void OnUpdateGo(float deltaTime)
         {
-            mRigidbody.velocity = Velocity;
+            mRigidbody.linearVelocity = Velocity;
         }
 
         private void OnCollisionEnter2D(Collision2D collision) { }
