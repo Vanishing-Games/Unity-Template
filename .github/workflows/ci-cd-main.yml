@@ -1151,3 +1151,26 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**跳过信息:** ${{ needs.flow-prediction.outputs.skip_reason }}" >> $GITHUB_STEP_SUMMARY
           fi
+
+          # 判断最终状态
+          FAILED=0
+          # Flow 必须成功
+          if [[ "$FLOW_STATUS" != "success" ]]; then
+            FAILED=1
+          fi
+
+          # 以下只要执行且失败就算失败（skipped 不算）
+          for STATUS in "$STYLE_STATUS" "$TEST_STATUS" "$BUILD_STATUS" "$DEPLOY_STATUS"
+          do
+            if [[ "$STATUS" == "failure" ]]; then
+              FAILED=1
+            fi
+          done
+
+          if [[ $FAILED -eq 1 ]]; then
+            echo "❌ 流水线失败"
+            exit 1
+          else
+            echo "🎉 流水线成功"
+            exit 0
+          fi
