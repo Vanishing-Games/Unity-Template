@@ -46,6 +46,7 @@ ExportedObj/
 !CodeUnfucker/*.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
