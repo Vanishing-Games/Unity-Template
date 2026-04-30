@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using R3;
 using R3.Triggers;
 using UnityEngine;
@@ -29,6 +30,10 @@ namespace GameMain.RunTime
             mTriggerEnterSubscription = mGameObject
                 .OnTriggerEnter2DAsObservable()
                 .Subscribe(OnTriggerEnter2D);
+
+            MessageBroker
+                .Global.Subscribe<GamePlayMatEvents.MatChangeCheckPointEvent>(OnChangeCheckPoint)
+                .AddTo(ref m_Disposables);
         }
 
         protected override void OnRemoved()
@@ -36,11 +41,18 @@ namespace GameMain.RunTime
             mCollisionEnterSubscription.Dispose();
             mCollisionExitSubscription.Dispose();
             mCollisionStaySubscription.Dispose();
+
+            m_Disposables.Dispose();
         }
 
         protected override void OnUpdateGo(float deltaTime)
         {
             AnimControl();
+        }
+
+        void OnChangeCheckPoint(GamePlayMatEvents.MatChangeCheckPointEvent e)
+        {
+            RespawnPos = e.CheckTransform.position;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -63,10 +75,10 @@ namespace GameMain.RunTime
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.CompareTag("Respawn"))
-            {
-                RespawnPos = collision.transform.position;
-            }
+            //if (collision.transform.CompareTag("Respawn"))
+            //{
+            //    RespawnPos = collision.transform.position;
+            //}
 
             if (collision.transform.CompareTag("Danger"))
             {
@@ -153,5 +165,7 @@ namespace GameMain.RunTime
         private IDisposable mCollisionExitSubscription;
         private IDisposable mCollisionStaySubscription;
         private IDisposable mTriggerEnterSubscription;
+
+        private DisposableBag m_Disposables = new();
     }
 }

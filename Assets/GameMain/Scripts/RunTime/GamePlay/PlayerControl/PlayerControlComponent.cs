@@ -206,8 +206,20 @@ namespace GameMain.RunTime
         [BoxGroup("死亡与重生相关"), Tooltip("重生位置"), ShowInInspector, ReadOnly]
         public Vector3 RespawnPos { get; set; }
 
+        [BoxGroup("死亡与重生相关"), Tooltip("重生位置偏移"), ShowInInspector, OdinSerialize]
+        public Vector3 RespawnOffset { get; set; }
+
+        [BoxGroup("死亡与重生相关"), Tooltip("死亡后退速度"), ShowInInspector, OdinSerialize]
+        public Vector2 DyingBackVelocity { get; set; }
+
         [BoxGroup("死亡与重生相关"), Tooltip("死亡黑屏"), ShowInInspector, OdinSerialize]
         public GameObject RespawnBlackMask { get; set; }
+
+        [BoxGroup("死亡与重生相关"), Tooltip("死亡前效果时间"), ShowInInspector, OdinSerialize]
+        public int DyingBeforeTime { get; set; }
+
+        [BoxGroup("死亡与重生相关"), Tooltip("死亡前效果时间计时器"), ShowInInspector, ReadOnly]
+        public int DyingBeforeTimer { get; set; }
 
         [BoxGroup("死亡与重生相关"), Tooltip("死亡动画/过度时间"), ShowInInspector, OdinSerialize]
         public int DyingTime { get; set; }

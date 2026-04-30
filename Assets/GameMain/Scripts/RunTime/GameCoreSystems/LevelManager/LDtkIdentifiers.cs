@@ -25,6 +25,8 @@ namespace GameMain.RunTime
         public const string Ae_SnakeHoney = "Ae_SnakeHoney";
         public const string Ae_SnakeDoor = "Ae_SnakeDoor";
         public const string Ae_LevelClearPoint = "Ae_LevelClearPoint";
+        public const string Ae_Mat_Checkpoint = "Ae_Mat_Checkpoint";
+        public const string Ae_Mat_Bee = "Ae_Mat_Bee";
 
         // Enum Identifiers
         public const string Enum_CameraMode = "CameraMode";
