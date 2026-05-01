@@ -42,6 +42,10 @@ ScriptedImporter:
     _asset: {instanceID: 0}
   - _key: Ae_LevelClearPoint
     _asset: {instanceID: 0}
+  - _key: Ae_Mat_Checkpoint
+    _asset: {instanceID: 0}
+  - _key: Ae_Mat_Bee
+    _asset: {instanceID: 0}
   _enumGenerate: 1
   _enumPath: gm_ldtk_project/GmLDtkEnums.cs
   _enumNamespace: GameMain.LDtk

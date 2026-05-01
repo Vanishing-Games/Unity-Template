@@ -32,6 +32,14 @@ namespace GameMain.RunTime
             mPCComponent.DyingTimer = mPCComponent.DyingTime;
             mPCComponent.DeathTimer = mPCComponent.DeathTime;
             mPCComponent.RespawnTimer = mPCComponent.RespawnTime;
+
+            //状态变量修正
+            mPCComponent.IsOnGround = false;
+            mPCComponent.IsJumping = false;
+            mPCComponent.IsByWallLeft = false;
+            mPCComponent.IsByWallRight = false;
+            mPCComponent.IsSafeGrab = false;
+            mPCComponent.IsCornerGrab = false;
         }
 
         protected override void OnDeactivate()

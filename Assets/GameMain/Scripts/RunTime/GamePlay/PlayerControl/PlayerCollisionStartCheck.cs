@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Core;
 using Sirenix.Serialization;
 using UnityEngine;
+using UnityEngine.UIElements;
 using VanishingGames.ECC.Runtime;
 
 namespace GameMain.RunTime
@@ -59,7 +60,10 @@ namespace GameMain.RunTime
             )
             {
                 NormalGrabCheck(mPCComponent.mTranform.position, LayerMask.GetMask("VerticalGrab"));
-                NormalSafeGrabCheck(mPCComponent.mTranform.position, LayerMask.GetMask("Hook"));
+                NormalSafeGrabCheck(
+                    mPCComponent.mTranform.position,
+                    LayerMask.GetMask("Hook", "HorizontalGrab")
+                );
             }
         }
 
@@ -241,20 +245,74 @@ namespace GameMain.RunTime
                 ColliderHitResults
             );
 
+            Vector2 center =
+                PlayerPosition
+                + mPCComponent.GrabRangeOffset * new Vector2(mPCComponent.FacingDir, 1)
+                + new Vector2(0, 0.4f);
+
+            // 2. 计算矩形的四个顶点
+            float halfX = BoxRange.x / 2f;
+            float halfY = BoxRange.y / 2f;
+
+            Vector2 topLeft = center + new Vector2(-halfX, halfY);
+            Vector2 topRight = center + new Vector2(halfX, halfY);
+            Vector2 bottomLeft = center + new Vector2(-halfX, -halfY);
+            Vector2 bottomRight = center + new Vector2(halfX, -halfY);
+
+            // 3. 使用 Debug.DrawLine 连接顶点
+            Color drawColor = Color.green; // 你可以根据 count > 0 切换颜色
+            Debug.DrawLine(topLeft, topRight, drawColor);
+            Debug.DrawLine(topRight, bottomRight, drawColor);
+            Debug.DrawLine(bottomRight, bottomLeft, drawColor);
+            Debug.DrawLine(bottomLeft, topLeft, drawColor);
+
             Collider2D hitCollider = ColliderHitResults[0];
+            GameObject hitGO = null;
+            if (hitCollider != null)
+                hitGO = ColliderHitResults[0].gameObject;
+
             ColliderHitResults[0] = default;
 
             if (hitCollider != null && IsCanGrab())
             {
                 Bounds GrabBounds = hitCollider.bounds;
                 float centerX = (float)GrabBounds.center.x;
+                float centerY = (float)GrabBounds.center.y;
                 Vector2 targetPoint =
                     new Vector2(centerX, PlayerPosition.y)
                     - new Vector2(
                         mPCComponent.FacingDir * mPCComponent.GrabRangeOffset.x,
                         mPCComponent.GrabRangeOffset.y
                     );
+                if (LayerMask.LayerToName(hitGO.layer) == "HorizontalGrab")
+                    targetPoint =
+                        new Vector2(GrabBounds.ClosestPoint(PlayerPosition).x, centerY)
+                        - new Vector2(
+                            mPCComponent.FacingDir * mPCComponent.GrabRangeOffset.x,
+                            mPCComponent.GrabRangeOffset.y + 0.4f
+                        );
                 GrabSet(targetPoint, false, true, new Vector2(-1 * mPCComponent.FacingDir, 0));
+            }
+            else if (hitCollider == null && mPCComponent.IsSafeGrab)
+            {
+                count = Physics2D.OverlapBox(
+                    PlayerPosition
+                        + mPCComponent.GrabRangeOffset * new Vector2(mPCComponent.FacingDir, 1)
+                        + new Vector2(0, 0.4f),
+                    BoxRange,
+                    0f,
+                    new ContactFilter2D
+                    {
+                        layerMask = SafeLayer,
+                        useLayerMask = true,
+                        useTriggers = true,
+                    },
+                    ColliderHitResults
+                );
+                hitCollider = ColliderHitResults[0];
+                ColliderHitResults[0] = default;
+                if (hitCollider == null)
+                    SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
             }
         }
 

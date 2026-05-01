@@ -27,6 +27,9 @@ namespace GameMain.RunTime
         public const string Ae_LevelClearPoint = "Ae_LevelClearPoint";
         public const string Ae_Mat_Checkpoint = "Ae_Mat_Checkpoint";
         public const string Ae_Mat_Bee = "Ae_Mat_Bee";
+        public const string Ae_Mat_ThornPlatform = "Ae_Mat_ThornPlatform";
+        public const string Ae_Mat_Ore = "Ae_Mat_Ore";
+        public const string Ae_Mat_Vine = "Ae_Mat_Vine";
 
         // Enum Identifiers
         public const string Enum_CameraMode = "CameraMode";

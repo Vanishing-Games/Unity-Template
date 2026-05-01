@@ -30,6 +30,9 @@ namespace GameMain.RunTime
             mTriggerEnterSubscription = mGameObject
                 .OnTriggerEnter2DAsObservable()
                 .Subscribe(OnTriggerEnter2D);
+            mTriggerStaySubscription = mGameObject
+                .OnTriggerStay2DAsObservable()
+                .Subscribe(OnTriggerStay2D);
 
             MessageBroker
                 .Global.Subscribe<GamePlayMatEvents.MatChangeCheckPointEvent>(OnChangeCheckPoint)
@@ -41,6 +44,8 @@ namespace GameMain.RunTime
             mCollisionEnterSubscription.Dispose();
             mCollisionExitSubscription.Dispose();
             mCollisionStaySubscription.Dispose();
+            mTriggerEnterSubscription.Dispose();
+            mTriggerStaySubscription.Dispose();
 
             m_Disposables.Dispose();
         }
@@ -80,6 +85,14 @@ namespace GameMain.RunTime
             //    RespawnPos = collision.transform.position;
             //}
 
+            if (collision.transform.CompareTag("Danger"))
+            {
+                isShouldDie = true;
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D collision)
+        {
             if (collision.transform.CompareTag("Danger"))
             {
                 isShouldDie = true;
@@ -165,6 +178,7 @@ namespace GameMain.RunTime
         private IDisposable mCollisionExitSubscription;
         private IDisposable mCollisionStaySubscription;
         private IDisposable mTriggerEnterSubscription;
+        private IDisposable mTriggerStaySubscription;
 
         private DisposableBag m_Disposables = new();
     }

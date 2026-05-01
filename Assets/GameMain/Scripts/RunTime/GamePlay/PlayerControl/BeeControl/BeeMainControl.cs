@@ -127,7 +127,8 @@ namespace GameMain.RunTime
         //跟随状态管理
         void FollowStEnter()
         {
-            m_BoxCollider.enabled = false;
+            //m_BoxCollider.enabled = false;
+            gameObject.layer = LayerMask.NameToLayer("WaveCheck");
         }
 
         void FollowStUpdate()
@@ -160,6 +161,7 @@ namespace GameMain.RunTime
         void FollowStExit()
         {
             m_BoxCollider.enabled = true;
+            gameObject.layer = LayerMask.NameToLayer("Hook");
         }
 
         //悬挂状态管理
