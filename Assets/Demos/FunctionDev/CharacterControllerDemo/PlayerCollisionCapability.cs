@@ -16,12 +16,12 @@ namespace CharacterControllerDemo
             Tags = new List<EccTag> { EccTag.CollideAndSlide };
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return CheckIfOverlapping();
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return !CheckIfOverlapping();
         }
@@ -113,12 +113,12 @@ namespace CharacterControllerDemo
             Tags = new List<EccTag> { EccTag.CollideAndSlide };
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return CheckCollide();
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return !CheckCollide();
         }

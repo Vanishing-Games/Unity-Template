@@ -14,7 +14,7 @@ namespace GameMain.RunTime
             Tags = new List<EccTag> { EccTag.GrabState };
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return !mPCComponent.IsCornerGrab && !mPCComponent.IsSafeGrab;
         }
@@ -25,7 +25,7 @@ namespace GameMain.RunTime
             mPCComponent.GrabStayRevTimer = mPCComponent.GrabStayTime;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return !(!mPCComponent.IsCornerGrab && !mPCComponent.IsSafeGrab);
         }

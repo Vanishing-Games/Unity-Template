@@ -35,12 +35,12 @@ namespace GameMain.RunTime
             mPCComponent.IsJumping = false;
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return IsReadyJump();
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return IsEndJump();
         }

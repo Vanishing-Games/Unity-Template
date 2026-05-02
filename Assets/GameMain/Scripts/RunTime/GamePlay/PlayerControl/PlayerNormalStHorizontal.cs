@@ -26,12 +26,12 @@ namespace GameMain.RunTime
             base.OnDeactivate();
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return true;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return false;
         }

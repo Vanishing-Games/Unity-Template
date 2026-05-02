@@ -13,12 +13,12 @@ namespace CharacterControllerDemo
             Tags = new List<EccTag> { EccTag.Gravity };
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return !mPlayerMovementComponent.IsOnGroundFast();
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return mPlayerMovementComponent.IsOnGroundFast();
         }
@@ -51,12 +51,12 @@ namespace CharacterControllerDemo
             Tags = new List<EccTag> { EccTag.Move };
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return mPlayerMovementComponent.Velocity.y > mPlayerMovementComponent.ClampVelocityY;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return mPlayerMovementComponent.Velocity.y <= mPlayerMovementComponent.ClampVelocityY;
         }

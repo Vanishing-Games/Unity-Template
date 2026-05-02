@@ -15,12 +15,12 @@ namespace GameMain.RunTime
             Tags = new List<EccTag> { EccTag.NormalState };
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return !IsOnGround && !IsJumping;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return !(!IsOnGround && !IsJumping);
         }

@@ -95,7 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: RainRust.Rendering::RainRust.Rendering.RainRustLighting
   m_Active: 1
   settings:
-    injectionPoint: 500
+    injectionPoint: 450
     lightSourcesLayerMask:
       serializedVersion: 2
       m_Bits: 2148532224

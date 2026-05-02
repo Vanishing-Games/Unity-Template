@@ -1,9 +1,8 @@
 using System;
-using Core.Extensions;
 using Cysharp.Threading.Tasks;
-using R3;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 namespace Core
@@ -90,6 +89,8 @@ namespace Core
                 LogTag.VgCameraManager
             );
             UpdateCameraViewport();
+
+            GetComponent<PixelPerfectCamera>().enabled = m_IsSnakeChapter;
         }
 
         private void InitializeBorderUI()
