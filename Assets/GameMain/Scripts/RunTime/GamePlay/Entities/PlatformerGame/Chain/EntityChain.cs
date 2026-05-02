@@ -340,7 +340,9 @@ namespace GameMain.RunTime
 
             int segmentCount = Mathf.Max(1, m_ForceSegments);
             int segmentIndex = Mathf.FloorToInt((float)jointIndex / m_Joints.Count * segmentCount);
-            int targetIndex = Mathf.FloorToInt((segmentIndex + 0.5f) * ((float)m_Joints.Count / segmentCount));
+            int targetIndex = Mathf.FloorToInt(
+                (segmentIndex + 0.5f) * ((float)m_Joints.Count / segmentCount)
+            );
             targetIndex = Mathf.Clamp(targetIndex, 0, m_JointRbs.Count - 1);
 
             SetJointsDynamic();
