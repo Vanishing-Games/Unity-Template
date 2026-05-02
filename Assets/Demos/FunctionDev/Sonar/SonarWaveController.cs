@@ -45,8 +45,8 @@ namespace Sonar
                 m_MainCamera = Camera.main;
             if (m_MainCamera != null)
             {
+                // Viewport Point 是 [0, 1] 范围的 UV
                 Vector3 screenPos = m_MainCamera.WorldToViewportPoint(transform.position);
-                // Viewport Point 是 [0, 1] 范围的 UV，正好符合我们采样 _SonarObstacleTex 的需求
                 sonarMaterial.SetVector(
                     s_SonarCenterScreenUVId,
                     new Vector4(screenPos.x, screenPos.y, 0, 0)
