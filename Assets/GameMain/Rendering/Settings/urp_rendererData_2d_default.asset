@@ -49,7 +49,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 6723202156115275446}
   - {fileID: -5964598158676066801}
-  m_RendererFeatureMap: b62e646cbd9c4d5d0ffe2994937d39ad
+  - {fileID: 2716931028307130651}
+  m_RendererFeatureMap: b62e646cbd9c4d5d0ffe2994937d39ad1bb97b15607ab425
   m_UseNativeRenderPass: 0
   m_LayerMask:
     serializedVersion: 2
@@ -81,6 +82,24 @@ MonoBehaviour:
   m_DefaultMaterialType: 0
   m_DefaultCustomMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3,
     type: 2}
+--- !u!114 &2716931028307130651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9e7eb3b89aedb448e6ac9d540937f6, type: 3}
+  m_Name: SonarObstacleFeature
+  m_EditorClassIdentifier: RainRust.Rendering::RainRust.Rendering.SonarObstacleFeature
+  m_Active: 1
+  settings:
+    obstacleLayerMask:
+      serializedVersion: 2
+      m_Bits: 1024
+    obstacleShader: {fileID: 4800000, guid: fd56908d831c6c14199f97573630e657, type: 3}
 --- !u!114 &6723202156115275446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: RainRust.Rendering::RainRust.Rendering.RainRustLighting
   m_Active: 1
   settings:
-    injectionPoint: 500
+    injectionPoint: 450
     lightSourcesLayerMask:
       serializedVersion: 2
       m_Bits: 2148532224
