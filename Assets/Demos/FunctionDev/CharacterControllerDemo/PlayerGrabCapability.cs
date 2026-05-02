@@ -39,7 +39,7 @@ public class PlayerGrabEnterCapability : PlayerGrabCapabilityBase
         mOwner.UnblockCapabilities(this);
     }
 
-    protected override bool OnShouldActivate()
+    protected override bool ShouldActivate()
     {
         if (!VgInput.GetButton(InputAction.Grab))
             return false;
@@ -53,7 +53,7 @@ public class PlayerGrabEnterCapability : PlayerGrabCapabilityBase
         return true;
     }
 
-    protected override bool OnShouldDeactivate()
+    protected override bool ShouldDeactivate()
     {
         if (VgInput.GetButton(InputAction.Grab))
             return true;
@@ -75,12 +75,12 @@ public class PlayerGrabEnterCapability : PlayerGrabCapabilityBase
 
 public class PlayerGrabExitCapability : PlayerGrabCapabilityBase
 {
-    protected override bool OnShouldActivate()
+    protected override bool ShouldActivate()
     {
         return false;
     }
 
-    protected override bool OnShouldDeactivate()
+    protected override bool ShouldDeactivate()
     {
         return true;
     }

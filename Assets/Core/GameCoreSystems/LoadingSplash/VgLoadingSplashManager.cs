@@ -1,164 +1,148 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Core
 {
-    public interface IProgressable
+    [Serializable]
+    public class VgSplashEntry
     {
-        void UpdateProgress(float progress);
-        void Tick();
-        void Show();
-        void Hide();
-    }
-
-    public abstract class MonoProgressable : MonoBehaviour, IProgressable
-    {
-        public abstract void UpdateProgress(float progress);
-
-        public virtual void Tick() { }
-
-        public abstract void Show();
-        public abstract void Hide();
+        public VgSplashKey Key;
+        public VgSplasher Splasher;
     }
 
     public class VgLoadingSplashManager
         : CoreModuleManagerBase<VgLoadingSplashManager>,
-            ICoreModuleSystem,
-            IDisposable
+            ICoreModuleSystem
     {
         public string SystemName => "VgLoadingSplashManager";
         public Type[] Dependencies => Array.Empty<Type>();
 
         public void RegisterHooks(IGameCoreHookRegistry registry)
         {
-            registry.OnLoadStart(_ =>
+            registry.OnBootStart(async () =>
             {
-                Show();
-                return UniTask.CompletedTask;
+                foreach (var entry in m_Splashers)
+                    if (entry.Splasher != null)
+                        entry.Splasher.gameObject.SetActive(false);
+
+                if (m_FallbackSplasher != null)
+                    m_FallbackSplasher.gameObject.SetActive(false);
             });
-            registry.OnLoadComplete(_ =>
+        }
+
+        public async UniTask CoverAsync(VgSplashKey key, CancellationToken ct = default)
+        {
+            if (m_IsAnimating)
             {
-                Hide();
-                return UniTask.CompletedTask;
-            });
-            registry.OnBootStart(
-                () =>
-                {
-                    Init();
-                    Show();
-                    return UniTask.CompletedTask;
-                },
-                order: 0
-            );
-            registry.OnBootStart(
-                () =>
-                {
-                    CLogger.LogInfo(
-                        "VgLoadingSplashManager: Booting complete, hiding splash...",
-                        LogTag.Loading
-                    );
-                    Hide();
-                    return UniTask.CompletedTask;
-                },
-                order: 999
-            );
-            registry.OnMainMenuEnter(() =>
-            {
-                CLogger.LogInfo(
-                    "VgLoadingSplashManager: OnMainMenuEnter triggered, hiding...",
+                CLogger.LogWarn(
+                    $"[VgLoadingSplashManager] CoverAsync({key}) called while animation is in progress — ignored.",
                     LogTag.Loading
                 );
-                Hide();
-                return UniTask.CompletedTask;
-            });
-        }
+                return;
+            }
 
-        public void Init()
-        {
-            if (m_Inited)
+            var splasher = FindSplasher(key);
+            if (splasher == null)
                 return;
 
-            m_Progressables.Clear();
-            var progressables = GetComponentsInChildren<IProgressable>(true);
-            foreach (var progressable in progressables)
+            CLogger.LogInfo(
+                $"[VgLoadingSplashManager] CoverAsync({key}) → {splasher.GetType().Name}",
+                LogTag.Loading
+            );
+
+            m_IsAnimating = true;
+            m_ActiveSplasher = splasher;
+            splasher.gameObject.SetActive(true);
+
+            try
             {
-                if (progressable is VgLoadingSplashManager)
-                    continue;
-                m_Progressables.Add(progressable);
+                await splasher.CoverAsync(ct);
             }
-
-            if (m_Progressables.Count > 0)
+            finally
             {
-                StringBuilder sb = new();
-                sb.AppendLine(
-                    $"VgLoadingSplashManager Init with {m_Progressables.Count} Progressables on {gameObject.name}:"
-                );
-                foreach (var progressable in m_Progressables)
-                    sb.AppendLine(
-                        $" - {progressable.GetType().Name} on {((MonoBehaviour)progressable).gameObject.name}"
-                    );
-
-                CLogger.LogInfo(sb.ToString(), LogTag.Loading);
-                m_Inited = true;
+                m_IsAnimating = false;
             }
         }
 
-        public void Show()
+        public async UniTask RevealAsync(VgSplashKey key, CancellationToken ct = default)
         {
-            CLogger.LogInfo("VgLoadingSplashManager: Show() called", LogTag.Loading);
-            Init();
+            if (m_IsAnimating)
+            {
+                CLogger.LogWarn(
+                    $"[VgLoadingSplashManager] RevealAsync({key}) called while animation is in progress — ignored.",
+                    LogTag.Loading
+                );
+                return;
+            }
 
-            foreach (var progressable in m_Progressables)
-                progressable.Show();
+            var splasher = m_ActiveSplasher ?? FindSplasher(key);
+            if (splasher == null)
+                return;
 
-            m_Hided = false;
+            CLogger.LogInfo(
+                $"[VgLoadingSplashManager] RevealAsync({key}) → {splasher.GetType().Name}",
+                LogTag.Loading
+            );
+
+            m_IsAnimating = true;
+
+            try
+            {
+                await splasher.RevealAsync(ct);
+            }
+            finally
+            {
+                splasher.gameObject.SetActive(false);
+                m_IsAnimating = false;
+                m_ActiveSplasher = null;
+            }
         }
 
         public void UpdateProgress(float progress)
         {
-            if (m_Hided)
+            if (m_ActiveSplasher == null)
             {
                 CLogger.LogWarn(
-                    "VgLoadingSplashManager is hidden, but UpdateProgress is called",
+                    "[VgLoadingSplashManager] UpdateProgress called with no active Splasher.",
                     LogTag.Loading
                 );
-                Show();
-            }
-
-            if (progress < 0)
-            {
-                CLogger.LogWarn("Progress is less than 0, which is not allowed", LogTag.Loading);
                 return;
             }
-
-            progress = Mathf.Clamp(progress, 0f, 1f);
-
-            foreach (var progressable in m_Progressables)
-                progressable.UpdateProgress(progress);
-
-            m_Progress = progress;
+            m_ActiveSplasher.UpdateProgress(progress);
         }
 
-        public void AddProgress(float progress) => UpdateProgress(m_Progress + progress);
-
-        public float GetProgress() => m_Progress;
-
-        public void Hide()
+        private VgSplasher FindSplasher(VgSplashKey key)
         {
-            foreach (var progressable in m_Progressables)
-                progressable.Hide();
+            foreach (var entry in m_Splashers)
+            {
+                if (entry.Key == key && entry.Splasher != null)
+                    return entry.Splasher;
+            }
 
-            m_Hided = true;
+            CLogger.LogWarn(
+                $"[VgLoadingSplashManager] No Splasher found for key '{key}' — using fallback.",
+                LogTag.Loading
+            );
+
+            if (m_FallbackSplasher == null)
+                CLogger.LogError(
+                    "[VgLoadingSplashManager] Fallback Splasher is null! Configure one in the Inspector.",
+                    LogTag.Loading
+                );
+
+            return m_FallbackSplasher;
         }
 
-        public void Dispose() => Hide();
+        [SerializeField]
+        private List<VgSplashEntry> m_Splashers = new();
 
-        private bool m_Inited = false;
-        private bool m_Hided = true;
-        private List<IProgressable> m_Progressables = new();
-        private float m_Progress = 0;
+        [SerializeField]
+        private VgSplasher m_FallbackSplasher;
+
+        private bool m_IsAnimating;
+        private VgSplasher m_ActiveSplasher;
     }
 }

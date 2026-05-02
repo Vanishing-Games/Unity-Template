@@ -14,7 +14,7 @@ namespace GameMain.RunTime
             Tags = new List<EccTag> { EccTag.GrabState };
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return mPCComponent.PreJumpInputTimer > 0
                 && mPCComponent.PreJumpInputTimer < PreJumpInputTime;
@@ -31,7 +31,7 @@ namespace GameMain.RunTime
             mPCComponent.CanGrabCDTimer = mPCComponent.CanGrabCDTime;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return true;
         }

@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Core;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VanishingGames.ECC.Runtime;
 
@@ -18,13 +21,14 @@ namespace GameMain.RunTime
             base.OnSetup();
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return isDeath();
         }
 
         protected override void OnActivate()
         {
+            VgLoadingSplashManager.Instance.CoverAsync(VgSplashKey.Default).Forget();
             SetStateMachine(PlayerStateMachine.DeathState, EccTag.DeathState);
             mPCComponent.CtrlVelocity = Vector2.zero;
             mPCComponent.DyingTimer = mPCComponent.DyingTime;
@@ -34,10 +38,11 @@ namespace GameMain.RunTime
 
         protected override void OnDeactivate()
         {
+            VgLoadingSplashManager.Instance.RevealAsync(VgSplashKey.Default).Forget();
             mPCComponent.isShouldDie = false;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return DeathEnd();
         }

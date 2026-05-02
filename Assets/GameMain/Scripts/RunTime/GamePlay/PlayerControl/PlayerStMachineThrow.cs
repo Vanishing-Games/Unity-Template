@@ -13,7 +13,7 @@ namespace GameMain.RunTime
             TickOrderInGroup = (uint)PlayerControlTickOrder.ThrowControl;
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return CanThrowCheck();
         }
@@ -26,7 +26,7 @@ namespace GameMain.RunTime
             mPCComponent.ThrowMoveTimer = mPCComponent.ThrowMoveTime;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return ThrowMoveTimer == 0;
         }
