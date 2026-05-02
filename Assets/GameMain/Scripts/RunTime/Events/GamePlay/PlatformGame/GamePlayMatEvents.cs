@@ -29,5 +29,7 @@ namespace GameMain.RunTime
         }
 
         public struct MatPlayerDeathEvent : IEvent { }
+
+        public struct MatPlayerPassDoorEvent : IEvent { }
     }
 }

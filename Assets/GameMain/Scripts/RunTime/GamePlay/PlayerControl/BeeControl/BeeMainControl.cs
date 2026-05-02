@@ -22,6 +22,12 @@ namespace GameMain.RunTime
             m_BoxCollider = GetComponent<BoxCollider2D>();
             m_SpriteRenderer = GetComponent<SpriteRenderer>();
             m_BeeLdtkControl = GetComponent<BeeLdtkControl>();
+
+            Random.InitState(this.gameObject.GetInstanceID());
+
+            // 这样每个物体的随机序列都是独一无二的
+            myUniqueVar = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 2f));
+            CheckPointFollowOffset = myUniqueVar;
         }
 
         void Start()
@@ -40,6 +46,9 @@ namespace GameMain.RunTime
                 .AddTo(ref m_Disposables);
             MessageBroker
                 .Global.Subscribe<GamePlayMatEvents.MatPlayerDeathEvent>(_ => OnPlayerRespawn())
+                .AddTo(ref m_Disposables);
+            MessageBroker
+                .Global.Subscribe<GamePlayMatEvents.MatPlayerPassDoorEvent>(_ => OnPlayerRespawn())
                 .AddTo(ref m_Disposables);
         }
 
@@ -118,7 +127,10 @@ namespace GameMain.RunTime
         }
 
         //投出状态管理
-        void ThrowedStEnter() { }
+        void ThrowedStEnter()
+        {
+            gameObject.layer = LayerMask.GetMask("Hook");
+        }
 
         void ThrowedStUpdate() { }
 
@@ -134,11 +146,15 @@ namespace GameMain.RunTime
         void FollowStUpdate()
         {
             //改变虫子的朝向
-            m_Transform.localScale = new Vector3(
-                Mathf.Sign(m_Transform.position.x - player.position.x),
-                1,
-                1
-            );
+            if (isFollowPlayer)
+            {
+                m_Transform.localScale = new Vector3(
+                    Mathf.Sign(m_Transform.position.x - player.position.x),
+                    1,
+                    1
+                );
+            }
+
             FollowPointSet();
 
             //过远闪烁
@@ -167,7 +183,7 @@ namespace GameMain.RunTime
         //悬挂状态管理
         void StayStEnter()
         {
-            //gameObject.layer = LayerMask.GetMask("Hook");
+            gameObject.layer = LayerMask.GetMask("Hook");
         }
 
         void StayStUpdate() { }
@@ -214,12 +230,15 @@ namespace GameMain.RunTime
                 //超出范围时生成一个新点位
                 if (Vector3.Distance(FollowPoint, player.position) > FollowPointDistance)
                 {
-                    FollowPoint = GetSidePos(player.position, FollowPointDistance, isRight, 30f);
+                    FollowPoint =
+                        GetSidePos(player.position, FollowPointDistance, isRight, 30f)
+                        + CheckPointFollowOffset;
                 }
             }
             else
             {
-                FollowPoint = FollowCheckPoint.position + CheckPointFollowOffset;
+                FollowPoint =
+                    FollowCheckPoint.position + CheckPointFollowOffset + new Vector3(0, 1, 0);
             }
         }
 
@@ -247,6 +266,11 @@ namespace GameMain.RunTime
             if (isFollowPlayer)
             {
                 isFollowPlayer = false;
+                if (currentState != BeeState.FollowSt)
+                {
+                    ChangeState(BeeState.FollowSt);
+                }
+                MessageBroker.Global.Publish(new BeeManagerEvents.BeeRemoveEvents(this.gameObject));
             }
         }
 
@@ -369,6 +393,7 @@ namespace GameMain.RunTime
 
         public float currentSpeed;
 
+        private Vector2 myUniqueVar;
         private DisposableBag m_Disposables = new();
     }
 }

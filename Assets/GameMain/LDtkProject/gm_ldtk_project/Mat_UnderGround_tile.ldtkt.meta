@@ -1,0 +1,736 @@
+fileFormatVersion: 2
+guid: 4819b0a5e2ddaaf4d9e91049623b59c5
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: f3268c876daf4890b6af6cd462063137, type: 3}
+  _reimportOnDependencyChange: 1
+  _pixelsPerUnit: 128
+  _overrideTexture: {instanceID: 0}
+  _sprites:
+  - name: Mat_UnderGround_tile_0
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 384
+      width: 128
+      height: 128
+    spriteID: bc9a53660868d5e46b33449f2cc7a4f4
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 0efac497b907ad24281d265d0fad12b7
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 84c84d4cbc7584f41b9a21031a1a328b
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 384
+      width: 128
+      height: 128
+    spriteID: b8c27258dfde71a4f8639bf874dd1292
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 600eeea82b210714682498862167e3c5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 8f28684153e1bef47af70cee62e9e93c
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 0fc4dcd9be969814aa5c96828e312ecf
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_7
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 384
+      width: 128
+      height: 128
+    spriteID: dddae739148cc494fa71eddfed1987d3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_8
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 384
+      width: 128
+      height: 128
+    spriteID: e1fa8e8fc8181a9459ed187f90e4d702
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_9
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 7504bc97c297d7e458322b64c5b3fc71
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_10
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 384
+      width: 128
+      height: 128
+    spriteID: ca3461ed1c65cb84b941dff4b88f4f3f
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_11
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 384
+      width: 128
+      height: 128
+    spriteID: b732faa16c30d6b48a5199d33b2fe8f9
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_12
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 5d78239df494ed640bd515c7a7803bf3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_13
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 9c02e6b9fae1a1f47912f2ccfb2ec68e
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_14
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 256
+      width: 128
+      height: 128
+    spriteID: b935e48661dc3ea4fa63c92b80d90c7b
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_15
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 256
+      width: 128
+      height: 128
+    spriteID: e059e7573cc755d4193f3a091b400684
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_16
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 91adb7b02ac3dfb469acec2ca81b8253
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_17
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 256
+      width: 128
+      height: 128
+    spriteID: ace915796743f5c479a83e63a554a5d3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_18
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 817cedf44a08a1c4289988859aa03ad9
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_19
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 0e60e905c400e84498b5a7f50af018bf
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_20
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 256
+      width: 128
+      height: 128
+    spriteID: e9bce38b9b0531d4399cbf5644d45954
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_21
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 256
+      width: 128
+      height: 128
+    spriteID: d7968865cd2bbde4e8cea6f64dfbb06f
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_22
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 2d64b6a4cf3e2a444aec0840144b5db2
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_23
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 71031584498ffa84e8824a3ad4a6dae5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_24
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 03c34fe709c7c8a4280af02623cf5479
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_25
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 7890a63435d833a44a6c445ffcda12d6
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_26
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 0d75d0726c5f6ef4d8e251adf7c1e270
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_27
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 128
+      width: 128
+      height: 128
+    spriteID: c1a9d5ebc9b982f479ce3b4261ca295e
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_28
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 128
+      width: 128
+      height: 128
+    spriteID: ba4323fcee183064fb4d572b3a8b7d06
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_29
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 128
+      width: 128
+      height: 128
+    spriteID: a8b3def7fe11e074e956823953b97836
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_30
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 128
+      width: 128
+      height: 128
+    spriteID: f99f3561f6cae93428703f76ef3120e4
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_31
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 700f09520fd369848af2515f91fd4876
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_32
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 128
+      width: 128
+      height: 128
+    spriteID: a7b15d526c9689a4bbab4552cd72ac83
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_33
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 69fe1002217ad5747bb665c9b12b5ba7
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_34
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 128
+      width: 128
+      height: 128
+    spriteID: c63c3bbf80c25504ea9517d8fd40fc58
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_35
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 128
+      width: 128
+      height: 128
+    spriteID: beb69947bc638cd4790c06d07d63e2db
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_36
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 3e8c05063385f184c89cfaa47aa13f09
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_37
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 6a0d750fdd553ee47a842b3b0b048cf3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_38
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 4892625cd5b908045b1cc8adf9ba9d0d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_39
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 332d2f4e47e80b043ab848ead67bf2c7
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_40
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 413babdecec33b0419b9653ed623d9a5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_41
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 0
+      width: 128
+      height: 128
+    spriteID: d6b948773ae1f0940b6034cbc9077a65
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_42
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 0
+      width: 128
+      height: 128
+    spriteID: c80095e4d6cfbc442ad570ed9ebdfb81
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_43
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 0
+      width: 128
+      height: 128
+    spriteID: bd918fa869bb52c4a9f3e8f0e73e9fa7
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_44
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 4d1854128c1da094b8ddac76c2339e99
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_45
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 6b26ddd8b00ed254e810a560c439ee3d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_46
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 54456057b1c85e54e91ae0a6ee576a94
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mat_UnderGround_tile_47
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 61a5e65ca9df5c34f829db2d404e1b08
+    spriteOutline: []
+    tessellationDetail: 0
+  _secondaryTextures: []
+  _artifacts: {instanceID: 0}

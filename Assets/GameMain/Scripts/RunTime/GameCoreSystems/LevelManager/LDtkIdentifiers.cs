@@ -7,6 +7,8 @@ namespace GameMain.RunTime
     public static class LDtkIdentifiers
     {
         // Layer Identifiers
+        public const string AutoLayer_MineBG = "AutoLayer_MineBG";
+        public const string AutoLayer_MineWall = "AutoLayer_MineWall";
         public const string AutoLayer_Zone = "AutoLayer_Zone";
         public const string AutoTiles_Wall_A = "AutoTiles_Wall_A"; // 自动绘制的瓦片层, 包含地面、平台等
         public const string AutoTiles_Wall_B = "AutoTiles_Wall_B"; // 自动绘制的瓦片层, 包含地面、平台等
@@ -30,6 +32,7 @@ namespace GameMain.RunTime
         public const string Ae_Mat_ThornPlatform = "Ae_Mat_ThornPlatform";
         public const string Ae_Mat_Ore = "Ae_Mat_Ore";
         public const string Ae_Mat_Vine = "Ae_Mat_Vine";
+        public const string Ae_Mat_Door = "Ae_Mat_Door";
 
         // Enum Identifiers
         public const string Enum_CameraMode = "CameraMode";

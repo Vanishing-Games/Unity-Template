@@ -101,7 +101,7 @@ MonoBehaviour:
       m_Bits: 2148532224
     receiversLayerMask:
       serializedVersion: 2
-      m_Bits: 2157051135
+      m_Bits: 2207382783
     receiverBlendMode: 1
     lightingBlendMode: 0
     jfaInitShader: {fileID: 4800000, guid: dd31d820cbe84594ab44e95677803384, type: 3}
