@@ -19,7 +19,7 @@ namespace GameMain.RunTime
             base.OnSetup();
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return isDeath();
         }
@@ -47,7 +47,7 @@ namespace GameMain.RunTime
             mPCComponent.isShouldDie = false;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return DeathEnd();
         }
