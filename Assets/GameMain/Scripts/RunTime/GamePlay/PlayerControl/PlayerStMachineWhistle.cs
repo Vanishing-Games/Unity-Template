@@ -13,7 +13,7 @@ namespace GameMain.RunTime
             TickOrderInGroup = (uint)PlayerControlTickOrder.WhistleControl;
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return CanWhistleCheck();
         }
@@ -27,7 +27,7 @@ namespace GameMain.RunTime
             mPCComponent.CtrlVelocity = Vector2.zero;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return mPCComponent.WhistleAfterTimer == 0 || !mPCComponent.IsOnGround;
         }

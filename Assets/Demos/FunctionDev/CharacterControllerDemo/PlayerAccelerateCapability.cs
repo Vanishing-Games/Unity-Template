@@ -14,7 +14,7 @@ namespace CharacterControllerDemo
             Tags = new List<EccTag> { EccTag.Move };
         }
 
-        protected sealed override bool OnShouldActivate()
+        protected sealed override bool ShouldActivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
                 return false;
@@ -28,7 +28,7 @@ namespace CharacterControllerDemo
             return true;
         }
 
-        protected sealed override bool OnShouldDeactivate()
+        protected sealed override bool ShouldDeactivate()
         {
             if (VgInput.GetAxis(InputAxis.LeftStickHorizontal) == 0)
                 return true;

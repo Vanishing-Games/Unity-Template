@@ -8,6 +8,13 @@ namespace GameMain.RunTime
 {
     public class EntityChain : MonoBehaviour
     {
+        [System.Serializable]
+        public struct VelocityForceStep
+        {
+            public float MinVelocity;
+            public float Force;
+        }
+
         public enum ChainState
         {
             Stopped,
@@ -44,10 +51,14 @@ namespace GameMain.RunTime
 
         private void Update()
         {
-            if (m_CurrentState == ChainState.Swinging)
+            if (m_CooldownTimer > 0)
             {
                 m_CooldownTimer -= Time.deltaTime;
-                if (m_CooldownTimer <= 0)
+            }
+
+            if (m_CurrentState == ChainState.Swinging)
+            {
+                if (m_EnableAutoRestore && m_CooldownTimer <= 0)
                 {
                     StartTransition();
                 }
@@ -289,7 +300,7 @@ namespace GameMain.RunTime
 
         public void HandleJointTriggerEnter(Collider2D other, Rigidbody2D jointRb)
         {
-            if (m_CurrentState == ChainState.Swinging)
+            if (m_CooldownTimer > 0f)
             {
                 return;
             }
@@ -301,14 +312,43 @@ namespace GameMain.RunTime
             }
 
             Vector2 velocity = otherRb.linearVelocity;
-            if (velocity.magnitude < 0.1f)
+            float absVelX = Mathf.Abs(velocity.x);
+            if (absVelX < 0.1f)
             {
                 return;
             }
 
+            float mappedForce = m_ImpactForceMultiplier;
+            if (m_ForceSteps != null && m_ForceSteps.Count > 0)
+            {
+                float maxMinVel = -1f;
+                foreach (var step in m_ForceSteps)
+                {
+                    if (absVelX >= step.MinVelocity && step.MinVelocity > maxMinVel)
+                    {
+                        mappedForce = step.Force;
+                        maxMinVel = step.MinVelocity;
+                    }
+                }
+            }
+
+            int jointIndex = m_JointRbs.IndexOf(jointRb);
+            if (jointIndex == -1)
+            {
+                return;
+            }
+
+            int segmentCount = Mathf.Max(1, m_ForceSegments);
+            int segmentIndex = Mathf.FloorToInt((float)jointIndex / m_Joints.Count * segmentCount);
+            int targetIndex = Mathf.FloorToInt(
+                (segmentIndex + 0.5f) * ((float)m_Joints.Count / segmentCount)
+            );
+            targetIndex = Mathf.Clamp(targetIndex, 0, m_JointRbs.Count - 1);
+
             SetJointsDynamic();
 
-            jointRb.AddForce(velocity * m_ImpactForceMultiplier, ForceMode2D.Impulse);
+            Vector2 appliedForce = new Vector2(Mathf.Sign(velocity.x) * mappedForce, 0f);
+            m_JointRbs[targetIndex].AddForce(appliedForce, ForceMode2D.Impulse);
 
             m_CurrentState = ChainState.Swinging;
             m_CooldownTimer = m_SwingCooldown;
@@ -325,9 +365,18 @@ namespace GameMain.RunTime
         [SerializeField]
         private float m_JointSpacing = 1f;
 
+        [SerializeField]
+        private bool m_EnableAutoRestore = true;
+
+        [SerializeField]
+        private int m_ForceSegments = 3;
+
         [Header("Physics Settings")]
         [SerializeField]
         private float m_ImpactForceMultiplier = 5f;
+
+        [SerializeField]
+        private List<VelocityForceStep> m_ForceSteps = new();
 
         [SerializeField]
         private float m_SwingCooldown = 0.5f;

@@ -16,14 +16,14 @@ namespace CharacterControllerDemo
             Tags = new List<EccTag> { EccTag.Jump };
         }
 
-        protected sealed override bool OnShouldActivate()
+        protected sealed override bool ShouldActivate()
         {
             return VgInput.GetButtonDownBuffered(InputAction.Jump) && ShouldActivateConditions();
         }
 
         protected abstract bool ShouldActivateConditions();
 
-        protected sealed override bool OnShouldDeactivate()
+        protected sealed override bool ShouldDeactivate()
         {
             return !VgInput.GetButton(InputAction.Jump)
                 || mPlayerMovementComponent.IsUnderCeilingFast()
@@ -112,7 +112,7 @@ namespace CharacterControllerDemo
             Tags = new List<EccTag> { EccTag.Jump };
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return VgInput.GetButton(InputAction.Jump)
                 && !mPlayerMovementComponent.IsOnGroundFast()
@@ -120,7 +120,7 @@ namespace CharacterControllerDemo
                 && mPlayerMovementComponent.WithinJumpApexModifierTime();
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return !VgInput.GetButton(InputAction.Jump)
                 || mPlayerMovementComponent.IsOnGroundFast()
@@ -210,12 +210,12 @@ namespace CharacterControllerDemo
             });
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return false;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return true;
         }

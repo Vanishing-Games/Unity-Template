@@ -21,12 +21,12 @@ namespace GameMain.RunTime
             SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return true;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return false;
         }

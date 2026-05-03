@@ -13,7 +13,7 @@ namespace GameMain.RunTime
             TickOrderInGroup = (uint)PlayerControlTickOrder.DashControl;
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return mPCComponent.CurrentState == PlayerStateMachine.DashState;
         }
@@ -25,7 +25,7 @@ namespace GameMain.RunTime
             mPCComponent.DashWaitTimer = mPCComponent.DashWaitTime;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return mPCComponent.DashTimer == 0;
         }

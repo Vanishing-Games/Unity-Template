@@ -26,12 +26,12 @@ namespace GameMain.RunTime
             TickOrderInGroup = (uint)PlayerControlTickOrder.CollisionStartCheck;
         }
 
-        protected override bool OnShouldActivate()
+        protected override bool ShouldActivate()
         {
             return true;
         }
 
-        protected override bool OnShouldDeactivate()
+        protected override bool ShouldDeactivate()
         {
             return false;
         }
