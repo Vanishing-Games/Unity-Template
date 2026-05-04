@@ -1,5 +1,6 @@
 using Core;
 using Core.Extensions;
+using FMOD.Studio;
 using GameMain.RunTime;
 using LDtkUnity;
 using LDtkUnity.Editor;
@@ -76,6 +77,18 @@ namespace GameMain.Editor
             vCam.Lens.OrthographicSize = 11.25f; // This matches half of 22.5 (close to 23)
             vCam.Lens.NearClipPlane = 0.1f;
             vCam.Lens.FarClipPlane = 5000f;
+
+            var composer = vCam.GetComponent<CinemachinePositionComposer>();
+
+            //if (composer != null)
+            //{
+            //    // --- 修改限制框 (Composition) ---
+            //    // 注意：Unity 6 中取消了 m_ 前缀，改为大写开头的属性
+
+            //    // --- 修改延迟/阻尼 (Damping) ---
+            //    composer.Damping.x = 1.5f;
+            //    composer.Damping.y = 1.5f;
+            //}
 
             // Default settings
             if (ctx.Level.GetComponentInParent<LDtkComponentWorld>().Identifier == "Chapter_Snake")

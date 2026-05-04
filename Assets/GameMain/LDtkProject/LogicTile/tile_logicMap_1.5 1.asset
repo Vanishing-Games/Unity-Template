@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b08ceb78e3b2495b8d808a5860e66794, type: 3}
-  m_Name: tile_logicMap_1.5
+  m_Name: tile_logicMap_1.5 1
   m_EditorClassIdentifier: Unity.2D.Tilemap.Extras::UnityEngine.Tilemaps.AutoTile
   m_DefaultSprite: {fileID: 0}
-  m_DefaultGameObject: {fileID: 2654060602811563282, guid: 82dc560df3c027147bebc3c11809a523,
+  m_DefaultGameObject: {fileID: 1800384462606897765, guid: 214346c0aecc97e4092551fbc869c1cd,
     type: 3}
   m_DefaultColliderType: 1
   m_MaskType: 0

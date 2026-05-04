@@ -1,4 +1,5 @@
 using Core;
+using FMOD.Studio;
 using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -25,6 +26,26 @@ namespace GameMain.RunTime
             m_OverrideCamera.Lens.FarClipPlane = 5000f;
 
             m_OverrideCamera.Priority.Enabled = false;
+
+            var composer = m_OverrideCamera.GetComponent<CinemachinePositionComposer>();
+
+            if (composer != null)
+            {
+                // --- 修改限制框 (Composition) ---
+                // 注意：Unity 6 中取消了 m_ 前缀，改为大写开头的属性
+                Rect rect = composer.Composition.DeadZoneRect;
+
+                rect.width = 0.2f;
+                rect.height = 0.2f;
+                rect.x = (1f - 0.2f) / 2f;
+                rect.y = (1f - 0.2f) / 2f;
+
+                composer.Composition.DeadZoneRect = rect;
+
+                // --- 修改延迟/阻尼 (Damping) ---
+                composer.Damping.x = 1.5f;
+                composer.Damping.y = 1.5f;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
