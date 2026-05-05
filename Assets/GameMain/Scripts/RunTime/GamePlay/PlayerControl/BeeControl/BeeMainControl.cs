@@ -254,6 +254,7 @@ namespace GameMain.RunTime
             if (isFollowPlayer)
             {
                 m_BeeLdtkControl.currentPoint = e.CheckTransform;
+                FollowCheckPoint = m_BeeLdtkControl.currentPoint;
                 if (currentState == BeeState.StaySt)
                 {
                     ChangeState(BeeState.FollowSt);
@@ -332,6 +333,13 @@ namespace GameMain.RunTime
                         ChangeState(BeeState.StaySt);
                     }
                 }
+            }
+            else if (
+                currentState == BeeState.ThrowedSt
+                && collision.gameObject.layer == LayerMask.GetMask("Hook")
+            )
+            {
+                ChangeState(BeeState.FollowSt);
             }
         }
 

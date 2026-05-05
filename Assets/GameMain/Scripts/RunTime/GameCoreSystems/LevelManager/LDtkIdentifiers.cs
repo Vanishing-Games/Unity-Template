@@ -7,6 +7,8 @@ namespace GameMain.RunTime
     public static class LDtkIdentifiers
     {
         // Layer Identifiers
+        public const string AutoLayer_MineDanger = "AutoLayer_MineDanger";
+        public const string AutoLayer_MinePole = "AutoLayer_MinePole";
         public const string AutoLayer_MineBG = "AutoLayer_MineBG";
         public const string AutoLayer_MineWall = "AutoLayer_MineWall";
         public const string AutoLayer_Zone = "AutoLayer_Zone";

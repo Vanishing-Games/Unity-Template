@@ -92,6 +92,18 @@ namespace GameMain.Editor
                         layer.gameObject.SetSortingLayerRecursively("BackGroundTile");
 
                         break;
+                    case LDtkIdentifiers.AutoLayer_MinePole:
+                        layer.gameObject.SetLayerRecursively(LayerMask.NameToLayer("AutoTile"));
+                        layer.gameObject.SetTagRecursively("AutoTile");
+                        layer.gameObject.SetSortingLayerRecursively("BackGroundTile");
+
+                        break;
+                    case LDtkIdentifiers.AutoLayer_MineDanger:
+                        layer.gameObject.SetLayerRecursively(LayerMask.NameToLayer("AutoTile"));
+                        layer.gameObject.SetTagRecursively("AutoTile");
+                        layer.gameObject.SetSortingLayerRecursively("AutoTile");
+
+                        break;
                 }
             }
         }

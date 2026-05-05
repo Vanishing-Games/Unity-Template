@@ -161,6 +161,7 @@ namespace GameMain.RunTime
 
             Vector2 DownStartPoint =
                 HeadHit.point + (Vector2.up * VerticalDistance * 2) + Dir * 0.1f;
+
             int DownCount = Physics2D.RaycastNonAlloc(
                 DownStartPoint,
                 Vector2.down,
@@ -173,9 +174,18 @@ namespace GameMain.RunTime
             DownHitResults[0] = default;
 
             Debug.DrawRay(DownStartPoint, Vector2.down * VerticalDistance, Color.yellow);
-            if (DownHit.collider)
+            if (DownHit.collider != null)
             {
-                if (Vector2.Distance(DownHit.point, DownStartPoint) > 0.01)
+                RaycastHit2D[] upHitResults = new RaycastHit2D[2];
+                int UpCount = Physics2D.RaycastNonAlloc(
+                    DownHit.point - new Vector2(0, 0.2f),
+                    Vector2.up,
+                    upHitResults,
+                    0.3f,
+                    LayerMask.GetMask("Wall")
+                );
+
+                if (Vector2.Distance(DownHit.point, DownStartPoint) > 0.01 && UpCount == 1)
                 {
                     Vector2 targetPoint =
                         DownHit.point
