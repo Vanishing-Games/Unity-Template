@@ -8,7 +8,9 @@ namespace GameMain.RunTime
     {
         public void Initialize(LevelManager.LevelLoadInfo loadInfo)
         {
-            gameObject.GetComponent<PlayerSnake>().SetUp(loadInfo.SpawnPosition);
+            gameObject
+                .GetComponent<PlayerSnake>()
+                .SetUp(loadInfo.SpawnPosition + new Vector3(-0.5f, 0.5f, 0));
         }
     }
 }
