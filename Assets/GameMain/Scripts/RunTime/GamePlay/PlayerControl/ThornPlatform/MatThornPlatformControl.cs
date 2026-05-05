@@ -10,8 +10,8 @@ namespace GameMain.RunTime
         private Transform renderTransform;
 
         private bool isPlatform = false;
-        private Vector2 platformSize = new Vector2(3, 1);
-        private Vector2 thornPlusSize = new Vector2(0.5f, 0.5f);
+        private Vector2 platformSize = new Vector2(2.8f, 0.8f);
+        private Vector2 thornPlusSize = new Vector2(0.7f, 0.7f);
 
         [SerializeField]
         private float KeepTime;

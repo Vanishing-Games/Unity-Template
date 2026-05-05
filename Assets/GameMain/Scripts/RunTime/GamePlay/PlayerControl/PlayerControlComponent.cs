@@ -197,6 +197,8 @@ namespace GameMain.RunTime
         [BoxGroup("角色运行计时器"), Tooltip("抓跳后再抓cd计时器"), ShowInInspector, ReadOnly]
         public int CanGrabCDTimer { get; set; }
 
+        [BoxGroup("角色运行计时器"), Tooltip("口哨cd计时器"), ShowInInspector, ReadOnly]
+        public int WhistleCDTimer { get; set; }
         #endregion
 
         #region 死亡与重生相关
@@ -403,6 +405,9 @@ namespace GameMain.RunTime
         #endregion
 
         #region 口哨相关
+        [BoxGroup("口哨相关"), Tooltip("口哨CD时间"), ShowInInspector, OdinSerialize]
+        public int WhistleCDTime { get; set; }
+
         [BoxGroup("口哨相关"), Tooltip("口哨预输入时间"), ShowInInspector, OdinSerialize]
         public int PreWhistleInputTime { get; set; }
 
@@ -418,6 +423,11 @@ namespace GameMain.RunTime
         [BoxGroup("口哨相关"), Tooltip("口哨后摇结束确认变量"), ShowInInspector, ReadOnly]
         public bool IsInputEnd { get; set; }
 
+        [BoxGroup("口哨相关"), Tooltip("口哨范围"), ShowInInspector, OdinSerialize]
+        public float WhistleRadius { get; set; }
+
+        [BoxGroup("口哨相关"), Tooltip("口哨持续时间"), ShowInInspector, OdinSerialize]
+        public float WhistleTimeDur { get; set; }
         #endregion
 
         #region 投掷与拉动相关

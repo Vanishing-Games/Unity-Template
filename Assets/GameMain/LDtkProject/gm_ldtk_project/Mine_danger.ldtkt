@@ -1,0 +1,33 @@
+{
+  "Rects": null,
+  "Def": {
+    "__cHei": 1,
+    "__cWid": 4,
+    "cachedPixelData": {
+      "opaqueTiles": "0000",
+      "averageColors": "7444744475447544"
+    },
+    "customData": [
+
+    ],
+    "embedAtlas": null,
+    "enumTags": [
+
+    ],
+    "identifier": "Mine_danger",
+    "padding": 0,
+    "pxHei": 128,
+    "pxWid": 512,
+    "relPath": "../../Arts/TileSet/danger_mine.png",
+    "savedSelections": [
+
+    ],
+    "spacing": 0,
+    "tags": [
+
+    ],
+    "tagsSourceEnumUid": null,
+    "tileGridSize": 128,
+    "uid": 1094
+  }
+}

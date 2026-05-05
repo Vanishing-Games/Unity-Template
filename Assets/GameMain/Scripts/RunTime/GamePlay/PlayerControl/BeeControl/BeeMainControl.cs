@@ -184,9 +184,14 @@ namespace GameMain.RunTime
         void StayStEnter()
         {
             gameObject.layer = LayerMask.GetMask("Hook");
+            StayToFollowCdTimer = 0;
         }
 
-        void StayStUpdate() { }
+        void StayStUpdate()
+        {
+            if (StayToFollowCdTimer < StayToFollowCdTime)
+                StayToFollowCdTimer++;
+        }
 
         void StayStExit()
         {
@@ -355,7 +360,7 @@ namespace GameMain.RunTime
         {
             if (collision.transform.CompareTag("Wave"))
             {
-                if (currentState == BeeState.StaySt)
+                if (currentState == BeeState.StaySt && StayToFollowCdTimer >= StayToFollowCdTime)
                 {
                     ChangeState(BeeState.FollowSt);
                     isFollowPlayer = true;
@@ -400,6 +405,9 @@ namespace GameMain.RunTime
         public float FollowSpeedMult;
 
         public float currentSpeed;
+
+        public int StayToFollowCdTime;
+        private int StayToFollowCdTimer;
 
         private Vector2 myUniqueVar;
         private DisposableBag m_Disposables = new();

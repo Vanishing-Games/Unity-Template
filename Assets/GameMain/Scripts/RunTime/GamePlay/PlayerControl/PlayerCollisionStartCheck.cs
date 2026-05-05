@@ -45,11 +45,11 @@ namespace GameMain.RunTime
             }
 
             //左右贴墙判断
-            if (mPCComponent.CurrentState == PlayerStateMachine.NormalState)
-            {
-                ByWallCheck(mPCComponent.mTranform.position, Vector2.right);
-                ByWallCheck(mPCComponent.mTranform.position, Vector2.left);
-            }
+            //if (mPCComponent.CurrentState == PlayerStateMachine.NormalState)
+            //{
+            //    ByWallCheck(mPCComponent.mTranform.position, Vector2.right);
+            //    ByWallCheck(mPCComponent.mTranform.position, Vector2.left);
+            //}
 
             if (
                 (

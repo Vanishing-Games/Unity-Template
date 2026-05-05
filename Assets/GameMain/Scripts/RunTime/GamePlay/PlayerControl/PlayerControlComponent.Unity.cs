@@ -17,6 +17,7 @@ namespace GameMain.RunTime
             mAnim = mGameObject.GetComponent<Animator>();
             mBoxCollider = mGameObject.GetComponent<BoxCollider2D>();
             mTranform = mGameObject.GetComponent<Transform>();
+            mGO = mGameObject;
 
             mCollisionEnterSubscription = mGameObject
                 .OnCollisionEnter2DAsObservable()
@@ -101,7 +102,10 @@ namespace GameMain.RunTime
 
         private void OnCollisionStay2D(Collision2D collision)
         {
-            if (collision.transform.CompareTag("Wall"))
+            if (
+                collision.transform.CompareTag("Wall")
+                || collision.gameObject.layer == LayerMask.GetMask("DoorCheck")
+            )
             {
                 for (int i = 0, len = collision.contactCount; i < len; i++)
                 {

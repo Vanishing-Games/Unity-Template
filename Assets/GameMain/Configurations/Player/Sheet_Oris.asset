@@ -18,10 +18,6 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 4617050201057846497, guid: 0c3005ee9d8ee5f428bfd0d79fd3e630, type: 3}
     - {fileID: 1101348923189505887, guid: 6166ac3a75e0b164eaffce69cb9f5866, type: 3}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -150,10 +146,10 @@ MonoBehaviour:
       Data: true
     - Name: CanGrabCDTime
       Entry: 3
-      Data: 5
+      Data: 6
     - Name: GrabStayTime
       Entry: 3
-      Data: 60
+      Data: 30
     - Name: GrabThresholdSpeedY
       Entry: 3
       Data: -1
@@ -184,6 +180,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: WhistleCDTime
+      Entry: 3
+      Data: 60
     - Name: PreWhistleInputTime
       Entry: 3
       Data: 6
@@ -196,6 +195,12 @@ MonoBehaviour:
     - Name: WhistleAfterTime
       Entry: 3
       Data: 18
+    - Name: WhistleRadius
+      Entry: 4
+      Data: 15
+    - Name: WhistleTimeDur
+      Entry: 4
+      Data: 1
     - Name: PreThrowTime
       Entry: 3
       Data: 6
@@ -295,17 +300,17 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: mTranform
-      Entry: 10
-      Data: 2
+      Entry: 6
+      Data: 
     - Name: mRigidbody
-      Entry: 10
-      Data: 3
+      Entry: 6
+      Data: 
     - Name: mBoxCollider
-      Entry: 10
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: mAnim
-      Entry: 10
-      Data: 5
+      Entry: 6
+      Data: 
     - Name: mGO
       Entry: 6
       Data: 

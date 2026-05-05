@@ -38,6 +38,7 @@ namespace GameMain.RunTime
             mPCComponent.WhistleBeforeTimer = 0;
             mPCComponent.WhistleStayTimer = 0;
             mPCComponent.WhistleAfterTimer = 0;
+            mPCComponent.WhistleCDTimer = 0;
             mPCComponent.IsInputEnd = false;
         }
 
@@ -64,10 +65,11 @@ namespace GameMain.RunTime
 
         void CreateWave()
         {
-            Object.Instantiate(
-                mPCComponent.PreWave,
+            WavePoolManager.Instance.SpawnWave(
                 mPCComponent.mTranform.position,
-                Quaternion.identity
+                mPCComponent.mGO.GetInstanceID(),
+                mPCComponent.WhistleRadius,
+                mPCComponent.WhistleTimeDur
             );
         }
 
@@ -75,6 +77,7 @@ namespace GameMain.RunTime
             IsOnGround
             && mPCComponent.CurrentState == PlayerStateMachine.NormalState
             && mPCComponent.PreWhistleInputTimer > 0
-            && mPCComponent.PreWhistleInputTimer < mPCComponent.PreWhistleInputTime;
+            && mPCComponent.PreWhistleInputTimer < mPCComponent.PreWhistleInputTime
+            && mPCComponent.WhistleCDTimer >= mPCComponent.WhistleCDTime;
     }
 }

@@ -20,6 +20,9 @@ namespace GameMain.RunTime
 
         private DisposableBag m_Disposables = new();
 
+        public float WaveRadius;
+        public float WaveDur;
+
         private void Awake()
         {
             if (TryGetComponent<BoxCollider2D>(out var col))
@@ -73,7 +76,12 @@ namespace GameMain.RunTime
         {
             //之后修改Wave的参数
             if (WavePre != null)
-                Instantiate(WavePre, this.transform);
+                WavePoolManager.Instance.SpawnWave(
+                    this.transform.position,
+                    gameObject.GetInstanceID(),
+                    WaveRadius,
+                    WaveDur
+                );
             OnCheckTrigger();
             isBloom = true;
             isChecking = true;

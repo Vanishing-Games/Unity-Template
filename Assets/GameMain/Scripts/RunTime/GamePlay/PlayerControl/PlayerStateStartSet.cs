@@ -71,6 +71,10 @@ namespace GameMain.RunTime
             else
                 mPCComponent.IsCanThrow = false;
 
+            //角色口哨cd计时器
+            if (mPCComponent.WhistleCDTimer < mPCComponent.WhistleCDTime)
+                mPCComponent.WhistleCDTimer++;
+
             //角色口哨预输入时间
             if (mPCComponent.InputAct2 && mPCComponent.PreWhistleInputTimer > 0)
                 mPCComponent.PreWhistleInputTimer--;

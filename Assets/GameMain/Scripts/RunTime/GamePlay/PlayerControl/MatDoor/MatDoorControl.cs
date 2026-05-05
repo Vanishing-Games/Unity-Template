@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Core;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ namespace GameMain.RunTime
 
         private BoxCollider2D m_BoxCollider;
 
+        private HashSet<int> processedWaveIDs = new HashSet<int>();
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -52,14 +55,6 @@ namespace GameMain.RunTime
                     ColdDownClear();
                 }
             }
-            else if (isUnlock)
-            {
-                CloseDownTimer += Time.deltaTime;
-                if (CloseDownTimer > CloseDownTime && isCanClose)
-                {
-                    CloseDown();
-                }
-            }
 
             if (!isUnlock)
             {
@@ -80,6 +75,7 @@ namespace GameMain.RunTime
         {
             m_UnlockCount = 0;
             ColdDownTimer = 0;
+            processedWaveIDs.Clear();
         }
 
         void UnlockUp()
@@ -90,9 +86,14 @@ namespace GameMain.RunTime
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.CompareTag("Wave"))
+            if (collision.transform.CompareTag("Wave") && !isUnlock)
             {
-                UnlockUp();
+                WaveLife wave = collision.GetComponent<WaveLife>();
+                if (!processedWaveIDs.Contains(wave.sourceID))
+                {
+                    processedWaveIDs.Add(wave.sourceID);
+                    UnlockUp();
+                }
             }
 
             if (collision.transform.CompareTag("Player"))

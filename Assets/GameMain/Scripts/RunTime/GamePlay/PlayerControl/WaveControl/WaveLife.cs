@@ -1,53 +1,60 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace GameMain.RunTime
 {
     public class WaveLife : MonoBehaviour
     {
         [Header("扩散配置")]
-        public float maxRadius = 5f; // 预设的最大半径
-        public float duration = 1.5f; // 整个扩张过程持续时间
+        public float maxRadius = 5f;
+        public float duration = 1.5f;
 
-        [Header("动画曲线 (最核心部分)")]
-        // 默认设为 EaseOut (开始快，后面慢)
+        [Header("动画曲线")]
         public AnimationCurve expansionCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-
-        // 控制透明度的曲线 (从不透明变为全透明)
         public AnimationCurve fadeCurve = AnimationCurve.Linear(0, 1, 1, 0);
+
+        [Header("发射源信息")]
+        public int sourceID; // 由发射者注入的 ID
 
         private SpriteRenderer spriteRenderer;
         private float timer = 0f;
-        private Vector3 initialScale;
+        private IObjectPool<WaveLife> _pool; // 对所属对象池的引用
 
         void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            initialScale = transform.localScale;
+        }
 
-            // 初始透明度
+        // 初始化方法：由池管理器或发射者调用
+        public void Init(int id, IObjectPool<WaveLife> pool, float radius, float timeDur)
+        {
+            this.sourceID = id;
+            this._pool = pool;
+            this.maxRadius = radius; // 动态设置最大半径
+            this.duration = timeDur; // 动态设置持续时间
+
+            // 重置动画状态
+            timer = 0f;
+            transform.localScale = Vector3.zero;
             SetAlpha(fadeCurve.Evaluate(0f));
         }
 
         void Update()
         {
             timer += Time.deltaTime;
-
-            // 计算当前动画进度 (0f 到 1f)
             float progress = Mathf.Clamp01(timer / duration);
 
-            // 1. 根据曲线计算并设置缩放 (关键：非匀速扩大的秘密)
-            float curveValue = expansionCurve.Evaluate(progress);
-            float currentScale = curveValue * maxRadius;
+            // 1. 缩放动画
+            float currentScale = expansionCurve.Evaluate(progress) * maxRadius;
             transform.localScale = new Vector3(currentScale, currentScale, 1f);
 
-            // 2. 根据曲线计算并设置透明度
-            float currentAlpha = fadeCurve.Evaluate(progress);
-            SetAlpha(currentAlpha);
+            // 2. 透明度动画
+            SetAlpha(fadeCurve.Evaluate(progress));
 
-            // 3. 动画结束时自动销毁
+            // 3. 生命周期结束
             if (progress >= 1f)
             {
-                Destroy(gameObject);
+                ReturnToPool();
             }
         }
 
@@ -59,6 +66,15 @@ namespace GameMain.RunTime
                 color.a = alpha;
                 spriteRenderer.color = color;
             }
+        }
+
+        private void ReturnToPool()
+        {
+            // 如果对象池还存在，则归还；否则销毁（防止切关报错）
+            if (_pool != null)
+                _pool.Release(this);
+            else
+                Destroy(gameObject);
         }
     }
 }

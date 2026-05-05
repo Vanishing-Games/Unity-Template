@@ -34,6 +34,9 @@ namespace GameMain.RunTime
         private SpriteRenderer childRenderer;
         private Coroutine fadeCoroutine;
 
+        public float WaveRadius;
+        public float WaveDur;
+
         private void Awake()
         {
             originalScale = transform.localScale;
@@ -186,7 +189,12 @@ namespace GameMain.RunTime
             ColdDownTimer = 0;
             if (WavePre != null)
             {
-                Instantiate(WavePre, transform.position, Quaternion.identity);
+                WavePoolManager.Instance.SpawnWave(
+                    this.transform.position,
+                    gameObject.GetInstanceID(),
+                    WaveRadius,
+                    WaveDur
+                );
             }
         }
 

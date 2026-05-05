@@ -66,6 +66,8 @@ namespace GameMain.RunTime
             {
                 mPCComponent.ThrowMoveTimer--;
                 ThrowMoveGoing();
+                if (BeeToThrow.currentState == BeeState.FollowSt)
+                    mPCComponent.ThrowMoveTimer = 0;
             }
         }
 
