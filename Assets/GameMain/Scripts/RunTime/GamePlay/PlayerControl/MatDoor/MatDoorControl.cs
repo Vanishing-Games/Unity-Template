@@ -26,6 +26,7 @@ namespace GameMain.RunTime
 
         [SerializeField]
         private SpriteRenderer doorRenderer;
+        private Animator m_Animator;
 
         private BoxCollider2D m_BoxCollider;
 
@@ -35,15 +36,19 @@ namespace GameMain.RunTime
         void Start()
         {
             m_BoxCollider = GetComponent<BoxCollider2D>();
+            m_Animator = GetComponentInChildren<Animator>();
         }
 
         // Update is called once per frame
         void Update()
         {
+            m_Animator.SetInteger("TutalCount", LockCount);
+            m_Animator.SetInteger("CurrentCount", m_UnlockCount);
+
             if (m_UnlockCount >= LockCount)
             {
                 isUnlock = true;
-                doorRenderer.enabled = false;
+                //doorRenderer.enabled = false;
                 m_BoxCollider.isTrigger = true;
             }
 
@@ -58,7 +63,7 @@ namespace GameMain.RunTime
 
             if (!isUnlock)
             {
-                doorRenderer.enabled = true;
+                //doorRenderer.enabled = true;
                 m_BoxCollider.isTrigger = false;
             }
         }

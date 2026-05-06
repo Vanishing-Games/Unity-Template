@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VanishingGames.ECC.Runtime;
 
@@ -33,6 +34,8 @@ namespace GameMain.RunTime
             mPCComponent.DeathTimer = mPCComponent.DeathTime;
             mPCComponent.RespawnTimer = mPCComponent.RespawnTime;
 
+            //VgLoadingSplashManager.Instance.CoverAsync(VgSplashKey.Default).Forget();
+
             //状态变量修正
             mPCComponent.IsOnGround = false;
             mPCComponent.IsJumping = false;
@@ -45,6 +48,7 @@ namespace GameMain.RunTime
         protected override void OnDeactivate()
         {
             mPCComponent.isShouldDie = false;
+            //VgLoadingSplashManager.Instance.RevealAsync(VgSplashKey.Default).Forget();
         }
 
         protected override bool ShouldDeactivate()
@@ -69,9 +73,9 @@ namespace GameMain.RunTime
 
             if (mPCComponent.DeathTimer > 0 && mPCComponent.DyingTimer == 0)
             {
+                if (mPCComponent.DeathTimer == mPCComponent.DeathTime)
+                    VgLoadingSplashManager.Instance.CoverAsync(VgSplashKey.Default).Forget();
                 mPCComponent.DeathTimer--;
-                if (mPCComponent.RespawnBlackMask != null)
-                    mPCComponent.RespawnBlackMask.SetActive(false);
             }
 
             if (mPCComponent.DeathTimer == 0 && mPCComponent.RespawnTimer > 0)
@@ -79,8 +83,7 @@ namespace GameMain.RunTime
                 //之后改为执行一次
                 if (mPCComponent.RespawnTimer == mPCComponent.RespawnTime)
                 {
-                    if (mPCComponent.RespawnBlackMask != null)
-                        mPCComponent.RespawnBlackMask.SetActive(true);
+                    VgLoadingSplashManager.Instance.RevealAsync(VgSplashKey.Default).Forget();
 
                     //发布的时间节点要思考一下
                     MessageBroker.Global.Publish(new GamePlayMatEvents.MatPlayerDeathEvent());

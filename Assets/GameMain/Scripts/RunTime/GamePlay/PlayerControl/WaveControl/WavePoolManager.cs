@@ -10,10 +10,10 @@ namespace GameMain.RunTime
         private WaveLife wavePrefab;
 
         [SerializeField]
-        private int defaultSize = 10;
+        private int defaultSize = 2;
 
         [SerializeField]
-        private int maxSize = 50;
+        private int maxSize = 10;
 
         private IObjectPool<WaveLife> _pool;
 
