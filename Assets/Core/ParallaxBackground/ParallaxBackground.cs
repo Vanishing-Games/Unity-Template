@@ -144,11 +144,16 @@ namespace Core
                     GameObject child = new($"Sprite_{j}");
                     child.transform.SetParent(container.transform);
 
+                    float scaledWidth = layer.textureWidth * layer.imageScale.x;
                     float xPos =
-                        (layer.clampModeX == ParallaxClampMode.None)
-                            ? 0
-                            : (j - 1) * layer.textureWidth;
+                        (layer.clampModeX == ParallaxClampMode.None) ? 0 : (j - 1) * scaledWidth;
+
                     child.transform.localPosition = new Vector3(xPos, 0, 0);
+                    child.transform.localScale = new Vector3(
+                        layer.imageScale.x,
+                        layer.imageScale.y,
+                        1
+                    );
 
                     SpriteRenderer sr = child.AddComponent<SpriteRenderer>();
                     sr.sprite = layer.sprite;

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b9d01932ed0c0d419c8d16750e79a9c, type: 3}
-  m_Name: LDtk_background_Chapter1_08
+  m_Name: LDtk_background_Chapter_Platformer_08
   m_EditorClassIdentifier: Core::Core.ParallaxLayer
   serializationData:
     SerializedFormat: 2
@@ -21,13 +21,14 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  sprite: {fileID: -7835461450597999419, guid: 7d5cd3676829829469a1f7036e3c2e69, type: 3}
+  sprite: {fileID: 1089346168392450579, guid: 3d8f98af00b7ffa4ba2e068920bdb25c, type: 3}
   parallaxFactorX: 0.125
-  parallaxFactorY: 0.125
+  parallaxFactorY: 1
   clampModeX: 1
   clampModeY: 0
-  maxVerticalOffset: 2
-  worldMaxY: 62
-  worldMinY: -51
+  maxVerticalOffset: 3.84
+  worldMaxY: 0
+  worldMinY: 0
   blurMode: 0
   blurIntensity: 8.75
+  imageScale: {x: 1, y: 1}
