@@ -28,7 +28,8 @@ namespace GameMain.RunTime
 
         protected override bool ShouldDeactivate()
         {
-            return ThrowMoveTimer == 0;
+            return ThrowMoveTimer == 0
+                || (BeeToThrow.currentState == BeeState.FollowSt && ThrowStartTimer == 0);
         }
 
         protected override void OnDeactivate()
@@ -65,6 +66,8 @@ namespace GameMain.RunTime
             {
                 mPCComponent.ThrowMoveTimer--;
                 ThrowMoveGoing();
+                if (BeeToThrow.currentState == BeeState.FollowSt)
+                    mPCComponent.ThrowMoveTimer = 0;
             }
         }
 

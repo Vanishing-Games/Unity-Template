@@ -1,0 +1,33 @@
+{
+  "Rects": null,
+  "Def": {
+    "__cHei": 4,
+    "__cWid": 12,
+    "cachedPixelData": {
+      "opaqueTiles": "000010001000000010001010000110111000000110001111",
+      "averageColors": "f332f332f332f322f221f322f322f322f221f322f222f322f332f332f332f322f222f322f322f322f222f222f000f222f333f332f332f222f222f332f322f221f222f332f222f332f333f332f333f222f222f3320000f333f111f111f211f111"
+    },
+    "customData": [
+
+    ],
+    "embedAtlas": null,
+    "enumTags": [
+
+    ],
+    "identifier": "Mat_UnderGround_tile",
+    "padding": 0,
+    "pxHei": 512,
+    "pxWid": 1536,
+    "relPath": "../../Arts/TileSet/Mat-UnderGround-tile.png",
+    "savedSelections": [
+
+    ],
+    "spacing": 0,
+    "tags": [
+
+    ],
+    "tagsSourceEnumUid": null,
+    "tileGridSize": 128,
+    "uid": 869
+  }
+}

@@ -54,6 +54,11 @@ namespace GameMain.RunTime
             mAnim.SetBool("IsSlide", WallSlideCheck());
 
             mAnim.SetBool("IsNormalSt", CurrentState == PlayerStateMachine.NormalState);
+
+            mAnim.SetBool("IsDeath", CurrentState == PlayerStateMachine.DeathState);
+            mAnim.SetBool("IsDeathBefore", DyingBeforeTimer > 0);
+            mAnim.SetBool("IsDeathDying", DyingTimer > 0 && DyingBeforeTimer == 0);
+            mAnim.SetBool("IsDeathRespawn", DeathTimer == 0 && RespawnTimer > 0);
         }
 
         public bool WallSlideCheck() =>

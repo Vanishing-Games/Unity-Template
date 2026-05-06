@@ -1,4 +1,5 @@
 using Core;
+using R3;
 using Sirenix.Serialization;
 using UnityEngine;
 using VanishingGames.ECC.Runtime;
@@ -20,11 +21,40 @@ namespace GameMain.RunTime
             m_RigidBody = GetComponent<Rigidbody2D>();
             m_BoxCollider = GetComponent<BoxCollider2D>();
             m_SpriteRenderer = GetComponent<SpriteRenderer>();
+            m_BeeLdtkControl = GetComponent<BeeLdtkControl>();
+
+            Random.InitState(this.gameObject.GetInstanceID());
+
+            // 这样每个物体的随机序列都是独一无二的
+            myUniqueVar = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 2f));
+            CheckPointFollowOffset = myUniqueVar;
         }
 
         void Start()
         {
-            player = GameObject.FindWithTag("Player").transform;
+            // 将自身的父物体设为 null
+            //transform.SetParent(null);
+            //player = GameObject.FindWithTag("Player").transform;
+            FollowCheckPoint = m_BeeLdtkControl.currentPoint;
+            m_Transform = GetComponent<Transform>();
+        }
+
+        private void OnEnable()
+        {
+            MessageBroker
+                .Global.Subscribe<GamePlayMatEvents.MatChangeCheckPointEvent>(CurrentPointSet)
+                .AddTo(ref m_Disposables);
+            MessageBroker
+                .Global.Subscribe<GamePlayMatEvents.MatPlayerDeathEvent>(_ => OnPlayerRespawn())
+                .AddTo(ref m_Disposables);
+            MessageBroker
+                .Global.Subscribe<GamePlayMatEvents.MatPlayerPassDoorEvent>(_ => OnPlayerRespawn())
+                .AddTo(ref m_Disposables);
+        }
+
+        private void OnDisable()
+        {
+            m_Disposables.Dispose();
         }
 
         // Update is called once per frame
@@ -32,19 +62,27 @@ namespace GameMain.RunTime
 
         private void FixedUpdate()
         {
-            switch (currentState)
+            if (player == null)
             {
-                case BeeState.StaySt:
-                    StayStUpdate();
-                    break;
-                case BeeState.ThrowedSt:
-                    ThrowedStUpdate();
-                    break;
-                case BeeState.FollowSt:
-                    FollowStUpdate();
-                    break;
+                //player = GameObject.FindWithTag("Player").transform;
+                player = GameMain.TryGetPlayer().transform;
             }
-            currentSpeed = m_RigidBody.linearVelocity.magnitude;
+            else
+            {
+                switch (currentState)
+                {
+                    case BeeState.StaySt:
+                        StayStUpdate();
+                        break;
+                    case BeeState.ThrowedSt:
+                        ThrowedStUpdate();
+                        break;
+                    case BeeState.FollowSt:
+                        FollowStUpdate();
+                        break;
+                }
+                currentSpeed = m_RigidBody.linearVelocity.magnitude;
+            }
         }
 
         public void ChangeState(BeeState toState)
@@ -89,7 +127,10 @@ namespace GameMain.RunTime
         }
 
         //投出状态管理
-        void ThrowedStEnter() { }
+        void ThrowedStEnter()
+        {
+            gameObject.layer = LayerMask.GetMask("Hook");
+        }
 
         void ThrowedStUpdate() { }
 
@@ -98,23 +139,28 @@ namespace GameMain.RunTime
         //跟随状态管理
         void FollowStEnter()
         {
-            m_BoxCollider.enabled = false;
+            //m_BoxCollider.enabled = false;
+            gameObject.layer = LayerMask.NameToLayer("WaveCheck");
         }
 
         void FollowStUpdate()
         {
             //改变虫子的朝向
-            transform.localScale = new Vector3(
-                Mathf.Sign(this.transform.position.x - player.position.x),
-                1,
-                1
-            );
+            if (isFollowPlayer)
+            {
+                m_Transform.localScale = new Vector3(
+                    Mathf.Sign(m_Transform.position.x - player.position.x),
+                    1,
+                    1
+                );
+            }
+
             FollowPointSet();
 
             //过远闪烁
             if (targetDistance() > FlashMoveDistance)
             {
-                this.transform.position = FollowPoint;
+                m_Transform.position = FollowPoint;
             }
             //近距离跟随
             else if (targetDistance() <= FlashMoveDistance)
@@ -131,15 +177,21 @@ namespace GameMain.RunTime
         void FollowStExit()
         {
             m_BoxCollider.enabled = true;
+            gameObject.layer = LayerMask.NameToLayer("Hook");
         }
 
         //悬挂状态管理
         void StayStEnter()
         {
-            //gameObject.layer = LayerMask.GetMask("Hook");
+            gameObject.layer = LayerMask.GetMask("Hook");
+            StayToFollowCdTimer = 0;
         }
 
-        void StayStUpdate() { }
+        void StayStUpdate()
+        {
+            if (StayToFollowCdTimer < StayToFollowCdTime)
+                StayToFollowCdTimer++;
+        }
 
         void StayStExit()
         {
@@ -167,7 +219,7 @@ namespace GameMain.RunTime
         {
             //这里在原地留下闪烁特效
 
-            this.transform.position = positon;
+            m_Transform.position = positon;
             if (isHidden)
                 m_SpriteRenderer.enabled = false;
             else
@@ -177,19 +229,55 @@ namespace GameMain.RunTime
         //其他函数
         void FollowPointSet()
         {
-            bool isRight = this.transform.position.x > player.position.x;
-            //超出范围时生成一个新点位
-            if (Vector3.Distance(FollowPoint, player.position) > FollowPointDistance)
+            if (isFollowPlayer)
             {
-                FollowPoint = GetSidePos(player.position, FollowPointDistance, isRight, 30f);
+                bool isRight = m_Transform.position.x > player.position.x;
+                //超出范围时生成一个新点位
+                if (Vector3.Distance(FollowPoint, player.position) > FollowPointDistance)
+                {
+                    FollowPoint =
+                        GetSidePos(player.position, FollowPointDistance, isRight, 30f)
+                        + CheckPointFollowOffset;
+                }
+            }
+            else
+            {
+                FollowPoint =
+                    FollowCheckPoint.position + CheckPointFollowOffset + new Vector3(0, 1, 0);
             }
         }
 
         void MoveTowardsTarget(Rigidbody2D rb, Vector2 targetPos, float speedMultiplier)
         {
-            Vector2 offset = targetPos - (Vector2)transform.position;
+            Vector2 offset = targetPos - (Vector2)m_Transform.position;
             float distance = offset.magnitude;
             rb.linearVelocity = offset.normalized * distance * speedMultiplier;
+        }
+
+        void CurrentPointSet(GamePlayMatEvents.MatChangeCheckPointEvent e)
+        {
+            if (isFollowPlayer)
+            {
+                m_BeeLdtkControl.currentPoint = e.CheckTransform;
+                FollowCheckPoint = m_BeeLdtkControl.currentPoint;
+                if (currentState == BeeState.StaySt)
+                {
+                    ChangeState(BeeState.FollowSt);
+                }
+            }
+        }
+
+        void OnPlayerRespawn()
+        {
+            if (isFollowPlayer)
+            {
+                isFollowPlayer = false;
+                if (currentState != BeeState.FollowSt)
+                {
+                    ChangeState(BeeState.FollowSt);
+                }
+                MessageBroker.Global.Publish(new BeeManagerEvents.BeeRemoveEvents(this.gameObject));
+            }
         }
 
         //噪声点位生成
@@ -251,6 +339,13 @@ namespace GameMain.RunTime
                     }
                 }
             }
+            else if (
+                currentState == BeeState.ThrowedSt
+                && collision.gameObject.layer == LayerMask.GetMask("Hook")
+            )
+            {
+                ChangeState(BeeState.FollowSt);
+            }
         }
 
         private void OnCollisionExit2D(Collision2D collision)
@@ -263,10 +358,23 @@ namespace GameMain.RunTime
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (currentState == BeeState.StaySt && collision.transform.CompareTag("Wave"))
+            if (collision.transform.CompareTag("Wave"))
             {
-                ChangeState(BeeState.FollowSt);
-                MessageBroker.Global.Publish(new BeeManagerEvents.BeeAddEvents(this.gameObject));
+                if (currentState == BeeState.StaySt && StayToFollowCdTimer >= StayToFollowCdTime)
+                {
+                    ChangeState(BeeState.FollowSt);
+                    isFollowPlayer = true;
+                    MessageBroker.Global.Publish(
+                        new BeeManagerEvents.BeeAddEvents(this.gameObject)
+                    );
+                }
+                else if (currentState == BeeState.FollowSt && !isFollowPlayer)
+                {
+                    isFollowPlayer = true;
+                    MessageBroker.Global.Publish(
+                        new BeeManagerEvents.BeeAddEvents(this.gameObject)
+                    );
+                }
             }
         }
 
@@ -275,18 +383,33 @@ namespace GameMain.RunTime
         public Rigidbody2D m_RigidBody;
         public BoxCollider2D m_BoxCollider;
         private Transform player;
+        private Transform m_Transform;
+
+        [SerializeField]
         private Vector2 PlayerPosition;
+        private BeeLdtkControl m_BeeLdtkControl;
+
+        public bool isFollowPlayer = false;
+        public Transform FollowCheckPoint;
+        public Vector3 CheckPointFollowOffset;
 
         public float targetDistance() => Vector3.Distance(this.transform.position, FollowPoint);
 
         private Vector2 targetDir() => (FollowPoint - this.transform.position).normalized;
 
         public Vector3 FollowPoint;
+        public Vector3 testPoint;
         public float FollowPointDistance;
         public float FlashMoveDistance;
 
         public float FollowSpeedMult;
 
         public float currentSpeed;
+
+        public int StayToFollowCdTime;
+        private int StayToFollowCdTimer;
+
+        private Vector2 myUniqueVar;
+        private DisposableBag m_Disposables = new();
     }
 }

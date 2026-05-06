@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Core;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -28,18 +27,28 @@ namespace GameMain.RunTime
 
         protected override void OnActivate()
         {
-            VgLoadingSplashManager.Instance.CoverAsync(VgSplashKey.Default).Forget();
             SetStateMachine(PlayerStateMachine.DeathState, EccTag.DeathState);
             mPCComponent.CtrlVelocity = Vector2.zero;
+            mPCComponent.DyingBeforeTimer = mPCComponent.DyingBeforeTime;
             mPCComponent.DyingTimer = mPCComponent.DyingTime;
             mPCComponent.DeathTimer = mPCComponent.DeathTime;
             mPCComponent.RespawnTimer = mPCComponent.RespawnTime;
+
+            //VgLoadingSplashManager.Instance.CoverAsync(VgSplashKey.Default).Forget();
+
+            //状态变量修正
+            mPCComponent.IsOnGround = false;
+            mPCComponent.IsJumping = false;
+            mPCComponent.IsByWallLeft = false;
+            mPCComponent.IsByWallRight = false;
+            mPCComponent.IsSafeGrab = false;
+            mPCComponent.IsCornerGrab = false;
         }
 
         protected override void OnDeactivate()
         {
-            VgLoadingSplashManager.Instance.RevealAsync(VgSplashKey.Default).Forget();
             mPCComponent.isShouldDie = false;
+            //VgLoadingSplashManager.Instance.RevealAsync(VgSplashKey.Default).Forget();
         }
 
         protected override bool ShouldDeactivate()
@@ -49,29 +58,46 @@ namespace GameMain.RunTime
 
         protected override void OnTick(float deltaTime)
         {
-            if (mPCComponent.DyingTimer > 0)
+            if (mPCComponent.DyingBeforeTimer > 0)
+            {
+                mPCComponent.DyingBeforeTimer--;
+                mPCComponent.CtrlVelocity =
+                    mPCComponent.DyingBackVelocity * new Vector2(mPCComponent.FacingDir, 1f);
+            }
+
+            if (mPCComponent.DyingTimer > 0 && mPCComponent.DyingBeforeTimer == 0)
+            {
+                mPCComponent.CtrlVelocity = Vector2.zero;
                 mPCComponent.DyingTimer--;
+            }
 
             if (mPCComponent.DeathTimer > 0 && mPCComponent.DyingTimer == 0)
             {
+                if (mPCComponent.DeathTimer == mPCComponent.DeathTime)
+                    VgLoadingSplashManager.Instance.CoverAsync(VgSplashKey.Default).Forget();
                 mPCComponent.DeathTimer--;
-                if (mPCComponent.RespawnBlackMask != null)
-                    mPCComponent.RespawnBlackMask.SetActive(false);
             }
 
             if (mPCComponent.DeathTimer == 0 && mPCComponent.RespawnTimer > 0)
             {
-                mPCComponent.RespawnTimer--;
                 //之后改为执行一次
-                mPCComponent.mTranform.position = mPCComponent.RespawnPos;
-                mPCComponent.BeeToThrow.ChangeState(BeeState.FollowSt);
+                if (mPCComponent.RespawnTimer == mPCComponent.RespawnTime)
+                {
+                    VgLoadingSplashManager.Instance.RevealAsync(VgSplashKey.Default).Forget();
+
+                    //发布的时间节点要思考一下
+                    MessageBroker.Global.Publish(new GamePlayMatEvents.MatPlayerDeathEvent());
+
+                    mPCComponent.mTranform.position =
+                        mPCComponent.RespawnPos + mPCComponent.RespawnOffset;
+                }
+
+                mPCComponent.RespawnTimer--;
             }
 
             if (mPCComponent.RespawnTimer == 0)
             {
                 SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
-                if (mPCComponent.RespawnBlackMask != null)
-                    mPCComponent.RespawnBlackMask.SetActive(true);
             }
         }
 

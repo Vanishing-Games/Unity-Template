@@ -1,0 +1,33 @@
+{
+  "Rects": null,
+  "Def": {
+    "__cHei": 3,
+    "__cWid": 2,
+    "cachedPixelData": {
+      "opaqueTiles": "000000",
+      "averageColors": "454327533653285356430000"
+    },
+    "customData": [
+
+    ],
+    "embedAtlas": null,
+    "enumTags": [
+
+    ],
+    "identifier": "Mine_pole_tile",
+    "padding": 0,
+    "pxHei": 384,
+    "pxWid": 256,
+    "relPath": "../../Arts/TileSet/Mine-pole-tile.png",
+    "savedSelections": [
+
+    ],
+    "spacing": 0,
+    "tags": [
+
+    ],
+    "tagsSourceEnumUid": null,
+    "tileGridSize": 128,
+    "uid": 1070
+  }
+}

@@ -39,9 +39,9 @@ TagManager:
   - LightObject
   - TileWall
   - 
-  - 
-  - 
-  - 
+  - WaveCheck
+  - HorizontalGrab
+  - DoorCheck
   - 
   - 
   - 

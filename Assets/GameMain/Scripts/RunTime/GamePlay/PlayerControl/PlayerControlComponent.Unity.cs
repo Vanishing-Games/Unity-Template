@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using R3;
 using R3.Triggers;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace GameMain.RunTime
             mAnim = mGameObject.GetComponent<Animator>();
             mBoxCollider = mGameObject.GetComponent<BoxCollider2D>();
             mTranform = mGameObject.GetComponent<Transform>();
+            mGO = mGameObject;
 
             mCollisionEnterSubscription = mGameObject
                 .OnCollisionEnter2DAsObservable()
@@ -29,6 +31,13 @@ namespace GameMain.RunTime
             mTriggerEnterSubscription = mGameObject
                 .OnTriggerEnter2DAsObservable()
                 .Subscribe(OnTriggerEnter2D);
+            mTriggerStaySubscription = mGameObject
+                .OnTriggerStay2DAsObservable()
+                .Subscribe(OnTriggerStay2D);
+
+            MessageBroker
+                .Global.Subscribe<GamePlayMatEvents.MatChangeCheckPointEvent>(OnChangeCheckPoint)
+                .AddTo(ref m_Disposables);
         }
 
         protected override void OnRemoved()
@@ -36,11 +45,20 @@ namespace GameMain.RunTime
             mCollisionEnterSubscription.Dispose();
             mCollisionExitSubscription.Dispose();
             mCollisionStaySubscription.Dispose();
+            mTriggerEnterSubscription.Dispose();
+            mTriggerStaySubscription.Dispose();
+
+            m_Disposables.Dispose();
         }
 
         protected override void OnUpdateGo(float deltaTime)
         {
             AnimControl();
+        }
+
+        void OnChangeCheckPoint(GamePlayMatEvents.MatChangeCheckPointEvent e)
+        {
+            RespawnPos = e.CheckTransform.position;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -63,11 +81,19 @@ namespace GameMain.RunTime
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.CompareTag("Respawn"))
-            {
-                RespawnPos = collision.transform.position;
-            }
+            //if (collision.transform.CompareTag("Respawn"))
+            //{
+            //    RespawnPos = collision.transform.position;
+            //}
 
+            if (collision.transform.CompareTag("Danger"))
+            {
+                isShouldDie = true;
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D collision)
+        {
             if (collision.transform.CompareTag("Danger"))
             {
                 isShouldDie = true;
@@ -76,7 +102,10 @@ namespace GameMain.RunTime
 
         private void OnCollisionStay2D(Collision2D collision)
         {
-            if (collision.transform.CompareTag("Wall"))
+            if (
+                collision.transform.CompareTag("Wall")
+                || collision.gameObject.layer == LayerMask.GetMask("DoorCheck")
+            )
             {
                 for (int i = 0, len = collision.contactCount; i < len; i++)
                 {
@@ -153,5 +182,8 @@ namespace GameMain.RunTime
         private IDisposable mCollisionExitSubscription;
         private IDisposable mCollisionStaySubscription;
         private IDisposable mTriggerEnterSubscription;
+        private IDisposable mTriggerStaySubscription;
+
+        private DisposableBag m_Disposables = new();
     }
 }

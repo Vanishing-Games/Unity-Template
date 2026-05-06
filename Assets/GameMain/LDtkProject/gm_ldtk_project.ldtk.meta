@@ -25,7 +25,15 @@ ScriptedImporter:
     _asset: {fileID: 11400000, guid: b30035e599210204e8d7880f32ae09fd, type: 2}
   - _key: LogicMap_2
     _asset: {fileID: 11400000, guid: b30035e599210204e8d7880f32ae09fd, type: 2}
+  - _key: LogicMap_3
+    _asset: {fileID: 11400000, guid: b30035e599210204e8d7880f32ae09fd, type: 2}
+  - _key: LogicMap_4
+    _asset: {fileID: 11400000, guid: 8d2363c50a54d574c86d3912ec104888, type: 2}
+  - _key: LogicMap_5
+    _asset: {fileID: 11400000, guid: e2f7f3c8d80036a419468b817c7aaf20, type: 2}
   - _key: BGMap_2
+    _asset: {fileID: 11400000, guid: 5cdbd6b9014c8484fa8b17bb9c8dbc86, type: 2}
+  - _key: BGMap_3
     _asset: {fileID: 11400000, guid: 5cdbd6b9014c8484fa8b17bb9c8dbc86, type: 2}
   _entities:
   - _key: Ae_SavePoint
@@ -41,6 +49,18 @@ ScriptedImporter:
   - _key: Ae_SnakeDoor
     _asset: {instanceID: 0}
   - _key: Ae_LevelClearPoint
+    _asset: {instanceID: 0}
+  - _key: Ae_Mat_Checkpoint
+    _asset: {instanceID: 0}
+  - _key: Ae_Mat_Bee
+    _asset: {instanceID: 0}
+  - _key: Ae_Mat_ThornPlatform
+    _asset: {instanceID: 0}
+  - _key: Ae_Mat_Ore
+    _asset: {instanceID: 0}
+  - _key: Ae_Mat_Vine
+    _asset: {instanceID: 0}
+  - _key: Ae_Mat_Door
     _asset: {instanceID: 0}
   _enumGenerate: 1
   _enumPath: gm_ldtk_project/GmLDtkEnums.cs
