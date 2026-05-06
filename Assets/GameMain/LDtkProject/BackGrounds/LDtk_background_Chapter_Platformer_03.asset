@@ -23,11 +23,12 @@ MonoBehaviour:
     SerializationNodes: []
   sprite: {fileID: -7571486576910154142, guid: 5a07f972d9012c1458560209953b2d63, type: 3}
   parallaxFactorX: 0.75
-  parallaxFactorY: 0.75
+  parallaxFactorY: 1
   clampModeX: 1
   clampModeY: 0
-  maxVerticalOffset: 1
-  worldMaxY: 85
-  worldMinY: -57
+  maxVerticalOffset: -8.48
+  worldMaxY: 0
+  worldMinY: 0
   blurMode: 0
   blurIntensity: 2.5
+  imageScale: {x: 1.4, y: 1.4}

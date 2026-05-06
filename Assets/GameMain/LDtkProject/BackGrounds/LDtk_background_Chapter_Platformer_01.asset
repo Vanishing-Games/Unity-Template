@@ -26,8 +26,9 @@ MonoBehaviour:
   parallaxFactorY: 1
   clampModeX: 1
   clampModeY: 0
-  maxVerticalOffset: 8
-  worldMaxY: 85
-  worldMinY: -57
+  maxVerticalOffset: 9.11
+  worldMaxY: 0
+  worldMinY: 0
   blurMode: 0
   blurIntensity: 0.001
+  imageScale: {x: 1, y: 1}
