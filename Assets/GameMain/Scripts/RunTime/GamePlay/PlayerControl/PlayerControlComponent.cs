@@ -197,6 +197,8 @@ namespace GameMain.RunTime
         [BoxGroup("角色运行计时器"), Tooltip("抓跳后再抓cd计时器"), ShowInInspector, ReadOnly]
         public int CanGrabCDTimer { get; set; }
 
+        [BoxGroup("角色运行计时器"), Tooltip("口哨cd计时器"), ShowInInspector, ReadOnly]
+        public int WhistleCDTimer { get; set; }
         #endregion
 
         #region 死亡与重生相关
@@ -206,8 +208,20 @@ namespace GameMain.RunTime
         [BoxGroup("死亡与重生相关"), Tooltip("重生位置"), ShowInInspector, ReadOnly]
         public Vector3 RespawnPos { get; set; }
 
+        [BoxGroup("死亡与重生相关"), Tooltip("重生位置偏移"), ShowInInspector, OdinSerialize]
+        public Vector3 RespawnOffset { get; set; }
+
+        [BoxGroup("死亡与重生相关"), Tooltip("死亡后退速度"), ShowInInspector, OdinSerialize]
+        public Vector2 DyingBackVelocity { get; set; }
+
         [BoxGroup("死亡与重生相关"), Tooltip("死亡黑屏"), ShowInInspector, OdinSerialize]
         public GameObject RespawnBlackMask { get; set; }
+
+        [BoxGroup("死亡与重生相关"), Tooltip("死亡前效果时间"), ShowInInspector, OdinSerialize]
+        public int DyingBeforeTime { get; set; }
+
+        [BoxGroup("死亡与重生相关"), Tooltip("死亡前效果时间计时器"), ShowInInspector, ReadOnly]
+        public int DyingBeforeTimer { get; set; }
 
         [BoxGroup("死亡与重生相关"), Tooltip("死亡动画/过度时间"), ShowInInspector, OdinSerialize]
         public int DyingTime { get; set; }
@@ -391,6 +405,9 @@ namespace GameMain.RunTime
         #endregion
 
         #region 口哨相关
+        [BoxGroup("口哨相关"), Tooltip("口哨CD时间"), ShowInInspector, OdinSerialize]
+        public int WhistleCDTime { get; set; }
+
         [BoxGroup("口哨相关"), Tooltip("口哨预输入时间"), ShowInInspector, OdinSerialize]
         public int PreWhistleInputTime { get; set; }
 
@@ -406,6 +423,11 @@ namespace GameMain.RunTime
         [BoxGroup("口哨相关"), Tooltip("口哨后摇结束确认变量"), ShowInInspector, ReadOnly]
         public bool IsInputEnd { get; set; }
 
+        [BoxGroup("口哨相关"), Tooltip("口哨范围"), ShowInInspector, OdinSerialize]
+        public float WhistleRadius { get; set; }
+
+        [BoxGroup("口哨相关"), Tooltip("口哨持续时间"), ShowInInspector, OdinSerialize]
+        public float WhistleTimeDur { get; set; }
         #endregion
 
         #region 投掷与拉动相关

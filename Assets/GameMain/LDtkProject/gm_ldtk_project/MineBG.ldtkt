@@ -1,0 +1,33 @@
+{
+  "Rects": null,
+  "Def": {
+    "__cHei": 4,
+    "__cWid": 12,
+    "cachedPixelData": {
+      "opaqueTiles": "000000000000000000000010000000000000000000000000",
+      "averageColors": "811181118111b111e111b111b111b111e1119111b1118111b111b111b111b111e111b111a111b111e111b111f111c111811181118111d111e111a111d111e111e1118111b1119111611171115111d111e111a11100000000f111e111f111e111"
+    },
+    "customData": [
+
+    ],
+    "embedAtlas": null,
+    "enumTags": [
+
+    ],
+    "identifier": "MineBG",
+    "padding": 0,
+    "pxHei": 512,
+    "pxWid": 1536,
+    "relPath": "../../Arts/TileSet/mineBG.png",
+    "savedSelections": [
+
+    ],
+    "spacing": 0,
+    "tags": [
+
+    ],
+    "tagsSourceEnumUid": null,
+    "tileGridSize": 128,
+    "uid": 870
+  }
+}

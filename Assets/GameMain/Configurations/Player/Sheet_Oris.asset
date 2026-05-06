@@ -33,28 +33,42 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 1|GameMain.RunTime.PlayerControlComponent, GameMain.RunTime
-    - Name: AllBees
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
+    - Name: BeeToThrow
       Entry: 6
       Data: 
+    - Name: RespawnOffset
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
     - Name: 
-      Entry: 13
-      Data: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1.5
+    - Name: 
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
-    - Name: BeeToThrow
-      Entry: 6
+    - Name: DyingBackVelocity
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 8
+    - Name: 
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
       Data: 
     - Name: RespawnBlackMask
       Entry: 6
       Data: 
+    - Name: DyingBeforeTime
+      Entry: 3
+      Data: 10
     - Name: DyingTime
       Entry: 3
       Data: 20
@@ -132,10 +146,10 @@ MonoBehaviour:
       Data: true
     - Name: CanGrabCDTime
       Entry: 3
-      Data: 5
+      Data: 6
     - Name: GrabStayTime
       Entry: 3
-      Data: 60
+      Data: 30
     - Name: GrabThresholdSpeedY
       Entry: 3
       Data: -1
@@ -166,6 +180,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: WhistleCDTime
+      Entry: 3
+      Data: 60
     - Name: PreWhistleInputTime
       Entry: 3
       Data: 6
@@ -178,6 +195,12 @@ MonoBehaviour:
     - Name: WhistleAfterTime
       Entry: 3
       Data: 18
+    - Name: WhistleRadius
+      Entry: 4
+      Data: 15
+    - Name: WhistleTimeDur
+      Entry: 4
+      Data: 1
     - Name: PreThrowTime
       Entry: 3
       Data: 6
@@ -253,6 +276,22 @@ MonoBehaviour:
     - Name: PreWave
       Entry: 10
       Data: 1
+    - Name: AllBees
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: TagChangeEvent
       Entry: 7
       Data: 3|R3.Subject`1[[VanishingGames.ECC.Runtime.EccTag, VanishingGames.ECC.Runtime]],
@@ -299,10 +338,10 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 0
     - Name: Tags
       Entry: 7
       Data: 6|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -324,7 +363,7 @@ MonoBehaviour:
       Data: 7|GameMain.RunTime.PlayerInputTemp, GameMain.RunTime
     - Name: TickType
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: TickGroup
       Entry: 3
       Data: 0
@@ -355,10 +394,10 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 2
     - Name: Tags
       Entry: 7
       Data: 10|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -383,10 +422,10 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 1
     - Name: Tags
       Entry: 7
       Data: 12|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -411,10 +450,10 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 3
     - Name: Tags
       Entry: 7
       Data: 14|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -439,10 +478,10 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 4
     - Name: Tags
       Entry: 7
       Data: 16|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -467,10 +506,10 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 5
     - Name: Tags
       Entry: 7
       Data: 18|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -495,10 +534,10 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 6
     - Name: Tags
       Entry: 7
       Data: 20|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
@@ -523,17 +562,20 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 10
     - Name: Tags
       Entry: 7
       Data: 22|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 9
     - Name: 
       Entry: 13
       Data: 
@@ -551,17 +593,20 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 8
     - Name: Tags
       Entry: 7
       Data: 24|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 9
     - Name: 
       Entry: 13
       Data: 
@@ -579,17 +624,20 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 9
     - Name: Tags
       Entry: 7
       Data: 26|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 8
     - Name: 
       Entry: 13
       Data: 
@@ -607,17 +655,20 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 11
     - Name: Tags
       Entry: 7
       Data: 28|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 8
     - Name: 
       Entry: 13
       Data: 
@@ -635,17 +686,20 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
-      Data: 100
+      Data: 7
     - Name: Tags
       Entry: 7
       Data: 30|System.Collections.Generic.List`1[[VanishingGames.ECC.Runtime.EccTag,
         VanishingGames.ECC.Runtime]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 8
     - Name: 
       Entry: 13
       Data: 
@@ -663,7 +717,7 @@ MonoBehaviour:
       Data: 1
     - Name: TickGroup
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TickOrderInGroup
       Entry: 3
       Data: 100

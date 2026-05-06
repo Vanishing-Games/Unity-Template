@@ -80,6 +80,30 @@ namespace GameMain.Editor
                         layer.gameObject.SetSortingLayerRecursively("AutoTile");
 
                         break;
+                    case LDtkIdentifiers.AutoLayer_MineWall:
+                        layer.gameObject.SetLayerRecursively(LayerMask.NameToLayer("AutoTile"));
+                        layer.gameObject.SetTagRecursively("AutoTile");
+                        layer.gameObject.SetSortingLayerRecursively("AutoTile");
+
+                        break;
+                    case LDtkIdentifiers.AutoLayer_MineBG:
+                        layer.gameObject.SetLayerRecursively(LayerMask.NameToLayer("TileWall"));
+                        layer.gameObject.SetTagRecursively("AutoTile");
+                        layer.gameObject.SetSortingLayerRecursively("BackGroundTile");
+
+                        break;
+                    case LDtkIdentifiers.AutoLayer_MinePole:
+                        layer.gameObject.SetLayerRecursively(LayerMask.NameToLayer("AutoTile"));
+                        layer.gameObject.SetTagRecursively("AutoTile");
+                        layer.gameObject.SetSortingLayerRecursively("BackGroundTile");
+
+                        break;
+                    case LDtkIdentifiers.AutoLayer_MineDanger:
+                        layer.gameObject.SetLayerRecursively(LayerMask.NameToLayer("AutoTile"));
+                        layer.gameObject.SetTagRecursively("AutoTile");
+                        layer.gameObject.SetSortingLayerRecursively("AutoTile");
+
+                        break;
                 }
             }
         }

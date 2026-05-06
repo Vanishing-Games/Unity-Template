@@ -90,7 +90,7 @@ namespace Core
             );
             UpdateCameraViewport();
 
-            GetComponent<PixelPerfectCamera>().enabled = m_IsSnakeChapter;
+            //GetComponent<PixelPerfectCamera>().enabled = m_IsSnakeChapter;
         }
 
         private void InitializeBorderUI()
