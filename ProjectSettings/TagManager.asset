@@ -35,7 +35,7 @@ TagManager:
   - LogicMap
   - Respawn
   - Effect
-  - 
+  - Front
   - LightObject
   - TileWall
   - 
