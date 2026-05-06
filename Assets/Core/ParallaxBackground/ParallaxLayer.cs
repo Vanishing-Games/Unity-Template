@@ -50,5 +50,8 @@ namespace Core
 
         [NonSerialized, HideInInspector]
         public float initialRelativeY; // 用于记录与摄像机的初始相对Y坐标
+
+        [Header("图片设置")]
+        public Vector2 imageScale = Vector2.one;
     }
 }
