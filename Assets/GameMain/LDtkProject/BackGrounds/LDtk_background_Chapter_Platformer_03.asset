@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  sprite: {fileID: 21300000, guid: c34bf1c2bf96ca64b93fcad15ef7cfa5, type: 3}
+  sprite: {fileID: -7571486576910154142, guid: 5a07f972d9012c1458560209953b2d63, type: 3}
   parallaxFactorX: 0.75
   parallaxFactorY: 0.75
   clampModeX: 1
