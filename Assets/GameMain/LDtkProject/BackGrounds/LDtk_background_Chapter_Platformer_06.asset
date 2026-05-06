@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b9d01932ed0c0d419c8d16750e79a9c, type: 3}
-  m_Name: LDtk_background_Chapter1_06
+  m_Name: LDtk_background_Chapter_Platformer_06
   m_EditorClassIdentifier: Core::Core.ParallaxLayer
   serializationData:
     SerializedFormat: 2
@@ -27,7 +27,7 @@ MonoBehaviour:
   clampModeX: 1
   clampModeY: 0
   maxVerticalOffset: 1
-  worldMaxY: 62
-  worldMinY: -51
+  worldMaxY: 85
+  worldMinY: -57
   blurMode: 0
   blurIntensity: 6.25

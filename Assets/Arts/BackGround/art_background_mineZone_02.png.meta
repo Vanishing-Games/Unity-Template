@@ -5,15 +5,6 @@ TextureImporter:
   - first:
       213: 3006951671609114733
     second: art_background_mineZone_02_0
-  - first:
-      213: -8103323102230828464
-    second: art_background_mineZone_02_1
-  - first:
-      213: 7891982570978339658
-    second: art_background_mineZone_02_2
-  - first:
-      213: 3819382568619937827
-    second: art_background_mineZone_02_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -190,10 +181,10 @@ TextureImporter:
       name: art_background_mineZone_02_0
       rect:
         serializedVersion: 2
-        x: 115
-        y: 17
-        width: 1168
-        height: 1579
+        x: 0
+        y: 0
+        width: 2867
+        height: 706
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,72 +195,6 @@ TextureImporter:
       bones: []
       spriteID: d6047032d96dab920800000000000000
       internalID: 3006951671609114733
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: art_background_mineZone_02_1
-      rect:
-        serializedVersion: 2
-        x: 803
-        y: 1061
-        width: 541
-        height: 535
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 05aa05f52963b8f80800000000000000
-      internalID: -8103323102230828464
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: art_background_mineZone_02_2
-      rect:
-        serializedVersion: 2
-        x: 860
-        y: 418
-        width: 1420
-        height: 1178
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a4becb4b554f58d60800000000000000
-      internalID: 7891982570978339658
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: art_background_mineZone_02_3
-      rect:
-        serializedVersion: 2
-        x: 2004
-        y: 464
-        width: 863
-        height: 1132
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 32019efc53c210530800000000000000
-      internalID: 3819382568619937827
       vertices: []
       indices: 
       edges: []
@@ -289,9 +214,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       art_background_mineZone_02_0: 3006951671609114733
-      art_background_mineZone_02_1: -8103323102230828464
-      art_background_mineZone_02_2: 7891982570978339658
-      art_background_mineZone_02_3: 3819382568619937827
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
