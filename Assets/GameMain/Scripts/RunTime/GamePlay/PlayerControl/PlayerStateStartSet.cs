@@ -122,6 +122,18 @@ namespace GameMain.RunTime
             //抓跳后再抓cd计时器
             if (mPCComponent.CanGrabCDTimer > 0 && !mPCComponent.IsJumping)
                 mPCComponent.CanGrabCDTimer--;
+
+            //角色跟随特效开关
+            if (mPCComponent.IsOnGround && Mathf.Abs(mPCComponent.CtrlVelocity.x) > 4f)
+            {
+                if (mPCComponent.FollowEffect != null)
+                    mPCComponent.FollowEffect.SetActive(true);
+            }
+            else
+            {
+                if (mPCComponent.FollowEffect != null)
+                    mPCComponent.FollowEffect.SetActive(false);
+            }
         }
 
         void AddBeeToList(BeeManagerEvents.BeeAddEvents e)

@@ -1,36 +1,34 @@
 using System.Collections.Generic;
 using Core;
+using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
 
 namespace GameMain.RunTime
 {
-    public class MatCheckpointControl : AutoLdtkEntity
+    public class MatCheckpointControl : SavePoint
     {
         [SerializeField]
         private GameObject WavePre;
 
-        [LDtkField]
-        public string PointName;
-
         private bool isBloom = false;
         private bool isChecking = false;
 
-        private Animator m_Animator;
+        private Animator mAnimator;
 
         private DisposableBag m_Disposables = new();
 
         public float WaveRadius;
         public float WaveDur;
 
-        private void Awake()
+        protected override void Awake()
         {
             if (TryGetComponent<BoxCollider2D>(out var col))
             {
                 col.isTrigger = true;
                 col.size = BaseGridSize;
             }
-            m_Animator = GetComponent<Animator>();
+            mAnimator = GetComponent<Animator>();
         }
 
         private void OnEnable()
@@ -51,8 +49,8 @@ namespace GameMain.RunTime
         // Update is called once per frame
         void Update()
         {
-            m_Animator.SetBool("IsBloom", isBloom);
-            m_Animator.SetBool("IsChecking", isChecking);
+            mAnimator.SetBool("IsBloom", isBloom);
+            mAnimator.SetBool("IsChecking", isChecking);
         }
 
         public override void OnPostImport()
@@ -105,12 +103,14 @@ namespace GameMain.RunTime
 
         void OnCheckTrigger()
         {
+            EffectPoolManager.Instance.SpawnEffect("brustOut", this.transform.position, 1f);
             MessageBroker.Global.Publish(
                 new GamePlayMatEvents.MatChangeCheckPointEvent(this.transform)
             );
+            VgSaveSystem.Instance.WriteSlotSaveAsync().Forget();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected override void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Player"))
             {

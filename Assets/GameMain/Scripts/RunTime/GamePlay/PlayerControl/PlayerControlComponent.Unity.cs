@@ -69,6 +69,11 @@ namespace GameMain.RunTime
                 if (IsNormalUp(normal))
                 {
                     IsOnGround = true;
+                    EffectPoolManager.Instance.SpawnEffect(
+                        "landed",
+                        mTranform.position + new Vector3(0, -1.2f, 0),
+                        1
+                    );
                     if (CtrlVelocity.y < 0)
                         CtrlVelocity = new Vector2(CtrlVelocity.x, 0);
                 }

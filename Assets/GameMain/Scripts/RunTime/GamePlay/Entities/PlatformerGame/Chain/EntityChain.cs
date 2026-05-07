@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace GameMain.RunTime
 {
-    public class EntityChain : MonoBehaviour
+    public class EntityChain : AutoLdtkEntity
     {
         [System.Serializable]
         public struct VelocityForceStep

@@ -271,6 +271,7 @@ namespace GameMain.RunTime
         {
             if (isFollowPlayer)
             {
+                CLogger.LogInfo("Bee回去了");
                 isFollowPlayer = false;
                 if (currentState != BeeState.FollowSt)
                 {
