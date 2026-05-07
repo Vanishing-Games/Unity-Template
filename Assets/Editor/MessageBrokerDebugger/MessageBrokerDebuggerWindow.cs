@@ -323,7 +323,10 @@ namespace Core
             if (snap.Parameters.Count == 0)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.LabelField("(no public fields or properties)", EditorStyles.miniLabel);
+                EditorGUILayout.LabelField(
+                    "(no public fields or properties)",
+                    EditorStyles.miniLabel
+                );
                 EditorGUI.indentLevel--;
                 return;
             }

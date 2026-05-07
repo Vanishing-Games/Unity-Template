@@ -174,14 +174,13 @@ namespace Core
 
         public void RecordPublish(string payload, BrokerPublishKind kind)
         {
-            var receivers = m_SubscriberDebugInfos.Count > 0
-                ? (IReadOnlyList<SubscriberDebugInfo>)m_SubscriberDebugInfos.Values.ToList()
-                : System.Array.Empty<SubscriberDebugInfo>();
+            var receivers =
+                m_SubscriberDebugInfos.Count > 0
+                    ? (IReadOnlyList<SubscriberDebugInfo>)m_SubscriberDebugInfos.Values.ToList()
+                    : Array.Empty<SubscriberDebugInfo>();
             if (m_PublishHistory.Count >= MaxHistoryCount)
                 m_PublishHistory.RemoveAt(0);
-            m_PublishHistory.Add(
-                new BrokerPublishRecord(DateTime.Now, payload, kind, receivers)
-            );
+            m_PublishHistory.Add(new BrokerPublishRecord(DateTime.Now, payload, kind, receivers));
         }
 
         public void ClearPublishHistory() => m_PublishHistory.Clear();
@@ -274,9 +273,10 @@ namespace Core
                         var parameters = fields
                             .Select(f => new BrokerEventParameterInfo(f.Name, f.FieldType.Name))
                             .Concat(
-                                props.Select(p =>
-                                    new BrokerEventParameterInfo(p.Name, p.PropertyType.Name)
-                                )
+                                props.Select(p => new BrokerEventParameterInfo(
+                                    p.Name,
+                                    p.PropertyType.Name
+                                ))
                             )
                             .ToList();
 
@@ -306,9 +306,7 @@ namespace Core
         {
             lock (m_Locker)
             {
-                var pair = m_EventInfos.FirstOrDefault(kvp =>
-                    kvp.Key.Name == eventTypeName
-                );
+                var pair = m_EventInfos.FirstOrDefault(kvp => kvp.Key.Name == eventTypeName);
                 pair.Value?.ClearPublishHistory();
             }
         }
@@ -333,9 +331,7 @@ namespace Core
         public MessageBroker(string debugName)
         {
 #if UNITY_EDITOR
-            m_DebugName = string.IsNullOrEmpty(debugName)
-                ? $"Broker#{GetHashCode()}"
-                : debugName;
+            m_DebugName = string.IsNullOrEmpty(debugName) ? $"Broker#{GetHashCode()}" : debugName;
             lock (s_RegistryLock)
                 s_Registry.Add(new WeakReference<MessageBroker>(this));
 #endif
@@ -395,10 +391,7 @@ namespace Core
             where T : IEvent
         {
 #if UNITY_EDITOR
-            s_PendingDebugInfo = new SubscriberDebugInfo(
-                onNext?.Target,
-                new StackTrace(1, true)
-            );
+            s_PendingDebugInfo = new SubscriberDebugInfo(onNext?.Target, new StackTrace(1, true));
 #endif
             try
             {
@@ -416,10 +409,7 @@ namespace Core
             where T : IEvent
         {
 #if UNITY_EDITOR
-            s_PendingDebugInfo = new SubscriberDebugInfo(
-                onNext?.Target,
-                new StackTrace(1, true)
-            );
+            s_PendingDebugInfo = new SubscriberDebugInfo(onNext?.Target, new StackTrace(1, true));
 #endif
             try
             {
@@ -437,10 +427,7 @@ namespace Core
             where T : IEvent
         {
 #if UNITY_EDITOR
-            s_PendingDebugInfo = new SubscriberDebugInfo(
-                onNext?.Target,
-                new StackTrace(1, true)
-            );
+            s_PendingDebugInfo = new SubscriberDebugInfo(onNext?.Target, new StackTrace(1, true));
 #endif
             try
             {
@@ -462,10 +449,7 @@ namespace Core
             where T : IEvent
         {
 #if UNITY_EDITOR
-            s_PendingDebugInfo = new SubscriberDebugInfo(
-                onNext?.Target,
-                new StackTrace(1, true)
-            );
+            s_PendingDebugInfo = new SubscriberDebugInfo(onNext?.Target, new StackTrace(1, true));
 #endif
             try
             {
@@ -487,10 +471,7 @@ namespace Core
             where T : IEvent
         {
 #if UNITY_EDITOR
-            s_PendingDebugInfo = new SubscriberDebugInfo(
-                onNext?.Target,
-                new StackTrace(1, true)
-            );
+            s_PendingDebugInfo = new SubscriberDebugInfo(onNext?.Target, new StackTrace(1, true));
 #endif
             try
             {
