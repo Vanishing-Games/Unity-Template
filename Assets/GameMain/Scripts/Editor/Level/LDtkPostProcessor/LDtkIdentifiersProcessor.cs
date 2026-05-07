@@ -38,8 +38,8 @@ namespace GameMain.Editor
             sb.AppendLine("using UnityEngine;");
             sb.AppendLine("");
             sb.AppendLine("namespace GameMain.RunTime");
-            sb.AppendLine("// csharpier-ignore-start");
             sb.AppendLine("{");
+            sb.AppendLine("// csharpier-ignore-start");
             sb.AppendLine("    public static class LDtkIdentifiers");
             sb.AppendLine("    {");
 

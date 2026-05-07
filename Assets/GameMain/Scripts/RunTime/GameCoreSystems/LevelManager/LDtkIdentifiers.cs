@@ -2,8 +2,8 @@
 using UnityEngine;
 
 namespace GameMain.RunTime
-// csharpier-ignore-start
 {
+// csharpier-ignore-start
     public static class LDtkIdentifiers
     {
         // Layer Identifiers
