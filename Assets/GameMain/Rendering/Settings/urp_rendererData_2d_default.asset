@@ -95,13 +95,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: RainRust.Rendering::RainRust.Rendering.RainRustLighting
   m_Active: 1
   settings:
-    injectionPoint: 450
+    injectionPoint: 500
     lightSourcesLayerMask:
       serializedVersion: 2
       m_Bits: 2148532224
     receiversLayerMask:
       serializedVersion: 2
-      m_Bits: 2207644927
+      m_Bits: 2207907071
     receiverBlendMode: 1
     lightingBlendMode: 0
     jfaInitShader: {fileID: 4800000, guid: dd31d820cbe84594ab44e95677803384, type: 3}
