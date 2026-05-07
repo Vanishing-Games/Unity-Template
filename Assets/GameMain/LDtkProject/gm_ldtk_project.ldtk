@@ -19754,25 +19754,6 @@
 								"__worldY": 4736
 							},
 							{
-								"__identifier": "Ae_ChangeBackgroundArea",
-								"__grid": [7,13],
-								"__pivot": [0,0],
-								"__tags": [],
-								"__tile": null,
-								"__smartColor": "#2CE8F5",
-								"iid": "b73eb880-48b0-11f1-9115-d7af19ef4683",
-								"width": 1152,
-								"height": 640,
-								"defUid": 1122,
-								"px": [896,1664],
-								"fieldInstances": [{ "__identifier": "BackgroundName", "__type": "String", "__value": "mineZone", "__tile": null, "defUid": 1123, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["mineZone"]
-								}] }],
-								"__worldX": -6272,
-								"__worldY": 4352
-							},
-							{
 								"__identifier": "Ae_Mat_MineLight",
 								"__grid": [11,11],
 								"__pivot": [0,0],
