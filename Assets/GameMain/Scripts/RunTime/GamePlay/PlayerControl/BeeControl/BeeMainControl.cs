@@ -41,6 +41,7 @@ namespace GameMain.RunTime
 
         private void OnEnable()
         {
+            m_Disposables = new DisposableBag();
             MessageBroker
                 .Global.Subscribe<GamePlayMatEvents.MatChangeCheckPointEvent>(CurrentPointSet)
                 .AddTo(ref m_Disposables);
