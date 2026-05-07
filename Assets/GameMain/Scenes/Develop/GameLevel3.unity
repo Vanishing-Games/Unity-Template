@@ -1,3 +1,8 @@
 version https://git-lfs.github.com/spec/v1
+<<<<<<< likoko/5.6
 oid sha256:7d43ae18f795964ed086a74ebfeaa54561ddf19c05b13238f88104d4586d157a
 size 4974362
+=======
+oid sha256:8b7a0b985a4e18b1ea4a92f4b99605ae9650e1c9ee4df0521c349b922cdd29fd
+size 4966303
+>>>>>>> develop
