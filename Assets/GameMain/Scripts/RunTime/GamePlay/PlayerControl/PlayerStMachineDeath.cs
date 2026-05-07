@@ -74,7 +74,15 @@ namespace GameMain.RunTime
             if (mPCComponent.DeathTimer > 0 && mPCComponent.DyingTimer == 0)
             {
                 if (mPCComponent.DeathTimer == mPCComponent.DeathTime)
+                {
                     VgLoadingSplashManager.Instance.CoverAsync(VgSplashKey.Default).Forget();
+                    EffectPoolManager.Instance.SpawnEffect(
+                        "brustOut",
+                        mPCComponent.mTranform.position,
+                        1
+                    );
+                }
+
                 mPCComponent.DeathTimer--;
             }
 
@@ -90,6 +98,12 @@ namespace GameMain.RunTime
 
                     mPCComponent.mTranform.position =
                         mPCComponent.RespawnPos + mPCComponent.RespawnOffset;
+
+                    EffectPoolManager.Instance.SpawnEffect(
+                        "suckIn",
+                        mPCComponent.mTranform.position,
+                        1
+                    );
                 }
 
                 mPCComponent.RespawnTimer--;

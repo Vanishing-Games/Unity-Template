@@ -196,6 +196,7 @@ namespace GameMain.RunTime
                     WaveDur
                 );
             }
+            EffectPoolManager.Instance.SpawnEffect("brustOut", this.transform.position, 1f);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

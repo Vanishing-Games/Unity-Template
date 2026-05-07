@@ -24,7 +24,7 @@ namespace GameMain.RunTime
         protected Sprite m_SavedSprite;
 
         [SerializeField]
-        protected Animator m_Animator;
+        private Animator m_Animator;
 
         [SerializeField]
         protected string m_SaveAnimationTrigger = "Save";

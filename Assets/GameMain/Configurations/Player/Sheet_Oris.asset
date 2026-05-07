@@ -18,6 +18,12 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 4617050201057846497, guid: 0c3005ee9d8ee5f428bfd0d79fd3e630, type: 3}
     - {fileID: 1101348923189505887, guid: 6166ac3a75e0b164eaffce69cb9f5866, type: 3}
+    - {fileID: 4176999650274052682, guid: 89762d6e78ce208478783594e8da6693, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -276,6 +282,9 @@ MonoBehaviour:
     - Name: PreWave
       Entry: 10
       Data: 1
+    - Name: FollowEffect
+      Entry: 10
+      Data: 2
     - Name: AllBees
       Entry: 7
       Data: 2|System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
@@ -300,20 +309,20 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: mTranform
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 3
     - Name: mRigidbody
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 4
     - Name: mBoxCollider
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 5
     - Name: mAnim
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 6
     - Name: mGO
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 7
     - Name: 
       Entry: 8
       Data: 

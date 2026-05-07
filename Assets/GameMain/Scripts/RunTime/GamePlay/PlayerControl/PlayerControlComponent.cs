@@ -30,6 +30,9 @@ namespace GameMain.RunTime
         [BoxGroup("预制体"), Tooltip("口哨的波纹"), ShowInInspector, OdinSerialize]
         public GameObject PreWave;
 
+        [BoxGroup("特效"), Tooltip("跟随特效"), ShowInInspector, OdinSerialize]
+        public GameObject FollowEffect;
+
         [BoxGroup("飞虫管理"), Tooltip("存储的飞虫"), ShowInInspector, OdinSerialize]
         public List<GameObject> AllBees = new List<GameObject>();
 

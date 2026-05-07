@@ -26,6 +26,12 @@ namespace GameMain.RunTime
             mPCComponent.CtrlVelocity = velocity;
             mPCComponent.CoyoteJumpInputRevTimer = 0;
 
+            EffectPoolManager.Instance.SpawnEffect(
+                "jump",
+                mPCComponent.mTranform.position + new Vector3(0, -1.2f, 0),
+                1f
+            );
+
             MessageBroker.Global.Publish(new PlayerControlEvents.PlayerStartJumpEvent());
         }
 
