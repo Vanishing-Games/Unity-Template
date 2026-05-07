@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9d01932ed0c0d419c8d16750e79a9c, type: 3}
+  m_Name: art_background_mineZone_07
+  m_EditorClassIdentifier: Core::Core.ParallaxLayer
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  sprite: {fileID: 1363103103200581938, guid: e4d0368ebabb48f4e952a72a80c82d8b, type: 3}
+  parallaxFactorX: 0.25
+  parallaxFactorY: 1
+  clampModeX: 1
+  clampModeY: 0
+  maxVerticalOffset: 0.82
+  worldMaxY: 0
+  worldMinY: 0
+  blurMode: 0
+  blurIntensity: 7.5
+  imageScale: {x: 1, y: 1}

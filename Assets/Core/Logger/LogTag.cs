@@ -37,6 +37,7 @@ namespace Core
         public static readonly LogTag Rendering = new("Rendering");
         public static readonly LogTag Game = new("Game");
         public static readonly LogTag Fuck = new("Fuck");
+        public static readonly LogTag UI = new("UI");
 
         // ========== Second Tags ==========
         public static readonly LogTag AudioEntry = new("AudioEntry", Audio.Path);
@@ -54,6 +55,8 @@ namespace Core
         public static readonly LogTag LdtkProcessor = new("LDtkProcessor", Editor.Path);
         public static readonly LogTag PlayerManager = new("PlayerManager", Game.Path);
         public static readonly LogTag LevelManager = new("LevelManager", Game.Path);
+        public static readonly LogTag WavePoolManager = new("WavePoolManager", Game.Path);
+        public static readonly LogTag Button = new("Button", UI.Path);
 
         // ========== Third Tags ==========
         public static readonly LogTag CodeUnfucker_3_Sample = new("Save", CodeUnfucker.Path); // MAX depth = 3

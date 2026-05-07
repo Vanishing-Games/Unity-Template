@@ -11,7 +11,7 @@
 	"iid": "f3c6abc0-21a0-11f1-8b8e-f3e3f2eecddf",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 1122,
+	"nextUid": 1124,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": null,
@@ -18417,6 +18417,79 @@
 					"tilesetUid": null
 				}
 			]
+		},
+		{
+			"identifier": "Ae_ChangeBackgroundArea",
+			"uid": 1122,
+			"tags": [],
+			"exportToToc": false,
+			"allowOutOfBounds": false,
+			"doc": null,
+			"width": 128,
+			"height": 128,
+			"resizableX": true,
+			"resizableY": true,
+			"minWidth": 128,
+			"maxWidth": null,
+			"minHeight": 128,
+			"maxHeight": null,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#2CE8F5",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"uiTileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": [
+				{
+					"identifier": "BackgroundName",
+					"doc": null,
+					"__type": "String",
+					"uid": 1123,
+					"type": "F_String",
+					"isArray": false,
+					"canBeNull": true,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				}
+			]
 		}
 	], "tilesets": [
 		{
@@ -19574,6 +19647,44 @@
 								}] }],
 								"__worldX": -5888,
 								"__worldY": 4736
+							},
+							{
+								"__identifier": "Ae_ChangeBackgroundArea",
+								"__grid": [12,7],
+								"__pivot": [0,0],
+								"__tags": [],
+								"__tile": null,
+								"__smartColor": "#2CE8F5",
+								"iid": "b4baa5b0-48b0-11f1-9115-3dc9017cd7f1",
+								"width": 768,
+								"height": 1408,
+								"defUid": 1122,
+								"px": [1536,896],
+								"fieldInstances": [{ "__identifier": "BackgroundName", "__type": "String", "__value": "energyCore", "__tile": null, "defUid": 1123, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["energyCore"]
+								}] }],
+								"__worldX": -5632,
+								"__worldY": 3584
+							},
+							{
+								"__identifier": "Ae_ChangeBackgroundArea",
+								"__grid": [18,11],
+								"__pivot": [0,0],
+								"__tags": [],
+								"__tile": null,
+								"__smartColor": "#2CE8F5",
+								"iid": "b73eb880-48b0-11f1-9115-d7af19ef4683",
+								"width": 1152,
+								"height": 640,
+								"defUid": 1122,
+								"px": [2304,1408],
+								"fieldInstances": [{ "__identifier": "BackgroundName", "__type": "String", "__value": "mineZone", "__tile": null, "defUid": 1123, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["mineZone"]
+								}] }],
+								"__worldX": -4864,
+								"__worldY": 4096
 							}
 						]
 					},

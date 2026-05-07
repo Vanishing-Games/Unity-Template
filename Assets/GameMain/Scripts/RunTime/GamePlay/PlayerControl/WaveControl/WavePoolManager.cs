@@ -45,11 +45,21 @@ namespace GameMain.RunTime
             float duration = 1.5f
         )
         {
-            WaveLife wave = _pool.Get();
-            wave.transform.position = position;
+            try
+            {
+                WaveLife wave = _pool.Get();
+                wave.transform.position = position;
 
-            // 将变量传给 wave 实例
-            wave.Init(senderID, _pool, radius, duration);
+                // 将变量传给 wave 实例
+                wave.Init(senderID, _pool, radius, duration);
+            }
+            finally
+            {
+                CLogger.LogVerbose(
+                    $"[WavePoolManager] Spawned wave at {position} from sender {senderID}",
+                    LogTag.WavePoolManager
+                );
+            }
         }
     }
 }

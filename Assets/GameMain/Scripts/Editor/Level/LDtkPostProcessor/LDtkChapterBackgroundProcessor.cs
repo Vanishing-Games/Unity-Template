@@ -111,7 +111,6 @@ namespace GameMain.Editor
             }
 
             parallax.Layers = layers;
-            parallax.DistributeFactors();
 
             var blurMaterial = AssetDatabase.LoadAssetAtPath<Material>(m_BlurMaterialPath);
             if (blurMaterial != null)
@@ -125,7 +124,7 @@ namespace GameMain.Editor
             );
         }
 
-        private readonly string m_BackgroundsPath = "Assets/GameMain/LDtkProject/BackGrounds";
+        private readonly string m_BackgroundsPath = "Assets/Resources/BackGrounds";
         private readonly string m_BlurMaterialPath =
             "Assets/Shaders/SpriteBlur/material_spriteBlur_default.mat";
     }

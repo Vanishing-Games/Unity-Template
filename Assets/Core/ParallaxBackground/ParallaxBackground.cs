@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -17,6 +18,25 @@ namespace Core
 
     public class ParallaxBackground : MonoBehaviour
     {
+        public void ChangeBackground(string backgroundName)
+        {
+            var allLayers = Resources.LoadAll<ParallaxLayer>(BACKGROUND_RESOURCE_PATH);
+            m_Layers = allLayers
+                .Where(l => l.name.IndexOf(backgroundName, StringComparison.OrdinalIgnoreCase) >= 0)
+                .OrderBy(ExtractLayerIndex)
+                .ToList();
+            InitializeLayers();
+        }
+
+        private static int ExtractLayerIndex(ParallaxLayer layer)
+        {
+            string name = layer.name;
+            int lastUnderscore = name.LastIndexOf('_');
+            if (lastUnderscore >= 0 && int.TryParse(name[(lastUnderscore + 1)..], out int index))
+                return index;
+            return 0;
+        }
+
         private void Start()
         {
             if (m_TargetCamera == null)
@@ -234,6 +254,7 @@ namespace Core
             }
         }
 
+        private const string BACKGROUND_RESOURCE_PATH = "BackGrounds/";
         private static readonly int BlurIntensityProperty = Shader.PropertyToID("_BlurIntensity");
         private static readonly int BlurModeProperty = Shader.PropertyToID("_BlurMode");
         private MaterialPropertyBlock m_PropertyBlock;
@@ -279,93 +300,93 @@ namespace Core
             }
         }
 
-        [ContextMenu("一键分配视差系数")]
-        public void DistributeFactors()
-        {
-            if (m_Layers == null || m_Layers.Count == 0)
-                return;
+        // [ContextMenu("一键分配视差系数")]
+        // public void DistributeFactors()
+        // {
+        //     if (m_Layers == null || m_Layers.Count == 0)
+        //         return;
 
-            Undo.RecordObject(this, "Distribute Parallax Factors");
+        //     Undo.RecordObject(this, "Distribute Parallax Factors");
 
-            if (m_Layers.Count == 1)
-            {
-                m_Layers[0].parallaxFactorX = 0.5f;
-                m_Layers[0].parallaxFactorY = 0.5f;
-            }
-            else
-            {
-                for (int i = 0; i < m_Layers.Count; i++)
-                {
-                    float factor = 1.0f - ((float)i / (m_Layers.Count - 1));
-                    m_Layers[i].parallaxFactorX = factor;
-                    m_Layers[i].parallaxFactorY = factor;
-                    m_Layers[i].blurIntensity = Math.Clamp((1.0f - factor) * 10f, 0.001f, 10f);
+        //     if (m_Layers.Count == 1)
+        //     {
+        //         m_Layers[0].parallaxFactorX = 0.5f;
+        //         m_Layers[0].parallaxFactorY = 0.5f;
+        //     }
+        //     else
+        //     {
+        //         for (int i = 0; i < m_Layers.Count; i++)
+        //         {
+        //             float factor = 1.0f - ((float)i / (m_Layers.Count - 1));
+        //             m_Layers[i].parallaxFactorX = factor;
+        //             m_Layers[i].parallaxFactorY = factor;
+        //             m_Layers[i].blurIntensity = Math.Clamp((1.0f - factor) * 10f, 0.001f, 10f);
 
-                    m_Layers[i].clampModeX = ParallaxClampMode.Repeat;
-                    m_Layers[i].clampModeY = ParallaxClampMode.None;
+        //             m_Layers[i].clampModeX = ParallaxClampMode.Repeat;
+        //             m_Layers[i].clampModeY = ParallaxClampMode.None;
 
-                    EditorUtility.SetDirty(m_Layers[i]); // 保证ScriptableObject的修改被保存
-                }
-            }
+        //             EditorUtility.SetDirty(m_Layers[i]); // 保证ScriptableObject的修改被保存
+        //         }
+        //     }
 
-            if (transform.childCount > 0)
-            {
-                UpdateLayerProperties();
-            }
-        }
+        //     if (transform.childCount > 0)
+        //     {
+        //         UpdateLayerProperties();
+        //     }
+        // }
 
-        [ContextMenu("一键计算并应用世界Y轴边界")]
-        public void CalculateAndApplyWorldBoundsY()
-        {
-            if (m_Layers == null || m_Layers.Count == 0)
-                return;
+        // [ContextMenu("一键计算并应用世界Y轴边界")]
+        // public void CalculateAndApplyWorldBoundsY()
+        // {
+        //     if (m_Layers == null || m_Layers.Count == 0)
+        //         return;
 
-            Renderer[] allRenderers = FindObjectsByType<Renderer>(FindObjectsSortMode.None);
+        //     Renderer[] allRenderers = FindObjectsByType<Renderer>(FindObjectsSortMode.None);
 
-            float minY = float.MaxValue;
-            float maxY = float.MinValue;
+        //     float minY = float.MaxValue;
+        //     float maxY = float.MinValue;
 
-            foreach (var renderer in allRenderers)
-            {
-                // 跳过视差背景本身，避免递归干扰
-                if (
-                    renderer.gameObject.CompareTag("BackGround")
-                    || renderer.gameObject.layer == LayerMask.NameToLayer("BackGround")
-                )
-                {
-                    continue;
-                }
+        //     foreach (var renderer in allRenderers)
+        //     {
+        //         // 跳过视差背景本身，避免递归干扰
+        //         if (
+        //             renderer.gameObject.CompareTag("BackGround")
+        //             || renderer.gameObject.layer == LayerMask.NameToLayer("BackGround")
+        //         )
+        //         {
+        //             continue;
+        //         }
 
-                Bounds bounds = renderer.bounds;
-                if (bounds.min.y < minY)
-                    minY = bounds.min.y;
-                if (bounds.max.y > maxY)
-                    maxY = bounds.max.y;
-            }
+        //         Bounds bounds = renderer.bounds;
+        //         if (bounds.min.y < minY)
+        //             minY = bounds.min.y;
+        //         if (bounds.max.y > maxY)
+        //             maxY = bounds.max.y;
+        //     }
 
-            if (minY == float.MaxValue && maxY == float.MinValue)
-            {
-                Debug.LogWarning("未能找到有效的渲染器来计算世界边界。");
-                return;
-            }
+        //     if (minY == float.MaxValue && maxY == float.MinValue)
+        //     {
+        //         Debug.LogWarning("未能找到有效的渲染器来计算世界边界。");
+        //         return;
+        //     }
 
-            Undo.RecordObject(this, "Calculate World Bounds Y");
+        //     Undo.RecordObject(this, "Calculate World Bounds Y");
 
-            foreach (var layer in m_Layers)
-            {
-                if (layer != null && layer.clampModeY == ParallaxClampMode.None)
-                {
-                    Undo.RecordObject(layer, "Apply Bounds To Layer");
-                    layer.worldMinY = minY;
-                    layer.worldMaxY = maxY;
-                    EditorUtility.SetDirty(layer);
-                }
-            }
+        //     foreach (var layer in m_Layers)
+        //     {
+        //         if (layer != null && layer.clampModeY == ParallaxClampMode.None)
+        //         {
+        //             Undo.RecordObject(layer, "Apply Bounds To Layer");
+        //             layer.worldMinY = minY;
+        //             layer.worldMaxY = maxY;
+        //             EditorUtility.SetDirty(layer);
+        //         }
+        //     }
 
-            Debug.Log(
-                $"世界Y轴边界计算完成: MinY = {minY}, MaxY = {maxY}，已应用到所有 Y轴为 None 的图层。"
-            );
-        }
+        //     Debug.Log(
+        //         $"世界Y轴边界计算完成: MinY = {minY}, MaxY = {maxY}，已应用到所有 Y轴为 None 的图层。"
+        //     );
+        // }
 
         [ContextMenu("生成图层对象")]
         private void GenerateLayerObjects() => Start();
