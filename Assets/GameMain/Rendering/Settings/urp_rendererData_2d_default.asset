@@ -98,7 +98,7 @@ MonoBehaviour:
     injectionPoint: 500
     lightSourcesLayerMask:
       serializedVersion: 2
-      m_Bits: 2148532224
+      m_Bits: 2148532288
     receiversLayerMask:
       serializedVersion: 2
       m_Bits: 2207907071

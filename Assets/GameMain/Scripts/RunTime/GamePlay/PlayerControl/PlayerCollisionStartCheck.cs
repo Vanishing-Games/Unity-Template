@@ -65,6 +65,14 @@ namespace GameMain.RunTime
                     LayerMask.GetMask("Hook", "HorizontalGrab")
                 );
             }
+
+            if (
+                mPCComponent.InputY <= -0.5f
+                && mPCComponent.CurrentState == PlayerStateMachine.GrabState
+            )
+            {
+                SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
+            }
         }
 
         private void ByWallCheck(Vector2 PlayerPosition, Vector2 Dir)
@@ -349,7 +357,8 @@ namespace GameMain.RunTime
                 return !IsOnGround
                     && mPCComponent.CurrentState == PlayerStateMachine.NormalState
                     && !mPCComponent.IsJumping
-                    && mPCComponent.CanGrabCDTimer == 0;
+                    && mPCComponent.CanGrabCDTimer == 0
+                    && mPCComponent.InputY > -0.5f;
             }
             else
             {

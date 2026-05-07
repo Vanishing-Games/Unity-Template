@@ -152,7 +152,7 @@ MonoBehaviour:
       Data: true
     - Name: CanGrabCDTime
       Entry: 3
-      Data: 6
+      Data: 8
     - Name: GrabStayTime
       Entry: 3
       Data: 30
@@ -188,7 +188,7 @@ MonoBehaviour:
       Data: 
     - Name: WhistleCDTime
       Entry: 3
-      Data: 60
+      Data: 30
     - Name: PreWhistleInputTime
       Entry: 3
       Data: 6
