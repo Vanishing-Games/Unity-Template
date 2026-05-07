@@ -62,6 +62,8 @@ ScriptedImporter:
     _asset: {instanceID: 0}
   - _key: Ae_Mat_Door
     _asset: {instanceID: 0}
+  - _key: Ae_ChangeBackgroundArea
+    _asset: {instanceID: 0}
   _enumGenerate: 1
   _enumPath: gm_ldtk_project/GmLDtkEnums.cs
   _enumNamespace: GameMain.LDtk

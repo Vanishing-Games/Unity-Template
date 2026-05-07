@@ -11,6 +11,2436 @@ ScriptedImporter:
   _reimportOnDependencyChange: 1
   _pixelsPerUnit: 128
   _overrideTexture: {instanceID: 0}
-  _sprites: []
+  _sprites:
+  - name: Mineplant2_0
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 2a40cb027f141184993dbc59561e3922
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 7fb1e97e76f2bf1498a67956f6003bd7
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 1a9a9bec4d3ed1246801f0ccd3d78369
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 81271debe352294408db7c452866d072
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: a4a22fd909187764ba279cab6b4896ab
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: a3a891222ccc44243846b216a28c32e4
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 53faa1e169c369349abcf096c9219e35
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_7
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 99530b73ea636d846a5b1cde81ab88c7
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_8
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: ff30097839541634890d2fc3eaea70a3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_9
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 3387c7089900f0647991594e09d80c82
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_10
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 2c0d22c616d919948bd7644cbeda099a
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_11
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 739b36e36d8dc654fb17a6495ef8affc
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_12
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: ae018f14967dad643ba44721fade2cdd
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_13
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: a464170e9a6f28f4fab224f34dc87fed
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_14
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 10adfbd8b4341cf478d988fec2732fe6
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_15
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: 86c79c33b5e2109458b64416a73daddd
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_16
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 1024
+      width: 128
+      height: 128
+    spriteID: fe3e15517b72f294bbef3cbd5e4a2724
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_17
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 1024
+      width: 127
+      height: 128
+    spriteID: e7af0ce06cb30684e907d0c5c0b0680d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_18
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 896
+      width: 128
+      height: 128
+    spriteID: d4d0288c8c5a27b41b3bdc7edec837f4
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_19
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 69c04566298a0854b88dbf66e8711ca0
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_20
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 4721a69b9f4edb5488f7dd4cfb979e5d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_21
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 896
+      width: 128
+      height: 128
+    spriteID: bf20cca32ee853c4aac84cd43f4d8a71
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_22
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 7e1cba7803679804896e6804997bb12e
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_23
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 0c750d1013b993549a3952f46e193cd4
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_24
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 4130e199361c86d4e83ac28ee7ffd392
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_25
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 740a1f1fc86649c4ea98d2ee49c957d9
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_26
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 7446806aa4e5883449043c0a4e022098
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_27
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 896
+      width: 128
+      height: 128
+    spriteID: fc890345ed3fa2947a04d203a9308fb4
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_28
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 896
+      width: 128
+      height: 128
+    spriteID: b0f55a818aaf3f84489d37bbd5f73a80
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_29
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 896
+      width: 128
+      height: 128
+    spriteID: a10c90ff1b801104588cf6e0e6b5b8ba
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_30
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 896
+      width: 128
+      height: 128
+    spriteID: a59616f51b1d8bd468bab757175003b0
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_31
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 896
+      width: 128
+      height: 128
+    spriteID: e8684087c1bb1104b88ad901206e17ff
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_32
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 04f094dd301b3d74c92d610d1937f52b
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_33
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 3537ff6958fcdc448a87b898378e752d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_34
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 896
+      width: 128
+      height: 128
+    spriteID: 688f52e0260a62a489eb9af4713edb7a
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_35
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 896
+      width: 127
+      height: 128
+    spriteID: 9eb88d57d0ea27e4f80d941db04c7310
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_36
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 92ca22d80487c1e48820c60401dd50db
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_37
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 7782176f37c5a27479bc31eedd22ee16
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_38
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 84a0824c7a0bc7b4ab668e0590e751ff
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_39
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 6ded239c41449a249936f809b073cf17
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_40
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 297f634d74e82bc4abbd21d6e5eea8a6
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_41
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 63df785bc42ed0c428836f1140e475f4
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_42
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 75a63a5866d3df0468cbc4c3eb05e0f3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_43
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 78a296a30410bf04ab93ff6bc50521ef
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_44
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 6e3b98802f256a64cbb37064ae45f310
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_45
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 768
+      width: 128
+      height: 128
+    spriteID: cd8924b020fe9304b9c4795b02b71d98
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_46
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 768
+      width: 128
+      height: 128
+    spriteID: ad40374a71ca9ec41bf8085bddd45446
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_47
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 1a62cb9d85b490d4b9b4997350ea61ae
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_48
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 768
+      width: 128
+      height: 128
+    spriteID: f6d3b3164083c7542bc7316866212b53
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_49
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 4494f9ad2a303c34aad6804d23a88c1a
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_50
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 768
+      width: 128
+      height: 128
+    spriteID: fd1702c90af23f94593ef5bd1be8790f
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_51
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 768
+      width: 128
+      height: 128
+    spriteID: 3966b4935762be345aa7b5d26970b7b2
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_52
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 768
+      width: 128
+      height: 128
+    spriteID: f22f25678b848c2439d1756a220041cc
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_53
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 768
+      width: 127
+      height: 128
+    spriteID: c9c56158f243f9e4db087ca4b66997a9
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_54
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 640
+      width: 128
+      height: 128
+    spriteID: d4a5784cb6a021d4186b10d65e0c4e58
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_55
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 52d2e87f6066512478d9163d5b82c18d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_56
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 278b5bec0d733eb4d8900394a72ea958
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_57
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 640
+      width: 128
+      height: 128
+    spriteID: a36fd784a88006a4390c1442944a74c7
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_58
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 11d29ca4f047b7142a57a04183cf82f5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_59
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 1bff74ed1b88c7b40ad912192aba9dcb
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_60
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 63e7a7ddbeabb49438a42e7ff75d4ec5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_61
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 2d9a5ebc358dc454f98f48ee5e800a3d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_62
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 6b8e857cd0cbe5040b75d32b791ea8b4
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_63
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 640
+      width: 128
+      height: 128
+    spriteID: ee5e48ea75170254e9256da176490c1c
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_64
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 640
+      width: 128
+      height: 128
+    spriteID: ba1413bb2a4653f419a74f4d4767a928
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_65
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 640
+      width: 128
+      height: 128
+    spriteID: d49b954259482dc488407f6918898ded
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_66
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 7f3551d133e54274ca772cdf5a6fe257
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_67
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 2214dc0ca1ab2b84e91be6578625bb91
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_68
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 466d6ceac64d4f9499192e12d5dc0e78
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_69
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 00ba96e5e63a051488d8982022546458
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_70
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 640
+      width: 128
+      height: 128
+    spriteID: 389a416cc049b0a47a7521228dd1b029
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_71
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 640
+      width: 127
+      height: 128
+    spriteID: 96964a93d1fb09544b11846121f5ec7a
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_72
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 8ef03125f53d6d249a5554d61b4ef5be
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_73
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 8ac7b480a2fceb848b0fad5b7bb94ed5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_74
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 512
+      width: 128
+      height: 128
+    spriteID: ece9cf006a40f304691485b180caf0d2
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_75
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 4c849a7adcda4e149a3295d4b4cb4484
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_76
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 9d20354a3e48e8b429a0c741e41316b1
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_77
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 512
+      width: 128
+      height: 128
+    spriteID: d341a92fa282c8b409d9e7953e3d396c
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_78
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 2a9d104c754297149bea753e9071159f
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_79
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 512
+      width: 128
+      height: 128
+    spriteID: cece80868a6893d45a3fa81024903f15
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_80
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 381f53d056fe9364fae246a2a61ecbb1
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_81
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 512
+      width: 128
+      height: 128
+    spriteID: cd29410d61bb76941a33ead4ac3e9d7f
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_82
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 512
+      width: 128
+      height: 128
+    spriteID: d0b6e68ebd0dffa4ab67f5cd0905c207
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_83
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 0a553aaa563003f4281d3b8398fe8e6d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_84
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 014b4717dc791614c96af05110166e6c
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_85
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 6e35ac50854a2c84981a099a82855cdb
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_86
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 6360263d56cc8bb46a092a7618f2f42b
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_87
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 512
+      width: 128
+      height: 128
+    spriteID: b5a4c6a79ffc17c44b4b90f174f04c9d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_88
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 512
+      width: 128
+      height: 128
+    spriteID: 4d642bbbcbbdcad4e9d21b288e2fdd4a
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_89
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 512
+      width: 127
+      height: 128
+    spriteID: 5f7085c1efb11ef48aeab0d3828fe089
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_90
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 81b9d0edb073b9e40906711b82ea4b83
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_91
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 5084f7a2e2853984d99ab233922ae075
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_92
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 6df50fb3658e8794096479b56d2665af
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_93
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 04eb573950175dd46bb44093db5ea9c3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_94
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 4ce04d04ff6b0664498328749375b8dc
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_95
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 384
+      width: 128
+      height: 128
+    spriteID: ee9116121a39d134ab8385fe52f22601
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_96
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 201d6685188f6d14f9656cb87daebe1b
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_97
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 9ff231d796047014a9ac7661c62ca4a0
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_98
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 384
+      width: 128
+      height: 128
+    spriteID: d894c04aa8abc33419fcaea5548bc10b
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_99
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 015d1ee20ae426e4eb6c11c49dad6bdc
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_100
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 870bcb71bb72b284d941fbdf1eecd92d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_101
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 86002ddaec9c2a1448abe80bad2303fe
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_102
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 8ff41d32be1a8674889fd762585ad422
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_103
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 384
+      width: 128
+      height: 128
+    spriteID: abd91f48ad32ed14489a21e8ac344940
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_104
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 384
+      width: 128
+      height: 128
+    spriteID: c5e03a320040b684bba28e6d9dd8f2f2
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_105
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 384
+      width: 128
+      height: 128
+    spriteID: 11a6ee74170233545908dbbe0adca101
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_106
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 384
+      width: 128
+      height: 128
+    spriteID: a153160f9b53e05419759fa0b3f38dd3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_107
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 384
+      width: 127
+      height: 128
+    spriteID: da21fd59350105144ac51f3591551fdc
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_108
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 10f6c4055d717c140850dbef94e9dff1
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_109
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 7df2a30b1d4bf4644a7940d1c07a75e7
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_110
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 256
+      width: 128
+      height: 128
+    spriteID: b3cad3bb3b106204f867b91d52d0e4a3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_111
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 23738514961fbbd4ba8510359d44fa33
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_112
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 6af12ec13cbc9bf4c8c2a4eadcb88703
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_113
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 256
+      width: 128
+      height: 128
+    spriteID: b8008275b8465184581149ae81cde113
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_114
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 256
+      width: 128
+      height: 128
+    spriteID: d3e1a1f09c7c5fe46927fd2d00f543fb
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_115
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 267e091b331cb494aabcfecf5f6e76ea
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_116
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 5eb1472ec83a2114b8494cd2ea37af39
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_117
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 256
+      width: 128
+      height: 128
+    spriteID: bb5592db5c006634bbf43f7a1fb6fa26
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_118
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 0929fd5c622bfb74b8b7950e7bb37b65
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_119
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 937555a0d448e5a4882ff61d19197671
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_120
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 256
+      width: 128
+      height: 128
+    spriteID: b6eea09cbd154d64d982b404524654c2
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_121
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 83508025a117a0f428196463bd623919
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_122
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 256
+      width: 128
+      height: 128
+    spriteID: c9a4b923e3594ad40aab869678a27f7a
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_123
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 256
+      width: 128
+      height: 128
+    spriteID: 87dd0f77d515daa44a999979facd3a64
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_124
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 256
+      width: 128
+      height: 128
+    spriteID: f985fcc4a8084c041815702182360bb5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_125
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 256
+      width: 127
+      height: 128
+    spriteID: 060f05c5f4d20164881dc0a7c0882a96
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_126
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 323e8d11f6229d34a811ddcb1f1f7bb3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_127
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 128
+      width: 128
+      height: 128
+    spriteID: fe30b817c942277438d16f33950956cf
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_128
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 128
+      width: 128
+      height: 128
+    spriteID: abadad7e007a23640bd9f77b2baf0cf6
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_129
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 66736be10ce3ead4c9ce279ca21b7c06
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_130
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 26bf99426e5f90e4f95cb3b1a83b4c63
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_131
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 20d067ff01d4c3a49905e07823b049fc
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_132
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 8aacc23758f297f4eb5f456dab52ccfe
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_133
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 128
+      width: 128
+      height: 128
+    spriteID: ea9b046ab8c8ab14b8e94203c6a89e43
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_134
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 699cdbeea28524944a1f6f84314c4f46
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_135
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 7e09b934cff3c264dbacc7fa211b7d88
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_136
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 2a27e2c6df68538449a6e68e0ca8e926
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_137
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 128
+      width: 128
+      height: 128
+    spriteID: efa4e4d823b3b5c4daa6d945b7ff082c
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_138
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 0a354cb57c29a60498e66cdc8c0dcecb
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_139
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 8ec4ffb123f216e4795888b3bd92f33b
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_140
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 128
+      width: 128
+      height: 128
+    spriteID: ebbb54df65bc38040adbb4b45082512a
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_141
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 6f8e1c509533c4244ac7b291cf35c2b3
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_142
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 128
+      width: 128
+      height: 128
+    spriteID: 946e32945d685de41b81a0bdd5655290
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_143
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 128
+      width: 127
+      height: 128
+    spriteID: 7e75903d1ee5ffb428003ebdd5dc8bb2
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_144
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 55a01baea73daed47925e6ec7947c165
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_145
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 0
+      width: 128
+      height: 128
+    spriteID: ca964f8ccdd47f84585f16b65d560528
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_146
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 0
+      width: 128
+      height: 128
+    spriteID: d5025b620bd76c742b64112f2d36cfe6
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_147
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 58d9d06830307a64f833f8d39748dec5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_148
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 512
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 4ccde93c154feff47980f1d5df90e66f
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_149
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 640
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 1e6c209ea54dc32418c7a5f6850179d5
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_150
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 768
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 6506d85e16eb2c04287b71625786916d
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_151
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 896
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 6165b149705bab34cbda52a972ab3166
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_152
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1024
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 6622d278c0f7460479cb632d35f16096
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_153
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1152
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 090e1abf7d3f5c24286adff65c9fe161
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_154
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1280
+      y: 0
+      width: 128
+      height: 128
+    spriteID: be79f8cf5ef997e448a92a9c6d92486f
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_155
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1408
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 58b861a9c19e0624b98cb2b031800e7c
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_156
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1536
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 8d72bd389a547b44d920eceddbb87a34
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_157
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1664
+      y: 0
+      width: 128
+      height: 128
+    spriteID: f5b3bda9bd93ae24ab61b45e5b60d20f
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_158
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1792
+      y: 0
+      width: 128
+      height: 128
+    spriteID: c0ec5b1dd33a4ae41b57752145f0bf1c
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_159
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1920
+      y: 0
+      width: 128
+      height: 128
+    spriteID: a004555378a48af439fa1128f0d34dcc
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_160
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2048
+      y: 0
+      width: 128
+      height: 128
+    spriteID: 45be1837cbc10364cab83ad5c2e10dde
+    spriteOutline: []
+    tessellationDetail: 0
+  - name: Mineplant2_161
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 2176
+      y: 0
+      width: 127
+      height: 128
+    spriteID: b87c00ee798de1848800461fe6b1838c
+    spriteOutline: []
+    tessellationDetail: 0
   _secondaryTextures: []
   _artifacts: {instanceID: 0}
