@@ -30,6 +30,18 @@ namespace Core
 
                 if (m_FallbackSplasher != null)
                     m_FallbackSplasher.gameObject.SetActive(false);
+
+                Instance
+                    .CoverAsync(VgSplashKey.GameLoading)
+                    .ContinueWith(async () =>
+                    {
+                        await UniTask.Delay(4000);
+                    })
+                    .ContinueWith(() =>
+                    {
+                        Instance.RevealAsync(VgSplashKey.GameLoading).Forget();
+                    })
+                    .Forget();
             });
         }
 

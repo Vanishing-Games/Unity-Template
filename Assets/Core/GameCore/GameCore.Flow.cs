@@ -158,17 +158,21 @@ namespace Core
         private async UniTask RunBooting()
         {
             CLogger.LogInfo("[GameCore] Booting...", LogTag.GameCoreStart);
+
             await m_Systems.InitializeAllAsync();
             await m_Systems.FireOnBootStart();
+
             m_Fsm.Trigger(GameFlowTrigger.BootComplete);
         }
 
         private async UniTask RunLoading()
         {
             CLogger.LogInfo("[GameCore] → Loading", LogTag.GameCoreStart);
+
             await m_Systems.FireOnLoadStart(m_LoadContext);
             await m_Systems.FireOnLoadScene(m_LoadContext);
             await m_Systems.FireOnLoadComplete(m_LoadContext);
+
             m_Fsm.Trigger(GameFlowTrigger.LoadComplete);
         }
 
