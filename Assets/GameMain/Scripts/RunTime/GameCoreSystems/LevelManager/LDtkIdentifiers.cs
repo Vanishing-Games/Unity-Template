@@ -37,6 +37,9 @@ namespace GameMain.RunTime
         public const string Ae_Mat_Vine = "Ae_Mat_Vine";
         public const string Ae_Mat_Door = "Ae_Mat_Door";
         public const string Ae_ChangeBackgroundArea = "Ae_ChangeBackgroundArea";
+        public const string Ae_Mat_light_M = "Ae_Mat_light_M";
+        public const string Ae_Mat_light_s = "Ae_Mat_light_s";
+        public const string Ae_Mat_MineLight = "Ae_Mat_MineLight";
 
         // Enum Identifiers
         public const string Enum_CameraMode = "CameraMode";

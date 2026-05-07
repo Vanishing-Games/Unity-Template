@@ -15,7 +15,7 @@ MonoBehaviour:
   m_Active: 1
   injectionPoint: 600
   fetchColorBuffer: 1
-  requirements: 0
+  requirements: 4
   passMaterial: {fileID: 2100000, guid: 12947b5f627f2284fa870eaf561e2504, type: 2}
   passIndex: 0
   bindDepthStencilAttachment: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
     injectionPoint: 500
     lightSourcesLayerMask:
       serializedVersion: 2
-      m_Bits: 2148532224
+      m_Bits: 2148532288
     receiversLayerMask:
       serializedVersion: 2
       m_Bits: 2207907071

@@ -64,11 +64,11 @@ TagManager:
   - name: Entity
     uniqueID: 935505379
     locked: 0
-  - name: AutoTile
-    uniqueID: 3372048073
-    locked: 0
   - name: ManualTile
     uniqueID: 2346397863
+    locked: 0
+  - name: AutoTile
+    uniqueID: 3372048073
     locked: 0
   - name: ForeGround
     uniqueID: 3569134307
