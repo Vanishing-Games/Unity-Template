@@ -2,8 +2,8 @@
 using UnityEngine;
 
 namespace GameMain.RunTime
+// csharpier-ignore-start
 {
-    // csharpier-ignore-start
     public static class LDtkIdentifiers
     {
         // Layer Identifiers
@@ -36,13 +36,11 @@ namespace GameMain.RunTime
         public const string Ae_Mat_Ore = "Ae_Mat_Ore";
         public const string Ae_Mat_Vine = "Ae_Mat_Vine";
         public const string Ae_Mat_Door = "Ae_Mat_Door";
+        public const string Ae_ChangeBackgroundArea = "Ae_ChangeBackgroundArea";
 
         // Enum Identifiers
         public const string Enum_CameraMode = "CameraMode";
 
-
-
-
     }
-    // csharpier-ignore-end
+// csharpier-ignore-end
 }

@@ -173,7 +173,7 @@ namespace GameMain.RunTime
         private void OnCreateNewSlotClicked()
         {
             string newSlotName = $"slot_{DateTime.Now:yyyyMMdd_HHmmss}";
-            Debug.Log($"Creating new save: {newSlotName}");
+            CLogger.LogInfo($"Creating new save: {newSlotName}", LogTag.Button);
             VgSaveSystem.Instance.SetCurrentSlot(newSlotName);
 
             var command = new GameFlowCommands.StartGameCommand("Chapter_Snake", "level_20");
@@ -182,7 +182,7 @@ namespace GameMain.RunTime
 
         private async UniTaskVoid ContinueGameOnSlot(string slotName)
         {
-            Debug.Log($"Loading save: {slotName}");
+            CLogger.LogInfo($"Loading save: {slotName}", LogTag.Button);
             bool success = await VgSaveSystem.Instance.LoadSlotAsync(slotName);
             if (success)
             {
