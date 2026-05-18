@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -7,6 +8,23 @@ using UnityEngine.UI;
 
 namespace Core
 {
+    [Serializable]
+    public struct CrtSettings
+    {
+        public float ScanlineDensity;
+        public float ScanlineStrength;
+        public float BarrelDistortion;
+        public float VignetteStrength;
+        public Color ColorTint;
+    }
+
+    [Serializable]
+    public struct ChapterCrtConfig
+    {
+        public string ChapterId;
+        public CrtSettings Settings;
+    }
+
     public class VgCameraManager : CoreModuleManagerBase<VgCameraManager>, ICoreModuleSystem
     {
         public string SystemName => "VgCameraManager";
@@ -26,6 +44,16 @@ namespace Core
         [SerializeField]
         private Sprite m_TvBorderSprite;
 
+        [Header("CRT Settings")]
+        [SerializeField]
+        private Material m_CrtMaterial;
+
+        [SerializeField]
+        private CrtSettings m_DefaultCrtSettings;
+
+        [SerializeField]
+        private List<ChapterCrtConfig> m_ChapterCrtConfigs;
+
         private bool m_IsSnakeChapter = false;
         private float m_TargetAspectRatio;
         private GameObject m_BorderCanvasInstance;
@@ -35,6 +63,9 @@ namespace Core
             m_BottomBar;
         private int m_LastScreenWidth,
             m_LastScreenHeight;
+
+        private CrtSettings m_InitialMaterialSettings;
+        private bool m_IsBackupDone = false;
 
         public void RegisterHooks(IGameCoreHookRegistry registry)
         {
@@ -90,7 +121,93 @@ namespace Core
             );
             UpdateCameraViewport();
 
+            UpdateCrtSettings(chapterId);
+
             //GetComponent<PixelPerfectCamera>().enabled = m_IsSnakeChapter;
+        }
+
+        private void UpdateCrtSettings(string chapterId)
+        {
+            if (m_CrtMaterial == null)
+            {
+                return;
+            }
+
+            if (!m_IsBackupDone)
+            {
+                BackupInitialCrtSettings();
+            }
+
+            CrtSettings targetSettings = m_DefaultCrtSettings;
+            bool found = false;
+
+            if (m_ChapterCrtConfigs != null)
+            {
+                foreach (var config in m_ChapterCrtConfigs)
+                {
+                    if (chapterId.StartsWith(config.ChapterId))
+                    {
+                        targetSettings = config.Settings;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!found)
+            {
+                CLogger.LogError(
+                    $"No CRT settings found for chapter: {chapterId}. Using default settings.",
+                    LogTag.VgCameraManager
+                );
+            }
+
+            ApplyCrtSettings(targetSettings);
+        }
+
+        private void ApplyCrtSettings(CrtSettings settings)
+        {
+            if (m_CrtMaterial == null)
+            {
+                return;
+            }
+
+            m_CrtMaterial.SetFloat("_ScanlineDensity", settings.ScanlineDensity);
+            m_CrtMaterial.SetFloat("_ScanlineStrength", settings.ScanlineStrength);
+            m_CrtMaterial.SetFloat("_BarrelDistortion", settings.BarrelDistortion);
+            m_CrtMaterial.SetFloat("_VignetteStrength", settings.VignetteStrength);
+            m_CrtMaterial.SetColor("_ColorTint", settings.ColorTint);
+        }
+
+        private void BackupInitialCrtSettings()
+        {
+            if (m_CrtMaterial == null)
+            {
+                return;
+            }
+
+            m_InitialMaterialSettings = new CrtSettings
+            {
+                ScanlineDensity = m_CrtMaterial.GetFloat("_ScanlineDensity"),
+                ScanlineStrength = m_CrtMaterial.GetFloat("_ScanlineStrength"),
+                BarrelDistortion = m_CrtMaterial.GetFloat("_BarrelDistortion"),
+                VignetteStrength = m_CrtMaterial.GetFloat("_VignetteStrength"),
+                ColorTint = m_CrtMaterial.GetColor("_ColorTint")
+            };
+            m_IsBackupDone = true;
+        }
+
+        private void RestoreInitialCrtSettings()
+        {
+            if (m_IsBackupDone && m_CrtMaterial != null)
+            {
+                ApplyCrtSettings(m_InitialMaterialSettings);
+            }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            RestoreInitialCrtSettings();
         }
 
         private void InitializeBorderUI()
