@@ -104,6 +104,12 @@ namespace Core
                     UpdateCameraViewport();
                 }
             });
+
+            registry.OnGameQuit(() =>
+            {
+                RestoreInitialCrtSettings();
+                return UniTask.CompletedTask;
+            });
         }
 
         /// <summary>
@@ -203,11 +209,6 @@ namespace Core
             {
                 ApplyCrtSettings(m_InitialMaterialSettings);
             }
-        }
-
-        protected virtual void OnDestroy()
-        {
-            RestoreInitialCrtSettings();
         }
 
         private void InitializeBorderUI()
