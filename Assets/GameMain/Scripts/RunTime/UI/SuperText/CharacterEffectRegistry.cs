@@ -23,6 +23,7 @@ namespace GameMain.RunTime
         private static readonly Dictionary<string, Func<ICharacterEffect>> s_Factories = new()
         {
             ["shake"] = () => new ShakeEffect(),
+            ["color-flow"] = () => new ColorFlowEffect(),
         };
     }
 }

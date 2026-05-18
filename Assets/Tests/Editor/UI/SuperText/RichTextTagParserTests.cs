@@ -86,5 +86,42 @@ namespace Test.Editor.UI.SuperText
             Assert.AreEqual(3, span.EndVisibleIndex);
             Assert.AreEqual(0, span.Attributes.Count);
         }
+
+        [Test]
+        public void Parse_NestedTags_ProduceCorrectSpans()
+        {
+            // Setup register to recognize color-flow
+            var result = RichTextTagParser.Parse("[shake][color-flow]foo[/color-flow][/shake]");
+
+            Assert.AreEqual("foo", result.CleanText);
+            Assert.AreEqual(2, result.Spans.Count);
+
+            var innerSpan = result.Spans[0];
+            Assert.AreEqual("color-flow", innerSpan.TagName);
+            Assert.AreEqual(0, innerSpan.StartVisibleIndex);
+            Assert.AreEqual(3, innerSpan.EndVisibleIndex);
+
+            var outerSpan = result.Spans[1];
+            Assert.AreEqual("shake", outerSpan.TagName);
+            Assert.AreEqual(0, outerSpan.StartVisibleIndex);
+            Assert.AreEqual(3, outerSpan.EndVisibleIndex);
+        }
+
+        [Test]
+        public void Parse_AdjacentTags_ProduceCorrectSpans()
+        {
+            var result = RichTextTagParser.Parse("a[shake]b[/shake]c[color-flow]d[/color-flow]e");
+
+            Assert.AreEqual("abcde", result.CleanText);
+            Assert.AreEqual(2, result.Spans.Count);
+
+            Assert.AreEqual("shake", result.Spans[0].TagName);
+            Assert.AreEqual(1, result.Spans[0].StartVisibleIndex);
+            Assert.AreEqual(2, result.Spans[0].EndVisibleIndex);
+
+            Assert.AreEqual("color-flow", result.Spans[1].TagName);
+            Assert.AreEqual(3, result.Spans[1].StartVisibleIndex);
+            Assert.AreEqual(4, result.Spans[1].EndVisibleIndex);
+        }
     }
 }

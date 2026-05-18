@@ -255,9 +255,9 @@ namespace GameMain.RunTime
             var textInfo = m_TmpText.textInfo;
             var meshInfo = textInfo.meshInfo;
 
-            if (revealChanged)
+            if (revealChanged || m_HasCharacterEffects)
             {
-                ApplyVisibilityColors(textInfo, meshInfo);
+                ApplyVisibilityColorsAndBaseVertices(textInfo, meshInfo);
             }
 
             if (m_HasCharacterEffects)
@@ -270,7 +270,10 @@ namespace GameMain.RunTime
             );
         }
 
-        private void ApplyVisibilityColors(TMP_TextInfo textInfo, TMP_MeshInfo[] meshInfo)
+        private void ApplyVisibilityColorsAndBaseVertices(
+            TMP_TextInfo textInfo,
+            TMP_MeshInfo[] meshInfo
+        )
         {
             for (int i = 0; i < m_TotalVisibleChars; i++)
             {
@@ -284,6 +287,13 @@ namespace GameMain.RunTime
                 int vi = charInfo.vertexIndex;
                 var liveColors = meshInfo[matIdx].colors32;
                 var baseColors = m_BaselineColors[matIdx];
+                var liveVerts = meshInfo[matIdx].vertices;
+                var baseVerts = m_BaselineVertices[matIdx];
+
+                liveVerts[vi + 0] = baseVerts[vi + 0];
+                liveVerts[vi + 1] = baseVerts[vi + 1];
+                liveVerts[vi + 2] = baseVerts[vi + 2];
+                liveVerts[vi + 3] = baseVerts[vi + 3];
 
                 if (i < m_RevealedCount)
                 {
@@ -330,12 +340,6 @@ namespace GameMain.RunTime
                     int vi = charInfo.vertexIndex;
                     var liveVerts = meshInfo[matIdx].vertices;
                     var liveColors = meshInfo[matIdx].colors32;
-                    var baseVerts = m_BaselineVertices[matIdx];
-
-                    liveVerts[vi + 0] = baseVerts[vi + 0];
-                    liveVerts[vi + 1] = baseVerts[vi + 1];
-                    liveVerts[vi + 2] = baseVerts[vi + 2];
-                    liveVerts[vi + 3] = baseVerts[vi + 3];
 
                     var ctx = new CharacterEffectContext
                     {
