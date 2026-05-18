@@ -192,7 +192,7 @@ namespace Core
                 ScanlineStrength = m_CrtMaterial.GetFloat("_ScanlineStrength"),
                 BarrelDistortion = m_CrtMaterial.GetFloat("_BarrelDistortion"),
                 VignetteStrength = m_CrtMaterial.GetFloat("_VignetteStrength"),
-                ColorTint = m_CrtMaterial.GetColor("_ColorTint")
+                ColorTint = m_CrtMaterial.GetColor("_ColorTint"),
             };
             m_IsBackupDone = true;
         }
