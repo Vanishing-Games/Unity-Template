@@ -845,21 +845,50 @@ jobs:
               echo "| # | 测试用例名称 |" >> $GITHUB_STEP_SUMMARY
               echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
               
-              # 提取失败的测试用例名
-              grep -oP 'test-case[^>]*result="Failed"[^>]*name="\K[^"]+' "$FILE" > failed_list.txt || true
+              # 提取失败的测试用例名（NUnit XML 的 fullname 或 name 属性通常在 result 之前或之后）
+              grep '<test-case' "$FILE" | grep 'result="Failed"' | grep -oP 'fullname="\K[^"]+' > failed_list.txt || true
+              if [ ! -s failed_list.txt ]; then
+                grep '<test-case' "$FILE" | grep 'result="Failed"' | grep -oP 'name="\K[^"]+' > failed_list.txt || true
+              fi
               
               i=1
               while read -r line; do
-                echo "| $i | \`$line\` |" >> $GITHUB_STEP_SUMMARY
-                ((i++))
-                if [ $i -gt 20 ]; then break; fi
+                if [ -n "$line" ]; then
+                  echo "| $i | \`$line\` |" >> $GITHUB_STEP_SUMMARY
+                  ((i++))
+                  if [ $i -gt 20 ]; then break; fi
+                fi
               done < failed_list.txt
               
-              if [ "$(wc -l < failed_list.txt)" -gt 20 ]; then
+              if [ "$(wc -l < failed_list.txt 2>/dev/null || echo 0)" -gt 20 ]; then
                 echo "| ... | 更多失败项请下载 Artifacts 查看 |" >> $GITHUB_STEP_SUMMARY
               fi
               # 确实有测试失败，标记 Job 失败
               exit 1
+            else
+              # 如果没有失败测试，列出最多前20个执行的测试用例
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### ✅ 执行用例列表 (部分)" >> $GITHUB_STEP_SUMMARY
+              echo "| # | 测试用例名称 |" >> $GITHUB_STEP_SUMMARY
+              echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+              
+              grep '<test-case' "$FILE" | grep -oP 'fullname="\K[^"]+' > passed_list.txt || true
+              if [ ! -s passed_list.txt ]; then
+                grep '<test-case' "$FILE" | grep -oP 'name="\K[^"]+' > passed_list.txt || true
+              fi
+              
+              i=1
+              while read -r line; do
+                if [ -n "$line" ]; then
+                  echo "| $i | \`$line\` |" >> $GITHUB_STEP_SUMMARY
+                  ((i++))
+                  if [ $i -gt 20 ]; then break; fi
+                fi
+              done < passed_list.txt
+              
+              if [ "$(wc -l < passed_list.txt 2>/dev/null || echo 0)" -gt 20 ]; then
+                echo "| ... | 更多测试项请下载 Artifacts 查看 |" >> $GITHUB_STEP_SUMMARY
+              fi
             fi
           else
             echo "| 错误 | ⚠️ 未找到结果文件 |" >> $GITHUB_STEP_SUMMARY
