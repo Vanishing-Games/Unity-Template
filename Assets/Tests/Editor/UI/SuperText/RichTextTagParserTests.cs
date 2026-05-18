@@ -123,5 +123,48 @@ namespace Test.Editor.UI.SuperText
             Assert.AreEqual(3, result.Spans[1].StartVisibleIndex);
             Assert.AreEqual(4, result.Spans[1].EndVisibleIndex);
         }
+
+        [Test]
+        public void Parse_UnknownTag_TreatedAsLiteralWithNoSpans()
+        {
+            var result = RichTextTagParser.Parse("[unknown]foo[/unknown]");
+
+            Assert.AreEqual("[unknown]foo[/unknown]", result.CleanText);
+            Assert.AreEqual(0, result.Spans.Count);
+        }
+
+        [Test]
+        public void Parse_UnclosedTag_ExtendsToEndAndWarns()
+        {
+            // Note: Since CLogger is static, we can't easily assert the log here without mocking,
+            // but we can assert the span logic.
+            var result = RichTextTagParser.Parse("[shake]foo");
+
+            Assert.AreEqual("foo", result.CleanText);
+            Assert.AreEqual(1, result.Spans.Count);
+
+            var span = result.Spans.Single();
+            Assert.AreEqual("shake", span.TagName);
+            Assert.AreEqual(0, span.StartVisibleIndex);
+            Assert.AreEqual(3, span.EndVisibleIndex);
+        }
+
+        [Test]
+        public void Parse_Escape_ProducesLiteralBracket()
+        {
+            var result = RichTextTagParser.Parse("\\[not-a-tag]");
+
+            Assert.AreEqual("[not-a-tag]", result.CleanText);
+            Assert.AreEqual(0, result.Spans.Count);
+        }
+
+        [Test]
+        public void Parse_PureWhitespace_PreservedWithNoSpans()
+        {
+            var result = RichTextTagParser.Parse("   ");
+
+            Assert.AreEqual("   ", result.CleanText);
+            Assert.AreEqual(0, result.Spans.Count);
+        }
     }
 }
