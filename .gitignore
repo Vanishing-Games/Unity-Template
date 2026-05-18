@@ -123,10 +123,13 @@ fmod_editor.log
 # LDtk Backup
 /Assets/GameMain/LDtkProject/gm_ldtk_project/backups/
 
-# Claude
+# Claudess
 /CLAUDE.md
 /.claude/
 /.remember/
+/docs/agents/
+/.scratch/
+/CONTEXT.md
 
 # Save Data
 /SaveData_Editor/
