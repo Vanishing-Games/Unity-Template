@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
 using Core;
+using Cysharp.Threading.Tasks;
+using R3;
 using TMPro;
 using UnityEngine;
 
@@ -34,14 +37,22 @@ namespace GameMain.RunTime
                     "EffectTextRenderer.ShowText: showing all characters immediately.",
                     LogTag.UI
                 );
+                SyncMesh(revealChanged: true);
+                if (m_TotalVisibleChars > 0)
+                {
+                    for (int i = 0; i < m_TotalVisibleChars; i++)
+                    {
+                        MessageBroker.Global.Publish(new SuperTextEvents.CharacterRevealedEvent(i));
+                    }
+                    MessageBroker.Global.Publish(new SuperTextEvents.TextRevealCompletedEvent());
+                }
             }
             else
             {
                 m_RevealedCount = 0;
                 m_IsRevealing = true;
+                SyncMesh(revealChanged: true);
             }
-
-            SyncMesh(revealChanged: true);
         }
 
         public void Clear()
@@ -59,6 +70,33 @@ namespace GameMain.RunTime
             m_HasCharacterEffects = false;
             m_BaselineVertices = null;
             m_BaselineColors = null;
+        }
+
+        public void SkipToEnd()
+        {
+            if (m_TotalVisibleChars > 0 && m_RevealedCount < m_TotalVisibleChars)
+            {
+                int oldRevealed = m_RevealedCount;
+                m_RevealedCount = m_TotalVisibleChars;
+                m_IsRevealing = false;
+                SyncMesh(true);
+                for (int i = oldRevealed; i < m_RevealedCount; i++)
+                {
+                    MessageBroker.Global.Publish(new SuperTextEvents.CharacterRevealedEvent(i));
+                }
+                MessageBroker.Global.Publish(new SuperTextEvents.TextRevealCompletedEvent());
+            }
+        }
+
+        public async UniTask WaitForCompleteAsync(CancellationToken ct = default)
+        {
+            if (!m_IsRevealing && m_RevealedCount >= m_TotalVisibleChars)
+            {
+                return;
+            }
+            await MessageBroker
+                .Global.Receive<SuperTextEvents.TextRevealCompletedEvent>()
+                .FirstAsync(ct);
         }
 
         public static int ComputeRevealedCount(float elapsed, float charsPerSecond, int total)
@@ -120,11 +158,24 @@ namespace GameMain.RunTime
             }
 
             bool revealChanged = newRevealed != m_RevealedCount;
+            int oldRevealed = m_RevealedCount;
             m_RevealedCount = newRevealed;
 
             if (revealChanged || m_HasCharacterEffects)
             {
                 SyncMesh(revealChanged);
+            }
+
+            if (revealChanged)
+            {
+                for (int i = oldRevealed; i < newRevealed; i++)
+                {
+                    MessageBroker.Global.Publish(new SuperTextEvents.CharacterRevealedEvent(i));
+                }
+                if (newRevealed >= m_TotalVisibleChars && m_TotalVisibleChars > 0)
+                {
+                    MessageBroker.Global.Publish(new SuperTextEvents.TextRevealCompletedEvent());
+                }
             }
         }
 
