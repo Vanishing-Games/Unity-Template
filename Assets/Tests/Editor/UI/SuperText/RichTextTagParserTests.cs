@@ -55,5 +55,36 @@ namespace Test.Editor.UI.SuperText
             Assert.AreEqual(string.Empty, result.CleanText);
             Assert.AreEqual(0, result.Spans.Count);
         }
+
+        [Test]
+        public void Parse_ShakeSpanWithAttributes_StripsTagsAndCapturesParams()
+        {
+            var result = RichTextTagParser.Parse("aa[shake amp=\"0.3\" speed=\"20\"]foo[/shake]z");
+
+            Assert.AreEqual("aafooz", result.CleanText);
+            Assert.AreEqual(1, result.Spans.Count);
+
+            var span = result.Spans.Single();
+            Assert.AreEqual("shake", span.TagName);
+            Assert.AreEqual(2, span.StartVisibleIndex);
+            Assert.AreEqual(5, span.EndVisibleIndex);
+            Assert.AreEqual("0.3", span.Attributes["amp"]);
+            Assert.AreEqual("20", span.Attributes["speed"]);
+        }
+
+        [Test]
+        public void Parse_ShakeSpanWithoutAttributes_IsLegalAndProducesEmptyAttributes()
+        {
+            var result = RichTextTagParser.Parse("[shake]bar[/shake]");
+
+            Assert.AreEqual("bar", result.CleanText);
+            Assert.AreEqual(1, result.Spans.Count);
+
+            var span = result.Spans.Single();
+            Assert.AreEqual("shake", span.TagName);
+            Assert.AreEqual(0, span.StartVisibleIndex);
+            Assert.AreEqual(3, span.EndVisibleIndex);
+            Assert.AreEqual(0, span.Attributes.Count);
+        }
     }
 }

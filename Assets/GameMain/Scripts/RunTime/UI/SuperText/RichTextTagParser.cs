@@ -49,7 +49,7 @@ namespace GameMain.RunTime
                             var tagName = parsed.Groups["name"].Value;
                             bool isClose = parsed.Groups["close"].Length > 0;
 
-                            if (s_KnownTags.Contains(tagName))
+                            if (IsKnownTag(tagName))
                             {
                                 if (isClose)
                                 {
@@ -196,12 +196,13 @@ namespace GameMain.RunTime
             RegexOptions.Compiled
         );
 
-        private static readonly HashSet<string> s_KnownTags = new()
+        private static bool IsKnownTag(string tagName)
         {
-            "typewriter",
-            "shake",
-            "color-flow",
-        };
+            return s_ReservedTags.Contains(tagName)
+                || CharacterEffectRegistry.IsRegistered(tagName);
+        }
+
+        private static readonly HashSet<string> s_ReservedTags = new() { "typewriter" };
 
         private static readonly IReadOnlyDictionary<string, string> s_EmptyAttributes =
             new Dictionary<string, string>();

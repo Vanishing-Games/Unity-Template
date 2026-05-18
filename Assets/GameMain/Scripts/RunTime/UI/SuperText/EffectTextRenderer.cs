@@ -15,27 +15,33 @@ namespace GameMain.RunTime
 
             var result = RichTextTagParser.Parse(markup ?? string.Empty);
             m_TmpText.text = result.CleanText;
+            m_TmpText.maxVisibleCharacters = int.MaxValue;
             m_TmpText.ForceMeshUpdate();
 
             m_TotalVisibleChars = m_TmpText.textInfo.characterCount;
             m_Elapsed = 0f;
 
             BuildTypewriterSchedule(result.Spans);
+            BuildCharacterEffectSpans(result.Spans);
+            CacheBaselineMeshData();
 
             bool typewriterDisabled = !m_HasTypewriterSpan && m_GlobalCharsPerSecond <= 0f;
             if (typewriterDisabled || m_TotalVisibleChars == 0)
             {
-                m_TmpText.maxVisibleCharacters = m_TotalVisibleChars;
+                m_RevealedCount = m_TotalVisibleChars;
                 m_IsRevealing = false;
                 CLogger.LogVerbose(
                     "EffectTextRenderer.ShowText: showing all characters immediately.",
                     LogTag.UI
                 );
-                return;
+            }
+            else
+            {
+                m_RevealedCount = 0;
+                m_IsRevealing = true;
             }
 
-            m_TmpText.maxVisibleCharacters = 0;
-            m_IsRevealing = true;
+            SyncMesh(revealChanged: true);
         }
 
         public void Clear()
@@ -44,10 +50,15 @@ namespace GameMain.RunTime
             m_TmpText.text = string.Empty;
             m_TmpText.ForceMeshUpdate();
             m_TotalVisibleChars = 0;
+            m_RevealedCount = 0;
             m_Elapsed = 0f;
             m_IsRevealing = false;
             m_TypewriterSchedule = null;
             m_HasTypewriterSpan = false;
+            m_EffectSpans.Clear();
+            m_HasCharacterEffects = false;
+            m_BaselineVertices = null;
+            m_BaselineColors = null;
         }
 
         public static int ComputeRevealedCount(float elapsed, float charsPerSecond, int total)
@@ -83,36 +94,37 @@ namespace GameMain.RunTime
 
         private void Update()
         {
-            if (!m_IsRevealing)
+            if (!m_IsRevealing && !m_HasCharacterEffects)
             {
                 return;
             }
 
             m_Elapsed += Time.deltaTime;
 
-            int revealed;
-            if (m_HasTypewriterSpan && m_TypewriterSchedule != null)
+            int newRevealed = m_RevealedCount;
+            if (m_IsRevealing)
             {
-                revealed = ScheduledRevealCount(
-                    m_Elapsed,
-                    m_TypewriterSchedule,
-                    m_TotalVisibleChars
-                );
-            }
-            else
-            {
-                revealed = ComputeRevealedCount(
-                    m_Elapsed,
-                    m_GlobalCharsPerSecond,
-                    m_TotalVisibleChars
-                );
+                newRevealed =
+                    m_HasTypewriterSpan && m_TypewriterSchedule != null
+                        ? ScheduledRevealCount(m_Elapsed, m_TypewriterSchedule, m_TotalVisibleChars)
+                        : ComputeRevealedCount(
+                            m_Elapsed,
+                            m_GlobalCharsPerSecond,
+                            m_TotalVisibleChars
+                        );
+
+                if (newRevealed >= m_TotalVisibleChars)
+                {
+                    m_IsRevealing = false;
+                }
             }
 
-            m_TmpText.maxVisibleCharacters = revealed;
+            bool revealChanged = newRevealed != m_RevealedCount;
+            m_RevealedCount = newRevealed;
 
-            if (revealed >= m_TotalVisibleChars)
+            if (revealChanged || m_HasCharacterEffects)
             {
-                m_IsRevealing = false;
+                SyncMesh(revealChanged);
             }
         }
 
@@ -188,6 +200,157 @@ namespace GameMain.RunTime
             m_TypewriterSchedule = cumulative;
         }
 
+        private void BuildCharacterEffectSpans(IReadOnlyList<EffectSpan> spans)
+        {
+            m_EffectSpans.Clear();
+            m_HasCharacterEffects = false;
+
+            for (int i = 0; i < spans.Count; i++)
+            {
+                var span = spans[i];
+                if (!CharacterEffectRegistry.IsRegistered(span.TagName))
+                {
+                    continue;
+                }
+                var effect = CharacterEffectRegistry.Create(span.TagName);
+                if (effect == null)
+                {
+                    continue;
+                }
+                m_EffectSpans.Add(new EffectSpanInstance(span, effect));
+                m_HasCharacterEffects = true;
+            }
+        }
+
+        private void CacheBaselineMeshData()
+        {
+            if (m_TotalVisibleChars == 0)
+            {
+                m_BaselineVertices = null;
+                m_BaselineColors = null;
+                return;
+            }
+
+            var meshInfo = m_TmpText.textInfo.meshInfo;
+            m_BaselineVertices = new Vector3[meshInfo.Length][];
+            m_BaselineColors = new Color32[meshInfo.Length][];
+            for (int i = 0; i < meshInfo.Length; i++)
+            {
+                var srcVerts = meshInfo[i].vertices;
+                var srcColors = meshInfo[i].colors32;
+                m_BaselineVertices[i] = new Vector3[srcVerts.Length];
+                m_BaselineColors[i] = new Color32[srcColors.Length];
+                System.Array.Copy(srcVerts, m_BaselineVertices[i], srcVerts.Length);
+                System.Array.Copy(srcColors, m_BaselineColors[i], srcColors.Length);
+            }
+        }
+
+        private void SyncMesh(bool revealChanged)
+        {
+            if (m_BaselineVertices == null || m_TotalVisibleChars == 0)
+            {
+                return;
+            }
+
+            var textInfo = m_TmpText.textInfo;
+            var meshInfo = textInfo.meshInfo;
+
+            if (revealChanged)
+            {
+                ApplyVisibilityColors(textInfo, meshInfo);
+            }
+
+            if (m_HasCharacterEffects)
+            {
+                ApplyCharacterEffects(textInfo, meshInfo);
+            }
+
+            m_TmpText.UpdateVertexData(
+                TMP_VertexDataUpdateFlags.Vertices | TMP_VertexDataUpdateFlags.Colors32
+            );
+        }
+
+        private void ApplyVisibilityColors(TMP_TextInfo textInfo, TMP_MeshInfo[] meshInfo)
+        {
+            for (int i = 0; i < m_TotalVisibleChars; i++)
+            {
+                var charInfo = textInfo.characterInfo[i];
+                if (!charInfo.isVisible)
+                {
+                    continue;
+                }
+
+                int matIdx = charInfo.materialReferenceIndex;
+                int vi = charInfo.vertexIndex;
+                var liveColors = meshInfo[matIdx].colors32;
+                var baseColors = m_BaselineColors[matIdx];
+
+                if (i < m_RevealedCount)
+                {
+                    liveColors[vi + 0] = baseColors[vi + 0];
+                    liveColors[vi + 1] = baseColors[vi + 1];
+                    liveColors[vi + 2] = baseColors[vi + 2];
+                    liveColors[vi + 3] = baseColors[vi + 3];
+                }
+                else
+                {
+                    Color32 c0 = baseColors[vi + 0];
+                    Color32 c1 = baseColors[vi + 1];
+                    Color32 c2 = baseColors[vi + 2];
+                    Color32 c3 = baseColors[vi + 3];
+                    c0.a = 0;
+                    c1.a = 0;
+                    c2.a = 0;
+                    c3.a = 0;
+                    liveColors[vi + 0] = c0;
+                    liveColors[vi + 1] = c1;
+                    liveColors[vi + 2] = c2;
+                    liveColors[vi + 3] = c3;
+                }
+            }
+        }
+
+        private void ApplyCharacterEffects(TMP_TextInfo textInfo, TMP_MeshInfo[] meshInfo)
+        {
+            for (int s = 0; s < m_EffectSpans.Count; s++)
+            {
+                var spanInstance = m_EffectSpans[s];
+                int start = Mathf.Clamp(spanInstance.Span.StartVisibleIndex, 0, m_RevealedCount);
+                int end = Mathf.Clamp(spanInstance.Span.EndVisibleIndex, 0, m_RevealedCount);
+
+                for (int charIdx = start; charIdx < end; charIdx++)
+                {
+                    var charInfo = textInfo.characterInfo[charIdx];
+                    if (!charInfo.isVisible)
+                    {
+                        continue;
+                    }
+
+                    int matIdx = charInfo.materialReferenceIndex;
+                    int vi = charInfo.vertexIndex;
+                    var liveVerts = meshInfo[matIdx].vertices;
+                    var liveColors = meshInfo[matIdx].colors32;
+                    var baseVerts = m_BaselineVertices[matIdx];
+
+                    liveVerts[vi + 0] = baseVerts[vi + 0];
+                    liveVerts[vi + 1] = baseVerts[vi + 1];
+                    liveVerts[vi + 2] = baseVerts[vi + 2];
+                    liveVerts[vi + 3] = baseVerts[vi + 3];
+
+                    var ctx = new CharacterEffectContext
+                    {
+                        Vertices = liveVerts,
+                        Colors = liveColors,
+                        VertexIndex = vi,
+                        VisibleCharIndex = charIdx,
+                        TotalTime = m_Elapsed,
+                        Attributes = spanInstance.Span.Attributes,
+                    };
+                    spanInstance.Effect.Apply(ref ctx);
+                }
+            }
+        }
+
         private static int ScheduledRevealCount(float elapsed, float[] cumulative, int total)
         {
             if (elapsed <= 0f)
@@ -212,6 +375,18 @@ namespace GameMain.RunTime
             return lo;
         }
 
+        private readonly struct EffectSpanInstance
+        {
+            public EffectSpanInstance(EffectSpan span, ICharacterEffect effect)
+            {
+                Span = span;
+                Effect = effect;
+            }
+
+            public EffectSpan Span { get; }
+            public ICharacterEffect Effect { get; }
+        }
+
         [SerializeField]
         private TMP_Text m_TmpText;
 
@@ -227,9 +402,14 @@ namespace GameMain.RunTime
         [SerializeField, TextArea(2, 6)]
         private string m_InitialMarkup;
 
+        private readonly List<EffectSpanInstance> m_EffectSpans = new();
         private float[] m_TypewriterSchedule;
+        private Vector3[][] m_BaselineVertices;
+        private Color32[][] m_BaselineColors;
         private bool m_HasTypewriterSpan;
+        private bool m_HasCharacterEffects;
         private int m_TotalVisibleChars;
+        private int m_RevealedCount;
         private float m_Elapsed;
         private bool m_IsRevealing;
     }
