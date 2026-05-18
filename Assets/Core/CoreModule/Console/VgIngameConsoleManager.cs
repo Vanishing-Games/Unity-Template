@@ -117,12 +117,14 @@ namespace Core
         private void InitConsole()
         {
             m_DebugLogManager = DebugLogManager.Instance;
+            m_DebugLogManager ??= GetComponentInChildren<DebugLogManager>(true);
             if (m_DebugLogManager == null)
             {
                 CLogger.LogError(
                     "[VgIngameConsoleManager] DebugLogManager not found.",
                     LogTag.Game
                 );
+
                 return;
             }
 
