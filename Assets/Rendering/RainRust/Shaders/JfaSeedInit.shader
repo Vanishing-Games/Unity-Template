@@ -58,7 +58,7 @@ Shader "Hidden/RainRust/JfaSeedInit"
                 float alpha = SAMPLE_TEXTURE2D(_BlitTexture, sampler_BlitTexture, i.uv).a;
 
                 // 使用 Z 通道作为种子有效性标记 (1.0 表示是种子, 0.0 表示不是)
-                if (alpha > 0.001)
+                if (alpha > 0)
                 {
                     return float4(i.uv, 1, 1);
                 }

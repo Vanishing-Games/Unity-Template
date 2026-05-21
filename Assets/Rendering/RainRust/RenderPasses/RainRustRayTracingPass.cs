@@ -161,6 +161,46 @@ namespace RainRust.Rendering
                                 break;
                         }
 
+                        // Debug keyword 一律先清空, 再按当前 debugMode 启用
+                        data.material.DisableKeyword("DEBUG_RAND");
+                        data.material.DisableKeyword("DEBUG_SAMPLEDIR");
+                        data.material.DisableKeyword("DEBUG_COLORALPHA");
+                        data.material.DisableKeyword("DEBUG_EARLYEXIT");
+                        data.material.DisableKeyword("DEBUG_RAYTERMSTEP");
+                        data.material.DisableKeyword("DEBUG_HITFRACTION");
+                        data.material.DisableKeyword("DEBUG_SDF");
+                        data.material.DisableKeyword("DEBUG_PIXELINSPECTOR");
+                        switch (stack.debugMode.value)
+                        {
+                            case RainRustDebugMode.None:
+                                break;
+                            case RainRustDebugMode.Rand:
+                                data.material.EnableKeyword("DEBUG_RAND");
+                                break;
+                            case RainRustDebugMode.SampleDir:
+                                data.material.EnableKeyword("DEBUG_SAMPLEDIR");
+                                break;
+                            case RainRustDebugMode.ColorAlpha:
+                                data.material.EnableKeyword("DEBUG_COLORALPHA");
+                                break;
+                            case RainRustDebugMode.EarlyExit:
+                                data.material.EnableKeyword("DEBUG_EARLYEXIT");
+                                break;
+                            case RainRustDebugMode.RayTermStep:
+                                data.material.EnableKeyword("DEBUG_RAYTERMSTEP");
+                                break;
+                            case RainRustDebugMode.HitFraction:
+                                data.material.EnableKeyword("DEBUG_HITFRACTION");
+                                break;
+                            case RainRustDebugMode.Sdf:
+                                data.material.EnableKeyword("DEBUG_SDF");
+                                break;
+                            case RainRustDebugMode.PixelInspector:
+                                data.material.EnableKeyword("DEBUG_PIXELINSPECTOR");
+                                data.material.SetVector("_DebugPixelUV", stack.debugPixelUV.value);
+                                break;
+                        }
+
                         CoreUtils.DrawFullScreen(cmd, data.material);
                     }
                 );

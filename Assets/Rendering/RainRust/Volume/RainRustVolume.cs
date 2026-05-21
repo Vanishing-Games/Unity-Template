@@ -26,6 +26,12 @@ namespace RainRust.Rendering
         public ClampedFloatParameter lightFalloffGamma = new(2.0f, 0.001f, 10f);
         public ColorParameter ambientColor = new(Color.black);
 
+        [Header("Debug")]
+        public EnumParameter<RainRustDebugMode> debugMode = new(RainRustDebugMode.None);
+
+        // 仅在 debugMode == PixelInspector 时使用; 屏幕 UV, 默认中心
+        public Vector2Parameter debugPixelUV = new(new Vector2(0.5f, 0.5f));
+
         public bool IsActive() => isEnabled.value;
 
         public bool IsTileCompatible() => false;
@@ -51,5 +57,18 @@ namespace RainRust.Rendering
         OneAlpha,
         ObjectsMaskAlpha,
         NormalizedAlpha,
+    }
+
+    public enum RainRustDebugMode
+    {
+        None = 0,
+        Rand = 1,
+        SampleDir = 2,
+        ColorAlpha = 3,
+        EarlyExit = 4,
+        RayTermStep = 5,
+        HitFraction = 6,
+        Sdf = 7,
+        PixelInspector = 8,
     }
 }
