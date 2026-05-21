@@ -170,6 +170,7 @@ namespace RainRust.Rendering
                         data.material.DisableKeyword("DEBUG_HITFRACTION");
                         data.material.DisableKeyword("DEBUG_SDF");
                         data.material.DisableKeyword("DEBUG_PIXELINSPECTOR");
+                        data.material.DisableKeyword("DEBUG_GTRBREAKDOWN");
                         switch (stack.debugMode.value)
                         {
                             case RainRustDebugMode.None:
@@ -197,6 +198,10 @@ namespace RainRust.Rendering
                                 break;
                             case RainRustDebugMode.PixelInspector:
                                 data.material.EnableKeyword("DEBUG_PIXELINSPECTOR");
+                                data.material.SetVector("_DebugPixelUV", stack.debugPixelUV.value);
+                                break;
+                            case RainRustDebugMode.GTRBreakdown:
+                                data.material.EnableKeyword("DEBUG_GTRBREAKDOWN");
                                 data.material.SetVector("_DebugPixelUV", stack.debugPixelUV.value);
                                 break;
                         }

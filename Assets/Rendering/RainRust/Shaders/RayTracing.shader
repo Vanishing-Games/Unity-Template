@@ -28,7 +28,7 @@ Shader "Hidden/RainRust/RayTracing"
             // 输出alpha通道方式: 全部为1, 使用对象遮罩, 颜色归一化后最大值
             #pragma multi_compile_local ONE_ALPHA OBJECTS_MASK_ALPHA NORMALIZED_ALPHA
             // Debug 可视化模式 (_ 表示关闭, 即正常渲染)
-            #pragma multi_compile_local _ DEBUG_RAND DEBUG_SAMPLEDIR DEBUG_COLORALPHA DEBUG_EARLYEXIT DEBUG_RAYTERMSTEP DEBUG_HITFRACTION DEBUG_SDF DEBUG_PIXELINSPECTOR
+            #pragma multi_compile_local _ DEBUG_RAND DEBUG_SAMPLEDIR DEBUG_COLORALPHA DEBUG_EARLYEXIT DEBUG_RAYTERMSTEP DEBUG_HITFRACTION DEBUG_SDF DEBUG_PIXELINSPECTOR DEBUG_GTRBREAKDOWN
 
             #pragma vertex Vert
             #pragma fragment Frag
@@ -196,93 +196,241 @@ Shader "Hidden/RainRust/RayTracing"
 
 #elif defined(DEBUG_PIXELINSPECTOR)
                 // PixelInspector: 把 _DebugPixelUV 这个像素的全部 ray 数据铺满屏幕
-                //   - X 方向: ray 编号 (0 ~ _Samples-1)
-                //   - Y 方向: 8 个条带, 每个条带显示一个属性
+                //   - X 方向: ray 编号 0 .. _Samples-1
+                //   - Y 方向: 6 个条带
+                //   - 7 个条带 (从 Y=0 即屏幕顶端往下):
+                //       0: hit/miss (1/0)
+                //       1: contribution RGB  (color*atten | color/alpha | _AmbientColor)
+                //       2: share = length(thisContrib) / sum_k length(contrib_k)
+                //       3: used / STEPS
+                //       4: GTR attenuation
+                //       5: 光线方向 (R=cos*0.5+0.5, G=sin*0.5+0.5)
+                //       6: 最终像素颜色 (与正常 Frag 一致, 所有列应相同)
                 {
-                    const int totalBands = 8;
-                    const int rayIdx = (int)floor(i.uv.x * _Samples);
+                    const int totalBands = 7;
+                    const int N = clamp((int)_Samples, 1, 64);
+                    const int rayIdx = (int)floor(i.uv.x * N);
                     const int band = (int)floor(i.uv.y * totalBands);
 
-                    if (rayIdx < 0 || rayIdx >= (int)_Samples)
+                    if (rayIdx < 0 || rayIdx >= N)
+                        return float4(0, 0, 0, 1);
+                    if (band < 0 || band >= totalBands)
                         return float4(0, 0, 0, 1);
 
-                    // 重新计算 _DebugPixelUV 的 rand (需要按其屏幕位置采样)
-#if defined(FRAGMENT_RANDOM)
+                    // _DebugPixelUV 处的 rand (按其屏幕坐标采样, 与正常渲染一致)
+                    #if defined(FRAGMENT_RANDOM)
                     const float2 dbgNoiseUV = _DebugPixelUV * _NoiseTilingOffset.xy + _NoiseTilingOffset.zw;
                     const float dbgRand = GetShaderNoise(dbgNoiseUV);
-#elif defined(TEXTURE_RANDOM)
+                    #elif defined(TEXTURE_RANDOM)
                     const float2 dbgNoiseUV = _DebugPixelUV * _NoiseTilingOffset.xy + _NoiseTilingOffset.zw;
                     const float dbgRand = tex2D(_NoiseTex, dbgNoiseUV).r;
-#else
+                    #else
                     const float dbgRand = 0;
-#endif
+                    #endif
 
-                    const float t = (rayIdx + dbgRand) / _Samples * float(3.1415926 * 2.0);
-                    const float2 dir = float2(cos(t), sin(t)) / _Aspect.xy;
+                    // 一次循环遍历所有光线: 边走边累 sumMag / sumContrib, 记录 thisRay 的细节
+                    float  sumMag     = 0;
+                    float3 sumContrib = float3(0, 0, 0);
 
-                    float2 uvPos = _DebugPixelUV;
-                    float used = STEPS;
-                    float didHit = 0;
-                    float4 hitC = float4(0, 0, 0, 0);
+                    // thisRay 默认值 = miss 语义
+                    float  thisHit     = 0;
+                    float3 thisContrib = _AmbientColor;
+                    float  thisAtten   = 0;
+                    float  thisUsed    = STEPS;
+                    float2 thisDir     = float2(0, 0);
 
-                    const float4 c0 = tex2D(_ColorTex, uvPos).rgba;
+                    [loop]
+                    for (int r = 0; r < N; r++)
+                    {
+                        const float  tR    = (r + dbgRand) / float(N) * float(3.1415926 * 2.0);
+                        const float2 dirR  = float2(cos(tR), sin(tR));   // 原始单位方向
+                        const float2 dirRA = dirR / _Aspect.xy;          // ray marching 用的 aspect 修正方向
+
+                        // 每条光线的局部变量都在迭代内显式声明 + 初始化, 避免编译器跨迭代复用
+                        float2 uvP     = _DebugPixelUV;
+                        float  usedR   = STEPS;
+                        float  hitR    = 0;
+                        float  attenR  = 0;
+                        float3 contribR = _AmbientColor;   // miss 默认贡献 = 环境光
+
+                        const float4 c0 = tex2D(_ColorTex, uvP).rgba;
+                        if (c0.a > 0)
+                        {
+                            // 起点就在光源上 (原 Trace 的 early-exit 路径)
+                            usedR    = 0;
+                            hitR     = 1;
+                            attenR   = 1;
+                            contribR = c0.rgb / c0.a;
+                        }
+                        else
+                        {
+                            uvP += dirRA * tex2D(_DistTex, uvP).rr;
+                            if (NotUVSpace(uvP))
+                            {
+                                usedR = 1;
+                                // miss; contribR 保持 _AmbientColor
+                            }
+                            else
+                            {
+                                [loop]
+                                for (int n = 1; n < STEPS; n++)
+                                {
+                                    const float4 cn = tex2D(_ColorTex, uvP).rgba;
+                                    if (cn.a > 0)
+                                    {
+                                        usedR    = n;
+                                        hitR     = 1;
+                                        attenR   = GTRAttenuation(
+                                            (_DebugPixelUV - uvP) * _Aspect.xy,
+                                            _LightFalloffAlpha * cn.a,
+                                            _LightFalloffGamma
+                                        );
+                                        contribR = cn.rgb * attenR;
+                                        break;
+                                    }
+                                    uvP += dirRA * tex2D(_DistTex, uvP).rr;
+                                    if (NotUVSpace(uvP))
+                                    {
+                                        usedR = n;
+                                        break;
+                                    }
+                                }
+                                // 自然走完循环未命中: contribR 保持 _AmbientColor
+                            }
+                        }
+
+                        sumMag     += length(contribR);
+                        sumContrib += contribR;
+
+                        if (r == rayIdx)
+                        {
+                            thisHit     = hitR;
+                            thisContrib = contribR;
+                            thisAtten   = attenR;
+                            thisUsed    = usedR;
+                            thisDir     = dirR;
+                        }
+                    }
+
+                    const float thisMag = length(thisContrib);
+                    const float share   = sumMag > 1e-6 ? thisMag / sumMag : 0;
+
+                    if (band == 0) return float4(thisHit, thisHit, thisHit, 1);
+                    if (band == 1) return float4(thisContrib, 1);
+                    if (band == 2) return float4(share, share, share, 1);
+                    if (band == 3) { const float s = thisUsed / float(STEPS); return float4(s, s, s, 1); }
+                    if (band == 4) return float4(thisAtten, thisAtten, thisAtten, 1);
+                    if (band == 5) return float4(thisDir.x * 0.5 + 0.5, thisDir.y * 0.5 + 0.5, 0, 1);
+                    if (band == 6)
+                    {
+                        // 最终像素颜色: 与正常 Frag 路径完全一致
+                        //   result = _AmbientColor + sum(per-ray contribR); result /= N; result *= _Intensity
+                        const float3 finalRGB = (_AmbientColor + sumContrib) / float(N) * _Intensity;
+                        return float4(finalRGB, 1);
+                    }
+
+                    return float4(0, 0, 0, 1);
+                }
+
+#elif defined(DEBUG_GTRBREAKDOWN)
+                // GTRBreakdown: 把 _DebugPixelUV 这个像素的 GTR 输入分量铺满屏幕
+                //   - X 方向: ray 编号 0 .. _Samples-1 (与 PixelInspector 列对齐)
+                //   - Y 方向: 7 个条带
+                //   - 7 个条带 (从 Y=0 即屏幕顶端往下):
+                //       0: hit/miss (1/0) sanity
+                //       1: x = length((uv - hitUV) * aspect)  [灰度, 原值]
+                //       2: cn.a  [灰度, 0..1, bilinear 命中点 alpha]
+                //       3: eff_alpha = _LightFalloffAlpha * cn.a  [灰度]
+                //       4: x / eff_alpha  [灰度, saturate 到 [0,1]]
+                //       5: GTR 最终值  [灰度, 0..1]
+                //       6: 命中 UV (R=hitUV.x, G=hitUV.y)
+                //
+                //   用法: RenderDoc 抓两次 (相机移动前/后), 对比同一列各 band 的精确数值;
+                //         band 1 跳 → 是命中距离在跳
+                //         band 2 跳 → 是 _ColorTex bilinear 出来的 alpha 在跳
+                //         band 6 跳 → 是命中点位置 (texel) 本身在跳
+                {
+                    const int totalBands = 7;
+                    const int N = clamp((int)_Samples, 1, 64);
+                    const int rayIdx = (int)floor(i.uv.x * N);
+                    const int band = (int)floor(i.uv.y * totalBands);
+
+                    if (rayIdx < 0 || rayIdx >= N)
+                        return float4(0, 0, 0, 1);
+                    if (band < 0 || band >= totalBands)
+                        return float4(0, 0, 0, 1);
+
+                    // _DebugPixelUV 处的 rand (按其屏幕坐标采样, 与正常渲染一致)
+                    #if defined(FRAGMENT_RANDOM)
+                    const float2 dbgNoiseUV = _DebugPixelUV * _NoiseTilingOffset.xy + _NoiseTilingOffset.zw;
+                    const float dbgRand = GetShaderNoise(dbgNoiseUV);
+                    #elif defined(TEXTURE_RANDOM)
+                    const float2 dbgNoiseUV = _DebugPixelUV * _NoiseTilingOffset.xy + _NoiseTilingOffset.zw;
+                    const float dbgRand = tex2D(_NoiseTex, dbgNoiseUV).r;
+                    #else
+                    const float dbgRand = 0;
+                    #endif
+
+                    // 只重做 rayIdx 这一条光线的 ray-march, 拿到它的 GTR 输入分量
+                    const float  tR    = (rayIdx + dbgRand) / float(N) * float(3.1415926 * 2.0);
+                    const float2 dirR  = float2(cos(tR), sin(tR));
+                    const float2 dirRA = dirR / _Aspect.xy;
+
+                    float2 uvP    = _DebugPixelUV;
+                    float  hitR   = 0;
+                    float  hitA   = 0;          // cn.a 命中点 alpha
+                    float2 hitUV  = float2(0, 0);
+
+                    const float4 c0 = tex2D(_ColorTex, uvP).rgba;
                     if (c0.a > 0)
                     {
-                        used = 0;
-                        didHit = 1;
-                        hitC = c0;
+                        // 起点就在光源上, 距离 = 0, alpha = 起点 alpha
+                        hitR  = 1;
+                        hitA  = c0.a;
+                        hitUV = uvP;
                     }
                     else
                     {
-                        uvPos += dir * tex2D(_DistTex, uvPos).rr;
-                        if (NotUVSpace(uvPos))
-                        {
-                            used = 1;
-                        }
-                        else
+                        uvP += dirRA * tex2D(_DistTex, uvP).rr;
+                        if (!NotUVSpace(uvP))
                         {
                             [loop]
                             for (int n = 1; n < STEPS; n++)
                             {
-                                const float4 cn = tex2D(_ColorTex, uvPos).rgba;
+                                const float4 cn = tex2D(_ColorTex, uvP).rgba;
                                 if (cn.a > 0)
                                 {
-                                    used = n;
-                                    didHit = 1;
-                                    hitC = cn;
+                                    hitR  = 1;
+                                    hitA  = cn.a;
+                                    hitUV = uvP;
                                     break;
                                 }
-                                uvPos += dir * tex2D(_DistTex, uvPos).rr;
-                                if (NotUVSpace(uvPos))
-                                {
-                                    used = n;
+                                uvP += dirRA * tex2D(_DistTex, uvP).rr;
+                                if (NotUVSpace(uvP))
                                     break;
-                                }
                             }
                         }
                     }
 
-                    float attenuation = 0;
-                    float3 contribution = float3(0, 0, 0);
-                    if (didHit > 0)
+                    if (band == 0) return float4(hitR, hitR, hitR, 1);
+                    if (hitR < 0.5)
                     {
-                        attenuation = GTRAttenuation(
-                            (_DebugPixelUV - uvPos) * _Aspect.xy,
-                            _LightFalloffAlpha * hitC.a,
-                            _LightFalloffGamma
-                        );
-                        contribution = hitC.rgb * attenuation;
+                        // miss: 距离/alpha/GTR 都没有意义, 全显黑, 但 band 6 仍显示当前 uvP 帮助看出射范围
+                        if (band == 6) return float4(uvP.x, uvP.y, 0, 1);
+                        return float4(0, 0, 0, 1);
                     }
 
-                    // 条带分发
-                    if (band == 0) return float4(didHit, didHit, didHit, 1);                              // 0: hit/miss
-                    if (band == 1) return float4(hitC.a, hitC.a, hitC.a, 1);                              // 1: bilinear hit alpha (关键嫌疑)
-                    if (band == 2) return float4(attenuation, attenuation, attenuation, 1);                // 2: attenuation
-                    if (band == 3) return float4(hitC.r, hitC.r, hitC.r, 1);                              // 3: hit color.r
-                    if (band == 4) return float4(hitC.g, hitC.g, hitC.g, 1);                              // 4: hit color.g
-                    if (band == 5) return float4(hitC.b, hitC.b, hitC.b, 1);                              // 5: hit color.b
-                    if (band == 6) { float s = used / float(STEPS); return float4(s, s, s, 1); }          // 6: 终止步数 / STEPS
-                    if (band == 7) { float m = length(contribution); return float4(m, m, m, 1); }         // 7: 贡献度
+                    const float  x        = length((_DebugPixelUV - hitUV) * _Aspect.xy);
+                    const float  effAlpha = _LightFalloffAlpha * hitA;
+                    const float  ratio    = effAlpha > 1e-8 ? (x / effAlpha) : 1e8;
+                    const float  gtr      = 1.0 / pow(1.0 + pow(ratio, 2.0), _LightFalloffGamma);
+
+                    if (band == 1) return float4(x, x, x, 1);
+                    if (band == 2) return float4(hitA, hitA, hitA, 1);
+                    if (band == 3) return float4(effAlpha, effAlpha, effAlpha, 1);
+                    if (band == 4) { const float r = saturate(ratio); return float4(r, r, r, 1); }
+                    if (band == 5) return float4(gtr, gtr, gtr, 1);
+                    if (band == 6) return float4(hitUV.x, hitUV.y, 0, 1);
 
                     return float4(0, 0, 0, 1);
                 }

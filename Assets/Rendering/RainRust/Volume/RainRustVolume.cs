@@ -70,5 +70,6 @@ namespace RainRust.Rendering
         HitFraction = 6,
         Sdf = 7,
         PixelInspector = 8,
+        GTRBreakdown = 9,
     }
 }

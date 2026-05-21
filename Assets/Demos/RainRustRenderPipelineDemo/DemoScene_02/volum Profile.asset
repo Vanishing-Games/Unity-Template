@@ -46,7 +46,7 @@ MonoBehaviour:
     m_Value: 1
   lightSamples:
     m_OverrideState: 1
-    m_Value: 32
+    m_Value: 8
   lightIntensity:
     m_OverrideState: 1
     m_Value: 8.28
@@ -60,11 +60,11 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
   debugMode:
-    m_OverrideState: 0
-    m_Value: 8
+    m_OverrideState: 1
+    m_Value: 9
   debugPixelUV:
     m_OverrideState: 1
-    m_Value: {x: 0.5, y: 0.5}
+    m_Value: {x: 0.5943, y: 0.4139}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
