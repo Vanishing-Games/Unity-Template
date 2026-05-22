@@ -33,19 +33,23 @@ Shader "Hidden/RainRust/RayTracing"
             #pragma vertex Vert
             #pragma fragment Frag
 
-            TEXTURE2D(_ColorTex); // 场景颜色纹理
+            // _ColorTex 语义: straight alpha (Unpremultiply pass 之后)
+            //   rgb = lightColor (不被 alpha 加权污染)
+            //   a   = 覆盖率/不透明度 mask
+            TEXTURE2D(_ColorTex);
             SAMPLER(sampler_ColorTex);   // 跟随纹理 import filter (bilinear)
-            // sampler_PointClamp 由 URP Core.hlsl 提供; 仅用于 GTR 的 cn.a 输入, 避免次像素 bilinear 抖动
+            // sampler_PointClamp 由 URP Core.hlsl 提供, 用于 GTRBreakdown 诊断
             sampler2D _DistTex; // 场景距离纹理 (SDF)
             sampler2D _NoiseTex; // 随机噪声纹理
 
             float2 _Aspect; // 16:9 为 (1, 0.5625)
             float4 _NoiseTilingOffset; // 噪声纹理的缩放和偏移 (tiling.x, tiling.y, offset.x, offset.y)
-            
+
             float  _Samples; // 光线采样数
             float _Intensity; // 光照强度
             float _LightFalloffAlpha; // GTR 衰减 alpha 参数
             float _LightFalloffGamma; // GTR 衰减 gamma 参数
+            float _LightHitThreshold; // 命中判定: cn.a > 阈值 视为命中光源 (TODO(vanish): RainRustLighting.shader 中clip 阈值是Hard Code)
             float3 _AmbientColor; // 环境光颜色
 
             // 噪声相关参数
@@ -80,23 +84,22 @@ Shader "Hidden/RainRust/RayTracing"
             {
                 float2 uvPos = uv; // 当前采样坐标
 
-                // 若起始点已在光源上, 直接返回颜色
-                const float4 color = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,uv).rgba;
-                if (color.a > 0)
-                    return color.rgb / color.a;
-                
+                // 若起始点已在光源上, 直接返回光源色
+                const float4 color = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uv).rgba;
+                if (color.a > _LightHitThreshold)
+                    return color.rgb;
+
                 // 步进
                 uvPos += dir * tex2D(_DistTex, uvPos).rr;
                 if (NotUVSpace(uvPos))
                     return _AmbientColor;
-                
+
                 [unroll]
                 for (int n = 1; n < STEPS; n++)
                 {
                     const float4 color = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvPos).rgba;
-                    if (color.a > 0)
+                    if (color.a > _LightHitThreshold)
                     {
-                        // GTR 衰减
                         float attenuation = GTRAttenuation((uv - uvPos) * _Aspect.xy, _LightFalloffAlpha, _LightFalloffGamma);
                         return color.rgb * attenuation;
                     }
@@ -185,8 +188,8 @@ Shader "Hidden/RainRust/RayTracing"
 #elif defined(DEBUG_EARLYEXIT)
                 // H2: 红色 = 走 early-exit 直接返回光源色; 暗绿 = 走 ray marching 路径
                 {
-                    const float ea = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,i.uv).a;
-                    return (ea > 0) ? float4(1, 0, 0, 1) : float4(0, 0.25, 0, 1);
+                    const float ea = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, i.uv).a;
+                    return (ea > _LightHitThreshold) ? float4(1, 0, 0, 1) : float4(0, 0.25, 0, 1);
                 }
 
 #elif defined(DEBUG_SDF)
@@ -201,8 +204,8 @@ Shader "Hidden/RainRust/RayTracing"
                 //   - X 方向: ray 编号 0 .. _Samples-1
                 //   - Y 方向: 9 个条带 (从 Y=0 即屏幕顶端往下):
                 //       0: hit/miss (1/0)
-                //       1: 命中光源原色 (cn.rgb / cn.a, 无衰减; miss 显黑)
-                //       2: contribution RGB  (color*atten | color/alpha | _AmbientColor)
+                //       1: 命中光源原色 cn.rgb (straight alpha 下直接 = lightColor; miss 显黑)
+                //       2: contribution RGB  (color*atten | color | _AmbientColor)
                 //       3: share = length(thisContrib) / sum_k length(contrib_k)
                 //       4: used / STEPS
                 //       5: GTR attenuation
@@ -262,15 +265,15 @@ Shader "Hidden/RainRust/RayTracing"
                         float2 hitUVR     = float2(0, 0);
                         float  hasHitUVR  = 0;
 
-                        const float4 c0 = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,uvP).rgba;
-                        if (c0.a > 0)
+                        const float4 c0 = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvP).rgba;
+                        if (c0.a > _LightHitThreshold)
                         {
                             // 起点就在光源上 (原 Trace 的 early-exit 路径)
                             usedR     = 0;
                             hitR      = 1;
                             attenR    = 1;
-                            contribR  = c0.rgb / c0.a;
-                            lightColR = c0.rgb / c0.a;
+                            contribR  = c0.rgb;
+                            lightColR = c0.rgb;
                             hitUVR    = uvP;
                             hasHitUVR = 1;
                         }
@@ -288,7 +291,7 @@ Shader "Hidden/RainRust/RayTracing"
                                 for (int n = 1; n < STEPS; n++)
                                 {
                                     const float4 cn = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvP).rgba;
-                                    if (cn.a > 0)
+                                    if (cn.a > _LightHitThreshold)
                                     {
                                         usedR     = n;
                                         hitR      = 1;
@@ -298,7 +301,7 @@ Shader "Hidden/RainRust/RayTracing"
                                             _LightFalloffGamma
                                         );
                                         contribR  = cn.rgb * attenR;
-                                        lightColR = cn.rgb / cn.a;
+                                        lightColR = cn.rgb;
                                         hitUVR    = uvP;
                                         hasHitUVR = 1;
                                         break;
@@ -404,7 +407,7 @@ Shader "Hidden/RainRust/RayTracing"
 
                     // 注意: hit 判定仍走 bilinear (与正常渲染一致), 但 hitA 用 point 采样
                     const float4 c0 = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvP).rgba;
-                    if (c0.a > 0)
+                    if (c0.a > _LightHitThreshold)
                     {
                         hitR  = 1;
                         hitA  = SAMPLE_TEXTURE2D(_ColorTex, sampler_PointClamp, uvP).a;
@@ -419,7 +422,7 @@ Shader "Hidden/RainRust/RayTracing"
                             for (int n = 1; n < STEPS; n++)
                             {
                                 const float4 cn = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvP).rgba;
-                                if (cn.a > 0)
+                                if (cn.a > _LightHitThreshold)
                                 {
                                     hitR  = 1;
                                     hitA  = SAMPLE_TEXTURE2D(_ColorTex, sampler_PointClamp, uvP).a;
@@ -472,8 +475,8 @@ Shader "Hidden/RainRust/RayTracing"
                         float used = STEPS;
                         float didHit = 0;
 
-                        const float4 c0 = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,uvPos).rgba;
-                        if (c0.a > 0)
+                        const float4 c0 = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvPos).rgba;
+                        if (c0.a > _LightHitThreshold)
                         {
                             used = 0;
                             didHit = 1;
@@ -485,8 +488,8 @@ Shader "Hidden/RainRust/RayTracing"
                             {
                                 uvPos += dir * tex2D(_DistTex, uvPos).rr;
                                 if (NotUVSpace(uvPos)) { used = n; break; }
-                                const float4 cn = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,uvPos).rgba;
-                                if (cn.a > 0) { used = n; didHit = 1; break; }
+                                const float4 cn = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvPos).rgba;
+                                if (cn.a > _LightHitThreshold) { used = n; didHit = 1; break; }
                             }
                         }
 
