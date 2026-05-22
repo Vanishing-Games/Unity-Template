@@ -33,7 +33,9 @@ Shader "Hidden/RainRust/RayTracing"
             #pragma vertex Vert
             #pragma fragment Frag
 
-            sampler2D _ColorTex; // 场景颜色纹理
+            TEXTURE2D(_ColorTex); // 场景颜色纹理
+            SAMPLER(sampler_ColorTex);   // 跟随纹理 import filter (bilinear)
+            // sampler_PointClamp 由 URP Core.hlsl 提供; 仅用于 GTR 的 cn.a 输入, 避免次像素 bilinear 抖动
             sampler2D _DistTex; // 场景距离纹理 (SDF)
             sampler2D _NoiseTex; // 随机噪声纹理
 
@@ -79,7 +81,7 @@ Shader "Hidden/RainRust/RayTracing"
                 float2 uvPos = uv; // 当前采样坐标
 
                 // 若起始点已在光源上, 直接返回颜色
-                const float4 color = tex2D(_ColorTex, uv).rgba;
+                const float4 color = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,uv).rgba;
                 if (color.a > 0)
                     return color.rgb / color.a;
                 
@@ -91,11 +93,11 @@ Shader "Hidden/RainRust/RayTracing"
                 [unroll]
                 for (int n = 1; n < STEPS; n++)
                 {
-                    const float4 color = tex2D(_ColorTex, uvPos).rgba;
+                    const float4 color = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvPos).rgba;
                     if (color.a > 0)
                     {
-                        // 使用 GTR 衰减
-                        float attenuation = GTRAttenuation((uv - uvPos) * _Aspect.xy, _LightFalloffAlpha * color.a, _LightFalloffGamma);
+                        // GTR 衰减
+                        float attenuation = GTRAttenuation((uv - uvPos) * _Aspect.xy, _LightFalloffAlpha, _LightFalloffGamma);
                         return color.rgb * attenuation;
                     }
 
@@ -176,14 +178,14 @@ Shader "Hidden/RainRust/RayTracing"
 #elif defined(DEBUG_COLORALPHA)
                 // H2: 直接显示 _ColorTex 的 alpha 通道, 让你看到光源边缘是否有部分覆盖
                 {
-                    const float a = tex2D(_ColorTex, i.uv).a;
+                    const float a = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,i.uv).a;
                     return float4(a, a, a, 1);
                 }
 
 #elif defined(DEBUG_EARLYEXIT)
                 // H2: 红色 = 走 early-exit 直接返回光源色; 暗绿 = 走 ray marching 路径
                 {
-                    const float ea = tex2D(_ColorTex, i.uv).a;
+                    const float ea = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,i.uv).a;
                     return (ea > 0) ? float4(1, 0, 0, 1) : float4(0, 0.25, 0, 1);
                 }
 
@@ -197,17 +199,18 @@ Shader "Hidden/RainRust/RayTracing"
 #elif defined(DEBUG_PIXELINSPECTOR)
                 // PixelInspector: 把 _DebugPixelUV 这个像素的全部 ray 数据铺满屏幕
                 //   - X 方向: ray 编号 0 .. _Samples-1
-                //   - Y 方向: 6 个条带
-                //   - 7 个条带 (从 Y=0 即屏幕顶端往下):
+                //   - Y 方向: 9 个条带 (从 Y=0 即屏幕顶端往下):
                 //       0: hit/miss (1/0)
-                //       1: contribution RGB  (color*atten | color/alpha | _AmbientColor)
-                //       2: share = length(thisContrib) / sum_k length(contrib_k)
-                //       3: used / STEPS
-                //       4: GTR attenuation
-                //       5: 光线方向 (R=cos*0.5+0.5, G=sin*0.5+0.5)
-                //       6: 最终像素颜色 (与正常 Frag 一致, 所有列应相同)
+                //       1: 命中光源原色 (cn.rgb / cn.a, 无衰减; miss 显黑)
+                //       2: contribution RGB  (color*atten | color/alpha | _AmbientColor)
+                //       3: share = length(thisContrib) / sum_k length(contrib_k)
+                //       4: used / STEPS
+                //       5: GTR attenuation
+                //       6: 光线方向 (R=cos*0.5+0.5, G=sin*0.5+0.5)
+                //       7: 最终像素颜色 (与正常 Frag 一致, 所有列应相同)
+                //       8: 命中光源 UV (R=hitUV.x, G=hitUV.y; miss 显纯蓝 0,0,1)
                 {
-                    const int totalBands = 7;
+                    const int totalBands = 9;
                     const int N = clamp((int)_Samples, 1, 64);
                     const int rayIdx = (int)floor(i.uv.x * N);
                     const int band = (int)floor(i.uv.y * totalBands);
@@ -233,11 +236,14 @@ Shader "Hidden/RainRust/RayTracing"
                     float3 sumContrib = float3(0, 0, 0);
 
                     // thisRay 默认值 = miss 语义
-                    float  thisHit     = 0;
-                    float3 thisContrib = _AmbientColor;
-                    float  thisAtten   = 0;
-                    float  thisUsed    = STEPS;
-                    float2 thisDir     = float2(0, 0);
+                    float  thisHit       = 0;
+                    float3 thisLightCol  = float3(0, 0, 0);
+                    float3 thisContrib   = _AmbientColor;
+                    float  thisAtten     = 0;
+                    float  thisUsed      = STEPS;
+                    float2 thisDir       = float2(0, 0);
+                    float2 thisHitUV     = float2(0, 0);
+                    float  thisHasHitUV  = 0;
 
                     [loop]
                     for (int r = 0; r < N; r++)
@@ -247,20 +253,26 @@ Shader "Hidden/RainRust/RayTracing"
                         const float2 dirRA = dirR / _Aspect.xy;          // ray marching 用的 aspect 修正方向
 
                         // 每条光线的局部变量都在迭代内显式声明 + 初始化, 避免编译器跨迭代复用
-                        float2 uvP     = _DebugPixelUV;
-                        float  usedR   = STEPS;
-                        float  hitR    = 0;
-                        float  attenR  = 0;
-                        float3 contribR = _AmbientColor;   // miss 默认贡献 = 环境光
+                        float2 uvP        = _DebugPixelUV;
+                        float  usedR      = STEPS;
+                        float  hitR       = 0;
+                        float  attenR     = 0;
+                        float3 contribR   = _AmbientColor;   // miss 默认贡献 = 环境光
+                        float3 lightColR  = float3(0, 0, 0); // 命中光源原色 (无衰减); miss 显黑
+                        float2 hitUVR     = float2(0, 0);
+                        float  hasHitUVR  = 0;
 
-                        const float4 c0 = tex2D(_ColorTex, uvP).rgba;
+                        const float4 c0 = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,uvP).rgba;
                         if (c0.a > 0)
                         {
                             // 起点就在光源上 (原 Trace 的 early-exit 路径)
-                            usedR    = 0;
-                            hitR     = 1;
-                            attenR   = 1;
-                            contribR = c0.rgb / c0.a;
+                            usedR     = 0;
+                            hitR      = 1;
+                            attenR    = 1;
+                            contribR  = c0.rgb / c0.a;
+                            lightColR = c0.rgb / c0.a;
+                            hitUVR    = uvP;
+                            hasHitUVR = 1;
                         }
                         else
                         {
@@ -275,17 +287,20 @@ Shader "Hidden/RainRust/RayTracing"
                                 [loop]
                                 for (int n = 1; n < STEPS; n++)
                                 {
-                                    const float4 cn = tex2D(_ColorTex, uvP).rgba;
+                                    const float4 cn = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvP).rgba;
                                     if (cn.a > 0)
                                     {
-                                        usedR    = n;
-                                        hitR     = 1;
-                                        attenR   = GTRAttenuation(
+                                        usedR     = n;
+                                        hitR      = 1;
+                                        attenR    = GTRAttenuation(
                                             (_DebugPixelUV - uvP) * _Aspect.xy,
-                                            _LightFalloffAlpha * cn.a,
+                                            _LightFalloffAlpha,
                                             _LightFalloffGamma
                                         );
-                                        contribR = cn.rgb * attenR;
+                                        contribR  = cn.rgb * attenR;
+                                        lightColR = cn.rgb / cn.a;
+                                        hitUVR    = uvP;
+                                        hasHitUVR = 1;
                                         break;
                                     }
                                     uvP += dirRA * tex2D(_DistTex, uvP).rr;
@@ -304,11 +319,14 @@ Shader "Hidden/RainRust/RayTracing"
 
                         if (r == rayIdx)
                         {
-                            thisHit     = hitR;
-                            thisContrib = contribR;
-                            thisAtten   = attenR;
-                            thisUsed    = usedR;
-                            thisDir     = dirR;
+                            thisHit      = hitR;
+                            thisLightCol = lightColR;
+                            thisContrib  = contribR;
+                            thisAtten    = attenR;
+                            thisUsed     = usedR;
+                            thisDir      = dirR;
+                            thisHitUV    = hitUVR;
+                            thisHasHitUV = hasHitUVR;
                         }
                     }
 
@@ -316,17 +334,24 @@ Shader "Hidden/RainRust/RayTracing"
                     const float share   = sumMag > 1e-6 ? thisMag / sumMag : 0;
 
                     if (band == 0) return float4(thisHit, thisHit, thisHit, 1);
-                    if (band == 1) return float4(thisContrib, 1);
-                    if (band == 2) return float4(share, share, share, 1);
-                    if (band == 3) { const float s = thisUsed / float(STEPS); return float4(s, s, s, 1); }
-                    if (band == 4) return float4(thisAtten, thisAtten, thisAtten, 1);
-                    if (band == 5) return float4(thisDir.x * 0.5 + 0.5, thisDir.y * 0.5 + 0.5, 0, 1);
-                    if (band == 6)
+                    if (band == 1) return float4(thisLightCol, 1);
+                    if (band == 2) return float4(thisContrib, 1);
+                    if (band == 3) return float4(share, share, share, 1);
+                    if (band == 4) { const float s = thisUsed / float(STEPS); return float4(s, s, s, 1); }
+                    if (band == 5) return float4(thisAtten, thisAtten, thisAtten, 1);
+                    if (band == 6) return float4(thisDir.x * 0.5 + 0.5, thisDir.y * 0.5 + 0.5, 0, 1);
+                    if (band == 7)
                     {
                         // 最终像素颜色: 与正常 Frag 路径完全一致
                         //   result = _AmbientColor + sum(per-ray contribR); result /= N; result *= _Intensity
                         const float3 finalRGB = (_AmbientColor + sumContrib) / float(N) * _Intensity;
                         return float4(finalRGB, 1);
+                    }
+                    if (band == 8)
+                    {
+                        if (thisHasHitUV < 0.5)
+                            return float4(0, 0, 1, 1); // miss: 纯蓝
+                        return float4(thisHitUV.x, thisHitUV.y, 0, 1);
                     }
 
                     return float4(0, 0, 0, 1);
@@ -344,11 +369,7 @@ Shader "Hidden/RainRust/RayTracing"
                 //       4: x / eff_alpha  [灰度, saturate 到 [0,1]]
                 //       5: GTR 最终值  [灰度, 0..1]
                 //       6: 命中 UV (R=hitUV.x, G=hitUV.y)
-                //
-                //   用法: RenderDoc 抓两次 (相机移动前/后), 对比同一列各 band 的精确数值;
-                //         band 1 跳 → 是命中距离在跳
-                //         band 2 跳 → 是 _ColorTex bilinear 出来的 alpha 在跳
-                //         band 6 跳 → 是命中点位置 (texel) 本身在跳
+
                 {
                     const int totalBands = 7;
                     const int N = clamp((int)_Samples, 1, 64);
@@ -381,12 +402,12 @@ Shader "Hidden/RainRust/RayTracing"
                     float  hitA   = 0;          // cn.a 命中点 alpha
                     float2 hitUV  = float2(0, 0);
 
-                    const float4 c0 = tex2D(_ColorTex, uvP).rgba;
+                    // 注意: hit 判定仍走 bilinear (与正常渲染一致), 但 hitA 用 point 采样
+                    const float4 c0 = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvP).rgba;
                     if (c0.a > 0)
                     {
-                        // 起点就在光源上, 距离 = 0, alpha = 起点 alpha
                         hitR  = 1;
-                        hitA  = c0.a;
+                        hitA  = SAMPLE_TEXTURE2D(_ColorTex, sampler_PointClamp, uvP).a;
                         hitUV = uvP;
                     }
                     else
@@ -397,11 +418,11 @@ Shader "Hidden/RainRust/RayTracing"
                             [loop]
                             for (int n = 1; n < STEPS; n++)
                             {
-                                const float4 cn = tex2D(_ColorTex, uvP).rgba;
+                                const float4 cn = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex, uvP).rgba;
                                 if (cn.a > 0)
                                 {
                                     hitR  = 1;
-                                    hitA  = cn.a;
+                                    hitA  = SAMPLE_TEXTURE2D(_ColorTex, sampler_PointClamp, uvP).a;
                                     hitUV = uvP;
                                     break;
                                 }
@@ -421,13 +442,13 @@ Shader "Hidden/RainRust/RayTracing"
                     }
 
                     const float  x        = length((_DebugPixelUV - hitUV) * _Aspect.xy);
-                    const float  effAlpha = _LightFalloffAlpha * hitA;
+                    const float  effAlpha = _LightFalloffAlpha; // 不再 * hitA
                     const float  ratio    = effAlpha > 1e-8 ? (x / effAlpha) : 1e8;
                     const float  gtr      = 1.0 / pow(1.0 + pow(ratio, 2.0), _LightFalloffGamma);
 
                     if (band == 1) return float4(x, x, x, 1);
-                    if (band == 2) return float4(hitA, hitA, hitA, 1);
-                    if (band == 3) return float4(effAlpha, effAlpha, effAlpha, 1);
+                    if (band == 2) return float4(hitA, hitA, hitA, 1); // 仅 sanity, 不再喂 GTR
+                    if (band == 3) return float4(effAlpha, effAlpha, effAlpha, 1); // 常数: _LightFalloffAlpha
                     if (band == 4) { const float r = saturate(ratio); return float4(r, r, r, 1); }
                     if (band == 5) return float4(gtr, gtr, gtr, 1);
                     if (band == 6) return float4(hitUV.x, hitUV.y, 0, 1);
@@ -451,7 +472,7 @@ Shader "Hidden/RainRust/RayTracing"
                         float used = STEPS;
                         float didHit = 0;
 
-                        const float4 c0 = tex2D(_ColorTex, uvPos).rgba;
+                        const float4 c0 = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,uvPos).rgba;
                         if (c0.a > 0)
                         {
                             used = 0;
@@ -464,7 +485,7 @@ Shader "Hidden/RainRust/RayTracing"
                             {
                                 uvPos += dir * tex2D(_DistTex, uvPos).rr;
                                 if (NotUVSpace(uvPos)) { used = n; break; }
-                                const float4 cn = tex2D(_ColorTex, uvPos).rgba;
+                                const float4 cn = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,uvPos).rgba;
                                 if (cn.a > 0) { used = n; didHit = 1; break; }
                             }
                         }
@@ -504,7 +525,7 @@ Shader "Hidden/RainRust/RayTracing"
                 return float4(result, 1);
 
                 #elif defined(OBJECTS_MASK_ALPHA)
-                const float mask = tex2D(_ColorTex, i.uv).a;
+                const float mask = SAMPLE_TEXTURE2D(_ColorTex, sampler_ColorTex,i.uv).a;
                 return float4(result, mask);
 
                 #elif defined(NORMALIZED_ALPHA)
