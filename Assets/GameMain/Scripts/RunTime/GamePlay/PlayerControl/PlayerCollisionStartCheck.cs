@@ -45,11 +45,11 @@ namespace GameMain.RunTime
             }
 
             //左右贴墙判断
-            //if (mPCComponent.CurrentState == PlayerStateMachine.NormalState)
-            //{
-            //    ByWallCheck(mPCComponent.mTranform.position, Vector2.right);
-            //    ByWallCheck(mPCComponent.mTranform.position, Vector2.left);
-            //}
+            if (mPCComponent.CurrentState == PlayerStateMachine.NormalState)
+            {
+                ByWallCheck(mPCComponent.mTranform.position, Vector2.right);
+                ByWallCheck(mPCComponent.mTranform.position, Vector2.left);
+            }
 
             if (
                 (
@@ -66,8 +66,18 @@ namespace GameMain.RunTime
                 );
             }
 
+            //按下键脱离抓住状态
             if (
                 mPCComponent.InputY <= -0.5f
+                && mPCComponent.CurrentState == PlayerStateMachine.GrabState
+            )
+            {
+                SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
+            }
+
+            //下滑落地切换为常态
+            if (
+                mPCComponent.IsOnGround
                 && mPCComponent.CurrentState == PlayerStateMachine.GrabState
             )
             {

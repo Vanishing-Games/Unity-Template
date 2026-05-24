@@ -42,8 +42,6 @@ ScriptedImporter:
     _asset: {instanceID: 0}
   - _key: Ae_MovePlatformerPathPoint
     _asset: {instanceID: 0}
-  - _key: Ae_CameraOverrideArea
-    _asset: {instanceID: 0}
   - _key: Ae_SnakeHoney
     _asset: {instanceID: 0}
   - _key: Ae_SnakeDoor
@@ -69,6 +67,10 @@ ScriptedImporter:
   - _key: Ae_Mat_light_s
     _asset: {instanceID: 0}
   - _key: Ae_Mat_MineLight
+    _asset: {instanceID: 0}
+  - _key: Ae_Mat_Collection
+    _asset: {instanceID: 0}
+  - _key: Ae_CameraOverrideArea
     _asset: {instanceID: 0}
   _enumGenerate: 1
   _enumPath: gm_ldtk_project/GmLDtkEnums.cs

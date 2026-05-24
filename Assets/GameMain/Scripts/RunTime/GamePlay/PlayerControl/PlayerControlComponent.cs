@@ -379,6 +379,9 @@ namespace GameMain.RunTime
         [BoxGroup("抓住相关"), Tooltip("抓住暂留的时长"), ShowInInspector, OdinSerialize]
         public int GrabStayTime { get; set; }
 
+        [BoxGroup("抓住相关"), Tooltip("抓跳强制方向时长"), ShowInInspector, OdinSerialize]
+        public int GrabJumpForceTime { get; set; }
+
         [BoxGroup("抓住相关"), Tooltip("抓住速度阈值"), ShowInInspector, OdinSerialize]
         public int GrabThresholdSpeedY { get; set; }
 
