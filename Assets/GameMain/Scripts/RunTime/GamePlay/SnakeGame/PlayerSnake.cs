@@ -59,6 +59,7 @@ namespace GameMain.RunTime
             m_InputAct = Input.GetButton("Act");
             HandleInput();
             StateManager();
+            m_LastFrameInputDir = m_InputDir;
         }
 
         void StateManager()
@@ -69,30 +70,24 @@ namespace GameMain.RunTime
             //    m_Timer = 0;
             //}
 
+            bool dirJustPressed =
+                m_InputDir != Vector2Int.zero && m_InputDir != m_LastFrameInputDir;
+
             if (m_State == SnakeState.Stay)
             {
                 m_Timer = 0;
-                if (m_InputDir != Vector2.zero)
+                if (dirJustPressed)
                 {
                     m_LastDirection = m_InputDir;
                     m_CurrentDirection = m_InputDir;
                     m_State = SnakeState.Move;
+                    Move();
                 }
             }
             else if (m_State == SnakeState.Move)
             {
-                float moveInterval;
-                if (m_InputDir == m_CurrentDirection)
-                    moveInterval = m_FastMoveInterval;
-                else
-                    moveInterval = m_MoveInterval;
-
-                m_Timer += Time.deltaTime;
-                if (m_Timer >= moveInterval)
-                {
-                    m_Timer = 0;
+                if (dirJustPressed)
                     Move();
-                }
             }
             else if (m_State == SnakeState.Charge)
             {
@@ -187,6 +182,8 @@ namespace GameMain.RunTime
 
         [SerializeField]
         private Vector2Int m_InputDir;
+
+        private Vector2Int m_LastFrameInputDir;
 
         [SerializeField]
         private bool m_InputAct = false;
