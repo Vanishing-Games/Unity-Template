@@ -118,8 +118,12 @@ namespace RainRust.Rendering
                         data.material.SetTexture("_ReceiverDepthTex", data.receiverDepthRt);
 
                         // Debug override: 在任一 RT debug 模式下, 让 composition 直接输出 lightingRt
-                        var debugStack = VolumeManager.instance.stack.GetComponent<RainRustVolume>();
-                        if (debugStack != null && debugStack.debugMode.value != RainRustDebugMode.None)
+                        var debugStack =
+                            VolumeManager.instance.stack.GetComponent<RainRustVolume>();
+                        if (
+                            debugStack != null
+                            && debugStack.debugMode.value != RainRustDebugMode.None
+                        )
                             data.material.EnableKeyword("RAINRUST_DEBUG_OVERRIDE");
                         else
                             data.material.DisableKeyword("RAINRUST_DEBUG_OVERRIDE");

@@ -33,6 +33,9 @@ namespace GameMain.RunTime
             MessageBroker
                 .Global.Subscribe<GamePlaySnakeGameEvents.SnakeSaveEvent>(_ => OnSave())
                 .AddTo(ref m_Disposables);
+            MessageBroker
+                .Global.Subscribe<SaveSystemEvents.SavePreWriteEvent>(OnBeforeWriteSave)
+                .AddTo(ref m_Disposables);
             m_CheckSub =
                 MessageBroker.Global.Subscribe<GamePlaySnakeGameEvents.SnakeCheckPointEvent>(
                     OnCheckPoint
@@ -52,6 +55,8 @@ namespace GameMain.RunTime
             if (m_StartPos == Vector3.zero)
                 m_StartPos = transform.position;
             m_CheckPos = m_StartPos;
+
+            RestoreFromSave();
         }
 
         private void Update()
@@ -328,6 +333,8 @@ namespace GameMain.RunTime
 
             tail.Initialize(Vector2.one);
             tail.gameObject.layer = gameObject.layer;
+            tail.PrefabIndex = randomNum;
+            tail.TailType = type;
 
             RotateTail(tail, towards);
 
@@ -398,6 +405,79 @@ namespace GameMain.RunTime
         private void OnCheckPoint(GamePlaySnakeGameEvents.SnakeCheckPointEvent e)
         {
             m_CheckPos = e.Postion;
+        }
+
+        private void OnBeforeWriteSave(SaveSystemEvents.SavePreWriteEvent evt)
+        {
+            if (evt.IsGlobal)
+                return;
+
+            var data = new PlayerSnakeSaveData { CheckPos = m_CheckPos };
+            if (m_TailContainer != null)
+            {
+                foreach (Transform child in m_TailContainer)
+                {
+                    var tail = child.GetComponent<SnakeTail>();
+                    if (tail == null)
+                        continue;
+                    data.Tails.Add(
+                        new SnakeTailRecord
+                        {
+                            Position = child.position,
+                            Rotation = child.rotation,
+                            Type = tail.TailType,
+                            PrefabIndex = tail.PrefabIndex,
+                        }
+                    );
+                }
+            }
+            VgSaveSystem.Instance.UpdateSaveValue(SaveKeys.PlayerSnake, data);
+        }
+
+        private void RestoreFromSave()
+        {
+            if (!VgSaveSystem.Instance.HasKey(SaveKeys.PlayerSnake))
+                return;
+
+            var data = VgSaveSystem.Instance.GetSaveValue<PlayerSnakeSaveData>(
+                SaveKeys.PlayerSnake
+            );
+            if (data == null)
+                return;
+
+            m_CheckPos = data.CheckPos;
+            transform.position = m_CheckPos + new Vector3(-0.5f, 0.5f, 0);
+
+            if (data.Tails == null)
+                return;
+
+            foreach (var record in data.Tails)
+            {
+                if (
+                    !m_TailLibrary.TryGetValue(record.Type, out var list)
+                    || list == null
+                    || list.Count == 0
+                )
+                    continue;
+                if (record.PrefabIndex < 0 || record.PrefabIndex >= list.Count)
+                    continue;
+
+                var prefab = list[record.PrefabIndex];
+                GameObject obj = Instantiate(
+                    prefab,
+                    record.Position,
+                    record.Rotation,
+                    m_TailContainer
+                );
+                SnakeTail tail = obj.GetComponent<SnakeTail>();
+                if (tail == null)
+                    continue;
+                tail.Initialize(Vector2.one);
+                tail.gameObject.layer = gameObject.layer;
+                tail.PrefabIndex = record.PrefabIndex;
+                tail.TailType = record.Type;
+                tail.SetPermanent();
+            }
         }
 
         private void ResetSnake()

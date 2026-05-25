@@ -18,25 +18,33 @@ namespace GameMain.RunTime
 
         public class StartGameCommand : IGameFlowCommand
         {
-            public StartGameCommand(string chapterId, string levelId, int spawnPointIndex = 0)
+            public StartGameCommand(string savePointName)
             {
-                m_ChapterId = chapterId;
-                m_LevelId = levelId;
-                m_SpawnPointIndex = spawnPointIndex;
+                m_SavePointName = savePointName;
             }
 
             public UniTask Execute()
             {
-                GameCore.Instance.RequestLoadLevelFromSavePoint("Chapter1Start");
+                if (!string.IsNullOrEmpty(m_SavePointName))
+                {
+                    GameCore.Instance.RequestLoadLevelFromSavePoint(m_SavePointName);
+                }
+                else
+                {
+                    GameCore.Instance.RequestLoadLevel(m_ChapterId, m_LevelId);
+                }
                 return UniTask.CompletedTask;
             }
 
             public string CommandName =>
-                $"game:start {m_ChapterId}/{m_LevelId}:{m_SpawnPointIndex}";
+                !string.IsNullOrEmpty(m_SavePointName)
+                    ? $"game:start savepoint:{m_SavePointName}"
+                    : $"game:start {m_ChapterId}/{m_LevelId}:{m_SpawnPointIndex}";
 
             private readonly string m_ChapterId;
             private readonly string m_LevelId;
             private readonly int m_SpawnPointIndex;
+            private readonly string m_SavePointName;
         }
     }
 }

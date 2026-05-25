@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core;
 using Cysharp.Threading.Tasks;
 using LDtkUnity;
+using R3;
 using UnityEngine;
 
 namespace GameMain.RunTime
@@ -20,6 +21,14 @@ namespace GameMain.RunTime
 
         public void RegisterHooks(IGameCoreHookRegistry registry)
         {
+            registry.OnBootStart(async () =>
+            {
+                MessageBroker
+                    .Global.Subscribe<SaveSystemEvents.SavePreWriteEvent>(OnBeforeWriteSave)
+                    .AddTo(ref m_Disposables);
+                await UniTask.CompletedTask;
+            });
+
             registry.OnLoadComplete(async ctx =>
             {
                 if (ctx.Destination == GameFlowState.InLevel)
@@ -39,6 +48,31 @@ namespace GameMain.RunTime
                 EndLevel();
                 await UniTask.CompletedTask;
             });
+
+            registry.OnGameQuit(async () =>
+            {
+                m_Disposables.Dispose();
+                await UniTask.CompletedTask;
+            });
+        }
+
+        public void RecordLastSavePoint(string pointName)
+        {
+            m_LastSavePointName = pointName;
+        }
+
+        private void OnBeforeWriteSave(SaveSystemEvents.SavePreWriteEvent evt)
+        {
+            if (evt.IsGlobal)
+                return;
+
+            var entry = new SaveSlotEntrySaveData
+            {
+                SavePointName = m_LastSavePointName,
+                ChapterId = m_CurrentWorld != null ? m_CurrentWorld.Identifier : null,
+                LevelId = m_CurrentLevel != null ? m_CurrentLevel.Identifier : null,
+            };
+            VgSaveSystem.Instance.UpdateSaveValue(SaveKeys.SaveSlotEntry, entry);
         }
 
         public void StartLevel(LevelLoadInfo loadInfo)
@@ -469,5 +503,7 @@ namespace GameMain.RunTime
         private Dictionary<LDtkComponentWorld, LDtkComponentLevel[]> m_WorldLevelsMap = new();
         private Dictionary<LDtkComponentLevel, HashSet<LDtkComponentLevel>> m_LevelNeighborMap =
             new();
+        private string m_LastSavePointName;
+        private DisposableBag m_Disposables;
     }
 }

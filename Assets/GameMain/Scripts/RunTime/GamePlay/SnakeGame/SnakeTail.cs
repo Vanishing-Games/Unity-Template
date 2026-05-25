@@ -84,5 +84,8 @@ namespace GameMain.RunTime
 
         private Collider2D m_Collider;
         private bool m_IsPermanent;
+
+        public int PrefabIndex;
+        public TailType TailType;
     }
 }

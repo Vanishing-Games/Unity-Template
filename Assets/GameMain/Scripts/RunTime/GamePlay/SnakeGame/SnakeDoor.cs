@@ -1,11 +1,19 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
+using Newtonsoft.Json.Linq;
 using R3;
 using UnityEngine;
 
 namespace GameMain.RunTime
 {
+    [Serializable]
+    public class SnakeDoorSaveData
+    {
+        public bool IsPermanentlyOpen;
+    }
+
     public class SnakeDoor : AutoLdtkEntity
     {
         public override void OnPostImport()
@@ -15,6 +23,8 @@ namespace GameMain.RunTime
 
         private void Awake()
         {
+            m_BoxCollider = GetComponent<BoxCollider2D>();
+
             MessageBroker
                 .Global.Receive<GamePlaySnakeGameEvents.HoneyCollectedEvent>()
                 .Subscribe(_ => CheckConditions())
@@ -34,17 +44,44 @@ namespace GameMain.RunTime
                 .Global.Receive<GamePlaySnakeGameEvents.SnakeSaveEvent>()
                 .Subscribe(_ => OnSnakeSave())
                 .AddTo(ref m_Disposables);
+
+            m_StableId = BuildStableId();
+            LevelStateRegistry.Instance.Register(m_StableId, Capture, Restore);
         }
 
         private void Start()
         {
-            m_BoxCollider = GetComponent<BoxCollider2D>();
             CheckConditions();
         }
 
         private void OnDestroy()
         {
+            LevelStateRegistry.Instance.Unregister(m_StableId);
             m_Disposables.Dispose();
+        }
+
+        private string BuildStableId()
+        {
+            string worldId = World != null ? World.Identifier : "World";
+            string levelId = Level != null ? Level.Identifier : "Level";
+            return $"Door_{worldId}_{levelId}_{LdtkIid}";
+        }
+
+        private object Capture()
+        {
+            return new SnakeDoorSaveData { IsPermanentlyOpen = m_IsPermanentlyOpen };
+        }
+
+        private void Restore(JToken token)
+        {
+            var data = token?.ToObject<SnakeDoorSaveData>();
+            if (data == null)
+                return;
+            if (data.IsPermanentlyOpen)
+            {
+                m_IsPermanentlyOpen = true;
+                SetDoorOpen(true);
+            }
         }
 
         private void CheckConditions()
@@ -93,5 +130,6 @@ namespace GameMain.RunTime
 
         private DisposableBag m_Disposables = new();
         private bool m_IsPermanentlyOpen;
+        private string m_StableId;
     }
 }
