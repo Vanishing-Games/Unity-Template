@@ -33,9 +33,13 @@ namespace RainRust.Rendering
             m_SonarPass = new SonarObstaclePass(settings.obstacleLayerMask, m_ObstacleMaterial);
         }
 
-        public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
+        public override void AddRenderPasses(
+            ScriptableRenderer renderer,
+            ref RenderingData renderingData
+        )
         {
-            if (m_ObstacleMaterial == null) return;
+            if (m_ObstacleMaterial == null)
+                return;
             renderer.EnqueuePass(m_SonarPass);
         }
 

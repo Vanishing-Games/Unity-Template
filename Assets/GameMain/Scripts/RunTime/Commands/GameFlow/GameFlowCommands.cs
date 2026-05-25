@@ -18,7 +18,6 @@ namespace GameMain.RunTime
 
         public class StartGameCommand : IGameFlowCommand
         {
-
             public StartGameCommand(string savePointName)
             {
                 m_SavePointName = savePointName;

@@ -204,9 +204,7 @@ namespace GameMain.RunTime
                 if (success)
                 {
                     SetPaused(false);
-                    var command = new GameFlowCommands.StartGameCommand(
-                        "Chapter1Start"
-                    );
+                    var command = new GameFlowCommands.StartGameCommand("Chapter1Start");
                     command.Execute().Forget();
                 }
             }
