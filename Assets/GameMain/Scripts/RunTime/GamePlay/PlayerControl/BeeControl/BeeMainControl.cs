@@ -130,7 +130,7 @@ namespace GameMain.RunTime
         //投出状态管理
         void ThrowedStEnter()
         {
-            gameObject.layer = LayerMask.GetMask("Hook");
+            gameObject.layer = LayerMask.NameToLayer("Hook");
         }
 
         void ThrowedStUpdate() { }
@@ -161,7 +161,8 @@ namespace GameMain.RunTime
             //过远闪烁
             if (targetDistance() > FlashMoveDistance)
             {
-                m_Transform.position = FollowPoint;
+                FlashToPosition(FollowPoint, false);
+                //m_Transform.position = FollowPoint;
             }
             //近距离跟随
             else if (targetDistance() <= FlashMoveDistance)
@@ -184,7 +185,7 @@ namespace GameMain.RunTime
         //悬挂状态管理
         void StayStEnter()
         {
-            gameObject.layer = LayerMask.GetMask("Hook");
+            gameObject.layer = LayerMask.NameToLayer("Hook");
             StayToFollowCdTimer = 0;
         }
 
@@ -219,8 +220,13 @@ namespace GameMain.RunTime
         public void FlashToPosition(Vector3 positon, bool isHidden)
         {
             //这里在原地留下闪烁特效
+            if (!isHidden)
+                EffectPoolManager.Instance.SpawnEffect("brustOut", this.transform.position, 1);
 
             m_Transform.position = positon;
+
+            if (!isHidden)
+                EffectPoolManager.Instance.SpawnEffect("suckIn", this.transform.position, 0.3f);
             if (isHidden)
                 m_SpriteRenderer.enabled = false;
             else
@@ -228,8 +234,10 @@ namespace GameMain.RunTime
         }
 
         //其他函数
-        void FollowPointSet()
+        public void FollowPointSet()
         {
+            Vector3 noiseOffset = GetNoiseOffset();
+
             if (isFollowPlayer)
             {
                 bool isRight = m_Transform.position.x > player.position.x;
@@ -238,13 +246,17 @@ namespace GameMain.RunTime
                 {
                     FollowPoint =
                         GetSidePos(player.position, FollowPointDistance, isRight, 30f)
-                        + CheckPointFollowOffset;
+                        + CheckPointFollowOffset
+                        + noiseOffset;
                 }
             }
             else
             {
                 FollowPoint =
-                    FollowCheckPoint.position + CheckPointFollowOffset + new Vector3(0, 1, 0);
+                    FollowCheckPoint.position
+                    + CheckPointFollowOffset
+                    + new Vector3(0, 1, 0)
+                    + noiseOffset;
             }
         }
 
@@ -282,21 +294,19 @@ namespace GameMain.RunTime
         }
 
         //噪声点位生成
-        public Vector3 GetNoisePosition(Vector3 basePos, float seed, float freq, float amp)
+        public Vector3 GetNoiseOffset()
         {
-            // 使用 Time.time 使得噪声随时间平滑推移
-            float time = Time.time * freq;
+            // 1. 随时间累加噪声采样轴
+            _timeX += Time.fixedDeltaTime * floatSpeedX;
+            _timeY += Time.fixedDeltaTime * floatSpeedY;
 
-            // 为 X 和 Y 使用不同的采样坐标（seed 确保了个体差异，Offset 确保了维度差异）
-            // 我们在 2D 噪声图中，沿着不同的“路径”取值
-            float noiseX = Mathf.PerlinNoise(time + seed, 0f);
-            float noiseY = Mathf.PerlinNoise(0f, time + seed + 123.45f);
+            // 2. 计算柏林噪声偏移量量值 (Mathf.PerlinNoise 返回 0~1，减去 0.5f 映射到 -0.5~0.5)
+            float noiseX = (Mathf.PerlinNoise(_timeX, 0f) - 0.5f) * 2f; // 映射到 -1 ~ 1
+            float noiseY = (Mathf.PerlinNoise(0f, _timeY) - 0.5f) * 2f; // 映射到 -1 ~ 1
 
-            // 将 0~1 的原始值映射到 -1~1，从而实现以基础点为中心的双向晃动
-            float offsetX = (noiseX - 0.5f) * 2f * amp;
-            float offsetY = (noiseY - 0.5f) * 2f * amp;
+            Vector3 dynamicOffset = new Vector3(noiseX * floatRangeX, noiseY * floatRangeY, 0f);
 
-            return basePos + new Vector3(offsetX, offsetY, 0f);
+            return dynamicOffset;
         }
 
         //初始点位生成
@@ -393,6 +403,15 @@ namespace GameMain.RunTime
         public bool isFollowPlayer = false;
         public Transform FollowCheckPoint;
         public Vector3 CheckPointFollowOffset;
+
+        [Header("自然浮动配置 (Perlin Noise)")]
+        public float floatRangeX = 0.8f; // 水平浮动的最大范围
+        public float floatRangeY = 0.6f; // 垂直浮动的最大范围
+        public float floatSpeedX = 1.5f; // 水平浮动的频率/速度（越大晃得越快）
+        public float floatSpeedY = 1.2f; // 垂直浮动的频率/速度
+
+        private float _timeX;
+        private float _timeY;
 
         public float targetDistance() => Vector3.Distance(this.transform.position, FollowPoint);
 

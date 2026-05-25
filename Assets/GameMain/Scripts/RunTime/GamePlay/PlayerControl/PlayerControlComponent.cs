@@ -182,6 +182,9 @@ namespace GameMain.RunTime
         [BoxGroup("角色运行计时器"), Tooltip("投掷后跳计时器"), ShowInInspector, ReadOnly]
         public int ThrowMoveTimer { get; set; }
 
+        [BoxGroup("角色运行计时器"), Tooltip("投掷后跳计时器"), ShowInInspector, ReadOnly]
+        public int ThrowMoveEndTimer { get; set; }
+
         [BoxGroup("角色运行计时器"), Tooltip("拉动冲刺计时器"), ShowInInspector, ReadOnly]
         public int DashTimer { get; set; }
 
@@ -448,6 +451,14 @@ namespace GameMain.RunTime
 
         [BoxGroup("投掷与拉动相关"), Tooltip("投掷后跳时间"), ShowInInspector, OdinSerialize]
         public int ThrowMoveTime { get; set; }
+
+        [
+            BoxGroup("投掷与拉动相关"),
+            Tooltip("投掷未命中的停滞时间"),
+            ShowInInspector,
+            OdinSerialize
+        ]
+        public int ThrowMoveEndTime { get; set; }
 
         [BoxGroup("投掷与拉动相关"), Tooltip("投掷后跳速度"), ShowInInspector, OdinSerialize]
         public Vector2 ThrowMoveVelocity { get; set; }

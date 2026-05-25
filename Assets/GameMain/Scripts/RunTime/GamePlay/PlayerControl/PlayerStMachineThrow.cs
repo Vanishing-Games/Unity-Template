@@ -24,12 +24,14 @@ namespace GameMain.RunTime
             mPCComponent.ThrowCdInputTimer = mPCComponent.ThrowCdTime;
             mPCComponent.ThrowStartTimer = mPCComponent.ThrowStartTime;
             mPCComponent.ThrowMoveTimer = mPCComponent.ThrowMoveTime;
+            mPCComponent.ThrowMoveEndTimer = mPCComponent.ThrowMoveEndTime;
         }
 
         protected override bool ShouldDeactivate()
         {
-            return ThrowMoveTimer == 0
-                || (BeeToThrow.currentState == BeeState.FollowSt && ThrowStartTimer == 0);
+            return (mPCComponent.ThrowMoveTimer == 0 && BeeToThrow.currentState == BeeState.StaySt)
+                || (BeeToThrow.currentState == BeeState.FollowSt && ThrowStartTimer == 0)
+                || mPCComponent.ThrowMoveEndTimer == 0;
         }
 
         protected override void OnDeactivate()
@@ -42,11 +44,28 @@ namespace GameMain.RunTime
             {
                 SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
                 BeeToThrow.ChangeState(BeeState.FollowSt);
+
+                //消失特效
+                EffectPoolManager.Instance.SpawnEffect(
+                    "brustOut",
+                    BeeToThrow.transform.position,
+                    1f
+                );
+                //BeeToThrow.FollowPointSet();
+                //BeeToThrow.FlashToPosition(BeeToThrow.FollowPoint, false);
             }
         }
 
         protected override void OnTick(float deltaTime)
         {
+            //未命中的停滞时间
+            if (mPCComponent.ThrowMoveTimer == 0 && mPCComponent.ThrowMoveEndTimer > 0)
+            {
+                mPCComponent.ThrowMoveEndTimer--;
+                mPCComponent.CtrlVelocity = Vector2.zero;
+                BeeToThrow.BeeThrow(Vector2.zero, mPCComponent.FacingDir < 0);
+            }
+
             if (ThrowStartTimer > 0)
             {
                 mPCComponent.ThrowStartTimer--;

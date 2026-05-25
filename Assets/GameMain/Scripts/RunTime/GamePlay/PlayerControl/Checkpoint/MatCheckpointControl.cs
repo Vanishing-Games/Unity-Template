@@ -74,13 +74,13 @@ namespace GameMain.RunTime
         void OnFirstCheck()
         {
             //之后修改Wave的参数
-            if (WavePre != null)
-                WavePoolManager.Instance.SpawnWave(
-                    this.transform.position,
-                    gameObject.GetInstanceID(),
-                    WaveRadius,
-                    WaveDur
-                );
+            //if (WavePre != null)
+            //    WavePoolManager.Instance.SpawnWave(
+            //        this.transform.position,
+            //        gameObject.GetInstanceID(),
+            //        WaveRadius,
+            //        WaveDur
+            //    );
             OnCheckTrigger();
             isBloom = true;
             isChecking = true;
