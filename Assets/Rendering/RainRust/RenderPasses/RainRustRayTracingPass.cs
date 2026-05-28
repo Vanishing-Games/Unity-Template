@@ -97,6 +97,7 @@ namespace RainRust.Rendering
                         data.material.SetFloat("_Intensity", stack.lightIntensity.value);
                         data.material.SetFloat("_LightFalloffAlpha", stack.lightFalloffAlpha.value);
                         data.material.SetFloat("_LightFalloffGamma", stack.lightFalloffGamma.value);
+                        data.material.SetFloat("_LightHitThreshold", stack.lightHitThreshold.value);
                         data.material.SetColor("_AmbientColor", stack.ambientColor.value);
 
                         data.material.SetFloat("_NoiseScale", stack.noiseScale.value);
@@ -158,6 +159,51 @@ namespace RainRust.Rendering
                                 data.material.DisableKeyword("ONE_ALPHA");
                                 data.material.DisableKeyword("OBJECTS_MASK_ALPHA");
                                 data.material.EnableKeyword("NORMALIZED_ALPHA");
+                                break;
+                        }
+
+                        // Debug keyword 一律先清空, 再按当前 debugMode 启用
+                        data.material.DisableKeyword("DEBUG_RAND");
+                        data.material.DisableKeyword("DEBUG_SAMPLEDIR");
+                        data.material.DisableKeyword("DEBUG_COLORALPHA");
+                        data.material.DisableKeyword("DEBUG_EARLYEXIT");
+                        data.material.DisableKeyword("DEBUG_RAYTERMSTEP");
+                        data.material.DisableKeyword("DEBUG_HITFRACTION");
+                        data.material.DisableKeyword("DEBUG_SDF");
+                        data.material.DisableKeyword("DEBUG_PIXELINSPECTOR");
+                        data.material.DisableKeyword("DEBUG_GTRBREAKDOWN");
+                        switch (stack.debugMode.value)
+                        {
+                            case RainRustDebugMode.None:
+                                break;
+                            case RainRustDebugMode.Rand:
+                                data.material.EnableKeyword("DEBUG_RAND");
+                                break;
+                            case RainRustDebugMode.SampleDir:
+                                data.material.EnableKeyword("DEBUG_SAMPLEDIR");
+                                break;
+                            case RainRustDebugMode.ColorAlpha:
+                                data.material.EnableKeyword("DEBUG_COLORALPHA");
+                                break;
+                            case RainRustDebugMode.EarlyExit:
+                                data.material.EnableKeyword("DEBUG_EARLYEXIT");
+                                break;
+                            case RainRustDebugMode.RayTermStep:
+                                data.material.EnableKeyword("DEBUG_RAYTERMSTEP");
+                                break;
+                            case RainRustDebugMode.HitFraction:
+                                data.material.EnableKeyword("DEBUG_HITFRACTION");
+                                break;
+                            case RainRustDebugMode.Sdf:
+                                data.material.EnableKeyword("DEBUG_SDF");
+                                break;
+                            case RainRustDebugMode.PixelInspector:
+                                data.material.EnableKeyword("DEBUG_PIXELINSPECTOR");
+                                data.material.SetVector("_DebugPixelUV", stack.debugPixelUV.value);
+                                break;
+                            case RainRustDebugMode.GTRBreakdown:
+                                data.material.EnableKeyword("DEBUG_GTRBREAKDOWN");
+                                data.material.SetVector("_DebugPixelUV", stack.debugPixelUV.value);
                                 break;
                         }
 

@@ -24,6 +24,7 @@ Shader "Hidden/RainRust/Composition"
             #pragma fragment frag
             #pragma multi_compile _ RECEIVER_BLEND_ADDITIVE RECEIVER_BLEND_ALPHABLEND RECEIVER_BLEND_MULTIPLY RECEIVER_BLEND_SCREEN RECEIVER_BLEND_OVERLAY
             #pragma multi_compile _ LIGHTING_BLEND_ADDITIVE LIGHTING_BLEND_ALPHABLEND LIGHTING_BLEND_MULTIPLY LIGHTING_BLEND_SCREEN LIGHTING_BLEND_OVERLAY
+            #pragma multi_compile _ RAINRUST_DEBUG_OVERRIDE
             
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
@@ -59,6 +60,12 @@ Shader "Hidden/RainRust/Composition"
             {
                 float4 background = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 float4 lighting = SAMPLE_TEXTURE2D(_LightingTex, sampler_LightingTex, input.uv);
+
+                // Debug 模式: 直接显示 RT (绕过 receiver mask 和 blend mode)
+                #if defined(RAINRUST_DEBUG_OVERRIDE)
+                return float4(lighting.rgb, 1);
+                #endif
+
                 float4 receiver = SAMPLE_TEXTURE2D(_ReceiverTex, sampler_ReceiverTex, input.uv);
                 float depth = SAMPLE_TEXTURE2D(_ReceiverDepthTex, sampler_ReceiverDepthTex, input.uv).r;
 

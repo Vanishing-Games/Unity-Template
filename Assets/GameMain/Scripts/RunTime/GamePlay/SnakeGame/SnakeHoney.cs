@@ -1,5 +1,6 @@
 using System;
 using Core;
+using Newtonsoft.Json.Linq;
 using R3;
 using UnityEngine;
 
@@ -10,6 +11,12 @@ namespace GameMain.RunTime
         Uncollected,
         CollectedTemporary,
         CollectedPermanent,
+    }
+
+    [Serializable]
+    public class SnakeHoneySaveData
+    {
+        public HoneyState State;
     }
 
     public class SnakeHoney : AutoLdtkEntity
@@ -25,11 +32,39 @@ namespace GameMain.RunTime
                 .Global.Receive<GamePlaySnakeGameEvents.SnakeSaveEvent>()
                 .Subscribe(_ => OnSnakeSave())
                 .AddTo(ref m_Disposables);
+
+            m_StableId = BuildStableId();
+            LevelStateRegistry.Instance.Register(m_StableId, Capture, Restore);
         }
 
         private void OnDestroy()
         {
+            LevelStateRegistry.Instance.Unregister(m_StableId);
             m_Disposables.Dispose();
+        }
+
+        private string BuildStableId()
+        {
+            string worldId = World != null ? World.Identifier : "World";
+            string levelId = Level != null ? Level.Identifier : "Level";
+            return $"Honey_{worldId}_{levelId}_{LdtkIid}";
+        }
+
+        private object Capture()
+        {
+            return new SnakeHoneySaveData { State = m_State };
+        }
+
+        private void Restore(JToken token)
+        {
+            var data = token?.ToObject<SnakeHoneySaveData>();
+            if (data == null)
+                return;
+            if (data.State == HoneyState.CollectedPermanent)
+            {
+                m_State = HoneyState.CollectedPermanent;
+                gameObject.SetActive(false);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -75,5 +110,6 @@ namespace GameMain.RunTime
         public HoneyState State => m_State;
         private HoneyState m_State = HoneyState.Uncollected;
         private DisposableBag m_Disposables = new();
+        private string m_StableId;
     }
 }

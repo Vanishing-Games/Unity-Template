@@ -176,7 +176,7 @@ namespace GameMain.RunTime
             CLogger.LogInfo($"Creating new save: {newSlotName}", LogTag.Button);
             VgSaveSystem.Instance.SetCurrentSlot(newSlotName);
 
-            var command = new GameFlowCommands.StartGameCommand("Chapter_Snake", "level_20");
+            var command = new GameFlowCommands.StartGameCommand("Chapter1Start");
             command.Execute().Forget();
         }
 
@@ -184,11 +184,28 @@ namespace GameMain.RunTime
         {
             CLogger.LogInfo($"Loading save: {slotName}", LogTag.Button);
             bool success = await VgSaveSystem.Instance.LoadSlotAsync(slotName);
-            if (success)
+            if (!success)
+                return;
+
+            var entry = VgSaveSystem.Instance.GetSaveValue<SaveSlotEntrySaveData>(
+                SaveKeys.SaveSlotEntry
+            );
+
+            GameFlowCommands.StartGameCommand command;
+            if (entry != null && !string.IsNullOrEmpty(entry.SavePointName))
             {
-                var command = new GameFlowCommands.StartGameCommand("Chapter_Snake", "level0");
-                command.Execute().Forget();
+                command = new GameFlowCommands.StartGameCommand(entry.SavePointName);
             }
+            else
+            {
+                CLogger.LogWarn(
+                    $"Save slot {slotName} has no SaveSlotEntry, falling back to default level",
+                    LogTag.Button
+                );
+                command = new GameFlowCommands.StartGameCommand("Chapter1Start");
+            }
+
+            command.Execute().Forget();
         }
 
         private void OpenRenamePopup(string slotName, string currentName)

@@ -31,12 +31,13 @@ namespace RainRust.Rendering
             public BlendMode lightingBlendMode = BlendMode.Additive;
 
             [Header("Shaders")]
-            public Shader jfaInitShader     ;
-            public Shader jfaShader         ;
-            public Shader distanceShader    ;
-            public Shader rayTracingShader  ;
-            public Shader compositionShader ;
-            public Shader blitShader        ;
+            public Shader jfaInitShader       ;
+            public Shader jfaShader           ;
+            public Shader distanceShader      ;
+            public Shader unpremultiplyShader ;
+            public Shader rayTracingShader    ;
+            public Shader compositionShader   ;
+            public Shader blitShader          ;
             // csharpier-ignore-end
         }
 
@@ -49,6 +50,7 @@ namespace RainRust.Rendering
         {
             // csharpier-ignore-start
             m_RainRustDrawObjectsPass = new RainRustDrawObjectsPass(); // 绘制所有光源, 用于后续光场计算
+            m_UnpremultiplyPass       = new RainRustUnpremultiplyPass(); // 把 mainRt 从 premultiplied 转为 straight alpha
             m_JfaInitPass             = new RainRustJfaInitPass(); // 从光源数据获得JFA初始种子
             m_JfaPass                 = new RainRustJfaPass(); // Jump Flood Algorithm
             m_DistancePass            = new RainRustDistancePass(); // JFA -> Distance Field
@@ -81,6 +83,8 @@ namespace RainRust.Rendering
                 CLogger.LogError("[RainRust] JFA Shader is MISSING!", LogTag.Rendering);
             if (settings.distanceShader == null)
                 CLogger.LogError("[RainRust] Distance Shader is MISSING!", LogTag.Rendering);
+            if (settings.unpremultiplyShader == null)
+                CLogger.LogError("[RainRust] Unpremultiply Shader is MISSING!", LogTag.Rendering);
             if (settings.rayTracingShader == null)
                 CLogger.LogError("[RainRust] RayTracing Shader is MISSING!", LogTag.Rendering);
             if (settings.compositionShader == null)
@@ -90,6 +94,7 @@ namespace RainRust.Rendering
             // csharpier-ignore-start
             // Apply settings to all passes
             m_RainRustDrawObjectsPass.renderPassEvent = settings.injectionPoint;
+            m_UnpremultiplyPass.renderPassEvent       = settings.injectionPoint;
             m_JfaInitPass.renderPassEvent             = settings.injectionPoint;
             m_JfaPass.renderPassEvent                 = settings.injectionPoint;
             m_DistancePass.renderPassEvent            = settings.injectionPoint;
@@ -97,6 +102,7 @@ namespace RainRust.Rendering
             m_RainRustRenderingPass.renderPassEvent   = settings.injectionPoint;
 
             m_RainRustDrawObjectsPass.Setup(settings);
+            m_UnpremultiplyPass      .Setup(settings);
             m_JfaInitPass            .Setup(settings);
             m_JfaPass                .Setup(settings);
             m_DistancePass           .Setup(settings);
@@ -105,6 +111,7 @@ namespace RainRust.Rendering
             // csharpier-ignore-end
 
             renderer.EnqueuePass(m_RainRustDrawObjectsPass);
+            renderer.EnqueuePass(m_UnpremultiplyPass);
             renderer.EnqueuePass(m_JfaInitPass);
             renderer.EnqueuePass(m_JfaPass);
             renderer.EnqueuePass(m_DistancePass);
@@ -117,6 +124,7 @@ namespace RainRust.Rendering
             base.Dispose(disposing);
             m_JfaInitPass?.Dispose();
             m_JfaPass?.Dispose();
+            m_UnpremultiplyPass?.Dispose();
             m_RainRustRenderingPass?.Dispose();
         }
 
@@ -134,6 +142,8 @@ namespace RainRust.Rendering
                 settings.jfaShader = Shader.Find("Hidden/RainRust/JumpFloodAlgorithm");
             if (settings.distanceShader == null)
                 settings.distanceShader = Shader.Find("Hidden/RainRust/Distance");
+            if (settings.unpremultiplyShader == null)
+                settings.unpremultiplyShader = Shader.Find("Hidden/RainRust/Unpremultiply");
             if (settings.rayTracingShader == null)
                 settings.rayTracingShader = Shader.Find("Hidden/RainRust/RayTracing");
             if (settings.compositionShader == null)
@@ -144,12 +154,13 @@ namespace RainRust.Rendering
 
         // csharpier-ignore-start
 
-        private RainRustDrawObjectsPass m_RainRustDrawObjectsPass;
-        private RainRustJfaInitPass     m_JfaInitPass;
-        private RainRustJfaPass         m_JfaPass;
-        private RainRustDistancePass    m_DistancePass;
-        private RainRustRayTracingPass  m_RainRustRayTracingPass;
-        private RainRustRenderingPass   m_RainRustRenderingPass;
+        private RainRustDrawObjectsPass   m_RainRustDrawObjectsPass;
+        private RainRustUnpremultiplyPass m_UnpremultiplyPass;
+        private RainRustJfaInitPass       m_JfaInitPass;
+        private RainRustJfaPass           m_JfaPass;
+        private RainRustDistancePass      m_DistancePass;
+        private RainRustRayTracingPass    m_RainRustRayTracingPass;
+        private RainRustRenderingPass     m_RainRustRenderingPass;
         // csharpier-ignore-end
     }
 }

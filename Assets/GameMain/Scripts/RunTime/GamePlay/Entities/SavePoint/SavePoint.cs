@@ -100,6 +100,7 @@ namespace GameMain.RunTime
             MessageBroker.Global.Publish(
                 new GamePlaySnakeGameEvents.SnakeCheckPointEvent(this.transform.position)
             );
+            LevelManager.Instance.RecordLastSavePoint(PointName);
             VgSaveSystem.Instance.WriteSlotSaveAsync().Forget();
         }
 

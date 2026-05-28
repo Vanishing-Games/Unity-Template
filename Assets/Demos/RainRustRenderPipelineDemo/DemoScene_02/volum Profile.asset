@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Value: 2
   noiseType:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2
   alphaMode:
     m_OverrideState: 1
     m_Value: 0
@@ -31,22 +31,22 @@ MonoBehaviour:
     dimension: 1
   noiseTilingOffset:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 1}
+    m_Value: {x: 0, y: 0, z: 0, w: 0}
   noiseVelocity:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1}
+    m_Value: {x: 0, y: 0}
   noiseScale:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 1
   noiseIntensity:
     m_OverrideState: 1
-    m_Value: 3.08
+    m_Value: 10
   resolutionScalar:
     m_OverrideState: 1
     m_Value: 1
   lightSamples:
     m_OverrideState: 1
-    m_Value: 16
+    m_Value: 8
   lightIntensity:
     m_OverrideState: 1
     m_Value: 8.28
@@ -59,6 +59,12 @@ MonoBehaviour:
   ambientColor:
     m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
+  debugMode:
+    m_OverrideState: 1
+    m_Value: 0
+  debugPixelUV:
+    m_OverrideState: 1
+    m_Value: {x: 0.5943, y: 0.4139}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

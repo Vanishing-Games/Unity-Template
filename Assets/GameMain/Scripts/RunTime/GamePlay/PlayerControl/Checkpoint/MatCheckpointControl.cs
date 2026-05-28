@@ -108,6 +108,7 @@ namespace GameMain.RunTime
             MessageBroker.Global.Publish(
                 new GamePlayMatEvents.MatChangeCheckPointEvent(this.transform)
             );
+            LevelManager.Instance.RecordLastSavePoint(PointName);
             VgSaveSystem.Instance.WriteSlotSaveAsync().Forget();
         }
 

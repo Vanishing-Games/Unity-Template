@@ -51,15 +51,23 @@ namespace RainRust.Rendering
             );
 
             // 2. Setup the Drawing Pass
-            using (var builder = renderGraph.AddRasterRenderPass<PassData>("Sonar Obstacle Mask Pass", out var passData))
+            using (
+                var builder = renderGraph.AddRasterRenderPass<PassData>(
+                    "Sonar Obstacle Mask Pass",
+                    out var passData
+                )
+            )
             {
                 passData.obstacleMask = obstacleMask;
                 builder.SetRenderAttachment(obstacleMask, 0, AccessFlags.Write);
-                
+
                 // Configure Renderer List
                 SortingCriteria sortingCriteria = cameraData.defaultOpaqueSortFlags;
-                FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, m_ObstacleLayerMask);
-                
+                FilteringSettings filteringSettings = new FilteringSettings(
+                    RenderQueueRange.opaque,
+                    m_ObstacleLayerMask
+                );
+
                 DrawingSettings drawingSettings = RenderingUtils.CreateDrawingSettings(
                     new ShaderTagId("UniversalForward"),
                     renderingData,
@@ -71,32 +79,45 @@ namespace RainRust.Rendering
                 drawingSettings.overrideMaterialPassIndex = 0;
 
                 passData.obstacleRendererList = renderGraph.CreateRendererList(
-                    new RendererListParams(renderingData.cullResults, drawingSettings, filteringSettings)
+                    new RendererListParams(
+                        renderingData.cullResults,
+                        drawingSettings,
+                        filteringSettings
+                    )
                 );
                 builder.UseRendererList(passData.obstacleRendererList);
 
-                builder.SetRenderFunc(static (PassData data, RasterGraphContext context) =>
-                {
-                    context.cmd.ClearRenderTarget(RTClearFlags.Color, Color.black, 1.0f, 0);
-                    context.cmd.DrawRendererList(data.obstacleRendererList);
-                });
+                builder.SetRenderFunc(
+                    static (PassData data, RasterGraphContext context) =>
+                    {
+                        context.cmd.ClearRenderTarget(RTClearFlags.Color, Color.black, 1.0f, 0);
+                        context.cmd.DrawRendererList(data.obstacleRendererList);
+                    }
+                );
             }
 
             // 3. Setup a separate Pass to set the Global Texture
             // 这样可以避免“同一 Pass 中纹理既是 Attachment 又是 Texture”的冲突
-            using (var builder = renderGraph.AddRasterRenderPass<GlobalSetData>("Sonar Global Set Pass", out var passData))
+            using (
+                var builder = renderGraph.AddRasterRenderPass<GlobalSetData>(
+                    "Sonar Global Set Pass",
+                    out var passData
+                )
+            )
             {
                 builder.AllowPassCulling(false);
                 builder.AllowGlobalStateModification(true);
-                
+
                 passData.obstacleMask = obstacleMask;
                 // 声明对此纹理的读取访问
                 builder.UseTexture(obstacleMask, AccessFlags.Read);
 
-                builder.SetRenderFunc(static (GlobalSetData data, RasterGraphContext context) =>
-                {
-                    context.cmd.SetGlobalTexture(s_SonarObstacleTexId, data.obstacleMask);
-                });
+                builder.SetRenderFunc(
+                    static (GlobalSetData data, RasterGraphContext context) =>
+                    {
+                        context.cmd.SetGlobalTexture(s_SonarObstacleTexId, data.obstacleMask);
+                    }
+                );
             }
         }
     }

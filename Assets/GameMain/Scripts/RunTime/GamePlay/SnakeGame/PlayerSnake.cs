@@ -33,6 +33,9 @@ namespace GameMain.RunTime
             MessageBroker
                 .Global.Subscribe<GamePlaySnakeGameEvents.SnakeSaveEvent>(_ => OnSave())
                 .AddTo(ref m_Disposables);
+            MessageBroker
+                .Global.Subscribe<SaveSystemEvents.SavePreWriteEvent>(OnBeforeWriteSave)
+                .AddTo(ref m_Disposables);
             m_CheckSub =
                 MessageBroker.Global.Subscribe<GamePlaySnakeGameEvents.SnakeCheckPointEvent>(
                     OnCheckPoint
@@ -52,6 +55,8 @@ namespace GameMain.RunTime
             if (m_StartPos == Vector3.zero)
                 m_StartPos = transform.position;
             m_CheckPos = m_StartPos;
+
+            RestoreFromSave();
         }
 
         private void Update()
@@ -59,6 +64,7 @@ namespace GameMain.RunTime
             m_InputAct = Input.GetButton("Act");
             HandleInput();
             StateManager();
+            m_LastFrameInputDir = m_InputDir;
         }
 
         void StateManager()
@@ -69,30 +75,24 @@ namespace GameMain.RunTime
             //    m_Timer = 0;
             //}
 
+            bool dirJustPressed =
+                m_InputDir != Vector2Int.zero && m_InputDir != m_LastFrameInputDir;
+
             if (m_State == SnakeState.Stay)
             {
                 m_Timer = 0;
-                if (m_InputDir != Vector2.zero)
+                if (dirJustPressed)
                 {
                     m_LastDirection = m_InputDir;
                     m_CurrentDirection = m_InputDir;
                     m_State = SnakeState.Move;
+                    Move();
                 }
             }
             else if (m_State == SnakeState.Move)
             {
-                float moveInterval;
-                if (m_InputDir == m_CurrentDirection)
-                    moveInterval = m_FastMoveInterval;
-                else
-                    moveInterval = m_MoveInterval;
-
-                m_Timer += Time.deltaTime;
-                if (m_Timer >= moveInterval)
-                {
-                    m_Timer = 0;
+                if (dirJustPressed)
                     Move();
-                }
             }
             else if (m_State == SnakeState.Charge)
             {
@@ -187,6 +187,8 @@ namespace GameMain.RunTime
 
         [SerializeField]
         private Vector2Int m_InputDir;
+
+        private Vector2Int m_LastFrameInputDir;
 
         [SerializeField]
         private bool m_InputAct = false;
@@ -331,6 +333,8 @@ namespace GameMain.RunTime
 
             tail.Initialize(Vector2.one);
             tail.gameObject.layer = gameObject.layer;
+            tail.PrefabIndex = randomNum;
+            tail.TailType = type;
 
             RotateTail(tail, towards);
 
@@ -401,6 +405,79 @@ namespace GameMain.RunTime
         private void OnCheckPoint(GamePlaySnakeGameEvents.SnakeCheckPointEvent e)
         {
             m_CheckPos = e.Postion;
+        }
+
+        private void OnBeforeWriteSave(SaveSystemEvents.SavePreWriteEvent evt)
+        {
+            if (evt.IsGlobal)
+                return;
+
+            var data = new PlayerSnakeSaveData { CheckPos = m_CheckPos };
+            if (m_TailContainer != null)
+            {
+                foreach (Transform child in m_TailContainer)
+                {
+                    var tail = child.GetComponent<SnakeTail>();
+                    if (tail == null)
+                        continue;
+                    data.Tails.Add(
+                        new SnakeTailRecord
+                        {
+                            Position = child.position,
+                            Rotation = child.rotation,
+                            Type = tail.TailType,
+                            PrefabIndex = tail.PrefabIndex,
+                        }
+                    );
+                }
+            }
+            VgSaveSystem.Instance.UpdateSaveValue(SaveKeys.PlayerSnake, data);
+        }
+
+        private void RestoreFromSave()
+        {
+            if (!VgSaveSystem.Instance.HasKey(SaveKeys.PlayerSnake))
+                return;
+
+            var data = VgSaveSystem.Instance.GetSaveValue<PlayerSnakeSaveData>(
+                SaveKeys.PlayerSnake
+            );
+            if (data == null)
+                return;
+
+            m_CheckPos = data.CheckPos;
+            transform.position = m_CheckPos + new Vector3(-0.5f, 0.5f, 0);
+
+            if (data.Tails == null)
+                return;
+
+            foreach (var record in data.Tails)
+            {
+                if (
+                    !m_TailLibrary.TryGetValue(record.Type, out var list)
+                    || list == null
+                    || list.Count == 0
+                )
+                    continue;
+                if (record.PrefabIndex < 0 || record.PrefabIndex >= list.Count)
+                    continue;
+
+                var prefab = list[record.PrefabIndex];
+                GameObject obj = Instantiate(
+                    prefab,
+                    record.Position,
+                    record.Rotation,
+                    m_TailContainer
+                );
+                SnakeTail tail = obj.GetComponent<SnakeTail>();
+                if (tail == null)
+                    continue;
+                tail.Initialize(Vector2.one);
+                tail.gameObject.layer = gameObject.layer;
+                tail.PrefabIndex = record.PrefabIndex;
+                tail.TailType = record.Type;
+                tail.SetPermanent();
+            }
         }
 
         private void ResetSnake()
