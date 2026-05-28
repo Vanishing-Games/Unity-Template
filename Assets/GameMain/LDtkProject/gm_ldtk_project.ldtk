@@ -41508,8 +41508,8 @@
 				"identifier": "Level_18",
 				"iid": "99af9990-21a0-11f1-bd7f-8b3e32162e60",
 				"uid": 1086,
-				"worldX": 18304,
-				"worldY": 5248,
+				"worldX": -2048,
+				"worldY": 9472,
 				"worldDepth": 0,
 				"pxWid": 10240,
 				"pxHei": 2944,
@@ -42855,8 +42855,8 @@
 								"defUid": 858,
 								"px": [7808,2176],
 								"fieldInstances": [{ "__identifier": "NickName", "__type": "String", "__value": "RunTime/Null", "__tile": null, "defUid": 1115, "realEditorValues": [] }],
-								"__worldX": 26112,
-								"__worldY": 7424
+								"__worldX": 5760,
+								"__worldY": 11648
 							},
 							{
 								"__identifier": "Ae_Mat_Ore",
@@ -42871,8 +42871,8 @@
 								"defUid": 862,
 								"px": [6912,1152],
 								"fieldInstances": [{ "__identifier": "_isVerticalFirst", "__type": "Bool", "__value": false, "__tile": null, "defUid": 863, "realEditorValues": [] }],
-								"__worldX": 25216,
-								"__worldY": 6400
+								"__worldX": 4864,
+								"__worldY": 10624
 							},
 							{
 								"__identifier": "Ae_Mat_Vine",
@@ -42887,8 +42887,8 @@
 								"defUid": 864,
 								"px": [5760,768],
 								"fieldInstances": [{ "__identifier": "_isVerticalFirst", "__type": "Bool", "__value": false, "__tile": null, "defUid": 865, "realEditorValues": [] }],
-								"__worldX": 24064,
-								"__worldY": 6016
+								"__worldX": 3712,
+								"__worldY": 10240
 							},
 							{
 								"__identifier": "Ae_Mat_Vine",
@@ -42903,8 +42903,8 @@
 								"defUid": 864,
 								"px": [1152,1664],
 								"fieldInstances": [{ "__identifier": "_isVerticalFirst", "__type": "Bool", "__value": false, "__tile": null, "defUid": 865, "realEditorValues": [] }],
-								"__worldX": 19456,
-								"__worldY": 6912
+								"__worldX": -896,
+								"__worldY": 11136
 							},
 							{
 								"__identifier": "Ae_Mat_MineLight",
@@ -42919,8 +42919,8 @@
 								"defUid": 1126,
 								"px": [8192,1536],
 								"fieldInstances": [],
-								"__worldX": 26496,
-								"__worldY": 6784
+								"__worldX": 6144,
+								"__worldY": 11008
 							},
 							{
 								"__identifier": "Ae_Mat_MineLight",
@@ -42935,8 +42935,8 @@
 								"defUid": 1126,
 								"px": [7552,1792],
 								"fieldInstances": [],
-								"__worldX": 25856,
-								"__worldY": 7040
+								"__worldX": 5504,
+								"__worldY": 11264
 							},
 							{
 								"__identifier": "Ae_Mat_MineLight",
@@ -42951,8 +42951,8 @@
 								"defUid": 1126,
 								"px": [2432,768],
 								"fieldInstances": [],
-								"__worldX": 20736,
-								"__worldY": 6016
+								"__worldX": 384,
+								"__worldY": 10240
 							},
 							{
 								"__identifier": "Ae_Mat_light_s",
@@ -42967,8 +42967,8 @@
 								"defUid": 1125,
 								"px": [9856,384],
 								"fieldInstances": [],
-								"__worldX": 28160,
-								"__worldY": 5632
+								"__worldX": 7808,
+								"__worldY": 9856
 							}
 						]
 					},
@@ -44037,7 +44037,7 @@
 						"entityInstances": []
 					}
 				],
-				"__neighbours": [{ "levelIid": "a0200f70-21a0-11f1-bb01-6545f86fda45", "dir": "o" }]
+				"__neighbours": []
 			},
 			{
 				"identifier": "Level_19",
@@ -55642,7 +55642,7 @@
 						"entityInstances": []
 					}
 				],
-				"__neighbours": [{ "levelIid": "99af9990-21a0-11f1-bd7f-8b3e32162e60", "dir": "o" }]
+				"__neighbours": []
 			},
 			{
 				"identifier": "Level_24",
