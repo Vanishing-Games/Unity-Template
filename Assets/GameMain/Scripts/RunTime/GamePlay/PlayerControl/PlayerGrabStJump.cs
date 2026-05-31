@@ -22,6 +22,17 @@ namespace GameMain.RunTime
 
         protected override void OnActivate()
         {
+            if (!mPCComponent.IsSafeGrab && !mPCComponent.IsCornerGrab)
+            {
+                mPCComponent.ForceMoveXRevTimer = mPCComponent.GrabJumpForceTime;
+                if (mPCComponent.InputX > 0.2f)
+                    mPCComponent.ForceMoveX = 1;
+                else if (mPCComponent.InputX < -0.2f)
+                    mPCComponent.ForceMoveX = -1;
+                else
+                    mPCComponent.ForceMoveX = -1 * mPCComponent.FacingDir;
+                mPCComponent.MoveX = mPCComponent.ForceMoveX;
+            }
             mPCComponent.IsJumping = true;
             mPCComponent.IsCornerGrab = false;
             SetStateMachine(PlayerStateMachine.NormalState, EccTag.NormalState);
