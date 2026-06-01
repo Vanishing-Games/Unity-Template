@@ -10,7 +10,7 @@ namespace GameMain.RunTime
             (
                 CurrentState == PlayerStateMachine.ThrowState
                 && ThrowStartTimer == 0
-                && ThrowMoveTimer >= 0
+                && ThrowMoveEndTimer >= 0
             )
             || CurrentState == PlayerStateMachine.DashState;
 

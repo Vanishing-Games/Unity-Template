@@ -101,7 +101,7 @@ MonoBehaviour:
       Data: 4
     - Name: MaxSpeedX
       Entry: 4
-      Data: 8
+      Data: 7
     - Name: AccX
       Entry: 4
       Data: 1.25
@@ -122,7 +122,7 @@ MonoBehaviour:
       Data: 4
     - Name: MaxJumpTime
       Entry: 3
-      Data: 8
+      Data: 9
     - Name: PreJumpInputTime
       Entry: 3
       Data: 6
@@ -146,16 +146,19 @@ MonoBehaviour:
       Data: 4
     - Name: WallCoyoteJumpInputTime
       Entry: 3
-      Data: 6
+      Data: 4
     - Name: IsBroadGrab
       Entry: 5
       Data: true
     - Name: CanGrabCDTime
       Entry: 3
-      Data: 8
+      Data: 10
     - Name: GrabStayTime
       Entry: 3
       Data: 30
+    - Name: GrabJumpForceTime
+      Entry: 3
+      Data: 4
     - Name: GrabThresholdSpeedY
       Entry: 3
       Data: -1
@@ -203,10 +206,10 @@ MonoBehaviour:
       Data: 18
     - Name: WhistleRadius
       Entry: 4
-      Data: 15
+      Data: 20
     - Name: WhistleTimeDur
       Entry: 4
-      Data: 1
+      Data: 1.25
     - Name: PreThrowTime
       Entry: 3
       Data: 6
@@ -218,13 +221,16 @@ MonoBehaviour:
       Data: 12
     - Name: ThrowMoveTime
       Entry: 3
-      Data: 9
+      Data: 10
+    - Name: ThrowMoveEndTime
+      Entry: 3
+      Data: 6
     - Name: ThrowMoveVelocity
       Entry: 7
       Data: UnityEngine.Vector2, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 12
+      Data: 10
     - Name: 
       Entry: 4
       Data: 0

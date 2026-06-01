@@ -7,6 +7,7 @@ namespace GameMain.RunTime
     public static class LDtkIdentifiers
     {
         // Layer Identifiers
+        public const string FixManualTiles = "FixManualTiles";
         public const string AutoLayer_MineDanger = "AutoLayer_MineDanger";
         public const string AutoLayer_MinePole = "AutoLayer_MinePole";
         public const string AutoLayer_MineWall = "AutoLayer_MineWall";
@@ -26,7 +27,6 @@ namespace GameMain.RunTime
         public const string Ae_SavePoint = "Ae_SavePoint"; // Save point, where store player's level progress.
         public const string Ae_MovePlatformer = "Ae_MovePlatformer";
         public const string Ae_MovePlatformerPathPoint = "Ae_MovePlatformerPathPoint";
-        public const string Ae_CameraOverrideArea = "Ae_CameraOverrideArea";
         public const string Ae_SnakeHoney = "Ae_SnakeHoney";
         public const string Ae_SnakeDoor = "Ae_SnakeDoor";
         public const string Ae_LevelClearPoint = "Ae_LevelClearPoint";
@@ -40,6 +40,8 @@ namespace GameMain.RunTime
         public const string Ae_Mat_light_M = "Ae_Mat_light_M";
         public const string Ae_Mat_light_s = "Ae_Mat_light_s";
         public const string Ae_Mat_MineLight = "Ae_Mat_MineLight";
+        public const string Ae_Mat_Collection = "Ae_Mat_Collection";
+        public const string Ae_CameraOverrideArea = "Ae_CameraOverrideArea";
 
         // Enum Identifiers
         public const string Enum_CameraMode = "CameraMode";

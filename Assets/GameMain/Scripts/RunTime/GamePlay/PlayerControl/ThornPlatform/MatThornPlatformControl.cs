@@ -9,7 +9,8 @@ namespace GameMain.RunTime
         private Animator m_Animator;
         private Transform renderTransform;
 
-        private bool isPlatform = false;
+        private bool isPlatform = true;
+        private bool isPlayerOn = false;
         private Vector2 platformSize = new Vector2(2.8f, 0.8f);
         private Vector2 thornPlusSize = new Vector2(0.7f, 0.7f);
 
@@ -38,13 +39,13 @@ namespace GameMain.RunTime
             m_Animator = GetComponentInChildren<Animator>();
             renderTransform = GetComponentInChildren<Transform>();
             initialPosition = renderTransform.localPosition;
-            ChangeToThron();
+            ChangeToPlatform();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (isPlatform)
+            if (isPlatform && isPlayerOn)
             {
                 m_KeepTimer += Time.deltaTime;
                 if (m_KeepTimer >= KeepTime && m_KeepTimer <= KeepTime + ShakeTime)
@@ -84,6 +85,7 @@ namespace GameMain.RunTime
         {
             renderTransform.localPosition = initialPosition;
             isPlatform = false;
+            isPlayerOn = false;
             m_KeepTimer = 0;
             m_BoxCollider2d.size = thornPlusSize + platformSize;
             m_BoxCollider2d.isTrigger = true;
@@ -96,6 +98,14 @@ namespace GameMain.RunTime
             if (collision.transform.CompareTag("Wave") && !isPlatform)
             {
                 ChangeToPlatform();
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (isPlatform && collision.transform.CompareTag("Player"))
+            {
+                isPlayerOn = true;
             }
         }
     }
