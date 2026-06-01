@@ -5,11 +5,6 @@ using UnityEngine;
 
 namespace GameMain.RunTime
 {
-    [Serializable]
-    public class MisteryFogSaveData
-    {
-        public bool IsRevealed;
-    }
 
     [RequireComponent(typeof(SpriteRenderer))]
     public class MisteryFog : LDtkTriggerEntity
@@ -60,7 +55,7 @@ namespace GameMain.RunTime
         private void Reveal()
         {
             m_IsRevealed = true;
-            m_SpriteRenderer
+            m_SpriteRenderer.material
                 .DOFade(0f, m_FadeDuration)
                 .SetEase(Ease.InQuad)
                 .OnComplete(() => gameObject.SetActive(false));
