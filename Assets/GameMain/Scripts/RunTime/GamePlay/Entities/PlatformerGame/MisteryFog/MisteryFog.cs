@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace GameMain.RunTime
 {
-
     [RequireComponent(typeof(SpriteRenderer))]
     public class MisteryFog : LDtkTriggerEntity
     {
@@ -55,8 +54,8 @@ namespace GameMain.RunTime
         private void Reveal()
         {
             m_IsRevealed = true;
-            m_SpriteRenderer.material
-                .DOFade(0f, m_FadeDuration)
+            m_SpriteRenderer
+                .material.DOFade(0f, m_FadeDuration)
                 .SetEase(Ease.InQuad)
                 .OnComplete(() => gameObject.SetActive(false));
         }

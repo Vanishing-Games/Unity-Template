@@ -10,6 +10,4 @@ namespace GameMain.RunTime
     {
         public bool IsRevealed;
     }
-
-
 }
