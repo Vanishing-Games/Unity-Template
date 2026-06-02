@@ -42,6 +42,7 @@ namespace GameMain.RunTime
         public const string Ae_Mat_MineLight = "Ae_Mat_MineLight";
         public const string Ae_Mat_Collection = "Ae_Mat_Collection";
         public const string Ae_CameraOverrideArea = "Ae_CameraOverrideArea";
+        public const string Ae_MisteryFog = "Ae_MisteryFog";
 
         // Enum Identifiers
         public const string Enum_CameraMode = "CameraMode";
