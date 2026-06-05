@@ -143,7 +143,7 @@ MonoBehaviour:
       Data: 0.15
     - Name: WallJumpForceTime
       Entry: 3
-      Data: 4
+      Data: 5
     - Name: WallCoyoteJumpInputTime
       Entry: 3
       Data: 4
@@ -158,7 +158,7 @@ MonoBehaviour:
       Data: 30
     - Name: GrabJumpForceTime
       Entry: 3
-      Data: 4
+      Data: 5
     - Name: GrabThresholdSpeedY
       Entry: 3
       Data: -1
