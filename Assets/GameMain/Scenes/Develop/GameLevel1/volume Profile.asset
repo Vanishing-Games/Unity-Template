@@ -85,13 +85,22 @@ MonoBehaviour:
     m_Value: 2.2
   lightFalloffAlpha:
     m_OverrideState: 1
-    m_Value: 0.041
+    m_Value: 0.063
   lightFalloffGamma:
     m_OverrideState: 1
     m_Value: 1.27
+  lightHitThreshold:
+    m_OverrideState: 0
+    m_Value: 0.1
   ambientColor:
     m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
+  debugMode:
+    m_OverrideState: 0
+    m_Value: 0
+  debugPixelUV:
+    m_OverrideState: 0
+    m_Value: {x: 0.5, y: 0.5}
 --- !u!114 &4973364795150521376
 MonoBehaviour:
   m_ObjectHideFlags: 3
