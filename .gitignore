@@ -130,6 +130,8 @@ fmod_editor.log
 /docs/agents/
 /.scratch/
 /CONTEXT.md
+/AGENTS.md
+/.codex
 
 # Save Data
 /SaveData_Editor/
