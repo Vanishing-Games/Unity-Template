@@ -4,6 +4,7 @@ Assets/GameMain/LDtkProject/gm_ldtk_project.ldtk,208089,132758,48,340847
 Assets/GameMain/LDtkProject/gm_ldtk_project/backups/f3c6abc0-21a0-11f1-8b8e-f3e3f2eecddf_2026-03-26_05-33-24/gm_ldtk_project.ldtk,53350,53350,4,106700
 Assets/GameMain/LDtkProject/gm_ldtk_project/backups/f3c6abc0-21a0-11f1-8b8e-f3e3f2eecddf_2026-03-26_05-04-07/gm_ldtk_project.ldtk,53332,53332,4,106664
 Assets/GameMain/LDtkProject/gm_ldtk_project/backups/f3c6abc0-21a0-11f1-8b8e-f3e3f2eecddf_2026-03-26_05-03-55/gm_ldtk_project.ldtk,53328,53328,4,106656
+Stats/raw_stats.json,106627,0,1,106627
 Assets/GameMain/LDtkProject/gm_ldtk_project/backups/f3c6abc0-21a0-11f1-8b8e-f3e3f2eecddf_2026-03-26_05-33-00/gm_ldtk_project.ldtk,53312,53312,4,106624
 Assets/GameMain/LDtkProject/gm_ldtk_project/backups/f3c6abc0-21a0-11f1-8b8e-f3e3f2eecddf_2026-03-26_05-33-23/gm_ldtk_project.ldtk,53312,53312,4,106624
 Assets/GameMain/LDtkProject/gm_ldtk_project/backups/f3c6abc0-21a0-11f1-8b8e-f3e3f2eecddf_2026-03-26_06-23-48/gm_ldtk_project.ldtk,53312,53312,4,106624
@@ -49,6 +50,8 @@ Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph,11629,0,1,11629
 Assets/ThirdParty/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP/Decal.shader,7574,3965,3,11539
 Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Utils/GeneratorUtils.cs,7238,3920,4,11158
 Packages/com.unity.render-pipelines.universal/Shaders/Nature/SpeedTree8_PBRLit.shadergraph,10958,0,1,10958
+Stats/file_inventory.csv,10458,0,1,10458
+Stats/file_age.csv,10414,0,1,10414
 Packages/nuget-packages/InstalledPackages/Scriban.6.2.1/lib/netstandard2.0/Scriban.xml,5125,5125,2,10250
 Packages/com.unity.render-pipelines.universal/Shaders/Nature/SpeedTree9_URP.shadergraph,10140,0,1,10140
 Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Constants/PropertyNode.cs,6305,3819,4,10124
@@ -76,6 +79,3 @@ Assets/Plugins/Zenject/Source/Main/DiContainer.cs,5210,480,2,5690
 Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Utils/IOUtils.cs,3544,2099,4,5643
 Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Master/MasterNode.cs,3376,2105,4,5481
 Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Constants/TextureArrayNode.cs,3311,1972,4,5283
-Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Utils/CustomShaderInspector.cs,3386,1871,4,5257
-Assets/Plugins/UniTask/Runtime/Linq/MinMax.cs,4843,405,2,5248
-Assets/GameMain/LDtkProject/gm_ldtk_project/Tilemap_B.ldtkt.meta,2944,2208,7,5152

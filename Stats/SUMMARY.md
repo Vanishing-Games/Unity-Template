@@ -1,17 +1,17 @@
 # RainRust Project Stats
 
-- Generated at: 2026-06-18T03:49:34+08:00
+- Generated at: 2026-06-18T06:43:08+08:00
 - Unity version: 6000.3.1f1
 - Files scanned: 10,413 (2,427 first-party, 7,986 vendor)
 - First-party lines: 252,491
-- Git commits: 239 across 6 author names / 3 canonical contributors
-- History range: 2025-06-16T20:44:20+08:00 -> 2026-06-18T02:22:20+08:00
-- GitHub data source: git_subject_inferred (gh auth unavailable: github.com)
-- Metric implementation status: blocked-gh-auth: 4, implemented: 44, local-inferred: 2, partial: 1
+- Git commits: 240 across 6 author names / 3 canonical contributors
+- History range: 2025-06-16T20:44:20+08:00 -> 2026-06-18T03:58:01+08:00
+- GitHub data source: git_subject_inferred (not available; gh auth unavailable: github.com)
+- Metric implementation status: blocked-gh-auth: 4, deferred-high-cost: 2, implemented: 53, local-inferred: 2, partial: 1
 
 ## Top Contributors (Alias-Merged)
 
-- Vanish: 214 commits, +2,217,565/-1,127,320 (Vanish, Vanish0314, vanish, 消失)
+- Vanish: 215 commits, +2,351,319/-1,127,320 (Vanish, Vanish0314, vanish, 消失)
 - OriSYX: 14 commits, +457,168/-116,889 (OriSYX)
 - likoko: 11 commits, +415,982/-165,283 (likoko)
 
@@ -19,8 +19,8 @@
 
 - Active days: 56
 - Longest commit streak: 4 days
-- Night commits: 84 (35.15%)
-- Weekend commits: 43 (17.99%)
+- Night commits: 85 (35.42%)
+- Weekend commits: 43 (17.92%)
 
 ## Code Content
 
@@ -29,6 +29,13 @@
 - SerializeField count: 99
 - Private field `m_` compliance: 60.27%
 - Comment-like density: 4.88%
+
+## Fun Metrics
+
+- Deadline sprint events: 98
+- 24h sprint events: 98
+- Top sprinter: Vanish
+- Firefighting leader: Vanish
 
 ## Unity Content
 
@@ -55,9 +62,16 @@
 - `commit_history.csv`: commit-level history and churn
 - `contributor_summary.csv`: author-level contribution summary
 - `contributor_alias_summary.csv`: alias-merged contributor summary
+- `contributor_profiles.csv`: contributor preference, churn, and touched-current-size profile
 - `metric_catalog.csv`: implemented / partial / blocked metric catalog
 - `code_file_metrics.csv`: file-level C# content metrics
+- `code_word_frequency.csv`, `code_name_word_frequency.csv`, `code_naming_style.csv`: code vocabulary and naming preference metrics
 - `github_pull_requests.csv`: PR metrics from `gh` when available, otherwise local inferred PR rows
+- `github_pr_topics.csv`, `github_issue_topics.csv`, `github_overdue_issues.csv`: GitHub topic and aging metrics
+- `deadline_sprint_stats.csv`, `deadline_sprint_events.csv`: DDL/PR completion sprint metrics
+- `contributor_rhythm_profiles.csv`: contributor rhythm and persona tags
+- `firefighting_index.csv`, `pr_personality.csv`: fun maintenance and PR personality metrics
+- `file_churn_timeline.csv`: month-level churn timeline for hot files
 - `workflow_complexity.csv`: GitHub Actions workflow complexity
 - `unity_scene_complexity.csv`, `unity_prefab_complexity.csv`: Unity YAML complexity metrics
 - `risk_hotspots.csv`: combined code risk heuristic

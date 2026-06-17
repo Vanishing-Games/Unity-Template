@@ -1,0 +1,4 @@
+author,commits,night_commits,night_pct,weekend_commits,weekend_pct,favorite_hour,favorite_weekday,peak_day,peak_day_commits,peak_day_churn,avg_churn_per_commit,persona
+Vanish,215,76,35.35,38,17.67,16,Tuesday,2026-03-17,30,1532,16179.72,夜猫子 / 爆发型 / 大块改造派
+likoko,11,3,27.27,3,27.27,21,Thursday,2026-05-07,3,27407,52842.27,周末战士 / 大块改造派
+OriSYX,14,6,42.86,2,14.29,0,Friday,2026-05-06,2,67812,41004.07,夜猫子 / 大块改造派
