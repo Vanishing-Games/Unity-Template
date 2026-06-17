@@ -36312,7 +36312,10 @@
 								"height": 256,
 								"defUid": 858,
 								"px": [2560,2304],
-								"fieldInstances": [{ "__identifier": "NickName", "__type": "String", "__value": "RunTime/Null", "__tile": null, "defUid": 1115, "realEditorValues": [] }],
+								"fieldInstances": [{ "__identifier": "NickName", "__type": "String", "__value": "GameStartSavePoint", "__tile": null, "defUid": 1115, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["GameStartSavePoint"]
+								}] }],
 								"__worldX": -11776,
 								"__worldY": -4608
 							},
