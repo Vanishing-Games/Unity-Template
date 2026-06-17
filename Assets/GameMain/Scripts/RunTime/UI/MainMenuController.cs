@@ -176,7 +176,9 @@ namespace GameMain.RunTime
             CLogger.LogInfo($"Creating new save: {newSlotName}", LogTag.Button);
             VgSaveSystem.Instance.SetCurrentSlot(newSlotName);
 
-            var command = new GameFlowCommands.StartGameCommand("Chapter1Start");
+            var command = new GameFlowCommands.StartGameCommand(
+                GameIdentifiers.SavePoints.Chapter1Start
+            );
             command.Execute().Forget();
         }
 
@@ -202,7 +204,9 @@ namespace GameMain.RunTime
                     $"Save slot {slotName} has no SaveSlotEntry, falling back to default level",
                     LogTag.Button
                 );
-                command = new GameFlowCommands.StartGameCommand("Chapter1Start");
+                command = new GameFlowCommands.StartGameCommand(
+                    GameIdentifiers.SavePoints.Chapter1Start
+                );
             }
 
             command.Execute().Forget();
