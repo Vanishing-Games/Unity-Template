@@ -1,0 +1,364 @@
+path,name,reasons
+Assets/UniversalRenderPipelineGlobalSettings.asset,UniversalRenderPipelineGlobalSettings,not snake_case-ish
+Assets/Settings/BuildProfiles/Mac-Release.asset,Mac-Release,not snake_case-ish
+Assets/Settings/BuildProfiles/Mac-Debug.asset,Mac-Debug,not snake_case-ish
+Assets/Settings/BuildProfiles/Windows-Debug.asset,Windows-Debug,not snake_case-ish
+Assets/Settings/BuildProfiles/Web-Release.asset,Web-Release,not snake_case-ish
+Assets/Settings/BuildProfiles/Windows-Release.asset,Windows-Release,not snake_case-ish
+Assets/Settings/PickFilter/不点击tilemap.asset,不点击tilemap,contains CJK; not snake_case-ish
+Assets/Settings/PickFilter/PickFilterSettings.asset,PickFilterSettings,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_A_0002.png,CP_IDLE_A_0002,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_A_0003.png,CP_IDLE_A_0003,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_A_0001.png,CP_IDLE_A_0001,not snake_case-ish
+Assets/Arts/Checkpoint/CP_bloom_0001.png,CP_bloom_0001,not snake_case-ish
+Assets/Arts/Checkpoint/CP_bloom_0003.png,CP_bloom_0003,not snake_case-ish
+Assets/Arts/Checkpoint/CP_bloom_0002.png,CP_bloom_0002,not snake_case-ish
+Assets/Arts/Checkpoint/CP_bloom_0006.png,CP_bloom_0006,not snake_case-ish
+Assets/Arts/Checkpoint/CP_bloom_0005.png,CP_bloom_0005,not snake_case-ish
+Assets/Arts/Checkpoint/CP_bloom_0004.png,CP_bloom_0004,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_C_0001.png,CP_IDLE_C_0001,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_B_0001.png,CP_IDLE_B_0001,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_B_0002.png,CP_IDLE_B_0002,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_C_0002.png,CP_IDLE_C_0002,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_C_0003.png,CP_IDLE_C_0003,not snake_case-ish
+Assets/Arts/Checkpoint/CP_IDLE_B_0003.png,CP_IDLE_B_0003,not snake_case-ish
+Assets/Arts/ThornPlatform/art-ThornPlatform-1-2.2.png,art-ThornPlatform-1-2.2,not snake_case-ish
+Assets/Arts/ThornPlatform/art-ThornPlatform-1-2.1.png,art-ThornPlatform-1-2.1,not snake_case-ish
+Assets/Arts/ThornPlatform/art-ThornPlatform-1.png,art-ThornPlatform-1,not snake_case-ish
+Assets/Arts/ThornPlatform/art-ThornPlatform-2.png,art-ThornPlatform-2,not snake_case-ish
+Assets/Arts/PlayerArt/Death/死亡后退草图.png,死亡后退草图,contains CJK; not snake_case-ish
+Assets/Arts/PlayerArt/Death/复活草图.png,复活草图,contains CJK; not snake_case-ish
+Assets/Arts/PlayerArt/Death/死亡消散草图.png,死亡消散草图,contains CJK; not snake_case-ish
+Assets/Arts/PlayerArt/GroundMove2/anim_pl_walk_08 1.png,anim_pl_walk_08 1,contains space; not snake_case-ish
+Assets/Arts/PlayerArt/GroundMove2/anim_pl_walk_04 1.png,anim_pl_walk_04 1,contains space; not snake_case-ish
+Assets/Arts/PlayerArt/GroundMove2/anim_pl_walk_06 1.png,anim_pl_walk_06 1,contains space; not snake_case-ish
+Assets/Arts/PlayerArt/GroundMove2/anim_pl_walk_02 1.png,anim_pl_walk_02 1,contains space; not snake_case-ish
+Assets/Arts/PlayerArt/GroundMove2/anim_pl_walk_07 1.png,anim_pl_walk_07 1,contains space; not snake_case-ish
+Assets/Arts/PlayerArt/GroundMove2/anim_pl_walk_05 1.png,anim_pl_walk_05 1,contains space; not snake_case-ish
+Assets/Arts/PlayerArt/GroundMove2/anim_pl_walk_01 1.png,anim_pl_walk_01 1,contains space; not snake_case-ish
+Assets/Arts/PlayerArt/GroundMove2/anim_pl_walk_03 1.png,anim_pl_walk_03 1,contains space; not snake_case-ish
+Assets/Arts/Gate/三灯_0011.png,三灯_0011,contains CJK; not snake_case-ish
+Assets/Arts/TileSet/mineBG.png,mineBG,not snake_case-ish
+Assets/Arts/TileSet/Zone-tile-export2.png,Zone-tile-export2,not snake_case-ish
+Assets/Arts/TileSet/Mine-pole-tile.png,Mine-pole-tile,not snake_case-ish
+Assets/Arts/TileSet/smalltileA.png,smalltileA,not snake_case-ish
+Assets/Arts/TileSet/smalltileB.png,smalltileB,not snake_case-ish
+Assets/Arts/TileSet/Zone-tile.png,Zone-tile,not snake_case-ish
+Assets/Arts/TileSet/Zone-tile-export.png,Zone-tile-export,not snake_case-ish
+Assets/Arts/TileSet/Mat-UnderGround-tile.png,Mat-UnderGround-tile,not snake_case-ish
+Assets/Arts/MatDoor/二灯_0008.png,二灯_0008,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/二灯_0009.png,二灯_0009,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0009.png,一灯_0009,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0008.png,一灯_0008,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0001.png,三灯_0001,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0003.png,三灯_0003,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0002.png,三灯_0002,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0005.png,三灯_0005,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0011.png,三灯_0011,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0010.png,三灯_0010,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0004.png,三灯_0004,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0009.png,三灯_0009,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/三灯_0008.png,三灯_0008,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/熄灭1-2.png,熄灭1-2,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/熄灭1-3.png,熄灭1-3,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0011.png,一灯_0011,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0005.png,一灯_0005,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/二灯_0001.png,二灯_0001,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0004.png,一灯_0004,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0010.png,一灯_0010,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/二灯_0002.png,二灯_0002,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/二灯_0003.png,二灯_0003,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0003.png,一灯_0003,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/熄灭0-1.png,熄灭0-1,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/熄灭2-3.png,熄灭2-3,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0002.png,一灯_0002,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/二灯_0010.png,二灯_0010,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/二灯_0004.png,二灯_0004,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/熄灭0-2.png,熄灭0-2,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/熄灭0-3.png,熄灭0-3,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/二灯_0005.png,二灯_0005,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/二灯_0011.png,二灯_0011,contains CJK; not snake_case-ish
+Assets/Arts/MatDoor/一灯_0001.png,一灯_0001,contains CJK; not snake_case-ish
+Assets/Arts/Items/Item-light-Si.png,Item-light-Si,not snake_case-ish
+Assets/Arts/Items/Item-light-So.png,Item-light-So,not snake_case-ish
+Assets/Arts/Items/Item-light-Mo.png,Item-light-Mo,not snake_case-ish
+Assets/Arts/Items/绳子.png,绳子,contains CJK; not snake_case-ish
+Assets/Arts/Items/Item-light-Mi.png,Item-light-Mi,not snake_case-ish
+Assets/Arts/Items/Item_light_Mine.png,Item_light_Mine,not snake_case-ish
+Assets/Arts/Items/Item_light_MineInside.png,Item_light_MineInside,not snake_case-ish
+Assets/_Recovery/0 (1).unity,0 (1),contains space
+Assets/Core/Input/DefaultInputSettings.asset,DefaultInputSettings,not snake_case-ish
+Assets/Core/GameCoreSystems/LoadingSplash/CircleWipe.mat,CircleWipe,not snake_case-ish
+Assets/Core/GameCoreSystems/LoadingSplash/FluidFillLoading.mat,FluidFillLoading,not snake_case-ish
+Assets/Core/GameCoreSystems/LoadingSplash/Dissolve.mat,Dissolve,not snake_case-ish
+Assets/Prefabs/RunTime/UI/PauseMenu.prefab,PauseMenu,not snake_case-ish
+Assets/Prefabs/RunTime/System/VgSceneManager.prefab,VgSceneManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/VgIngameConsoleManager.prefab,VgIngameConsoleManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/LevelManager.prefab,LevelManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/EventSystem.prefab,EventSystem,not snake_case-ish
+Assets/Prefabs/RunTime/System/StatsManager.prefab,StatsManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/VgAudioManager.prefab,VgAudioManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/VgInputManager.prefab,VgInputManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/[GameCore].prefab,[GameCore],not snake_case-ish
+Assets/Prefabs/RunTime/System/PlayerManageSystem.prefab,PlayerManageSystem,not snake_case-ish
+Assets/Prefabs/RunTime/System/SaveManager.prefab,SaveManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/Splash/VgSplasherManager.prefab,VgSplasherManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/Camera/VgCameraManager.prefab,VgCameraManager,not snake_case-ish
+Assets/Prefabs/RunTime/System/Camera/CameraBorder.prefab,CameraBorder,not snake_case-ish
+Assets/Prefabs/RunTime/GamePlay/Bee.prefab,Bee,not snake_case-ish
+Assets/Prefabs/RunTime/GamePlay/Danger0.prefab,Danger0,not snake_case-ish
+Assets/Prefabs/RunTime/GamePlay/Danger (1).prefab,Danger (1),contains space; not snake_case-ish
+Assets/Prefabs/RunTime/GamePlay/TempGrabRope.prefab,TempGrabRope,not snake_case-ish
+Assets/Prefabs/RunTime/Environment/Chain/ChainJoint.prefab,ChainJoint,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_MovePlatformer.prefab,Ae_MovePlatformer,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_SnakeHoney.prefab,Ae_SnakeHoney,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_CameraOverrideArea.prefab,Ae_CameraOverrideArea,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_Door.prefab,Ae_Mat_Door,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_MineLight.prefab,Ae_Mat_MineLight,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_ChangeBackgroundArea.prefab,Ae_ChangeBackgroundArea,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_MisteryFog.prefab,Ae_MisteryFog,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_Bee.prefab,Ae_Mat_Bee,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_Ore.prefab,Ae_Mat_Ore,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_SavePoint.prefab,Ae_SavePoint,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_SnakeDoor.prefab,Ae_SnakeDoor,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_Checkpoint.prefab,Ae_Mat_Checkpoint,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_Vine.prefab,Ae_Mat_Vine,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_Collection.prefab,Ae_Mat_Collection,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_ThornPlatform.prefab,Ae_Mat_ThornPlatform,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_light_s.prefab,Ae_Mat_light_s,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_MovePlatformerPathPoint.prefab,Ae_MovePlatformerPathPoint,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_Mat_light_M.prefab,Ae_Mat_light_M,not snake_case-ish
+Assets/Prefabs/RunTime/Entities/Ae_LevelClearPoint.prefab,Ae_LevelClearPoint,not snake_case-ish
+Assets/Resources/Test/testRes_prefab_cube.prefab,testRes_prefab_cube,not snake_case-ish
+Assets/Resources/Test/testRes_prefab_sphere.prefab,testRes_prefab_sphere,not snake_case-ish
+Assets/Resources/Prefabs/Effect2/followDust.prefab,followDust,not snake_case-ish
+Assets/Resources/Prefabs/Effect/brustOut.prefab,brustOut,not snake_case-ish
+Assets/Resources/Prefabs/Effect/suckIn.prefab,suckIn,not snake_case-ish
+Assets/Resources/Prefabs/Effect/followDust.prefab,followDust,not snake_case-ish
+Assets/Resources/Prefabs/Effect/landedOnWall.prefab,landedOnWall,not snake_case-ish
+Assets/Resources/Prefabs/SnakeTails/LineTail 2.prefab,LineTail 2,contains space; not snake_case-ish
+Assets/Resources/Prefabs/SnakeTails/LineTail 6.prefab,LineTail 6,contains space; not snake_case-ish
+Assets/Resources/Prefabs/SnakeTails/LineTail 4.prefab,LineTail 4,contains space; not snake_case-ish
+Assets/Resources/Prefabs/SnakeTails/LineTail 1.prefab,LineTail 1,contains space; not snake_case-ish
+Assets/Resources/Prefabs/SnakeTails/CornerTail.prefab,CornerTail,not snake_case-ish
+Assets/Resources/Prefabs/SnakeTails/LineTail 3.prefab,LineTail 3,contains space; not snake_case-ish
+Assets/Resources/Prefabs/SnakeTails/LineTail.prefab,LineTail,not snake_case-ish
+Assets/Resources/Prefabs/SnakeTails/LineTail 5.prefab,LineTail 5,contains space; not snake_case-ish
+Assets/Resources/Prefabs/Wave/Wave.prefab,Wave,not snake_case-ish
+Assets/Resources/Prefabs/Player/SnakePlayer.prefab,SnakePlayer,not snake_case-ish
+Assets/Resources/Prefabs/Player/PlatformerPlayer.prefab,PlatformerPlayer,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_08.asset,LDtk_background_Chapter_Platformer_08,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_09.asset,LDtk_background_Chapter_Platformer_09,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_05.asset,LDtk_background_Chapter_Platformer_05,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_07.asset,LDtk_background_Chapter_Platformer_07,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_03.asset,LDtk_background_Chapter_Platformer_03,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_01.asset,LDtk_background_Chapter_Platformer_01,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_06.asset,LDtk_background_Chapter_Platformer_06,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_04.asset,LDtk_background_Chapter_Platformer_04,not snake_case-ish
+Assets/Resources/BackGrounds/LDtk_background_Chapter_Platformer_02.asset,LDtk_background_Chapter_Platformer_02,not snake_case-ish
+Assets/HierarchyDecorator/Settings.asset,Settings,not snake_case-ish
+Assets/AddressableAssetsData/AddressableAssetGroupSortSettings.asset,AddressableAssetGroupSortSettings,not snake_case-ish
+Assets/AddressableAssetsData/DefaultObject.asset,DefaultObject,not snake_case-ish
+Assets/AddressableAssetsData/AddressableAssetSettings.asset,AddressableAssetSettings,not snake_case-ish
+Assets/AddressableAssetsData/ProfileDataSourceSettings.asset,ProfileDataSourceSettings,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroupTemplates/Packed Assets.asset,Packed Assets,contains space; not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Built In Data.asset,Built In Data,contains space; not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Test.asset,Test,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Level1.asset,Level1,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Level2.asset,Level2,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Common.asset,Common,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Level1_BundledAssetGroupSchema.asset,Level1_BundledAssetGroupSchema,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Level2_ContentUpdateGroupSchema.asset,Level2_ContentUpdateGroupSchema,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Test_BundledAssetGroupSchema.asset,Test_BundledAssetGroupSchema,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Test_ContentUpdateGroupSchema.asset,Test_ContentUpdateGroupSchema,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Built In Data_PlayerDataGroupSchema.asset,Built In Data_PlayerDataGroupSchema,contains space; not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Common_ContentUpdateGroupSchema.asset,Common_ContentUpdateGroupSchema,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Level2_BundledAssetGroupSchema.asset,Level2_BundledAssetGroupSchema,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Common_BundledAssetGroupSchema.asset,Common_BundledAssetGroupSchema,not snake_case-ish
+Assets/AddressableAssetsData/AssetGroups/Schemas/Level1_ContentUpdateGroupSchema.asset,Level1_ContentUpdateGroupSchema,not snake_case-ish
+Assets/AddressableAssetsData/DataBuilders/BuildScriptPackedMode.asset,BuildScriptPackedMode,not snake_case-ish
+Assets/AddressableAssetsData/DataBuilders/BuildScriptVirtualMode.asset,BuildScriptVirtualMode,not snake_case-ish
+Assets/AddressableAssetsData/DataBuilders/BuildScriptPackedPlayMode.asset,BuildScriptPackedPlayMode,not snake_case-ish
+Assets/AddressableAssetsData/DataBuilders/BuildScriptFastMode.asset,BuildScriptFastMode,not snake_case-ish
+Assets/GameMain/Configurations/Audio/audioSheet_bgm.asset,audioSheet_bgm,not snake_case-ish
+Assets/GameMain/Configurations/Audio/audioSheet_audio_manager_helper.asset,audioSheet_audio_manager_helper,not snake_case-ish
+Assets/GameMain/Configurations/Audio/audioSheet_gm_player_movement.asset,audioSheet_gm_player_movement,not snake_case-ish
+Assets/GameMain/Configurations/Audio/audioSheet_editor_test.asset,audioSheet_editor_test,not snake_case-ish
+Assets/GameMain/Configurations/Player/Sheet_Oris.asset,Sheet_Oris,not snake_case-ish
+Assets/GameMain/Anim/BeeAnim/Bee_Stay_Start.anim,Bee_Stay_Start,not snake_case-ish
+Assets/GameMain/Anim/BeeAnim/Bee_fly.anim,Bee_fly,not snake_case-ish
+Assets/GameMain/Anim/BeeAnim/Bee_Idle.anim,Bee_Idle,not snake_case-ish
+Assets/GameMain/Anim/BeeAnim/Bee_FastIdle.anim,Bee_FastIdle,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_idle_0-1.anim,MatDoor_idle_0-1,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoorAnim.controller,MatDoorAnim,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_idle_1-3.anim,MatDoor_idle_1-3,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_Open_3.anim,MatDoor_Open_3,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_Open_2.anim,MatDoor_Open_2,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_idle_1-2.anim,MatDoor_idle_1-2,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_Open_1.anim,MatDoor_Open_1,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_idle_0-3.anim,MatDoor_idle_0-3,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_idle_2-3.anim,MatDoor_idle_2-3,not snake_case-ish
+Assets/GameMain/Anim/MatDoorAnim/MatDoor_idle_0-2.anim,MatDoor_idle_0-2,not snake_case-ish
+Assets/GameMain/Anim/MatCollectionAnim/Orchid_Idle2.anim,Orchid_Idle2,not snake_case-ish
+Assets/GameMain/Anim/MatCollectionAnim/Orchid_Bloom.anim,Orchid_Bloom,not snake_case-ish
+Assets/GameMain/Anim/MatCollectionAnim/OrchidAnim.controller,OrchidAnim,not snake_case-ish
+Assets/GameMain/Anim/MatCollectionAnim/Orchid_Idle1.anim,Orchid_Idle1,not snake_case-ish
+Assets/GameMain/Anim/CheckpointAnim/Checkpoint_bloom.anim,Checkpoint_bloom,not snake_case-ish
+Assets/GameMain/Anim/CheckpointAnim/CheckpointAnim.controller,CheckpointAnim,not snake_case-ish
+Assets/GameMain/Anim/CheckpointAnim/Checkpoint_idle_A.anim,Checkpoint_idle_A,not snake_case-ish
+Assets/GameMain/Anim/CheckpointAnim/Checkpoint_idle_C.anim,Checkpoint_idle_C,not snake_case-ish
+Assets/GameMain/Anim/CheckpointAnim/Checkpoint_idle_B.anim,Checkpoint_idle_B,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Checkpoint/No_Idle.anim,No_Idle,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Checkpoint/SavePoint.controller,SavePoint,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Checkpoint/Yes_Idle.anim,Yes_Idle,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Honey/HoneyAnim.controller,HoneyAnim,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Honey/Honey-idle.anim,Honey-idle,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Door/Door2-open.anim,Door2-open,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Door/Door1-1.anim,Door1-1,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Door/Door1-0.anim,Door1-0,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Door/Door2-2.anim,Door2-2,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Door/Door2-0.anim,Door2-0,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Door/Door2-1.anim,Door2-1,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Door/DoorAnim.controller,DoorAnim,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Door/Door1-open.anim,Door1-open,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Player/PlayerAnim.controller,PlayerAnim,not snake_case-ish
+Assets/GameMain/Anim/ZoneAnim/Player/Player-idle.anim,Player-idle,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Fall2Idle.anim,Player_Fall2Idle,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Jump_End.anim,Player_Jump_End,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Jump_U.anim,Player_Jump_U,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Death_Respawning.anim,Player_Death_Respawning,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Throw_Begin.anim,Player_Throw_Begin,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Death_Dying.anim,Player_Death_Dying,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Fall_U.anim,Player_Fall_U,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Whistle_Stay.anim,Player_Whistle_Stay,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Slide.anim,Player_Slide,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_GrabNormal_Slide.anim,Player_GrabNormal_Slide,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Throwing.anim,Player_Throwing,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Fall_Start1.anim,Player_Fall_Start1,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Fall_R.anim,Player_Fall_R,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Idle2Walk.anim,Player_Idle2Walk,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Fall_U2R.anim,Player_Fall_U2R,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/PlayerAnim.controller,PlayerAnim,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Fall2Walk.anim,Player_Fall2Walk,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Dash_Before.anim,Player_Dash_Before,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Jump_R.anim,Player_Jump_R,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_GrabNormal.anim,Player_GrabNormal,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_GrabCorner.anim,Player_GrabCorner,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Death_BackMoving.anim,Player_Death_BackMoving,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Idle.anim,Player_Idle,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Fall_Start2.anim,Player_Fall_Start2,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Whistle_Before_idle.anim,Player_Whistle_Before_idle,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Whistle_After.anim,Player_Whistle_After,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Walk2Idle.anim,Player_Walk2Idle,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Dashing.anim,Player_Dashing,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Jump_U2R.anim,Player_Jump_U2R,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Fall2GrabNormal.anim,Player_Fall2GrabNormal,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Whistle_Before_Walk.anim,Player_Whistle_Before_Walk,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_WalkBack.anim,Player_WalkBack,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_Walk.anim,Player_Walk,not snake_case-ish
+Assets/GameMain/Anim/PlayerAnim/Player_GrabNormal_idle2slide.anim,Player_GrabNormal_idle2slide,not snake_case-ish
+Assets/GameMain/Anim/VineAnim/Vine_idle_unfold.anim,Vine_idle_unfold,not snake_case-ish
+Assets/GameMain/Anim/VineAnim/Vine_idle_fold.anim,Vine_idle_fold,not snake_case-ish
+Assets/GameMain/Anim/VineAnim/VineAnim.controller,VineAnim,not snake_case-ish
+Assets/GameMain/Anim/VineAnim/Vine_unfolding.anim,Vine_unfolding,not snake_case-ish
+Assets/GameMain/Anim/VineAnim/Vine_folding.anim,Vine_folding,not snake_case-ish
+Assets/GameMain/Anim/ThornPlatformAnim/ThornPlatform_idle_Platform.anim,ThornPlatform_idle_Platform,not snake_case-ish
+Assets/GameMain/Anim/ThornPlatformAnim/ThornPlatformAnim.controller,ThornPlatformAnim,not snake_case-ish
+Assets/GameMain/Anim/ThornPlatformAnim/ThornPlatform_Thorn2Platform.anim,ThornPlatform_Thorn2Platform,not snake_case-ish
+Assets/GameMain/Anim/ThornPlatformAnim/ThornPlatform_Platform2Thorn.anim,ThornPlatform_Platform2Thorn,not snake_case-ish
+Assets/GameMain/Anim/ThornPlatformAnim/ThornPlatform_idle_thorn.anim,ThornPlatform_idle_thorn,not snake_case-ish
+Assets/GameMain/UI/PauseMenu.uxml,PauseMenu,not snake_case-ish
+Assets/GameMain/UI/MainMenu.uxml,MainMenu,not snake_case-ish
+Assets/GameMain/UI/MainMenu.uss,MainMenu,not snake_case-ish
+Assets/GameMain/UI/PanelSettings.asset,PanelSettings,not snake_case-ish
+Assets/GameMain/Scenes/Develop/GameLevel2/volume Profile 1.asset,volume Profile 1,contains space; not snake_case-ish
+Assets/GameMain/Scenes/Develop/GameLevel2/volume Profile.asset,volume Profile,contains space; not snake_case-ish
+Assets/GameMain/Scenes/Develop/GameLevel1/volume Profile.asset,volume Profile,contains space; not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_2.asset,Volume_Level_2,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_20.asset,Volume_Level_20,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_0.asset,Volume_Level_0,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_4.asset,Volume_Level_4,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_19.asset,Volume_Level_19,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_6.asset,Volume_Level_6,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_1.asset,Volume_Level_1,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_3.asset,Volume_Level_3,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_21.asset,Volume_Level_21,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_18.asset,Volume_Level_18,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_7.asset,Volume_Level_7,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_5.asset,Volume_Level_5,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_16.asset,Volume_Level_16,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_9.asset,Volume_Level_9,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_14.asset,Volume_Level_14,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_10.asset,Volume_Level_10,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_12.asset,Volume_Level_12,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_15.asset,Volume_Level_15,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_17.asset,Volume_Level_17,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_8.asset,Volume_Level_8,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_13.asset,Volume_Level_13,not snake_case-ish
+Assets/GameMain/LDtkProject/gm_ldtk_project/VolumeProfiles/Volume_Level_11.asset,Volume_Level_11,not snake_case-ish
+Assets/GameMain/LDtkProject/LogicTile/tile_logicMap_1.5.asset,tile_logicMap_1.5,not snake_case-ish
+Assets/GameMain/LDtkProject/LogicTile/tile_logicMap_1.5 1.asset,tile_logicMap_1.5 1,contains space; not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_cirleDot.png,Tex_cirleDot,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_flare02.png,Tex_flare02,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_flare03.png,Tex_flare03,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_flare01.png,Tex_flare01,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_smoke.png,Tex_smoke,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_trail03.png,Tex_trail03,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_trail02.png,Tex_trail02,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_trail01.png,Tex_trail01,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_trail05.png,Tex_trail05,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_trail04.png,Tex_trail04,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_trail06.png,Tex_trail06,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_trail07.png,Tex_trail07,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_smoke3.png,Tex_smoke3,not snake_case-ish
+Assets/GameMain/Rendering/Texture/Tex_trail08.png,Tex_trail08,not snake_case-ish
+Assets/Shaders/ProgressBar/Post-Processing.asset,Post-Processing,not snake_case-ish
+Assets/Shaders/ProgressBar/Animated Progress Bar.mat,Animated Progress Bar,contains space; not snake_case-ish
+Assets/Shaders/ProgressBar/Animated Progress Bar.shadergraph,Animated Progress Bar,contains space
+Assets/Shaders/ProgressBar/Sub-Graphs/Capsule SDF.shadersubgraph,Capsule SDF,contains space
+Assets/Rendering/RainRust/Materials/Crt.mat,Crt,not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-Light SDF.asset,MapleMonoNormalNL-Light SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-Regular SDF.asset,MapleMonoNormalNL-Regular SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-Thin SDF.asset,MapleMonoNormalNL-Thin SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-Bold SDF.asset,MapleMonoNormalNL-Bold SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-LightItalic SDF.asset,MapleMonoNormalNL-LightItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-MediumItalic SDF.asset,MapleMonoNormalNL-MediumItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-SemiBold SDF.asset,MapleMonoNormalNL-SemiBold SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-Italic SDF.asset,MapleMonoNormalNL-Italic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-Medium SDF.asset,MapleMonoNormalNL-Medium SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-ExtraBold SDF.asset,MapleMonoNormalNL-ExtraBold SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-SemiBoldItalic SDF.asset,MapleMonoNormalNL-SemiBoldItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-ThinItalic SDF.asset,MapleMonoNormalNL-ThinItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-ExtraBoldItalic SDF.asset,MapleMonoNormalNL-ExtraBoldItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-ExtraLight SDF.asset,MapleMonoNormalNL-ExtraLight SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-ExtraLightItalic SDF.asset,MapleMonoNormalNL-ExtraLightItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-OTF/MapleMonoNormalNL-BoldItalic SDF.asset,MapleMonoNormalNL-BoldItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-MediumItalic SDF.asset,MapleMonoNormalNL-CN-MediumItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-Regular SDF.asset,MapleMonoNormalNL-CN-Regular SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-SemiBoldItalic SDF.asset,MapleMonoNormalNL-CN-SemiBoldItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-ExtraLightItalic SDF.asset,MapleMonoNormalNL-CN-ExtraLightItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-Light SDF.asset,MapleMonoNormalNL-CN-Light SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-ThinItalic SDF.asset,MapleMonoNormalNL-CN-ThinItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-BoldItalic SDF.asset,MapleMonoNormalNL-CN-BoldItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-ExtraLight SDF.asset,MapleMonoNormalNL-CN-ExtraLight SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-LightItalic SDF.asset,MapleMonoNormalNL-CN-LightItalic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-SemiBold SDF.asset,MapleMonoNormalNL-CN-SemiBold SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-Thin SDF.asset,MapleMonoNormalNL-CN-Thin SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-ExtraBold SDF.asset,MapleMonoNormalNL-CN-ExtraBold SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-Bold SDF.asset,MapleMonoNormalNL-CN-Bold SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-Italic SDF.asset,MapleMonoNormalNL-CN-Italic SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-Medium SDF.asset,MapleMonoNormalNL-CN-Medium SDF,contains space; not snake_case-ish
+Assets/Fonts/MapleMonoNormalNL-CN-unhinted/MapleMonoNormalNL-CN-ExtraBoldItalic SDF.asset,MapleMonoNormalNL-CN-ExtraBoldItalic SDF,contains space; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心9.png,能源核心9,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心8.png,能源核心8,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心3.png,能源核心3,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心2.png,能源核心2,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心1.png,能源核心1,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心5.png,能源核心5,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心4.png,能源核心4,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心6.png,能源核心6,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/Background/pics/能源核心7.png,能源核心7,contains CJK; not snake_case-ish
+Assets/Demos/FunctionDev/CharacterControllerDemo/MovementSheet 1.asset,MovementSheet 1,contains space; not snake_case-ish
+Assets/Demos/FunctionDev/CharacterControllerDemo/MovementSheet.asset,MovementSheet,not snake_case-ish
+Assets/Demos/FunctionDev/OriSPlayerControl Demo/tempArt/tempPlate.prefab,tempPlate,not snake_case-ish
+Assets/Demos/RainRustRenderPipelineDemo/DemoScene_02/volum Profile.asset,volum Profile,contains space; not snake_case-ish

@@ -1,0 +1,11 @@
+api,hits
+UnityEngine,286
+CLogger,208
+GetComponent,130
+Debug.Log,66
+Destroy,34
+Instantiate,12
+FindObject,10
+Addressables,10
+Resources.Load,7
+SceneManager,6

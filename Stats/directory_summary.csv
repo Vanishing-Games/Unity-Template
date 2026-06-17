@@ -1,0 +1,66 @@
+name,files,bytes,lines,todos,blank_lines,comment_like_lines
+Assets/Plugins,2110,352706395,298663,45,25507,7393
+Assets/Fonts,138,351589528,9831,0,36,0
+FMOD,202,338844777,3782,0,0,0
+Packages,2923,58874777,360080,232,28280,34636
+Assets/Arts,524,33690370,36301,0,0,0
+Assets/GameMain,666,16751213,48077,1,1719,395
+Assets/ThirdParty,2030,10569926,236606,65,21690,17447
+Assets/Demos,111,6154100,34103,0,480,186
+Assets/TextMesh Pro,84,4723232,6112,0,756,448
+Assets/LDtkUnity,841,4209598,43268,105,4833,4279
+Assets/_Recovery,4,2746383,139,0,0,0
+Assets/Resources,104,1671508,68378,0,0,0
+Assets/Prefabs,88,420882,14857,0,3,0
+Assets/Core,312,383311,11747,0,1337,701
+Assets/Shaders,15,343977,789,0,42,29
+Assets/HierarchyDecorator,2,254351,6491,0,0,0
+Assets/Rendering,72,158877,4485,1,503,403
+Assets/Settings,16,146467,3561,0,0,0
+GitHub Actions,9,115315,2853,0,387,227
+ProjectSettings,34,67092,2566,0,0,0
+Assets/AddressableAssetsData,51,29899,952,0,0,0
+Assets/Editor,12,28606,811,0,86,13
+Assets/UniversalRenderPipelineGlobalSettings.asset,1,23958,509,0,0,0
+Assets/Tests,16,23679,736,0,121,249
+Scripts,5,8845,307,0,29,17
+.DS_Store,1,8196,0,0,0,0
+README.md,1,6049,160,0,27,28
+CODE_OF_CONDUCT.md,1,5219,128,0,35,30
+.gitignore,1,2923,0,0,0,0
+.editorconfig,1,1868,0,0,0,0
+.gitattributes,1,1117,0,0,0,0
+LICENSE,1,1072,0,0,0,0
+Assets/UI Toolkit,3,545,20,0,0,0
+SECURITY.md,1,520,18,0,6,3
+.gitmodules,1,403,0,0,0,0
+ProjectConfig,1,377,16,0,0,0
+Assets/GameAssets,2,344,16,0,0,0
+Assets/UniversalRenderPipelineGlobalSettings.asset.meta,1,189,8,0,0,0
+Assets/LDtkUnity.meta,1,172,8,0,0,0
+Assets/Plugins.meta,1,172,8,0,0,0
+Assets/TextMesh Pro.meta,1,172,8,0,0,0
+Assets/UI Toolkit.meta,1,172,8,0,0,0
+Assets/Arts.meta,1,172,8,0,0,0
+Assets/Fonts.meta,1,172,8,0,0,0
+Assets/GameMain.meta,1,172,8,0,0,0
+Assets/Shaders.meta,1,172,8,0,0,0
+Assets/_Recovery.meta,1,172,8,0,0,0
+Assets/Rendering.meta,1,172,8,0,0,0
+Assets/Editor.meta,1,172,8,0,0,0
+Assets/Prefabs.meta,1,172,8,0,0,0
+Assets/Core.meta,1,172,8,0,0,0
+Assets/AddressableAssetsData.meta,1,172,8,0,0,0
+Assets/Demos.meta,1,172,8,0,0,0
+Assets/HierarchyDecorator.meta,1,172,8,0,0,0
+Assets/Resources.meta,1,172,8,0,0,0
+Assets/ThirdParty.meta,1,172,8,0,0,0
+Assets/Tests.meta,1,172,8,0,0,0
+Assets/Settings.meta,1,172,8,0,0,0
+Assets/StreamingAssets.meta,1,172,8,0,0,0
+Assets/GameAssets.meta,1,172,8,0,0,0
+Assets/StreamingAssets,1,172,8,0,0,0
+.vsconfig,1,96,0,0,0,0
+.lfsconfig,1,93,0,0,0,0
+csharpierrc.json,1,92,6,0,0,0
+CONTRIBUTING.md,1,22,1,0,0,1
