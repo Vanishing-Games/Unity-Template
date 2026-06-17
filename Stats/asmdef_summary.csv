@@ -1,0 +1,48 @@
+path,name,root_namespace,references,include_platforms,allow_unsafe_code,auto_referenced
+Assets/Core/Core.asmdef,Core,Core,14,,False,True
+Assets/Demos/Demo.asmdef,Demos,,0,Editor,False,True
+Assets/ThirdParty/UnityHFSM-v2.2.0/UnityHFSM.asmdef,UnityHFSM,,0,,False,True
+Assets/ThirdParty/AmplifyShaderEditor/AmplifyShaderEditor.asmdef,AmplifyShaderEditor,,0,Editor,True,True
+Assets/LDtkUnity/Runtime/LDtkUnity.Runtime.asmdef,LDtkUnity.Runtime,,2,,False,True
+Assets/LDtkUnity/InternalBridge/InternalBridgeDef.asmdef,Unity.InternalAPIEditorBridge.004,,1,Editor,False,True
+Assets/LDtkUnity/Editor/LDtkUnity.Editor.asmdef,LDtkUnity.Editor,,6,Editor,False,True
+Assets/Demos/FunctionDev/CharacterControllerDemo/CharacterControllerDemo.asmdef,CharacterControllerDemo,,3,,False,True
+Assets/Demos/FunctionDev/FpDemo/FpDemo.asmdef,FpDemo,,1,,False,True
+Assets/Demos/FunctionDev/Sonar/Sonar.asmdef,Sonar,,0,,False,True
+Assets/Rendering/RainRust/RainRust.Rendering.asmdef,RainRust.Rendering,RainRust.Rendering,5,,False,True
+Assets/GameMain/LDtkProject/GameMain.LDtk.asmdef,GameMain.LDtk,,0,,False,True
+Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef,GameMain.RunTime,GameMain.RunTime,10,,False,True
+Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef,GameMain.Editor,GameMain.Editor,12,Editor,False,True
+Assets/GameMain/Scripts/Editor/ConsoleUtilities/GameMain.Editor.ConsoleUtilities.asmdef,GameMain.Editor.ConsoleUtilities,,1,,False,True
+Assets/Tests/PlayMode/Test.PlayMode.asmdef,Test.PlayMode,Test.PlayMode,6,,False,False
+Assets/Tests/Editor/Test.Editor.asmdef,Test.Editor,Test.Editor,6,Editor,False,False
+Assets/Plugins/FMOD/FMODUnity.asmdef,FMODUnity,,4,,False,True
+Assets/Plugins/IngameDebugConsole/IngameDebugConsole.Runtime.asmdef,IngameDebugConsole.Runtime,,2,,False,True
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef,Sirenix.OdinInspector.Modules.Unity.Addressables,,8,,True,True
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics/Sirenix.OdinInspector.Modules.UnityMathematics.asmdef,Sirenix.OdinInspector.Modules.UnityMathematics,,5,Editor,True,True
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Runtime/Sirenix.OdinInspector.Modules.UnityLocalization.asmdef,Sirenix.OdinInspector.Modules.UnityLocalization,,3,,True,True
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef,Sirenix.OdinInspector.Modules.UnityLocalization.Editor,,8,Editor,True,True
+Assets/Plugins/UniTask/Runtime/UniTask.asmdef,UniTask,,0,,False,True
+Assets/Plugins/UniTask/Editor/UniTask.Editor.asmdef,UniTask.Editor,,1,Editor,False,False
+Assets/Plugins/UniTask/Runtime/Linq/UniTask.Linq.asmdef,UniTask.Linq,,1,,False,True
+Assets/Plugins/UniTask/Runtime/External/Addressables/UniTask.Addressables.asmdef,UniTask.Addressables,,3,,False,True
+Assets/Plugins/UniTask/Runtime/External/TextMeshPro/UniTask.TextMeshPro.asmdef,UniTask.TextMeshPro,,2,,False,True
+Assets/Plugins/UniTask/Runtime/External/DOTween/UniTask.DOTween.asmdef,UniTask.DOTween,,2,,False,True
+Assets/Plugins/IngameDebugConsole/Editor/IngameDebugConsole.Editor.asmdef,IngameDebugConsole.Editor,,1,Editor,False,True
+Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Zenject-ReflectionBaking-Editor.asmdef,Zenject-ReflectionBaking-Editor,,2,Editor,False,True
+Assets/Plugins/Zenject/OptionalExtras/TestFramework/Zenject-TestFramework.asmdef,Zenject-TestFramework,,1,Editor,False,True
+Assets/Plugins/Zenject/OptionalExtras/MemoryPoolMonitor/Editor/Zenject-PoolMonitor-Editor.asmdef,Zenject-PoolMonitor-Editor,,2,Editor,False,True
+Assets/Plugins/Zenject/Source/Editor/Zenject-Editor.asmdef,Zenject-Editor,,1,Editor,False,True
+Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef,FMODUnityEditor,,8,Editor,False,True
+Assets/Plugins/FMOD/addons/ResonanceAudio/Scripts/FMODUnityResonance.asmdef,FMODUnityResonance,,1,,False,True
+Assets/Plugins/FMOD/addons/ResonanceAudio/Editor/FMODUnityResonanceEditor.asmdef,FMODUnityResonanceEditor,,1,Editor,False,True
+Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef,Unity.RenderPipelines.Universal.Runtime,,11,,True,True
+Packages/com.unity.render-pipelines.universal/Shaders/Unity.RenderPipelines.Universal.Shaders.asmdef,Unity.RenderPipelines.Universal.Shaders,,0,,False,True
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/Unity.RenderPipelines.Universal.ShaderLibrary.asmdef,Unity.RenderPipeline.Universal.ShaderLibrary,,1,,False,True
+Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef,Unity.RenderPipelines.Universal.Editor,,18,Editor,True,True
+Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef,Unity.RenderPipelines.Universal.2D.Editor.Overrides,,17,Editor,True,True
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2ToURPConvertersDefinition.asmdef,PPv2URPConverters,,6,Editor,False,True
+Packages/com.unity.render-pipelines.universal/Samples~/URPPackageSamples/SharedAssets/Scripts/SampleAssembly.asmdef,SampleAssembly,,4,,False,True
+Packages/com.unity.render-pipelines.universal/Tests/Runtime/Unity.RenderPipelines.Universal.Runtime.Tests.asmdef,Unity.RenderPipelines.Universal.Runtime.Tests,,7,,True,False
+Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef,Unity.RenderPipelines.Universal.Editor.Tests,,9,Editor,True,False
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef,Unity.RenderPipelines.Universal.2D.Runtime,,8,,True,True

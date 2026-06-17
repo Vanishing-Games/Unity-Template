@@ -1,0 +1,52 @@
+priority,difficulty,metric,status,source
+P0,低,作者别名合并贡献,implemented,Git author/email heuristic
+P0,低,开发连续天数 Streak,implemented,git log dates
+P0,低,夜间开发指数,implemented,git commit hour
+P0,低,周末开发占比,implemented,git weekday
+P0,低,爆发期识别,implemented,commit day + churn
+P0,低,文件变更热点,implemented,git numstat
+P0,中,贡献领域雷达,implemented,git numstat + path domain
+P0,低,第一方 vs 第三方占比,implemented,path rules
+P0,中,Unity 场景复杂度,implemented,Unity YAML scan
+P0,中,Prefab 复杂度,implemented,Unity YAML scan
+P0,中,Addressables 覆盖率,implemented,Addressable group assets
+P0,低,代码结构地图,implemented,path/domain grouping
+P0,低,C# 类型组成,implemented,C# regex scan
+P0,低,MonoBehaviour 使用量,implemented,C# regex scan
+P0,低,ScriptableObject 使用量,implemented,C# regex scan
+P0,低,SerializeField 热点,implemented,C# regex scan
+P0,低,Update/FixedUpdate 热点,implemented,C# regex scan
+P0,低,Awake/Start 生命周期分布,implemented,C# regex scan
+P0,低,文件代码行数 Top,implemented,C# file scan
+P0,低,方法数量 Top,implemented,C# regex scan
+P0,低/中,PR 生命周期,local-inferred,gh PR API when available; otherwise commit subject #
+P0,低/中,PR 吞吐量/合并率/体积画像,local-inferred,gh PR API when available; otherwise commit subject #
+P1,中,近似圈复杂度,implemented,branch keyword count
+P1,中,最大方法/类长度近似,partial,file-level size and method count
+P1,低,Namespace 分布,implemented,C# regex scan
+P1,中,asmdef 依赖图,implemented,asmdef JSON
+P1,低,Runtime/Editor/Test 比例,implemented,path/domain grouping
+P1,低,测试代码比例,implemented,path/domain grouping
+P1,低,日志调用分布,implemented,CLogger/Debug.Log scan
+P1,低,R3 使用情况,implemented,Observable/Subject scan
+P1,中,事件系统覆盖,implemented,Events path checks
+P1,中,Commands 覆盖,implemented,Commands path checks
+P1,中,m_ 字段规范率,implemented,C# field scan
+P1,低,注释密度,implemented,C# comment-like lines
+P1,低,TODO/FIXME/HACK,implemented,text scan
+P1,中,CI 工作流复杂度,implemented,GitHub workflow YAML scan
+P1,低/高,CI 成功率/耗时,blocked-gh-auth,gh run list requires valid gh auth
+P1,中,美术帧序列完整度,implemented,numbered image sequence scan
+P1,中,关卡数据复杂度,implemented,LDtk JSON parse
+P1,低/中,Issue 关闭速度/积压量,blocked-gh-auth,gh issue list requires valid gh auth
+P2,中,依赖来源画像,implemented,Packages manifest version source
+P2,中,代码主题地图,implemented,path/domain/tokens
+P2,中,文件年龄分布,implemented,git log per file
+P2,高,GUID 引用中心,implemented,meta GUID + YAML refs
+P2,高,疑似孤儿资源,implemented,GUID reverse lookup heuristic
+P2,中,提交主题词云,implemented,commit subject keywords
+P2,中,个人开发节奏画像,implemented,author x time/domain
+P2,中,高风险热点,implemented,complexity + churn + size + tests heuristic
+P2,中,协程/async/LINQ/反射/资源路径/异常处理,implemented,C# token scan
+P2,高,Review 响应时间/轮次/矩阵,blocked-gh-auth,needs GitHub reviews through gh/API
+P2,高,评论情绪温度/争议 PR,blocked-gh-auth,needs GitHub comments through gh/API

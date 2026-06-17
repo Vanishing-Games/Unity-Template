@@ -1,0 +1,121 @@
+guid,asset_path,references,referencing_files
+1356fc0ad58936547870f19dc7e71fa0,Assets/GameMain/LDtkProject/gm_ldtk_project.ldtk,36445,3
+6804afdd83798d7458cde120cdf7e79c,Assets/GameMain/LDtkProject/gm_ldtk_project/Mineplant5.ldtkt,1110,2
+41c13e5d012c3f64d967373e61a8ac30,Assets/GameMain/LDtkProject/gm_ldtk_project/Mineplant2.ldtkt,961,2
+0000000000000000d000000000000000,(external or package),366,1
+b63472d203a6a4b7fb252f0f421810d0,Assets/Prefabs/RunTime/System/[GameCore].prefab,204,3
+67117722a812a2e46ab8cb8eafbf5f5e,Assets/Plugins/IngameDebugConsole/IngameDebugConsole.prefab,137,1
+05c9d0a3288cad944a091a9783d53977,(external or package),107,1
+473aff9fc1e2db54880047af11085151,(external or package),104,1
+0000000000000000f000000000000000,(external or package),92,28
+5b8c730327f0f504cae1cfdbce8fd828,Assets/Prefabs/RunTime/GamePlay/Danger (1).prefab,80,1
+05cff8ac91e17fa488da3d3f834377ab,(external or package),77,1
+28b620985c691f743a6fefeb9433fbf5,(external or package),70,1
+36f6d1dae033a6842b6991e749707986,Assets/Prefabs/RunTime/System/VgIngameConsoleManager.prefab,61,1
+371b5dcca120c714294ad8199d4f6393,Assets/Resources/Prefabs/Player/PlatformerPlayer.prefab,50,3
+14df1352ef07f97468d78cd1d5062ece,(external or package),50,2
+7718b6ca34acc43b898c782cd806920b,Assets/Prefabs/RunTime/System/VgInputManager.prefab,48,3
+36b83e83f6c044058bcbcdd7e081dba6,Assets/Prefabs/RunTime/System/Camera/VgCameraManager.prefab,47,1
+d045a5105cf63be41b7119e83ae3a78d,Assets/Prefabs/RunTime/System/SaveManager.prefab,46,1
+39ad108f0db2c4e0f8a41a15bb891d05,Assets/Prefabs/RunTime/System/Splash/VgSplasherManager.prefab,39,1
+82dc560df3c027147bebc3c11809a523,Assets/Prefabs/RunTime/GamePlay/Danger0.prefab,34,4
+214346c0aecc97e4092551fbc869c1cd,Assets/Prefabs/RunTime/GamePlay/TempGrabRope.prefab,33,4
+71c1514a6bd24e1e882cebbe1904ce04,(external or package),31,31
+68e6db2ebdc24f95958faec2be5558d6,Assets/TextMesh Pro/Shaders/TMP_SDF.shader,31,31
+701005e63bd96424b876d0f91dec9f56,Assets/Rendering/RainRust/Materials/material_rainRust_onlyAccept.mat,30,3
+0000000000000000e000000000000000,(external or package),28,25
+567e0612cae8993489c103bdd1d33e12,Assets/Rendering/RainRust/Materials/material_rainRust_default.mat,28,16
+d7fd9488000d3734a9e00ee676215985,(external or package),28,28
+5b9d01932ed0c0d419c8d16750e79a9c,Assets/Core/ParallaxBackground/ParallaxLayer.cs,27,27
+311925a002f4447b3a28927169b83ea6,(external or package),25,8
+3327a326efc0c4079a8eada111b11d29,(external or package),20,1
+ccd514d5fbc3ae74b929214a21f5aaa7,Assets/Prefabs/RunTime/System/VgAudioManager.prefab,18,1
+6bf01e8baaf2e114892879c49ac0c40c,Assets/Arts/ProgramMetaData/art_programMeta_Icon.png,18,2
+6f51857f5c442c440824a7edf415f762,(external or package),15,1
+89762d6e78ce208478783594e8da6693,Assets/Resources/Prefabs/Effect2/followDust.prefab,15,2
+b4892f596dbc24d0b80b1b1a42f509c9,Assets/Prefabs/RunTime/System/VgSceneManager.prefab,15,1
+b434cab764f2ae3469bd038d72dfe6e8,Assets/Prefabs/RunTime/System/StatsManager.prefab,15,1
+55bdda569c86e4338bcef8075ad198e5,Assets/Prefabs/RunTime/System/EventSystem.prefab,15,1
+33210bf2e0f1b794ab7d77fc367eccd0,Assets/Prefabs/RunTime/System/LevelManager.prefab,15,1
+bc435b65444354347af33cc28821d41b,Assets/Prefabs/RunTime/Entities/Ae_Mat_Collection.prefab,12,1
+cdbc1b3a9ada3994ea324a5156339640,(external or package),12,1
+26663a5ec9987421996161615506b6c5,(external or package),12,1
+554b97ecd49ba6a468b601574f7d1558,Assets/Rendering/RainRust/Volume/RainRustVolume.cs,12,12
+ca9f5fa95ffab41fb9a615ab714db018,(external or package),11,1
+a0ec3126b00c562449ef4e99a4da11fc,Assets/LDtkUnity/Resources/LDtkDefaultSquare.png,11,2
+a97c105638bdf8b4a8650670310a4cd3,Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Lit-Default.mat,11,7
+424da67f63a647e48ba0d534d687a5a0,Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/Chain/ChainJointTrigger.cs,10,1
+225dff4ce4d403f43a596a43e0060310,(external or package),9,3
+9dfc825aed78fcd4ba02077103263b40,Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Unlit-Default.mat,8,5
+a79441f348de89743a2939f4d699eac1,Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs,8,8
+57d78c926ab0a8e459b0b30478bca28f,Assets/GameMain/Rendering/Material/material_simpleDot.mat,8,5
+b444835f4112bff4d9bda4dc39ad0c78,Assets/GameMain/Scripts/RunTime/GamePlay/SnakeGame/SnakeTail.cs,8,8
+cd8056307ee38db41ad025aea3407ef5,(external or package),8,8
+fe87c0e1cc204ed48ad3b37840f39efc,(external or package),7,2
+57da91ef0c2a5489891995dc81537253,(external or package),7,1
+ba6b4afa6f97b80438f19c3db7605284,Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/Effect/ParticleEffectInstance.cs,6,6
+b08ceb78e3b2495b8d808a5860e66794,(external or package),6,6
+c86ea30432783452e87589a012114daf,Assets/AddressableAssetsData/AddressableAssetSettings.asset,6,6
+4dff1131f066e644fbc47b8d5fb19fb2,Assets/GameMain/Scripts/RunTime/DebugUI/DebugUIManager.cs,5,4
+000324fc9fb5c9a41b5f8b005c96e4f5,Assets/GameMain/Scripts/RunTime/InitInvoker/FastLevelTestInvoker.cs,5,4
+474bcb49853aa07438625e644c072ee6,Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs,5,5
+87ff7d513dc5e45b693b4d865ae125ac,Assets/Core/Input/DefaultInputSettings.asset,5,3
+e0309cd203da345eabdb42463edbbf63,(external or package),5,4
+073797afb82c5a1438f328866b10b3f0,Packages/com.unity.render-pipelines.universal/Runtime/2D/Light2D.cs,5,5
+2e49d103cf0cdd84da7f9d00cbe0f490,Assets/Arts/Items/绳子.png,5,1
+5834b5087d578d24c926ce20cd31e6d6,(external or package),5,5
+e5d17a21594effb4e9591490b009e7aa,(external or package),5,5
+bbb281ee3bf0b054c82ac2347e9e782c,(external or package),5,5
+172515602e62fb746b5d573b38a5fe58,(external or package),4,4
+a86470a33a6bf42c4b3595704624658b,(external or package),4,2
+990d5e6512cc9054c91148f0e659be88,Assets/Demos/FunctionDev/Background/pics/能源核心1.png,4,1
+130ab3f036c244344a384df4af25a421,Assets/Demos/FunctionDev/Background/pics/能源核心5.png,4,1
+362f82f0361d62e4a829b7995f0576e5,Assets/Demos/FunctionDev/Background/pics/能源核心3.png,4,1
+e6c4edf24174bcd48ac9d9f26c66d64f,Assets/Demos/FunctionDev/Background/pics/能源核心9.png,4,1
+f21b22f3d57cae542baecd2c27addec7,Assets/Demos/FunctionDev/Background/pics/能源核心8.png,4,1
+7e3166aaccd54954988045e81144d5e6,Assets/Demos/FunctionDev/Background/pics/能源核心2.png,4,1
+bfae24346abc5d944b98d4e114439125,Assets/Demos/FunctionDev/Background/pics/能源核心6.png,4,1
+b4778eac288cd5e44baa081c3a92ca16,Assets/Demos/FunctionDev/Background/pics/能源核心7.png,4,1
+871c76b6ace2f1945aa421a30e7d3d15,Assets/Demos/FunctionDev/Background/pics/能源核心4.png,4,1
+8f586378b4e144a9851e7b34d9b748ee,Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset,4,1
+0c2943e682621ca468e5515265826771,Assets/GameMain/Rendering/Material/material_dot2.mat,4,3
+f1463cc71e1383946b2e99b7fec4a01b,(external or package),4,1
+0b2db86121404754db890f4c8dfe81b2,Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Bloom.cs,4,4
+e819770822a816141b8e8be79a3c1461,Assets/Core/GameCoreSystems/Audio/AudioEventSheet.cs,4,4
+f6df0fb241212c74da4b26d2f7e749fb,Assets/GameMain/Scenes/Develop/GameLevel1/volume Profile.asset,3,3
+e58c404f6fb0e3643871d0b1aae3d3fe,(external or package),3,3
+5d06e5bda49cf494da21722b8da32156,(external or package),3,3
+34a7fcde8d66fbb46a289a120756c7ad,(external or package),3,3
+afb927d46f5d5444288a898035d52108,(external or package),3,3
+86c6556701af9e04380698b89f691b6e,Assets/Plugins/FMOD/src/StudioListener.cs,3,3
+8f67b91b72595414db8afef89ae8d240,Assets/GameMain/Rendering/Material/material_rainrust_light.mat,3,3
+3787a1eb7822dad4a979a88fbc2790a8,Assets/Rendering/RainRust/Materials/material_rainRust_player.mat,3,3
+356f22d66339bcc48b42794eeb51e532,Assets/Rendering/RainRust/Materials/material_sonar_default.mat,3,2
+31321ba15b8f8eb4c954353edc038b1d,Packages/com.unity.render-pipelines.universal/Runtime/Materials/Lit.mat,3,3
+665b9594aaaa644e68ced14d62c425e8,Assets/Core/GameCore/GameCore.cs,3,2
+2250be956b6f9bb4ba8d6da276073edd,Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/BeeControl/BeeMainControl.cs,3,3
+8711b9abac7234145ab1baa36d298953,Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/BeeControl/BeeAnim.cs,3,3
+f1ba7780cb414e14da51381fde411dac,Assets/GameMain/Scripts/RunTime/GamePlay/Entities/LightThing/LightEntitySet.cs,3,3
+12947b5f627f2284fa870eaf561e2504,Assets/Rendering/RainRust/Materials/Crt.mat,3,3
+cf852408f2e174538bcd9b7fda1c5ae7,Packages/com.unity.render-pipelines.universal/Shaders/Debug/DebugReplacement.shader,3,3
+573620ae32aec764abd4d728906d2587,Packages/com.unity.render-pipelines.universal/Shaders/Debug/HDRDebugView.shader,3,3
+53626a513ea68ce47b59dc1299fe3959,Packages/com.unity.render-pipelines.universal/Shaders/Debug/ProbeVolumeSamplingDebugPositionNormal.compute,3,3
+9c4067e4e9dc4483f8164d5d36b6e2c5,(external or package),3,1
+17ab5c2cbc9164493af24ddf6623cd86,Assets/AddressableAssetsData/AssetGroups/Test.asset,3,3
+3b6d1a96d955f44d18bc497d52a2277a,Assets/AddressableAssetsData/AssetGroups/Level1.asset,3,3
+f82958f200f8b4aeb8201dbc76b3b018,Assets/AddressableAssetsData/AssetGroups/Level2.asset,3,3
+da5c98e2fa2744374b916b064999b659,Assets/AddressableAssetsData/AssetGroups/Common.asset,3,3
+4ae1ca2bdc1984585b33ef0403cc49e2,(external or package),3,3
+899c54efeace73346a0a16faa3afe726,Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Vignette.cs,3,3
+07279bf387dc26547896c8af18118dc2,Assets/Shaders/SpriteBlur/SpriteBlur.shader,2,1
+977e823fea8529c44a0c96c480854abc,Assets/Demos/FunctionDev/AbTile/demo_abtile_tile_newAbTile.Asset,2,2
+5f784b7e299739f4bbddb59941e72de9,Assets/GameMain/Scripts/RunTime/UI/SuperText/EffectTextRenderer.cs,2,1
+f4688fdb7df04437aeb418b961361dc5,(external or package),2,1
+76c392e42b5098c458856cdf6ecaaaa1,(external or package),2,2
+dc42784cf147c0c48a680349fa168899,(external or package),2,2
+0cd44c1031e13a943bb63640046fad76,(external or package),2,2
+a0477cb1b7124054096ff986c6718ea2,Assets/GameMain/Scripts/RunTime/UI/MainMenuController.cs,2,2
+3fcd1e8e8c7eb9f42a8bacd336026469,Assets/GameMain/Rendering/Material/material_rainrust_wall.mat,2,1
+f028cf6307cc50648807f2de6f79ae1b,Assets/GameMain/Rendering/Material/material_flare.mat,2,2
+f625fc932515a438798036a41f7d1412,Assets/Core/GameCoreSystems/Scene/VgSceneManager.cs,2,2
+a53ccb4594612354698a082f424729ed,Assets/GameMain/Scripts/RunTime/GameCoreSystems/LevelManager/LevelManager.cs,2,2

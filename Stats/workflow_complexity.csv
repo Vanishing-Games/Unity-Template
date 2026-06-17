@@ -1,0 +1,6 @@
+workflow,path,lines,jobs,steps,uses_actions,run_commands,triggers_hint,complexity_score
+ci-cd-main.yml,.github/workflows/ci-cd-main.yml,1413,11,42,23,19,4,251
+add-issue.yml,.github/workflows/add-issue.yml,212,3,2,2,0,2,31
+stale-manager.yml,.github/workflows/stale-manager.yml,204,3,2,2,0,2,31
+ddl-reminder.yml,.github/workflows/ddl-reminder.yml,173,3,2,2,0,2,29
+weekly-summary.yml,.github/workflows/weekly-summary.yml,123,3,1,1,0,2,24
