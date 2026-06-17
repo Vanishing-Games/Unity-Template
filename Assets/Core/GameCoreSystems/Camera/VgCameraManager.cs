@@ -118,7 +118,7 @@ namespace Core
         /// </summary>
         public void SetChapterRetroMode(string chapterId)
         {
-            m_IsSnakeChapter = chapterId == "Chapter_Snake";
+            m_IsSnakeChapter = chapterId == GameIdentifiers.Chapters.Snake;
             m_TargetAspectRatio = m_IsSnakeChapter ? m_SnakeAspectRatio : m_DefaultAspectRatio;
 
             CLogger.LogInfo(

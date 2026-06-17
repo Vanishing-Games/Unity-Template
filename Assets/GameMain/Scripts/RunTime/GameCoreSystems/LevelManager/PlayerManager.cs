@@ -19,7 +19,7 @@ namespace GameMain.RunTime
             DespawnPlayer();
 
             CreatePlayer(
-                loadInfo.ChapterId == "Chapter_Snake"
+                loadInfo.ChapterId == GameIdentifiers.Chapters.Snake
                     ? SNAKE_PLAYER_PREFAB_PATH
                     : PLATFORMER_PLAYER_PREFAB_PATH
             );

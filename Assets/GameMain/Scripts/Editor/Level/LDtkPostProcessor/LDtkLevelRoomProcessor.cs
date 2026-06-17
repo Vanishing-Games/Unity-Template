@@ -91,7 +91,10 @@ namespace GameMain.Editor
             //}
 
             // Default settings
-            if (ctx.Level.GetComponentInParent<LDtkComponentWorld>().Identifier == "Chapter_Snake")
+            if (
+                ctx.Level.GetComponentInParent<LDtkComponentWorld>().Identifier
+                == GameIdentifiers.Chapters.Snake
+            )
             {
                 vCam.Lens.OrthographicSize = 8f;
             }
