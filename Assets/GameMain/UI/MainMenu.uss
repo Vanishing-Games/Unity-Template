@@ -58,6 +58,25 @@
     -unity-slice-bottom: 42;
 }
 
+.pause-button-list {
+    width: 350px;
+    height: 330px;
+    padding-top: 38px;
+    padding-right: 34px;
+    padding-bottom: 30px;
+    padding-left: 34px;
+}
+
+.pause-button-list .menu-button {
+    height: 42px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    -unity-slice-left: 44;
+    -unity-slice-right: 44;
+    -unity-slice-top: 22;
+    -unity-slice-bottom: 22;
+}
+
 .main-menu-button-list {
     position: absolute;
     right: 82px;

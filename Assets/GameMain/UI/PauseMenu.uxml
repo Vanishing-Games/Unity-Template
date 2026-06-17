@@ -10,7 +10,7 @@
         <!-- Pause Main Menu -->
         <ui:VisualElement name="pause-menu-container" class="menu-container">
             <ui:Label text="Paused" name="menu-title" class="title" />
-            <ui:VisualElement name="button-container" class="button-list">
+            <ui:VisualElement name="button-container" class="button-list pause-button-list">
                 <ui:Button text="Resume" name="resume-button" class="menu-button" />
                 <ui:Button text="Save Game" name="save-game-button" class="menu-button" />
                 <ui:Button text="Load Game" name="load-game-button" class="menu-button" />
