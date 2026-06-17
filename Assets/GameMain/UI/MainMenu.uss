@@ -1,6 +1,16 @@
 .root-container {
     flex-grow: 1;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.78);
+}
+
+.game-menu-root {
+    background-image: url("project://database/Assets/Arts/UI/GameMenu/ui_gameMenu_background.png");
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.pause-menu-root {
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0.72);
 }
 
 .menu-container {
@@ -12,28 +22,97 @@
     height: 100%;
 }
 
+.main-menu-container {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.game-title-image {
+    margin-top: 20px;
+    width: 820px;
+    height: 215px;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_gamemenu_title_epiphyte_001.png");
+    -unity-background-scale-mode: scale-to-fit;
+}
+
 .title {
     font-size: 60px;
     -unity-font-style: bold;
-    color: white;
+    color: rgb(245, 224, 185);
     margin-bottom: 30px;
     -unity-text-align: middle-center;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(20, 14, 10);
 }
 
 .button-list {
-    width: 300px;
+    width: 360px;
+    padding-top: 28px;
+    padding-right: 30px;
+    padding-bottom: 16px;
+    padding-left: 30px;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_panel_001.png");
+    -unity-slice-left: 42;
+    -unity-slice-right: 42;
+    -unity-slice-top: 42;
+    -unity-slice-bottom: 42;
+}
+
+.main-menu-button-list {
+    position: absolute;
+    right: 82px;
+    bottom: 52px;
+    width: 420px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    background-image: none;
+}
+
+.main-menu-button-list .menu-button {
+    height: 72px;
+    margin-bottom: 8px;
+    font-size: 34px;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(252, 232, 190);
+    border-width: 0;
+    -unity-text-align: middle-right;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(17, 11, 8);
+}
+
+.main-menu-button-list .menu-button:hover {
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 174, 74);
+    scale: 1.06;
+}
+
+.main-menu-button-list .menu-button:active {
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(216, 128, 42);
+    scale: 0.98;
 }
 
 .menu-button {
     height: 60px;
     margin-bottom: 15px;
     font-size: 24px;
-    background-color: #333;
-    color: white;
-    border-width: 2px;
-    border-color: #555;
-    border-radius: 8px;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_button_normal_001.png");
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(246, 228, 196);
+    border-width: 0;
+    border-radius: 0;
+    -unity-slice-left: 44;
+    -unity-slice-right: 44;
+    -unity-slice-top: 24;
+    -unity-slice-bottom: 24;
     transition-duration: 0.1s;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(19, 13, 10);
 }
 
 .menu-button.small {
@@ -43,96 +122,289 @@
 }
 
 .menu-button:hover {
-    background-color: #555;
-    border-color: #777;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_button_highlight_001.png");
+    background-color: rgba(0, 0, 0, 0);
     scale: 1.05;
 }
 
 .menu-button:active {
-    background-color: #222;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_button_pressed_001.png");
+    background-color: rgba(0, 0, 0, 0);
     scale: 0.95;
 }
 
+.save-slot-menu {
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+}
+
+.save-layout-panel {
+    width: 760px;
+    height: 800px;
+    padding-top: 42px;
+    padding-right: 46px;
+    padding-bottom: 36px;
+    padding-left: 46px;
+    align-items: stretch;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_panel_001.png");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-slice-left: 78;
+    -unity-slice-right: 78;
+    -unity-slice-top: 78;
+    -unity-slice-bottom: 78;
+}
+
+.screen-title {
+    font-size: 46px;
+    margin-bottom: 22px;
+    color: rgb(250, 226, 184);
+    align-self: center;
+}
+
 .slot-section {
-    width: 600px;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+    width: 100%;
+    margin-bottom: 14px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+}
+
+.new-slot-section {
+    height: 104px;
+}
+
+.existing-slot-section {
+    flex-grow: 1;
+    margin-bottom: 22px;
 }
 
 .section-header {
-    color: #0088ff;
-    font-size: 18px;
+    color: rgb(245, 178, 80);
+    font-size: 16px;
     -unity-font-style: bold;
-    margin-bottom: 10px;
+    margin-left: 18px;
+    margin-bottom: 7px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(19, 13, 10);
 }
 
 .slots-scrollview {
-    max-height: 400px;
+    flex-grow: 1;
+    height: 490px;
+    background-color: rgba(0, 0, 0, 0);
+    padding-right: 2px;
+}
+
+.slots-scrollview .unity-scroll-view__content-container {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.slots-scrollview .unity-scroll-view__vertical-scroller {
+    width: 14px;
+    background-color: rgba(0, 0, 0, 0);
+    margin-left: 8px;
+}
+
+.slots-scrollview .unity-scroller__slider {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.slots-scrollview .unity-scroller__low-button {
+    display: none;
+}
+
+.slots-scrollview .unity-scroller__high-button {
+    display: none;
+}
+
+.slots-scrollview .unity-base-slider__tracker {
+    background-color: rgba(24, 18, 14, 0.72);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(111, 82, 51);
+    border-right-color: rgb(111, 82, 51);
+    border-top-color: rgb(111, 82, 51);
+    border-bottom-color: rgb(111, 82, 51);
+}
+
+.slots-scrollview .unity-base-slider__dragger {
+    background-color: rgb(203, 141, 62);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(28, 19, 12);
+    border-right-color: rgb(28, 19, 12);
+    border-top-color: rgb(28, 19, 12);
+    border-bottom-color: rgb(28, 19, 12);
+}
+
+.settings-panel .unity-base-slider__tracker {
+    height: 8px;
+    background-color: rgba(24, 18, 14, 0.78);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(111, 82, 51);
+    border-right-color: rgb(111, 82, 51);
+    border-top-color: rgb(111, 82, 51);
+    border-bottom-color: rgb(111, 82, 51);
+}
+
+.settings-panel .unity-base-slider__dragger {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(226, 151, 58);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(24, 16, 10);
+    border-right-color: rgb(24, 16, 10);
+    border-top-color: rgb(24, 16, 10);
+    border-bottom-color: rgb(24, 16, 10);
 }
 
 .slot-list {
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .slot-button {
-    height: 100px;
+    height: 82px;
     margin-bottom: 10px;
-    background-color: #2a2a2a;
-    border-width: 2px;
-    border-color: #444;
-    border-radius: 10px;
-    padding: 10px;
+    background-image: none;
+    background-color: rgba(24, 18, 14, 0.58);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(115, 83, 48);
+    border-right-color: rgb(115, 83, 48);
+    border-top-color: rgb(115, 83, 48);
+    border-bottom-color: rgb(115, 83, 48);
+    border-radius: 4px;
+    padding-top: 8px;
+    padding-right: 18px;
+    padding-bottom: 8px;
+    padding-left: 22px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
 .slot-button:hover {
-    background-color: #3a3a3a;
-    border-color: #0088ff;
+    background-color: rgba(63, 40, 23, 0.74);
+    border-left-color: rgb(223, 153, 59);
+    border-right-color: rgb(223, 153, 59);
+    border-top-color: rgb(223, 153, 59);
+    border-bottom-color: rgb(223, 153, 59);
+    scale: 1.01;
 }
 
 .new-slot-button {
-    height: 80px;
-    border-style: dotted;
+    height: 58px;
+    margin-bottom: 0;
+    background-color: rgba(47, 32, 19, 0.68);
+    border-left-color: rgb(190, 133, 61);
+    border-right-color: rgb(190, 133, 61);
+    border-top-color: rgb(190, 133, 61);
+    border-bottom-color: rgb(190, 133, 61);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
     justify-content: center;
 }
 
+.new-slot-button:hover {
+    background-color: rgba(82, 48, 21, 0.78);
+    border-left-color: rgb(247, 171, 66);
+    border-right-color: rgb(247, 171, 66);
+    border-top-color: rgb(247, 171, 66);
+    border-bottom-color: rgb(247, 171, 66);
+}
+
 .highlighted-button {
-    border-width: 4px;
-    border-color: yellow;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_button_highlight_001.png");
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .slot-content {
     flex-direction: column;
     flex-grow: 1;
+    justify-content: center;
 }
 
 .slot-actions {
     flex-direction: row;
+    align-items: center;
 }
 
 .slot-name-label {
-    color: white;
-    font-size: 22px;
+    color: rgb(247, 229, 197);
+    font-size: 21px;
     -unity-font-style: bold;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(19, 13, 10);
 }
 
 .slot-info-label {
-    color: #aaa;
-    font-size: 14px;
+    color: rgb(190, 169, 139);
+    font-size: 12px;
 }
 
 .rename-button {
-    width: 60px;
-    height: 30px;
-    font-size: 12px;
-    background-color: #444;
-    color: white;
-    border-radius: 4px;
+    width: 72px;
+    height: 34px;
+    font-size: 11px;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_button_normal_001.png");
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(246, 228, 196);
+    border-width: 0;
+    border-radius: 0;
     margin-left: 10px;
+    -unity-slice-left: 34;
+    -unity-slice-right: 34;
+    -unity-slice-top: 18;
+    -unity-slice-bottom: 18;
+}
+
+.back-button {
+    width: 220px;
+    height: 58px;
+    margin-top: 0;
+    font-size: 24px;
+    align-self: center;
+    background-image: none;
+    background-color: rgba(24, 18, 14, 0.66);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(160, 109, 54);
+    border-right-color: rgb(160, 109, 54);
+    border-top-color: rgb(160, 109, 54);
+    border-bottom-color: rgb(160, 109, 54);
+    border-radius: 4px;
+    color: rgb(255, 232, 190);
+}
+
+.back-button:hover {
+    background-image: none;
+    background-color: rgba(79, 47, 22, 0.78);
+    border-left-color: rgb(247, 171, 66);
+    border-right-color: rgb(247, 171, 66);
+    border-top-color: rgb(247, 171, 66);
+    border-bottom-color: rgb(247, 171, 66);
 }
 
 /* Overlay and Popup */
@@ -147,24 +419,34 @@
 
 .popup {
     width: 400px;
-    background-color: #222;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_panel_001.png");
+    background-color: rgba(0, 0, 0, 0);
     padding: 20px;
-    border-radius: 15px;
-    border-width: 1px;
-    border-color: #444;
+    border-radius: 0;
+    border-width: 0;
+    -unity-slice-left: 44;
+    -unity-slice-right: 44;
+    -unity-slice-top: 44;
+    -unity-slice-bottom: 44;
 }
 
 .settings-panel {
     width: 500px;
-    background-color: #222;
+    background-image: url("project://database/Assets/Arts/UI/Common/ui_common_panel_001.png");
+    background-color: rgba(0, 0, 0, 0);
     padding: 30px;
-    border-radius: 15px;
-    border-width: 1px;
-    border-color: #444;
+    border-radius: 0;
+    border-width: 0;
+    -unity-slice-left: 44;
+    -unity-slice-right: 44;
+    -unity-slice-top: 44;
+    -unity-slice-bottom: 44;
 }
 
 .setting-label {
-    color: white;
+    color: rgb(247, 229, 197);
     font-size: 18px;
     margin-bottom: 5px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(19, 13, 10);
 }

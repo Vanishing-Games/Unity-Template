@@ -6,11 +6,11 @@
     xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
  editor-extension-mode="False">
     <ui:Style src="project://database/Assets/GameMain/UI/MainMenu.uss" />
-    <ui:VisualElement name="root-container" class="root-container">
+    <ui:VisualElement name="root-container" class="root-container game-menu-root">
         <!-- Main Menu -->
-        <ui:VisualElement name="main-menu-container" class="menu-container">
-            <ui:Label text="Game Main Menu" name="menu-title" class="title" />
-            <ui:VisualElement name="button-container" class="button-list">
+        <ui:VisualElement name="main-menu-container" class="menu-container main-menu-container">
+            <ui:VisualElement name="game-title-image" class="game-title-image" />
+            <ui:VisualElement name="button-container" class="button-list main-menu-button-list">
                 <ui:Button text="Start New Game" name="start-new-game-button" class="menu-button" />
                 <ui:Button text="Continue" name="continue-button" class="menu-button" />
                 <ui:Button text="Settings" name="settings-button" class="menu-button" />
@@ -19,24 +19,26 @@
         </ui:VisualElement>
 
         <!-- Save Slot Selection Screen -->
-        <ui:VisualElement name="save-slot-screen" class="menu-container" style="display: none;">
-            <ui:Label text="Save Slots" class="title" />
-            
-            <ui:VisualElement name="new-slot-area" class="slot-section">
-                <ui:Label text="Create New" class="section-header" />
-                <ui:Button name="create-new-slot-button" class="slot-button new-slot-button">
-                    <ui:Label text="+ Create New Save" class="slot-name-label" />
-                </ui:Button>
-            </ui:VisualElement>
+        <ui:VisualElement name="save-slot-screen" class="menu-container save-slot-menu" style="display: none;">
+            <ui:VisualElement class="save-layout-panel">
+                <ui:Label text="Save Slots" class="title screen-title" />
 
-            <ui:VisualElement name="existing-slots-area" class="slot-section" style="flex-grow: 1; width: 600px;">
-                <ui:Label text="Load Existing" class="section-header" />
-                <ui:ScrollView name="slots-scrollview" class="slots-scrollview">
-                    <ui:VisualElement name="slot-container" class="slot-list" />
-                </ui:ScrollView>
-            </ui:VisualElement>
+                <ui:VisualElement name="new-slot-area" class="slot-section new-slot-section">
+                    <ui:Label text="New Journey" class="section-header" />
+                    <ui:Button name="create-new-slot-button" class="slot-button new-slot-button">
+                        <ui:Label text="Create New Save" class="slot-name-label" />
+                    </ui:Button>
+                </ui:VisualElement>
 
-            <ui:Button text="Back" name="back-to-menu-from-save" class="menu-button" style="margin-top: 10px;" />
+                <ui:VisualElement name="existing-slots-area" class="slot-section existing-slot-section">
+                    <ui:Label text="Existing Saves" class="section-header" />
+                    <ui:ScrollView name="slots-scrollview" class="slots-scrollview">
+                        <ui:VisualElement name="slot-container" class="slot-list" />
+                    </ui:ScrollView>
+                </ui:VisualElement>
+
+                <ui:Button text="Back" name="back-to-menu-from-save" class="menu-button back-button" />
+            </ui:VisualElement>
         </ui:VisualElement>
 
         <!-- Rename Popup -->
