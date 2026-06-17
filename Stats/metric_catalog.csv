@@ -6,6 +6,7 @@ P0,低,周末开发占比,implemented,git weekday
 P0,低,爆发期识别,implemented,commit day + churn
 P0,低,文件变更热点,implemented,git numstat
 P0,中,贡献领域雷达,implemented,git numstat + path domain
+P0,中,贡献者偏好扩展名/触碰体量,implemented,git numstat + current file inventory
 P0,低,第一方 vs 第三方占比,implemented,path rules
 P0,中,Unity 场景复杂度,implemented,Unity YAML scan
 P0,中,Prefab 复杂度,implemented,Unity YAML scan
@@ -21,6 +22,9 @@ P0,低,文件代码行数 Top,implemented,C# file scan
 P0,低,方法数量 Top,implemented,C# regex scan
 P0,低/中,PR 生命周期,local-inferred,gh PR API when available; otherwise commit subject #
 P0,低/中,PR 吞吐量/合并率/体积画像,local-inferred,gh PR API when available; otherwise commit subject #
+P0,低/中,PR 主题统计,implemented,PR title/label topic buckets
+P0,低/中,Issue 主题统计,blocked-gh-auth,Issue title/label topic buckets
+P0,低/中,Issue 逾期/老化统计,blocked-gh-auth,"open age, stale days, milestone due date"
 P1,中,近似圈复杂度,implemented,branch keyword count
 P1,中,最大方法/类长度近似,partial,file-level size and method count
 P1,低,Namespace 分布,implemented,C# regex scan
@@ -32,6 +36,8 @@ P1,低,R3 使用情况,implemented,Observable/Subject scan
 P1,中,事件系统覆盖,implemented,Events path checks
 P1,中,Commands 覆盖,implemented,Commands path checks
 P1,中,m_ 字段规范率,implemented,C# field scan
+P1,低,代码词语偏好,implemented,C# identifier token frequency
+P1,低,命名风格分布,implemented,symbol naming regex buckets
 P1,低,注释密度,implemented,C# comment-like lines
 P1,低,TODO/FIXME/HACK,implemented,text scan
 P1,中,CI 工作流复杂度,implemented,GitHub workflow YAML scan
@@ -46,7 +52,12 @@ P2,高,GUID 引用中心,implemented,meta GUID + YAML refs
 P2,高,疑似孤儿资源,implemented,GUID reverse lookup heuristic
 P2,中,提交主题词云,implemented,commit subject keywords
 P2,中,个人开发节奏画像,implemented,author x time/domain
+P2,中,压哨王/DDL 前 24h 开始提交,implemented,PR completion time + PR created/linked commit first signal
+P2,中,开发节奏人格标签,implemented,"commit hour, weekday, burst day, churn"
+P2,中,救火指数,implemented,commit/PR fix words and reverts
+P2,中,PR 性格分类,implemented,"PR lead time, churn, changed files, merge state"
+P2,中,代码热点命运线,implemented,top churn files by month
 P2,中,高风险热点,implemented,complexity + churn + size + tests heuristic
 P2,中,协程/async/LINQ/反射/资源路径/异常处理,implemented,C# token scan
-P2,高,Review 响应时间/轮次/矩阵,blocked-gh-auth,needs GitHub reviews through gh/API
-P2,高,评论情绪温度/争议 PR,blocked-gh-auth,needs GitHub comments through gh/API
+P2,高,Review 响应时间/轮次/矩阵,deferred-high-cost,needs per-PR GitHub review detail calls
+P2,高,评论情绪温度/争议 PR,deferred-high-cost,needs per-PR GitHub comment detail calls
