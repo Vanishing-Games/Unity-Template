@@ -1,0 +1,450 @@
+path,line,text
+Packages/com.unity.render-pipelines.universal/CHANGELOG.md,118,- Fixed a render graph bug where a pass-break between GBuffer and deferred lighting would cause an error.
+Packages/com.unity.render-pipelines.universal/CHANGELOG.md,884,- Fixed a regression bug where XR camera postion can not be modified in beginCameraRendering [case 1365000]
+Packages/com.unity.render-pipelines.universal/CHANGELOG.md,931,- Fixed a bug with Sprite Targets in ShaderGraph not rendering correctly in game view [1352225]
+Packages/com.unity.render-pipelines.universal/CHANGELOG.md,1179,"- Always use ""High"" quality normals, which normalizes the normal in pixel shader. ""Low"" quality normals looked too much like a bug."
+Packages/com.unity.render-pipelines.universal/Runtime/Deprecated.cs,569,// TODO: move to core and share with HDRP
+Packages/com.unity.render-pipelines.universal/Runtime/Deprecated.cs,1117,public bool m_IsActiveTargetBackBuffer; // TODO: Remove this when we remove non-RG path
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,6,"// TODO SimpleLit material, make sure when variant is !defined(_SPECGLOSSMAP) && !defined(_SPECULAR_COLOR), specular is correctly silenced."
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,7,// TODO use InitializeSimpleLitSurfaceData() in all shader code
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,8,// TODO use InitializeParticleLitSurfaceData() in forward pass for ParticleLitForwardPass.hlsl ? Similar refactoring for ParticleSimpleLitForwardPass.hlsl
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,9,// TODO Make sure GPU buffers are uploaded without copying into Unity CommandBuffer memory
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,10,"// TODO BakedLit.shader has a Universal2D pass, but Unlit.shader doesn't have?"
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,59,"public static int _MainLightPosition = Shader.PropertyToID(""_MainLightPosition"");   // ForwardLights.LightConstantBuffer also refers to the same ShaderPropertyID - TODO: move this definition to a common location shared b"
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,60,"public static int _MainLightColor = Shader.PropertyToID(""_MainLightColor"");         // ForwardLights.LightConstantBuffer also refers to the same ShaderPropertyID - TODO: move this definition to a common location shared b"
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,61,"public static int _MainLightLayerMask = Shader.PropertyToID(""_MainLightLayerMask""); // ForwardLights.LightConstantBuffer also refers to the same ShaderPropertyID - TODO: move this definition to a common location shared b"
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,663,// Workaround for bug.
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,923,// TODO bundle extra directional lights rendering by batches of 8.
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,1137,// TODO: This should be fixed.
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,1255,// TODO reorder for pre&post-transform cache optimisation.
+Packages/com.unity.render-pipelines.universal/Runtime/DeferredLights.cs,1312,// TODO reorder for pre&post-transform cache optimisation.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipeline.cs,459,// TODO: Would be better to add Profiling name hooks into RenderPipelineManager.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipeline.cs,774,// TODO: move skybox code from C++ to URP in order to remove the call to context.Submit() inside DrawSkyboxPass
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipeline.cs,810,// TODO: Move this to one call for all cameras
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipeline.cs,837,// TODO: Move into the renderer. Problem: It modifies the AdditionalCameraData which is copied into RenderingData which causes value divergence for value types.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipeline.cs,2486,// TODO
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRendererRenderGraph.cs,166,// TODO RENDERGRAPH: Once all cameras will run in a single RenderGraph we should remove all RTHandles and use per frame RG textures.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRendererRenderGraph.cs,437,// TODO: We should implement filtering fully in SRP to remove builtin dependencies
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRendererRenderGraph.cs,760,// TODO RENDERGRAPH: move the setup code into the shadow passes
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRendererRenderGraph.cs,1297,"// TODO RENDERGRAPH: bind _CameraOpaqueTexture, _CameraDepthTexture in transparent pass?"
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRendererRenderGraph.cs,1540,// TODO RENDERGRAPH: we need to discuss and decide if RenderPassEvent.AfterRendering injected passes should only be called after the last camera in the stack
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRendererRenderGraph.cs,1985,// TODO RENDERGRAPH: deferred optimization
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,52,"public static readonly ProfilingSampler drawGizmos = new ProfilingSampler(""DrawGizmos""); //Todo: update to nameof(method reference) once RG version name is cleaned up"
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,53,"public static readonly ProfilingSampler drawWireOverlay = new ProfilingSampler(""DrawWireOverlay""); //Todo: update to nameof(method reference) once RG version name is cleaned up"
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,247,// TODO: Investigate why SetViewAndProjectionMatrices is causing y-flip / winding order issue
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,256,Matrix4x4 gpuProjectionMatrix = cameraData.GetGPUProjectionMatrix(isTargetFlipped); // TODO: invProjection might NOT match the actual projection (invP*P==I) as the target flip logic has diverging paths.
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,274,// TODO: Add SetPerCameraClippingPlaneProperties here once we are sure it correctly behaves in overlay camera for some time
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,379,// TODO(@sandy-carter) set to RTHandles.rtHandleProperties.rtHandleScale once dynamic scaling is set up
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1050,/// TODO RENDERGRAPH
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1239,/// TODO RENDERGRAPH
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1268,// TODO: this will go away once we remove the builtin dependencies and implement the grid in SRP.
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1278,/// TODO RENDERGRAPH
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1290,/// TODO RENDERGRAPH
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1372,// TODO: move skybox code from C++ to URP in order to remove the call to context.Submit() inside DrawSkyboxPass
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1454,// TODO: Separate command buffers per pass break the profiling scope order/hierarchy.
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1487,// TODO: Separate command buffers per pass break the profiling scope order/hierarchy.
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,1777,// TODO: Separate command buffers per pass break the profiling scope order/hierarchy.
+Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs,2055,// TODO: We should implement filtering fully in SRP to remove builtin dependencies
+Packages/com.unity.render-pipelines.universal/Runtime/NoAllocUtils.cs,35,// TODO: parallel alternative
+Packages/com.unity.render-pipelines.universal/Runtime/ShadowUtils.cs,430,// TODO: depth and normal bias assume sample is no more than 1 texel away from shadowmap
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,834,// TODO: Transparents might have force Z write option in the future.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,883,"// TODO: investigate the order of call, had to change because of requiresRenderingLayer"
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,889,"// TODO: This needs to be setup early, otherwise gbuffer attachments will be allocated with wrong size"
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,922,// TODO: We could cache and generate the LUT before rendering the stack
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,1000,"// around a bug where during gbuffer pass (MRT pass), the camera depth attachment is correctly bound, but during"
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,1009,// Todo seems like with mrt depth is not taken from first target
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,1321,"// TODO: this is unoptimal, investigate optimizations"
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,1443,// TODO: Downsampling method should be stored in the renderer instead of in the asset.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,1757,// TODO: PerObjectCulling also affect reflection probes. Enabling it for now.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderer.cs,1837,//Must copy depth for deferred shading: TODO wait for API fix to bind depth texture as read-only resource.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipelineCore.cs,794,public float radius; // TODO remove? included in attenuation
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipelineCore.cs,1038,// TODO: Move following keywords to Local keywords?
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipelineCore.cs,1565,"// TODO: we need a proper format scoring system. Score formats, sort, pick first or pick first supported (if not in score)."
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipelineCore.cs,2006,"// TODO: refine the logic to provide platform abstraction. Eg, we should divide platforms based on capabilities and perf budget."
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipelineCore.cs,2007,// TODO: isXRMobile is a bad category. Alignment and refactor needed.
+Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipelineCore.cs,2008,"// TODO: Compress all the query data into ""isXRMobile"" style booleans and enums."
+Packages/com.unity.render-pipelines.universal/Runtime/LightCookieManager.cs,24,// TODO: these should be generic light property
+Packages/com.unity.render-pipelines.universal/Runtime/LightCookieManager.cs,168,ComputeBuffer m_WorldToLightBuffer;    // TODO: WorldToLight matrices should be general property of lights!!
+Packages/com.unity.render-pipelines.universal/Runtime/LightCookieManager.cs,272,// TODO: replace with a proper error system
+Packages/com.unity.render-pipelines.universal/Runtime/LightCookieManager.cs,401,// TODO: convert this to use GraphicsFormatUtility
+Packages/com.unity.render-pipelines.universal/Runtime/LightCookieManager.cs,516,// TODO: Better error system
+Packages/com.unity.render-pipelines.universal/Runtime/StpUtils.cs,46,// TODO: Support STP Stencil Responsive Feature in URP (JIRA: GFXRT-366)
+Packages/com.unity.render-pipelines.universal/Runtime/ForwardRendererData.cs,76,// TODO: move to core and share with HDRP
+Packages/com.unity.render-pipelines.universal/Runtime/NativeRenderPass.cs,90,//TODO: edge cases to detect that should affect possible passes to merge
+Packages/com.unity.render-pipelines.universal/Runtime/NativeRenderPass.cs,278,// TODO: this is redundant and is being setup for each attachment. Needs to be done only once per mergeable pass list (we need to make sure mergeable passes use the same depth!)
+Packages/com.unity.render-pipelines.universal/Runtime/NativeRenderPass.cs,351,// TODO: this is redundant and is being setup for each attachment. Needs to be done only once per mergeable pass list (we need to make sure mergeable passes use the same depth!)
+Packages/com.unity.render-pipelines.universal/Runtime/NativeRenderPass.cs,366,// resolving to the implicit color target's resolve surface TODO: handle m_CameraResolveTarget if present?
+Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs,41,"[Obsolete(""Use Blitter.BlitCameraTexture instead of CommandBuffer.DrawMesh(fullscreenMesh, ...). #from(2022.2)"")]  // TODO OBSOLETE: need to fix the URP test failures when bumping"
+Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs,81,// TODO: For now disabling SSBO until figure out Vulkan binding issues.
+Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs,105,"// TODO: When importing project, AssetPreviewUpdater::CreatePreviewForAsset will be called multiple times."
+Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs,157,//TODO FrameData: Merge these two SetScaleBiasRt() functions
+Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs,320,"// TODO: When importing project, AssetPreviewUpdater::CreatePreviewForAsset will be called multiple times."
+Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs,339,"// TODO: When importing project, AssetPreviewUpdater::CreatePreviewForAsset will be called multiple times."
+Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs,605,// Temporarily disabling depth resolve a driver bug on OSX when using some AMD graphics cards. Temporarily disabling depth resolve on that platform
+Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs,606,// TODO: re-enable once the issue is investigated/fixed
+Packages/com.unity.render-pipelines.universal/Runtime/ForwardLights.cs,22,public static int _MainLightPosition;   // DeferredLights.LightConstantBuffer also refers to the same ShaderPropertyID - TODO: move this definition to a common location shared by other UniversalRP classes
+Packages/com.unity.render-pipelines.universal/Runtime/ForwardLights.cs,23,public static int _MainLightColor;      // DeferredLights.LightConstantBuffer also refers to the same ShaderPropertyID - TODO: move this definition to a common location shared by other UniversalRP classes
+Packages/com.unity.render-pipelines.universal/Runtime/ForwardLights.cs,554,"// TODO: If we can robustly detect LIGHTMAP_ON, we can skip SH logic."
+Packages/com.unity.render-pipelines.universal/Runtime/Decal/ScreenSpace/DecalGBufferRenderPass.cs,77,"true, false, // TODO: Make rendering layers transient"
+Packages/com.unity.render-pipelines.universal/Runtime/Decal/DBuffer/DBufferRenderPass.cs,150,// TODO: This should be replace with mrt clear once we support it
+Packages/com.unity.render-pipelines.universal/Runtime/Decal/Entities/DecalDrawSystem.cs,175,// RENDERGRAPH TODO: schedule drawmesh through commandBuffer?
+Packages/com.unity.render-pipelines.universal/Runtime/Decal/Entities/DecalDrawSystem.cs,203,// RENDERGRAPH TODO: schedule drawmesh through commandBuffer?
+Packages/com.unity.render-pipelines.universal/Runtime/FrameData/UniversalCameraData.cs,65,Matrix4x4 gpuProjectionMatrix = GetGPUProjectionMatrix(renderIntoTexture); // TODO: invProjection might NOT match the actual projection (invP*P==I) as the target flip logic has diverging paths.
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/DrawObjectsPass.cs,26,public bool m_IsActiveTargetBackBuffer; // TODO: Remove this when we remove non-RG path
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/DrawSkyboxPass.cs,35,"// TODO: The skybox needs to work the same as the other shaders, but until it does we'll not render it"
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/DrawSkyboxPass.cs,139,"// TODO: The skybox needs to work the same as the other shaders, but until it does we'll not render it"
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/CopyColorPass.cs,127,// TODO RENDERGRAPH: Do we need a similar check in the RenderGraph path?
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/ScreenSpaceAmbientOcclusionPass.cs,385,// TODO: Refactor to eliminate the need for 'UseTexture'.
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/CopyDepthPass.cs,18,// TODO RENDERGRAPH: The Render method overwrites this property with -1 before doing anything else. It should only be used in Compatibility Mode!
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/CopyDepthPass.cs,277,// TODO RENDERGRAPH: should call the equivalent of Setup() to initialise everything correctly
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/MotionVectorRenderPass.cs,88,// TODO: add option to only draw either one?
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPass.cs,353,// TODO: Add a fast render path if only on-tile compatible effects are used and we're actually running on a platform that supports it
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPass.cs,699,// TODO: Implement swapbuffer in 2DRenderer so we can remove this
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPass.cs,794,// TODO: CoC reprojection once TAA gets in LW
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPass.cs,795,// TODO: Proper LDR/gamma support
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPass.cs,1212,"// TODO: These should be part of URP main matrix set. For now, we set them here for motion vector rendering."
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/DeferredPass.cs,8,// TODO use Unity.Mathematics
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/DeferredPass.cs,9,// TODO Check if there is a bitarray structure (with dynamic size) available in Unity
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/DeferredPass.cs,43,// TODO: Cannot currently bind depth texture as read-only!
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/XROcclusionMeshPass.cs,18,public bool m_IsActiveTargetBackBuffer; // TODO: Remove this when we remove non-RG path
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/FinalBlitPass.cs,198,// TODO RENDERGRAPH: See https://jira.unity3d.com/projects/URP/issues/URP-1737
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/FinalBlitPass.cs,210,// TODO: Final blit pass should always blit to backbuffer. The first time we do we don't need to Load contents to tile.
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/FinalBlitPass.cs,345,// TODO RENDERGRAPH: this should ideally be shared in ExecutePass to avoid code duplication
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/ColorGradingLutPass.cs,308,//  TODO RENDERGRAPH: culling? force culling off for testing
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,11,// TODO: move into post-process passes.
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,69,// TODO: move into post-process passes.
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,473,// TODO RENDERGRAPH: handle dynamic scaling
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,747,// TODO: investigate suggested quality improvement trick in more detail:
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,812,// TODO RENDERGRAPH: properly setup dependencies between passes
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,824,// TODO: can't call BlitTexture with unsafe command buffer
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,895,// TODO RENDERGRAPH: properly setup dependencies between passes
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,904,// TODO: can't call BlitTexture with unsafe command buffer
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,948,// TODO RENDERGRAPH: properly setup dependencies between passes
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,960,// TODO: can't call BlitTexture with unsafe command buffer
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,1328,// TODO RENDERGRAPH: properly setup dependencies between passes
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,1655,"// TODO: These should be part of URP main matrix set. For now, we set them here for motion vector rendering."
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,1782,// TODO RENDERGRAPH: convert SRP core lens flare to be rendergraph friendly
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,1925,// TODO RENDERGRAPH: convert SRP core lensflare to be rendergraph friendly
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,2308,// TODO RENDERGRAPH: when we remove the old path we should review the naming of these variables...
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,2722,// io.exposureTexture; // TODO: set exposure texture when available
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,2723,io.preExposureValue = 1.0f; // TODO: set if exposure value is pre-multiplied
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,2767,// TODO (Apoorva): Maybe we want to support this?
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,2876,"// TODO RENDERGRAPH: Once we started removing the non-RG code pass in URP, we should move functions below to renderfunc so that material setup happens at"
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassRenderGraph.cs,3049,// TODO: move into post-process passes.
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/AdditionalLightsShadowCasterPass.cs,239,// TODO: Investigate finer-tuned values for those platforms. Soft shadows are implemented differently for them.
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/AdditionalLightsShadowCasterPass.cs,916,// TODO: In PC and Consoles we can upload shadow data per light and branch on shader. That will be more likely way faster.
+Packages/com.unity.render-pipelines.universal/Runtime/Passes/InvokeOnRenderObjectCallbackPass.cs,18,//TODO: should we fix and re-enable native render pass for this pass?
+Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/RenderObjects.cs,130,"// TODO: expose opaque, transparent, all ranges as drop down"
+Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/SurfaceCacheGI/SurfaceCacheGlobalIlluminationRendererFeature.cs,956,"// Hack: Ensures that we only add one Directional light as the ""sunlight"" into World"
+Packages/com.unity.render-pipelines.universal/Runtime/History/SingleHistoryBase.cs,6,// TODO: Draft. A convenience base class to wrap single texture into a type.
+Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAssetPrefiltering.cs,112,// TODO: Implement a different filter triggers for different passes (i.e. per-pass filter attributes)
+Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.DefaultResources.cs,112,"// TODO: When importing project, AssetPreviewUpdater:CreatePreviewForAsset will be called multiple time"
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Renderer2D.cs,278,// TODO: Investigate how to make FXAA work with HDR output.
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Renderer2D.cs,362,// TODO: this will go away once we remove the builtin dependencies and implement the grid in SRP.
+Packages/com.unity.render-pipelines.universal/Runtime/2D/LightUtility.cs,266,// todo Revisit this while we do Batching.
+Packages/com.unity.render-pipelines.universal/Runtime/2D/LightUtility.cs,400,// Last Triangle. todo: Remove Clipper Usage and use SpriteShape Geometry Generator for falloff potentially.
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Shadows/ShadowRendering.cs,16,"// TODO: Culling of shadow casters, rotate color channels for shadow casting, check get material functions."
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Shadows/ShadowRendering.cs,205,// TODO: This will need to take into account on screen lights as shadows can be cast from offscreen.
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Shadows/ShadowRendering.cs,235,// TODO: Iterate through the lights
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Passes/Utility/RendererLighting.cs,419,// TODO: Remove once Rendergraph becomes default pipeline
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Passes/Utility/RendererLighting.cs,540,// TODO: Remove once Rendergraph becomes default pipeline
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Rendergraph/Renderer2DRendergraph.cs,30,// TODO RENDERGRAPH: Once all cameras will run in a single RenderGraph we should remove all RTHandles and use per frame RG textures.
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Rendergraph/Renderer2DRendergraph.cs,792,// Shadow Pass (TODO: Optimize RT swapping between shadow and light textures)
+Packages/com.unity.render-pipelines.universal/Runtime/2D/Rendergraph/Renderer2DRendergraph.cs,911,// TODO RENDERGRAPH: Once all cameras will run in a single RenderGraph we can just use temporary RenderGraph textures as intermediate buffer.
+Packages/com.unity.render-pipelines.universal/Tests/Runtime/LightClusteringTests.cs,15,"[Description(""The tiling job calculates an intersection between an XZ plane and the light volume to determine the range of tiles that the light affects. In the cases where this range falls completely outside of the scree"
+Packages/com.unity.render-pipelines.universal/Tests/Runtime/RuntimeTests.cs,54,#if UNITY_EDITOR // TODO This API call does not reset in player
+Packages/com.unity.render-pipelines.universal/Tests/Editor/ShaderBuildPreprocessorTests.cs,961,// TODO Tests for Automatic
+Packages/com.unity.render-pipelines.universal/Shaders/LitGBufferPass.hlsl,10,// TODO: Currently we support viewDirTS caclulated in vertex shader and in fragments shader.
+Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl,246,"return lerp(normalTS, BlendNormalRNM(normalTS, detailNormalTS), detailMask); // todo: detailMask should lerp the angle of the quaternion rotation, not the normals"
+Packages/com.unity.render-pipelines.universal/Shaders/CameraMotionVectors.shader,111,// TODO: test that velocity.y is correct
+Packages/com.unity.render-pipelines.universal/Shaders/XR/XRMirrorView.hlsl,75,// TODO: The solution here is to add a hue preserving tonemap operator in as part of the conversion process but this will add quite a bit of extra expense.
+Packages/com.unity.render-pipelines.universal/Shaders/Utils/MaterialError.shader,10,"// TODO: Ideally this would be combined with FallbackError.shader, but it seems"
+Packages/com.unity.render-pipelines.universal/Shaders/Utils/ClusterDeferred.hlsl,66,"// TODO: if !defined(_SPECGLOSSMAP) && !defined(_SPECULAR_COLOR), force specularColor to 0 in gbuffer code"
+Packages/com.unity.render-pipelines.universal/Shaders/Utils/FogDeferred.hlsl,41,"float viewZ = LinearEyeDepth(gBufferData.depth, _ZBufferParams); // TODO: This wont work for orthographic camera!"
+Packages/com.unity.render-pipelines.universal/Shaders/Utils/StencilDeferred.hlsl,100,"// TODO move some of the properties to half storage (color, attenuation, spotDirection, flag to 16bits, occlusionProbeInfo)"
+Packages/com.unity.render-pipelines.universal/Shaders/Utils/StencilDeferred.hlsl,328,"// TODO: if !defined(_SPECGLOSSMAP) && !defined(_SPECULAR_COLOR), force specularColor to 0 in gbuffer code"
+Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/CameraMotionBlur.shader,111,"// TODO: There's bug in GetCameraVelocity, which is using NDC and not UV"
+Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/FXAA3_11.hlsl,1433,however I fixed a bug which was in both FXAA 3.9 and FXAA 3.10.
+Packages/com.unity.render-pipelines.universal/Shaders/Terrain/TerrainLitInput.hlsl,97,// Fixes bug where compression is enabled and 0 isn't actually 0 but low like 1/2047. (UUM-61913)
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityInput.hlsl,258,// TODO ENLIGHTEN: Instanced GI
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityInput.hlsl,264,// TODO ENLIGHTEN: Instanced GI
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityInput.hlsl,277,// TODO: all affine matrices should be 3x4.
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityInput.hlsl,278,"// TODO: sort these vars by the frequency of use (descending), and put commonly used vars together."
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityInput.hlsl,290,"float4x4 _ViewProjMatrix; // TODO: URP currently uses unity_MatrixVP, see Input.hlsl"
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/BRDF.hlsl,70,// TODO: would be clearer to multiply this once to accumulated diffuse lighting at end instead of the surface property.
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/BRDF.hlsl,141,// TODO: what about diffuse? at least in specular workflow diffuse should be recalculated as it directly depends on it.
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/ParticlesInstancing.hlsl,35,// inverse transform matrix (TODO: replace with a library implementation if/when available)
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.deprecated.hlsl,124,// TODO: pass this info?
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl,615,// TODO: implement
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/UniversalDOTSInstancing.hlsl,10,"// TODO: This might not work correctly in all cases, double check!"
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/RealtimeLights.hlsl,209,// TODO: Can we index a float4? Currently compiler is
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/RealtimeLights.hlsl,214,// NOTE: min16float4 bug workaround.
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/RealtimeLights.hlsl,277,// TODO: we need to expose in SRP api an ability for the pipeline cap the amount of lights
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl,31,// TODO: workaround. There's a bug where SHADER_API_GL_CORE gets erroneously defined on switch.
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl,61,"// TODO: add MSAA support, which is not being used anywhere in URP at the moment"
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/GlobalIllumination.hlsl,528,"// TODO: ""grazing term"" causes problems on full roughness"
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/GlobalIllumination.hlsl,572,"// TODO: ""grazing term"" causes problems on full roughness"
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl,109,StructuredBuffer<float4>   _AdditionalShadowParams_SSBO;        // Per-light data - TODO: test if splitting _AdditionalShadowParams_SSBO[lightIndex].w into a separate StructuredBuffer<int> buffer is faster
+Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl,338,// TODO: We could use branch here to save some perf on some platforms.
+Packages/com.unity.render-pipelines.universal/Editor/TrackballUIDrawer.cs,7,// TODO: Should be cleaned up and put into CoreRP/Editor
+Packages/com.unity.render-pipelines.universal/Editor/ShaderScriptableStripper.cs,460,// TODO: add a way to communicate this requirement from the xr plugin directly
+Packages/com.unity.render-pipelines.universal/Editor/ShaderScriptableStripper.cs,538,// TODO: Strip off variants once we have global soft shadows option for forcing instead as support
+Packages/com.unity.render-pipelines.universal/Editor/AnimationClipUpgrader.cs,179,"// TODO: right now, clip dependencies are gathered in Animation/Animator, so this may not be needed..."
+Packages/com.unity.render-pipelines.universal/Editor/AnimationClipUpgrader.cs,239,"// TODO: right now, clip dependencies are gathered in Animation/Animator, so this may not be needed..."
+Packages/com.unity.render-pipelines.universal/Editor/AnimationClipUpgrader.cs,394,// TODO: report paths of specific assets that contribute to problematic results?
+Packages/com.unity.render-pipelines.universal/Editor/Overrides/ShadowsMidtonesHighlightsEditor.cs,7,// TODO: handle retina / EditorGUIUtility.pixelsPerPoint
+Packages/com.unity.render-pipelines.universal/Editor/Decal/DecalShaderGraphGUI.cs,109,// TODO: scope
+Packages/com.unity.render-pipelines.universal/Editor/Decal/DecalProjectorEditor.cs,373,// TODO: Decide if uvHandles.size should ever have negative value. It can't currently.
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Targets/UniversalTarget.cs,1786,"{ kTextureStack, IncludeLocation.Pregraph },        // TODO: put this on a conditional"
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Targets/UniversalDecalSubTarget.cs,83,"context.AddCustomEditorForRenderPipeline(""UnityEditor.Rendering.Universal.DecalShaderGraphGUI"", typeof(UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset)); // TODO: This should be owned by URP"
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Targets/UniversalDecalSubTarget.cs,549,"validPixelBlocks = DecalBlockMasks.Fragment, // todo"
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Targets/UniversalDecalSubTarget.cs,577,"validPixelBlocks = DecalBlockMasks.Fragment, // todo"
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Targets/UniversalFullscreenSubTarget.cs,12,"static readonly GUID kSourceCodeGuid = new GUID(""48080a5025a54a84087e882e2f988642"");  // UniversalFullscreenSubTarget.cs // TODO"
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/CanvasPass.hlsl,52,// TODO: Change to inline ifdef
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/UITKPass.hlsl,49,"// TODO: In the future, we should try to use surfaceDescription.coverage instead of computing coverage outside"
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl,138,// TODO: Avoid path via VertexPositionInputs (Universal)
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl,181,// TODO: Change to inline ifdef
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPassDecal.hlsl,150,if (_DecalMeshBiasType == DECALMESHDEPTHBIASTYPE_VIEW_BIAS) // TODO: Check performance of branch
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPassDecal.hlsl,156,if (_DecalMeshBiasType == DECALMESHDEPTHBIASTYPE_DEPTH_BIAS) // TODO: Check performance of branch
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Templates/SharedCode.template.hlsl,81,#else // TODO: XR support for procedural instancing because in this case UNITY_ANY_INSTANCING_ENABLED is not defined and instanceID is incorrect.
+Packages/com.unity.render-pipelines.universal/Editor/VFXGraph/VFXURPLitMeshOutput.cs,32,if (!HasStrips(true)) // TODO make it compatible with strips
+Packages/com.unity.render-pipelines.universal/Editor/VFXGraph/VFXURPLitMeshOutput.cs,64,// TODO Add a experimental bool to setting attribute
+Packages/com.unity.render-pipelines.universal/Editor/VFXGraph/VFXURPBinder.cs,315,"AttributesMeshVFX, // TODO: Could probably re-use the original HD Attributes Mesh and just ensure Instancing enabled."
+Packages/com.unity.render-pipelines.universal/Editor/VFXGraph/VFXAbstractParticleURPLitOutput.cs,45,//TODO: Move these types to a utility in VFX package
+Packages/com.unity.render-pipelines.universal/Editor/Converter/AnimationClipConverter.cs,49,// TODO: need to know how materials will be upgraded in order to generate warnings
+Packages/com.unity.render-pipelines.universal/Editor/Converter/AnimationClipConverter.cs,75,// TODO: could pass in upgrade paths used by materials in the future
+Packages/com.unity.render-pipelines.universal/Editor/Converter/RenderPipelineConverterVisualElement.cs,19,// TODO: Once attributes land on all the converters use m_ConverterInfo;
+Packages/com.unity.render-pipelines.universal/Editor/Converter/RenderPipelineConverterVisualElement.cs,36,public Action showMoreInfo; // TODO Remove with the UX rework
+Packages/com.unity.render-pipelines.universal/Editor/Converter/RenderPipelineConverterManager.cs,59,// TODO: As the converters have data stored inside during initialization we need to clear the states
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2Converter.cs,85,// TODO: Upcoming changes to GlobalObjectIdentifierToObjectSlow will allow
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2Converter.cs,211,// TODO: Upcoming changes to GlobalObjectIdentifierToObjectSlow will allow it
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2Converter.cs,268,// TODO: unless there's good way to tell the if the object is just missing because it was already
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2Converter.cs,300,// TODO: unless there's good way to tell the if the object is just missing because it was already
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2Converter.cs,339,// TODO:
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/EffectConverters/VignetteConverter.cs,41,// TODO: No clear conversions for these?
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/EffectConverters/ChromaticAberrationConverter.cs,24,// TODO: Verify that these are 1:1 conversions for visual parity
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/EffectConverters/ChromaticAberrationConverter.cs,28,// TODO: No clear conversions for these?
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/EffectConverters/BloomConverter.cs,33,// TODO: No clear conversions for these?
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/EffectConverters/DepthOfFieldConverter.cs,33,// TODO: No clear conversions for these?
+Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/EffectConverters/GrainConverter.cs,37,// TODO: No clear conversions for these?
+Packages/com.unity.render-pipelines.universal/Editor/AssetPostProcessors/MaterialPostprocessor.cs,277,// In older version there was a bug that these shaders did not had HDR attribute on emission property.
+Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/BaseShaderGUI.cs,932,// Temporary fix for lightmapping. TODO: to be replaced with attribute tag.
+Packages/nuget-packages/InstalledPackages/Microsoft.Bcl.TimeProvider.8.0.0/PACKAGE.md,57,Microsoft.Bcl.TimeProvider is released as open source under the [MIT license](https://licenses.nuget.org/MIT). Bug reports and contributions are welcome at [the GitHub repository](https://github.com/dotnet/runtime).
+Packages/nuget-packages/InstalledPackages/System.Threading.Channels.8.0.0/PACKAGE.md,73,System.Threading.Channels is released as open source under the [MIT license](https://licenses.nuget.org/MIT). Bug reports and contributions are welcome at [the GitHub repository](https://github.com/dotnet/runtime).
+Assets/Plugins/FMOD/src/fmod_errors.cs,119,"return ""A call to a standard soundcard driver failed, which could possibly mean a bug in the driver or resources were missing or exhausted."";"
+Assets/Plugins/FMOD/src/Editor/EventBrowser.cs,658,// Hack to undo TreeView flattening the hierarchy when searching
+Assets/Plugins/Zenject/Source/Install/ScriptableObjectInstaller.cs,8,// We'd prefer to make this abstract but Unity 5.3.5 has a bug where references
+Assets/Plugins/Zenject/Source/Install/MonoInstaller.cs,7,// We'd prefer to make this abstract but Unity 5.3.5 has a bug where references
+Assets/Plugins/Zenject/Source/Install/MonoInstallerBase.cs,9,// We'd prefer to make this abstract but Unity 5.3.5 has a bug where references
+Assets/Plugins/Zenject/Source/Install/ScriptableObjectInstallerBase.cs,8,// We'd prefer to make this abstract but Unity 5.3.5 has a bug where references
+Assets/Plugins/Zenject/Source/Install/Contexts/ProjectContext.cs,24,// TODO: Set this to false the next time major version is incremented
+Assets/Plugins/Zenject/Source/Install/Contexts/Context.cs,113,// TODO - Is there a way to check this using GetPrefabAssetType in 2019+?
+Assets/Plugins/Zenject/Source/Install/Contexts/Context.cs,266,// TODO: Consider changing this
+Assets/Plugins/Zenject/Source/Providers/ProviderUtil.cs,11,// TODO: Is it possible to do this on WSA?
+Assets/Plugins/Zenject/Source/Internal/TypeExtensions.cs,42,// TODO: Is it possible to do this on WSA?
+Assets/Plugins/Zenject/Source/Binding/BindingUtil.cs,295,// TODO: Is it possible to do this on WSA?
+Assets/Plugins/Zenject/Source/Binding/Binders/Factory/FactoryFromBinder/Untyped/FactoryFromBinderUntyped.cs,16,// TODO - add similar methods found in FactoryFromBinder<>
+Assets/Plugins/Zenject/Source/Binding/Finalizers/ProviderBindingFinalizer.cs,192,// TODO: Is it possible to do this on WSA?
+Assets/Plugins/Zenject/Source/Main/DiContainer.cs,289,// TODO: We could look at the inject context though
+Assets/Plugins/Zenject/Source/Main/DiContainer.cs,1248,// TODO:  This is flawed since it doesn't allow binding new decorators in subcontainers
+Assets/Plugins/Zenject/Source/Editor/ZenMenuItems.cs,176,"+ ""\n        // TODO"""
+Assets/Plugins/Zenject/Source/Editor/ZenMenuItems.cs,335,"+ ""\n        // TODO"""
+Assets/Plugins/Zenject/Source/Editor/ZenMenuItems.cs,390,"+ ""\n        // TODO: Add assertions here now that the scene has started"""
+Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModulePhysics.cs,229,/// <para>BEWARE: doesn't work on Windows Phone store (waiting for Unity to fix their own bug).
+Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModulePhysics.cs,269,/// <para>BEWARE: doesn't work on Windows Phone store (waiting for Unity to fix their own bug).
+Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModulePhysics2D.cs,105,//         /// <para>BEWARE: doesn't work on Windows Phone store (waiting for Unity to fix their own bug).
+Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModulePhysics2D.cs,133,//         /// <para>BEWARE: doesn't work on Windows Phone store (waiting for Unity to fix their own bug).
+Assets/Plugins/UniTask/Runtime/CompilerServices/AsyncUniTaskVoidMethodBuilder.cs,41,// workaround for IL2CPP bug.
+Assets/Plugins/UniTask/Runtime/CompilerServices/AsyncUniTaskVoidMethodBuilder.cs,64,// workaround for IL2CPP bug.
+Assets/Plugins/UniTask/Runtime/CompilerServices/StateMachineRunner.cs,11,// #ENABLE_IL2CPP in this file is to avoid bug of IL2CPP VM.
+Assets/Plugins/UniTask/Runtime/CompilerServices/StateMachineRunner.cs,43,// Get AsyncStateMachine internal state to check IL2CPP bug
+Assets/Plugins/UniTask/Runtime/CompilerServices/StateMachineRunner.cs,234,// workaround for IL2CPP bug.
+Assets/Plugins/UniTask/Runtime/CompilerServices/StateMachineRunner.cs,364,// workaround for IL2CPP bug.
+Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.xml,2386,"<note type=""note"">Due to a bug, multiple inline buttons are currently not supported.</note>"
+Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.xml,5995,">Due to a bug in Unity, enums will sometimes not work correctly. The last example shows how this can be fixed.</note"
+Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.xml,6066,"<para>Due to a bug in Unity, enums member arrays will in some cases appear as empty. This example shows how you can get around that.</para>"
+Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.xml,3773,Emergency hack class to support serialization of types derived from dictionary
+Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.xml,1199,TODO
+Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.xml,1221,TODO
+Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.xml,8365,This class fixes a bug where Unity's Undo.RecordObject does not mark ScriptableObjects dirty when
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/AddressablesInspectors.cs,55,public class RegisterAssetReferenceAttributeForwardToChildAttribute : Attribute // TODO: Should this be a global attribute?
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/AddressablesInspectors.cs,1645,attributes.Add(new SuppressInvalidAttributeErrorAttribute()); // TODO: Remove this with proper attribute forwarding support.
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Internal/OdinLocalizationGUI.cs,18,// TODO: update name
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Internal/OdinLocalizationGUI.cs,59,// TODO: LIGHT MODE
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Internal/OdinLocalizationSyntaxHighlighter.cs,27,"// TODO: if this works nicely, maybe implement a custom solution that doesn't rely on SmartFormatter"
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/GUI/OdinAssetTableCollectionEditor.cs,478,// TODO: some caveats to just adding this
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/GUI/OdinAssetTableCollectionEditor.cs,1014,// TODO: implement when drag'n'drop areas are done and keyboard commands
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/GUI/OdinTableCollectionEditor.cs,1127,"// NOTE: returns true if pressed, TODO add xml comments later"
+Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/GUI/OdinTableCollectionEditor.cs,1293,// TODO: get rid of this magic number
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerStMachineThrow.cs,111,//TODO(OriS):之后加一个缓速减速到0
+Assets/Rendering/RainRust/Shaders/RayTracing.shader,52,float _LightHitThreshold; // 命中判定: cn.a > 阈值 视为命中光源 (TODO(vanish): RainRustLighting.shader 中clip 阈值是Hard Code)
+Assets/LDtkUnity/CHANGELOG.md,4,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,29,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,44,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,51,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,58,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,71,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,86,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,100,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,107,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,114,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,121,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,128,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,147,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,154,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,175,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,182,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,189,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,196,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,203,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,210,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,222,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,234,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,241,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,310,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,322,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,330,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,337,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,344,### Bug Fixes
+Assets/LDtkUnity/CHANGELOG.md,467,"- Fixed a bug where reordering IntGrid value definitions would use the wrong tile references, and in some cases, cause an exception"
+Assets/LDtkUnity/CHANGELOG.md,515,- Fixed a bug causing a failure to draw scene entity references and logging error spam
+Assets/LDtkUnity/CHANGELOG.md,544,- Fixed a major bug related to LDtk 1.3.0's update
+Assets/LDtkUnity/CHANGELOG.md,545,- Fixed an entity reference scene drawer bug if a referenced object didn't exist
+Assets/LDtkUnity/CHANGELOG.md,546,- Fixed an entity scene drawer bug where the size of an entity was different from the expected size from LDtk
+Assets/LDtkUnity/CHANGELOG.md,591,- Fixed an important bug related to tile scaling for IntGrid collisions
+Assets/LDtkUnity/CHANGELOG.md,694,- Fixed an important bug where tiles would not scale or space apart correctly when multiple tile layers are involved
+Assets/LDtkUnity/CHANGELOG.md,736,- Fixed a major bug identified in 3.0.0 where all levels outside the first one would not build art tiles
+Assets/LDtkUnity/CHANGELOG.md,773,- Fixed a bug where the importer inspector would still display error UI even after the import issue was already resolved
+Assets/LDtkUnity/CHANGELOG.md,774,"- Fixed an import bug when an enum definition would be named like other types, such as Color, Point, etc."
+Assets/LDtkUnity/CHANGELOG.md,811,- Fixed a bug where entity prefabs would not be instantiated correctly when both the LDtk project importer and prefabs import at the same time (ex. Multi-selection or Reimport All)
+Assets/LDtkUnity/CHANGELOG.md,842,- Fixed a bug where importing/saving a level/entity prefab would break the corresponding reference in the imported LDtk project
+Assets/LDtkUnity/CHANGELOG.md,880,- Fixed an import bug if an LDtk project was a dependency in a prefab
+Assets/LDtkUnity/CHANGELOG.md,886,- This also fixes a major bug related to using this
+Assets/LDtkUnity/CHANGELOG.md,980,- Fixed a bug when trying to get a Multiline string field from `LDtkFields`
+Assets/LDtkUnity/CHANGELOG.md,981,- Fixed a visual bug where tiles that are built with off-grid pixel positions are now correctly built (i.e. The shelves in the Typical2DPlatformer sample)
+Assets/LDtkUnity/CHANGELOG.md,986,- Fixed a bug related to importing a LDtk project for the first time
+Assets/LDtkUnity/CHANGELOG.md,1054,- Fixed a bug related to LDtkField drawer with Odin inspector
+Assets/LDtkUnity/CHANGELOG.md,1167,- Many other bug fixes
+Assets/LDtkUnity/CHANGELOG.md,1243,- Fixed bug where an IntGrid tile sprite's empty physics shape had collision anyway
+Assets/LDtkUnity/CHANGELOG.md,1245,- Fixed visual bug where a thrown warning was too large on higher-scale Unity editor UI
+Assets/LDtkUnity/CHANGELOG.md,1246,- Fixed bug where parsing a single empty Point field resulted in a parse error
+Assets/LDtkUnity/CHANGELOG.md,1247,"- Created a resolve to a bug where it was impossible to set up an int grid value with an unwritten, empty value identifier"
+Assets/LDtkUnity/CHANGELOG.md,1248,- Fixed bug related to LDtk enums with spaces in their identifier
+Assets/LDtkUnity/CHANGELOG.md,1249,- Many other minor bug fixes and changes to improve the overall package
+Assets/LDtkUnity/CHANGELOG.md,1281,- Bunch of bug fixes
+Assets/LDtkUnity/Runtime/Tools/Bank/LDtkUidBank.cs,37,"//todo while awaiting this fix, we can safely be silent for these cases. Once the bug is fixed, remove the silent param https://github.com/deepnight/ldtk/issues/1107"
+Assets/LDtkUnity/Runtime/UnityAssets/Assets/LDtkArtifactAssets.cs,44,//todo the importer uses this for now for security reasons. might ease back into the indexed version if it's safe enough
+Assets/LDtkUnity/Runtime/UnityAssets/Assets/LDtkTilesetTile.cs,52,//todo also potentially add auto rule stuff for cool runtime art updates later
+Assets/LDtkUnity/Runtime/Components/LDtkComponentLayerTilesetTiles.cs,12,"//todo this needs more actual data, the TileInstance. A or T values"
+Assets/LDtkUnity/Runtime/Components/LDtkComponentLevel.cs,175,//LevelBgPos = lvl.LevelBgPos; //todo
+Assets/LDtkUnity/Runtime/Components/LDtkComponentProject.cs,60,"""LDtk application build identifier.\nThis is only used to identify the LDtk version that generated this particular project file, which can be useful for specific bug fixing. Note that the build identifier is just the dat"
+Assets/LDtkUnity/Runtime/Data/Extensions/Definition/EntityDefinition.cs,17,TilesetId == null ? null : LDtkUidBank.GetUidData<TilesetDefinition>(TilesetId.Value); //todo test that this really works by storing inside the uid bank
+Assets/LDtkUnity/Runtime/Data/Extensions/Definition/EntityDefinition.cs,44,NineSliceBorders.IsNullOrEmpty() ? Rect.zero : NineSliceBorders.ToRect(); //todo implement some importer functionality for this
+Assets/LDtkUnity/Runtime/Data/Extensions/Definition/TilesetRectangle.cs,12,"//todo while awaiting this fix, just safely not log an error if a definition is not found https://github.com/deepnight/ldtk/issues/1107"
+Assets/LDtkUnity/Runtime/Data/Extensions/Definition/ScriptableObjects/LDtkDefinitionObjectAutoLayerRule.cs,136,TileRectsIds = def.TileRectsIds; //todo make serializable. tileset tiles
+Assets/LDtkUnity/Runtime/Data/Extensions/Definition/ScriptableObjects/LDtkDefinitionObjectsCache.cs,272,"//todo while awaiting this fix, just safely return null if a definition is not found https://github.com/deepnight/ldtk/issues/1107"
+Assets/LDtkUnity/Runtime/Data/Extensions/Definition/ScriptableObjects/Serializable/LDtkDefinitionObjectIntGridValue.cs,31,GroupUid = def.GroupUid; //todo add support for the actual group object reference
+Assets/LDtkUnity/Runtime/Data/Extensions/Instance/FieldInstance.cs,88,//todo Tile isn't used anywhere in the importer yet
+Assets/LDtkUnity/Runtime/Data/Schema/LdtkJson.cs,37,"/// that generated this particular project file, which can be useful for specific bug fixing."
+Assets/LDtkUnity/Editor/Builders/LDtkBuilderLevelBackground.cs,64,"//todo this texture is only here because we need the texture's height only. once ldtk adds the image's width+height to bgpos, it will not need to be loaded anymore for performance"
+Assets/LDtkUnity/Editor/Builders/LDtkBuilderIntGridValue.cs,153,//todo: predetermine the position instead during gameobject creation. profile this if it's actually proves slow
+Assets/LDtkUnity/Editor/Builders/LDtkBuilderLayer.cs,38,//todo need to evaluate scale here too potentially?
+Assets/LDtkUnity/Editor/Builders/LDtkBuilderLevel.cs,291,//todo this could be refactored to live in the BuilderLayer
+Assets/LDtkUnity/Editor/Builders/LDtkBuilderProject.cs,5,//todo: add support for runtime building startting from here. use the LDtkConfig object instead of the importers
+Assets/LDtkUnity/Editor/Builders/LDtkBuilderEntity.cs,308,"//todo while awaiting this fix, safely null check it https://github.com/deepnight/ldtk/issues/1107"
+Assets/LDtkUnity/Editor/Builders/LDtkBuilderEntity.cs,357,"), //todo could be a better way to work with this. could even be the LayerObject position to save on calculating"
+Assets/LDtkUnity/Editor/ParsedField/LDtkFieldParser.cs,10,//todo reinstate attribute if we add runtime building
+Assets/LDtkUnity/Editor/ParsedField/Parsed/LDtkParsedTile.cs,37,"//todo while awaiting this fix, just safely return null if a definition is not found https://github.com/deepnight/ldtk/issues/1107"
+Assets/LDtkUnity/Editor/ExportNativePrefab/PathDrawer.cs,86,"// todo not contextual enough to a generalized folder field, might apply differently later"
+Assets/LDtkUnity/Editor/CustomEditor/LDtkJsonEditorCache.cs,60,fromJson = importer.FromJson<LdtkJson>(); //todo benchmark how long each one takes. a test run-through
+Assets/LDtkUnity/Editor/CustomEditor/LDtkJsonEditorCache.cs,97,"LDtkDebug.LogError(""Bug with cache; no key. this should never happen"");"
+Assets/LDtkUnity/Editor/CustomEditor/LDtkJsonEditorCache.cs,114,"LDtkDebug.LogError(""bug"");"
+Assets/LDtkUnity/Editor/CustomEditor/LDtkEntityIconFactory.cs,16,"public Texture2D GetIcon() //todo get image icons in eventually, partially finished. probably add in once we can find out about setting this up during onenable"
+Assets/LDtkUnity/Editor/CustomEditor/LDtkEntityIconFactory.cs,93,"//HACK test: (x:16, y:128, width:16, height:16)"
+Assets/LDtkUnity/Editor/CustomEditor/LDtkEntityIconFactory.cs,124,//todo this is done for later
+Assets/LDtkUnity/Editor/CustomEditor/LDtkEntityIconFactory.cs,259,//todo setup some handling here
+Assets/LDtkUnity/Editor/CustomEditor/LDtkComponentWorldEditor.cs,218,//todo potentially hook up level neighbours?
+Assets/LDtkUnity/Editor/CustomEditor/Importer/LDtkProjectImporterEditor.cs,119,"LDtkDebug.LogError(""Bug, cache is null, but its expected to never be null"");"
+Assets/LDtkUnity/Editor/CustomEditor/Importer/LDtkProjectImporterEditor.cs,148,//todo disabled for now. Currently doesn't work perfectly as expected
+Assets/LDtkUnity/Editor/CustomEditor/SceneDrawer/HandleDrawers/LDtkFieldDrawerPoints.cs,190,"LDtkHandleDrawerUtil.RenderSimpleLink(from, to, _pixelsPerUnit); //todo this gridSize should be the importer's pixels per unit instead to behave better"
+Assets/LDtkUnity/Editor/CustomEditor/SceneDrawer/HandleDrawers/LDtkFieldDrawerEntityRef.cs,58,//pos -= (Vector3)_middleCenter; //todo get on this soon
+Assets/LDtkUnity/Editor/CustomEditor/SceneDrawer/ComponentDrawers/LDtkSceneDrawerField.cs,21,case EditorDisplayMode.ValueOnly: //display value (enum value could show image) todo
+Assets/LDtkUnity/Editor/CustomEditor/SceneDrawer/ComponentDrawers/LDtkSceneDrawerField.cs,22,case EditorDisplayMode.NameAndValue: //display identifier then value (enum value could show image) //todo
+Assets/LDtkUnity/Editor/CustomEditor/SceneDrawer/ComponentDrawers/LDtkSceneDrawerField.cs,23,//todo choose to show more later? like an icon in a smaller size maybe?
+Assets/LDtkUnity/Editor/CustomEditor/SceneDrawer/ComponentDrawers/LDtkSceneDrawerField.cs,57,//todo address this. draw the array or array size
+Assets/LDtkUnity/Editor/Utility/HandleUtil.cs,44,#elif UNITY_2021_2_OR_NEWER //todo this might be completely wrong. I've noticed that a bad offset is applied when i try using the searchbar in the hierarchy window
+Assets/LDtkUnity/Editor/Utility/Artifacts/LDtkConfigData.cs,10,//todo: could be used to spawn levels in runtime potentially
+Assets/LDtkUnity/Editor/Utility/Artifacts/LDtkBackgroundSliceCreator.cs,91,// todo we cannot preemptively test the image's dimensions. wait until this value is available
+Assets/LDtkUnity/Editor/ScriptedImporter/LDtkJsonDigger.cs,11,"//todo all of the data digging could be merged into one big json sweep, so that we are not starting multiple streams and can still get everything necessary for performance"
+Assets/LDtkUnity/Editor/ScriptedImporter/LDtkJsonDigger.cs,12,//todo also we might be able to cache the loaded bytes for multiple operations perhaps
+Assets/LDtkUnity/Editor/ScriptedImporter/LDtkJsonDigger.cs,410,//todo needs proper scanning for used tileset def usages
+Assets/LDtkUnity/Editor/ScriptedImporter/LDtkJsonImporter.cs,388,//todo don't need to read all bytes twice. pass in a previous FromJson
+Assets/LDtkUnity/Editor/ScriptedImporter/LDtkTilesetImporter_TextureGeneration.cs,85,//todo this could be added to the job system
+Assets/LDtkUnity/Editor/ScriptedImporter/LDtkTilesetImporter.cs,108,//todo add a digger for getting the RelPath
+Assets/LDtkUnity/Editor/ScriptedImporter/LDtkProjectImporter.cs,410,where T : Object //todo these should be indexed too for performance.
+Assets/LDtkUnity/Editor/ScriptedImporter/LDtkTilesetImporter_Artifacts.cs,125,//todo really look at this function and understand if it's truly nessesary.
+Assets/ThirdParty/UnityHFSM-v2.2.0/Changelog.md,84,- Fixed bug that `StateMachine`s inside `ParallelStates` don't react to global triggers (#48).
+Assets/ThirdParty/UnityHFSM-v2.2.0/Changelog.md,86,- Fixed event-related bug in `ParallelStates` that incorrectly called certain methods (e.g. `Trigger` and `OnLogic`) on sub-states after a previous state caused an exit / transition.
+Assets/ThirdParty/UnityHFSM-v2.2.0/Changelog.md,153,- Fix incorrect execution order (timing) bug concerning the `canExit` feature of the `State` class.
+Assets/ThirdParty/UnityHFSM-v2.2.0/Changelog.md,155,- Fix `Time.time` access exception bug that occurred during the deserialisation of `State` and `State`-derived classes shown in the inspector.
+Assets/ThirdParty/UnityHFSM-v2.2.0/Samples~/GuardAI/Scripts/GuardAI.cs,56,// TODO: Cause damage to player if in range.
+Assets/ThirdParty/UnityHFSM-v2.2.0/src/Visualization/HfsmAnimatorGraph.cs,258,// TODO: Use the trigger (event) as the transition condition instead?
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,27,"* Fix bug in ""Clear Log on Update"" preferences option hiding messages"
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,99,"* Fixed ""Switch"" node Dynamic Branch bug (#348)"
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,211,"* Fixed Premultiply shader bug in URP Unlit template, all versions (#301)"
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,274,* Fixed URP 2D templates color change bug in 15x and 16x (#211)
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,499,"* Fixed bug in ""LightAttenuation"" node"" breaking cascade shadows"
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,583,* Fixed Light Attenuation node bug causing materials to be transparent on builds
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,594,* Fixed bug in GlobalAutoSRP preferences option
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,659,* Fixed inline properties due to template upgrade bug caused by property reordering
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,3802,* Fixed bug where 'Function Switch' node options were being incorrectly saved which caused a crash on load
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,5591,* Fixed issue with attempting connection removal on inexistent nodes ( bug affecting Append node )
+Assets/ThirdParty/AmplifyShaderEditor/ChangeLog.txt,5628,* Fixed Vector2 Append Node bug
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/EditorResources/Previews/Preview_TangentSignVertexDataNode.shader,26,//TODO: needs revision at some point
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Wires/InputPort.cs,544,//TODO: Replace GenerateShaderForOutput(...) calls to this one
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/ParentNode.cs,3203,//TODO: check if not necessary
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Misc/CustomExpressionNode.cs,541,//Hack to be used util indent is properly used
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Misc/CustomExpressionNode.cs,2450,//Fixing bug where user could set main output port as OBJECT
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Misc/DynamicAppendNode.cs,417,//TODO: MAKE THIS LESS BRUTE FORCE
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Misc/WireNode.cs,464,//TODO: it still generates crooked lines if wire nodes get too close to non-wire nodes (the fix would be to calculate the non-wire nodes magnitude properly)
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Textures/SamplerNode.cs,221,//TODO: rewrite this to be faster
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Textures/SamplerNode.cs,1456,"Debug.Log(""TODO"");"
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Textures/SamplerNode.cs,1625,//		//TODO: make the sampler not generate local variables at all times
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Textures/TexturePropertyNode.cs,1209,//TODO: this is a hack and needs to be properly fixed
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/SurfaceShaderInputs/ScreenPosInputsNode.cs,126,"// TODO: these kinds of calls need a serious cleanup, too much redundancy"
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Operators/InverseOpNode.cs,119,//Hack to be used util indent is properly used
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Constants/StaticSwitch.cs,165,"""Keyword stage ignored in Surface Shaders due to Unity bug."";"
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Constants/TextureArrayNode.cs,895,//TODO: unity now supports bias as well
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/ImageEffects/RGBToHSVNode.cs,63,//Hack to be used util indent is properly used
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/ImageEffects/HSVToRGBNode.cs,47,//Hack to be used util indent is properly used
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/HelperFuncs/UnityObjToClipPosHlpNode.cs,20,//TODO: revisit this later
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/HelperFuncs/WorldSpaceViewDirHlpNode.cs,26,//TODO: revisit this later
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/HelperFuncs/ObjSpaceViewDirHlpNode.cs,26,//TODO: revisit this later
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/HelperFuncs/UnityObjToViewPosHlpNode.cs,20,//TODO: revisit this later
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Master/StandardSurface.cs,3813,"//TODO: TEMPORARY SOLUTION, this needs to go somewhere else, there's no need for these comparisons"
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Master/StandardSurface.cs,4060,//TODO: Remove current SaveDebugShader and uncomment SaveToDisk as soon as pathname is editable
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Master/TessellationOpHelper.cs,744,//ToDo: Optimize material property fetches to use Id instead of string
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Master/MasterNode.cs,415,// this is a hack to control the automatic selection of text fields when the window is selected after serialization
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Master/MasterNode.cs,760,//TODO: Remove current SaveDebugShader and uncomment SaveToDisk as soon as pathname is editable
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Nodes/Master/MasterNodeDataCollector.cs,930,"// TODO: this needs to change, find the property should be dependant of have a ""("""
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Utils/ASEStartScreen.cs,79,"""Check the lastest additions, improvements and bug fixes done to ASE"""
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Utils/GeneratorUtils.cs,1534,// TODO: check later if precision can be half
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Utils/GeneratorUtils.cs,1581,// TODO: check later if precision can be half
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Utils/GeneratorUtils.cs,3022,//Hack to be used util indent is properly used
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Utils/Preferences.Project.cs,114,// TODO: Not critical?
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Menu/AmplifyShaderEditorWindow.cs,4810,// TODO: this need to be fused to the main load function somehow
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Menu/AmplifyShaderEditorWindow.cs,4889,"//TODO: After all is working, convert string parameters to ints in order to speed up reading"
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Menu/AmplifyShaderEditorWindow.cs,5334,"//TODO: After all is working, convert string parameters to ints in order to speed up reading"
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Menu/AmplifyShaderEditorWindow.cs,6299,) || m_repaintIsDirty; //TODO: If multiple nodes from the same type are selected also show a parameters window which modifies all of them
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Menu/NodeParametersWindow.cs,123,// this hack is need because without it the several FloatFields/Textfields/... would show wrong values ( different from the ones they were assigned to show )
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Templates/TemplateHelperFunctions.cs,1839,// TODO: OPTIMIZE REGEX EXPRESSIONS TO NOT CATCH EMPTY GROUPS
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Templates/TemplateHelperFunctions.cs,1993,// TODO: OPTIMIZE REGEX EXPRESSIONS TO NOT CATCH EMPTY GROUPS
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Templates/TemplateHelperFunctions.cs,2788,/*TODO:
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Templates/TemplatesBlendModule.cs,589,//TODO: we should send this data to the alpha to mask module instead
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Templates/TemplateMultiPassMasterNode.cs,3123,// Temporary hack
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Templates/TemplateMultiPassMasterNode.cs,3768,//TODO Must place this on the correct place
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Templates/TemplateOptionsUI.cs,405,"//This is quite the hack. The bug is related to if a user chooses an inline property on the field option, then the behavior is to comment the original property set on the template"
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Templates/TemplateOptionsUI.cs,406,"// The problem is that, if the user sets an inline property and select its own internal property from there, then the behavior that will prevail without this hack is to call the actions associated with setting a new inli"
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Graphs/ParentGraph.cs,1156,//TODO: remove this temp from here
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Graphs/ParentGraph.cs,2700,//TODO: check better placement of this code (reconnects wires from wire nodes)
+Assets/ThirdParty/AmplifyShaderEditor/Plugins/Editor/Graphs/ParentGraph.cs,3352,//TODO: remove this dynamic list

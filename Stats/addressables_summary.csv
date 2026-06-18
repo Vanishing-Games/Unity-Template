@@ -1,0 +1,6 @@
+group,path,lines,guid_refs,entries_hint,schemas
+Test,Assets/AddressableAssetsData/AssetGroups/Test.asset,25,4,0,0
+Level1,Assets/AddressableAssetsData/AssetGroups/Level1.asset,25,4,0,0
+Level2,Assets/AddressableAssetsData/AssetGroups/Level2.asset,25,4,0,0
+Common,Assets/AddressableAssetsData/AssetGroups/Common.asset,25,4,0,0
+Built In Data,Assets/AddressableAssetsData/AssetGroups/Built In Data.asset,22,3,0,0

@@ -1,0 +1,262 @@
+path,domain,lines,code_lines,comment_like_lines,comment_density_pct,classes,structs,interfaces,enums,records,methods,approx_complexity,complexity_per_100_lines,mono_behaviour_refs,scriptable_object_refs,serialize_fields,update_methods,lifecycle_methods,public_fields,private_fields,bad_private_fields,m_prefix_compliance_pct,todo_markers,coroutine_hits,async_await_hits,linq_hits,reflection_hits,resources_load_hits,try_catch_hits,magic_numbers
+Assets/Editor/MessageBrokerDebugger/MessageBrokerDebuggerWindow.cs,Code,623,548,3,0.48,1,0,0,0,0,16,68,12.41,0,0,0,0,2,0,9,0,100.0,0,0,0,2,0,0,0,61
+Assets/Editor/BuildScripts/GitVersionProcessor.cs,CI/CD,120,96,10,8.33,1,0,0,0,0,4,11,11.46,0,0,0,0,1,1,0,0,100,0,0,0,0,0,0,4,2
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerAccelerateCapability.cs,Code,125,93,0,0.0,5,0,0,0,0,4,15,16.13,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/BoxCastDebugger.cs,Code,211,154,21,9.95,1,0,0,0,0,6,9,5.84,1,0,0,0,1,8,0,0,100,0,0,0,0,0,0,0,17
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerMovementComponent.StateCheck.cs,Code,110,69,20,18.18,1,0,0,1,0,4,5,7.25,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,4
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerMovementComponent.Physics.cs,Code,18,14,0,0.0,1,0,0,0,0,0,1,7.14,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerGravityCapability.cs,Code,72,61,0,0.0,2,0,0,0,0,9,1,1.64,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerMoveCapability.cs,Code,24,19,0,0.0,1,0,0,0,0,4,1,5.26,0,0,0,0,0,0,1,1,0.0,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerMovementTickOrder.cs,Code,29,27,2,6.9,0,0,0,1,0,0,1,3.7,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerMovementComponent.Events.cs,Code,58,27,23,39.66,1,0,0,0,0,0,1,3.7,0,0,0,0,0,7,0,0,100,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerCollisionCapability.cs,Code,228,188,5,2.19,2,0,0,0,0,14,16,8.51,0,0,0,0,0,1,5,5,0.0,0,0,0,0,0,0,0,4
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerGroundCheckCapability.cs,Code,69,57,0,0.0,1,0,0,0,0,6,5,8.77,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,7
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerInverseAccelerateCapability.cs,Code,129,97,0,0.0,5,0,0,0,0,4,15,15.46,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerMovementComponent.Unity.cs,Code,94,77,6,6.38,1,0,0,0,0,9,9,11.69,0,0,0,0,0,0,5,5,0.0,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerDeAccelerateCapability.cs,Code,122,90,0,0.0,5,0,0,0,0,4,15,16.67,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,1
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerJumpCapability.cs,Code,228,184,2,0.88,5,0,0,0,0,22,12,6.52,0,0,0,0,0,0,0,0,100,0,0,0,2,0,0,0,4
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerGrabCapability.cs,Code,92,76,1,1.09,3,0,0,0,0,9,7,9.21,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerMovementComponent.PhysicsCast.cs,Code,53,46,0,0.0,1,0,0,0,0,3,2,4.35,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Demos/FunctionDev/CharacterControllerDemo/CollideAndSlideDebugger.cs,Code,270,218,17,6.3,1,0,0,0,0,16,16,7.34,0,0,0,0,0,10,9,9,0.0,0,0,0,0,0,0,0,24
+Assets/Demos/FunctionDev/CharacterControllerDemo/PlayerMovementComponent.cs,Code,380,314,0,0.0,1,0,0,0,0,0,2,0.64,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,1
+Assets/Demos/FunctionDev/FpDemo/FpSample.cs,Code,360,263,32,8.89,3,0,0,0,0,12,11,4.18,1,0,1,0,1,0,1,1,0.0,0,0,26,0,0,0,8,16
+Assets/Demos/FunctionDev/Sonar/SonarWaveController.cs,Code,57,47,3,5.26,1,0,0,0,0,2,7,14.89,1,0,0,1,2,4,2,0,100.0,0,0,0,0,0,0,0,5
+Assets/Rendering/RainRust/RenderFeatures/SonarObstacleFeature.cs,Rendering,51,44,0,0.0,2,0,0,0,0,3,4,9.09,0,0,0,0,0,3,2,0,100.0,0,0,0,0,0,0,0,0
+Assets/Rendering/RainRust/RenderFeatures/RainRustLighting.cs,Rendering,166,134,16,9.64,2,0,0,1,0,4,22,16.42,0,0,0,0,0,13,7,0,100.0,0,0,0,0,0,0,0,0
+Assets/Rendering/RainRust/Volume/RainRustVolume.cs,Rendering,76,66,1,1.32,1,0,0,4,0,0,1,1.52,0,0,0,0,0,18,0,0,100,0,0,0,0,1,0,0,29
+Assets/Rendering/RainRust/RenderPasses/SonarObstaclePass.cs,Rendering,124,102,6,4.84,3,0,0,0,0,2,2,1.96,0,0,0,0,0,3,2,0,100.0,0,0,0,0,0,0,0,1
+Assets/Rendering/RainRust/RenderPasses/RainRustContextData.cs,Rendering,47,38,2,4.26,2,0,0,0,0,2,2,5.26,0,0,0,0,0,7,2,2,0.0,0,0,0,0,0,0,0,0
+Assets/Rendering/RainRust/RenderPasses/RainRustJfaInitPass.cs,Rendering,60,49,0,0.0,2,0,0,0,0,4,6,12.24,0,0,0,0,0,1,1,0,100.0,0,0,0,0,0,0,0,0
+Assets/Rendering/RainRust/RenderPasses/RainRustRenderingPass.cs,Rendering,223,190,8,3.59,2,0,0,0,0,4,27,14.21,0,0,0,0,0,5,2,0,100.0,0,0,0,0,0,0,0,1
+Assets/Rendering/RainRust/RenderPasses/RainRustJfaPass.cs,Rendering,126,94,7,5.56,2,0,0,0,0,5,15,15.96,0,0,0,0,0,4,2,0,100.0,0,0,0,0,0,0,0,1
+Assets/Rendering/RainRust/RenderPasses/RainRustRayTracingPass.cs,Rendering,216,191,2,0.93,2,0,0,0,0,3,27,14.14,0,0,0,0,0,0,11,10,9.09,0,0,0,0,0,0,0,1
+Assets/Rendering/RainRust/RenderPasses/RainRustDistancePass.cs,Rendering,64,53,0,0.0,2,0,0,0,0,3,5,9.43,0,0,0,0,0,4,1,0,100.0,0,0,0,0,0,0,0,1
+Assets/Rendering/RainRust/RenderPasses/RainRustUnpremultiplyPass.cs,Rendering,67,55,0,0.0,1,0,0,0,0,4,7,12.73,0,0,0,0,0,0,1,0,100.0,0,0,0,0,0,0,0,0
+Assets/Rendering/RainRust/RenderPasses/RainRustDrawObjectsPass.cs,Rendering,403,336,24,5.96,3,0,0,0,0,8,6,1.79,0,0,0,0,0,10,1,0,100.0,0,0,0,0,0,0,0,3
+Assets/GameMain/Scripts/Editor/Tools/RecursiveMaterialSetter.cs,CI/CD,79,64,4,5.06,1,0,0,0,0,3,6,9.38,0,0,0,0,0,2,0,0,100,0,0,0,0,0,0,0,6
+Assets/GameMain/Scripts/Editor/Events/GameEditorTest/GmEditorTestEvents.cs,CI/CD,17,12,0,0.0,1,5,0,0,0,0,1,8.33,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/Editor/Level/LDtkPostProcessor/LDtkChapterBackgroundProcessor.cs,CI/CD,131,111,0,0.0,1,0,0,0,0,3,14,12.61,0,0,0,0,0,0,2,0,100.0,0,0,0,1,0,0,0,1
+Assets/GameMain/Scripts/Editor/Level/LDtkPostProcessor/LDtkLevelRoomProcessor.cs,CI/CD,227,181,13,5.73,2,0,0,0,0,9,16,8.84,0,0,0,0,0,3,0,0,100,0,0,0,0,0,0,0,8
+Assets/GameMain/Scripts/Editor/Level/LDtkPostProcessor/LDtkAutoEntityProcessor.cs,CI/CD,327,290,2,0.61,1,0,0,0,0,7,59,20.34,0,0,0,0,0,0,0,0,100,0,0,0,1,22,0,11,2
+Assets/GameMain/Scripts/Editor/Level/LDtkPostProcessor/LDtkMaterialSetProcessor.cs,CI/CD,90,77,1,1.11,1,0,0,0,0,1,10,12.99,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/Editor/Level/LDtkPostProcessor/LDtkIdentifiersProcessor.cs,CI/CD,142,123,5,3.52,2,0,0,2,0,2,23,18.7,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,2,0
+Assets/GameMain/Scripts/Editor/Level/LDtkPostProcessor/LDtkVolumGenProcessor.cs,CI/CD,93,76,0,0.0,1,0,0,0,0,1,9,11.84,0,1,0,0,0,0,0,0,100,0,0,0,0,0,0,0,6
+Assets/GameMain/Scripts/Editor/Level/LDtkPostProcessor/LDtkLevelNeighborProcessor.cs,CI/CD,42,35,0,0.0,1,0,0,0,0,1,6,17.14,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,4
+Assets/GameMain/Scripts/Editor/Level/LDtkPostProcessor/LDtkLayerProcessor.cs,CI/CD,111,93,0,0.0,1,0,0,0,0,1,18,19.35,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/UI/PauseMenuController.cs,CI/CD,276,236,0,0.0,1,0,0,0,0,13,35,14.83,1,0,0,1,3,0,21,0,100.0,0,0,7,1,0,0,0,3
+Assets/GameMain/Scripts/RunTime/UI/MainMenuController.cs,CI/CD,241,189,12,4.98,1,0,0,0,0,10,24,12.7,1,0,0,0,1,0,17,17,0.0,0,0,4,1,0,0,7,0
+Assets/GameMain/Scripts/RunTime/DebugUI/DebugUIManager.cs,CI/CD,181,133,19,10.5,1,0,0,0,0,6,27,20.3,1,0,0,1,3,8,5,0,100.0,0,0,0,0,0,0,0,15
+Assets/GameMain/Scripts/RunTime/AudioEntries/AudioEntryChapterBgm.cs,CI/CD,6,5,0,0.0,1,0,0,0,0,0,1,20.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,1,0
+Assets/GameMain/Scripts/RunTime/GameMain/GameMain.cs,CI/CD,23,20,0,0.0,1,0,0,0,0,2,1,5.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/InitInvoker/FastLevelTestInvoker.cs,CI/CD,52,41,4,7.69,1,0,0,0,0,1,4,9.76,1,0,0,0,1,5,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/ConsoleUtils/ConsoleCommands.Level.cs,CI/CD,31,27,0,0.0,1,0,0,0,0,4,1,3.7,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/ConsoleUtils/InvokeEvent.cs,CI/CD,54,49,0,0.0,1,0,0,0,0,1,6,12.24,1,0,0,0,0,0,0,0,100,0,0,0,1,3,0,0,0
+Assets/GameMain/Scripts/RunTime/GameCoreSystems/Splash/PlayerDeathSplasher.cs,CI/CD,110,92,0,0.0,1,0,0,0,0,4,5,5.43,0,0,5,0,0,0,6,0,100.0,0,0,4,0,0,0,0,12
+Assets/GameMain/Scripts/RunTime/GameCoreSystems/LevelManager/PlayerManager.cs,CI/CD,63,51,0,0.0,1,0,1,0,0,3,7,13.73,0,0,0,0,0,1,1,0,100.0,0,0,0,0,0,1,0,0
+Assets/GameMain/Scripts/RunTime/GameCoreSystems/LevelManager/LevelManager.cs,CI/CD,509,427,0,0.0,2,0,0,0,0,18,60,14.05,0,0,0,0,0,7,9,0,100.0,0,0,7,0,2,0,10,0
+Assets/GameMain/Scripts/RunTime/GameCoreSystems/LevelManager/LDtkIdentifiers.cs,CI/CD,52,43,5,9.62,1,0,0,0,0,0,1,2.33,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GameCoreSystems/LevelManager/RuntimeEntityRegistry.cs,CI/CD,28,24,0,0.0,1,0,0,0,0,3,2,8.33,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,1,0
+Assets/GameMain/Scripts/RunTime/GameCoreSystems/LevelManager/LevelBoundsTrigger.cs,CI/CD,42,36,0,0.0,1,0,0,0,0,4,8,22.22,1,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GameCoreSystems/LevelManager/LevelRoom.cs,CI/CD,72,60,0,0.0,1,0,0,0,0,2,4,6.67,1,0,0,0,0,1,4,4,0.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GameCoreSystems/LevelManager/LevelStateRegistry.cs,CI/CD,160,138,0,0.0,2,0,0,0,0,8,30,21.74,0,0,0,0,3,0,1,0,100.0,0,0,0,0,0,0,14,0
+Assets/GameMain/Scripts/RunTime/Events/PlayerControl/PlayerControlEvents.cs,CI/CD,10,9,0,0.0,1,1,0,0,0,0,1,11.11,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/Events/BeeManager/BeeManagerEvents.cs,CI/CD,28,24,0,0.0,1,2,0,0,0,2,1,4.17,0,0,0,0,0,2,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/Events/LevelManager/LevelManagerEvents.cs,CI/CD,49,38,0,0.0,1,5,0,1,0,0,1,2.63,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/Events/SuperText/SuperTextEvents.cs,CI/CD,19,16,0,0.0,1,2,0,0,0,1,1,6.25,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/Events/GamePlay/PlatformGame/GamePlayMatEvents.cs,CI/CD,35,28,0,0.0,1,5,0,0,0,2,1,3.57,0,0,0,0,0,2,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/Events/GamePlay/SnakeGame/GamePlaySnakeGameEvents.cs,CI/CD,33,27,0,0.0,1,5,0,0,0,1,1,3.7,0,0,0,0,0,2,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/Commands/GameFlow/GameFlowCommands.cs,CI/CD,50,44,0,0.0,3,0,0,0,0,3,3,6.82,0,0,0,0,0,2,4,0,100.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/Commands/InitInvoker/InitInvokerCommands.cs,CI/CD,158,128,6,3.8,5,0,0,0,0,8,11,8.59,0,0,0,0,0,0,5,0,100.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/Commands/LevelManager/LevelManagerCommands.cs,CI/CD,53,45,0,0.0,4,0,0,0,0,5,1,2.22,0,0,0,0,0,1,3,0,100.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerStMachineDash.cs,CI/CD,69,60,1,1.45,1,0,0,0,0,6,5,8.33,0,0,0,0,0,0,2,2,0.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerControlComponent.Anim.cs,CI/CD,67,51,0,0.0,1,0,0,0,0,1,14,27.45,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,3
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerStMachineWhistle.cs,CI/CD,83,70,2,2.41,1,0,0,0,0,7,13,18.57,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerNormalStGravity.cs,CI/CD,53,46,1,1.89,1,0,0,0,0,4,9,19.57,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,1
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerControlCapabilityBase.cs,CI/CD,113,99,0,0.0,1,0,0,0,0,8,8,8.08,0,0,0,0,0,0,25,25,0.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerNormalStJump.cs,CI/CD,127,110,2,1.57,1,0,0,0,0,9,23,20.91,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,2
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerInputTemp.cs,CI/CD,47,39,0,0.0,1,0,0,0,0,7,1,2.56,0,0,0,0,0,0,1,1,0.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerStMachineDeath.cs,CI/CD,122,97,5,4.1,1,0,0,0,0,7,11,11.34,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,1
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerStateStartSet.cs,CI/CD,200,162,19,9.5,1,0,0,0,0,9,40,24.69,0,0,0,0,0,0,2,2,0.0,0,0,0,1,0,0,0,1
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerGrabStGravity.cs,CI/CD,47,41,1,2.13,1,0,0,0,0,5,4,9.76,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerControlTickOrder.cs,CI/CD,20,20,0,0.0,0,0,0,1,0,0,1,5.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerCollisionStartCheck.cs,CI/CD,395,343,7,1.77,1,0,0,0,0,13,44,12.83,0,0,0,0,0,0,9,9,0.0,0,0,0,0,0,0,0,19
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerControlComponent.Rope.cs,CI/CD,24,18,3,12.5,1,0,0,0,0,0,5,27.78,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerInitialSet.cs,CI/CD,36,31,0,0.0,1,0,0,0,0,5,1,3.23,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerControlComponent.Unity.cs,CI/CD,194,165,4,2.06,1,0,0,0,0,14,29,17.58,0,0,0,0,0,5,6,5,16.67,0,0,0,0,0,0,0,9
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerStateEndSet.cs,CI/CD,29,25,0,0.0,1,0,0,0,0,3,1,4.0,0,0,0,0,0,0,2,2,0.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerPlatformerInitializer.cs,CI/CD,12,11,0,0.0,1,0,0,0,0,1,1,9.09,1,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/TempHookControl.cs,CI/CD,102,93,1,0.98,1,0,0,0,0,9,18,19.35,1,0,0,2,3,9,2,2,0.0,0,0,0,0,0,0,0,8
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerStMachineThrow.cs,CI/CD,135,113,6,4.44,1,0,0,0,0,10,18,15.93,0,0,0,0,0,0,4,4,0.0,1,0,0,0,0,0,0,1
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerControlComponent.cs,CI/CD,493,368,0,0.0,1,0,0,1,0,0,1,0.27,0,0,0,0,0,6,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerGrabStJump.cs,CI/CD,52,47,0,0.0,1,0,0,0,0,5,6,12.77,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,2
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerControlComponent.Event.cs,CI/CD,18,17,0,0.0,1,0,0,0,0,0,1,5.88,0,0,0,0,0,1,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerNormalStHorizontal.cs,CI/CD,54,46,0,0.0,1,0,0,0,0,6,4,8.7,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/SnakeGame/PlayerSnake.cs,CI/CD,589,465,21,3.57,1,0,0,2,1,28,72,15.48,1,0,14,1,4,0,26,1,96.15,0,0,0,1,0,1,0,27
+Assets/GameMain/Scripts/RunTime/GamePlay/SnakeGame/PlayerSnakeSaveData.cs,CI/CD,22,20,0,0.0,1,1,0,0,0,0,1,5.0,0,0,0,0,0,6,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/SnakeGame/SnakeTail.cs,CI/CD,91,79,0,0.0,1,0,0,0,0,4,13,16.46,1,0,1,0,1,2,3,0,100.0,0,0,0,0,0,0,0,1
+Assets/GameMain/Scripts/RunTime/GamePlay/SnakeGame/SnakeHoney.cs,CI/CD,115,100,0,0.0,2,0,0,1,0,9,10,10.0,0,0,0,0,2,2,3,0,100.0,0,0,0,0,0,0,2,0
+Assets/GameMain/Scripts/RunTime/GamePlay/SnakeGame/PlayerSnakeInitializer.cs,CI/CD,16,15,0,0.0,1,0,0,0,0,1,1,6.67,1,0,0,0,0,0,0,0,100,0,0,0,0,1,0,0,2
+Assets/GameMain/Scripts/RunTime/GamePlay/SnakeGame/SnakeSavePoint.cs,CI/CD,47,41,0,0.0,1,0,0,0,0,3,6,14.63,0,0,0,0,0,1,1,0,100.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/SnakeGame/SnakeDoor.cs,CI/CD,135,112,1,0.74,2,0,0,0,0,11,11,9.82,0,0,2,0,3,1,6,0,100.0,0,0,0,1,0,0,2,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/LDtkEntity.cs,CI/CD,107,88,3,2.8,1,0,0,0,0,2,11,12.5,1,0,0,0,0,9,0,0,100,0,0,0,0,0,0,0,4
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/LDtkTriggerEntity.cs,CI/CD,22,17,3,13.64,1,0,0,0,0,1,2,11.76,0,0,0,0,1,0,0,0,100,0,0,0,0,1,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/LDtkFieldAttribute.cs,CI/CD,18,13,3,16.67,1,0,0,0,0,1,1,7.69,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/LevelClearPoint/LevelClearPoint.cs,CI/CD,54,40,7,12.96,1,0,0,0,0,2,5,12.5,0,0,0,0,0,2,1,0,100.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/SavePoint/SavePoint.cs,CI/CD,119,99,1,0.84,1,0,0,0,0,9,14,14.14,0,0,6,0,4,2,7,0,100.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/LightThing/LightEntitySet.cs,CI/CD,6,5,0,0.0,1,0,0,0,0,0,1,20.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/ChangeBackground/ChangeBackgroundArea.cs,CI/CD,34,29,0,0.0,1,0,0,0,0,1,3,10.34,0,0,0,0,0,1,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/Chain/EntityChain.cs,CI/CD,436,363,0,0.0,2,1,0,1,0,11,52,14.33,0,0,11,1,2,3,18,0,100.0,0,0,0,0,1,0,0,26
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/Chain/ChainJointTrigger.cs,CI/CD,25,22,0,0.0,1,0,0,0,0,2,2,9.09,1,0,0,0,0,0,2,0,100.0,0,0,0,0,1,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/MovePlatformer/MovePlatformer.cs,CI/CD,157,134,3,1.91,1,0,0,1,0,7,22,16.42,0,0,5,1,2,0,11,4,63.64,0,0,0,3,0,0,0,6
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/MovePlatformer/MovePlatformerPathPoint.cs,CI/CD,13,12,0,0.0,1,0,0,0,0,1,1,8.33,1,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,1
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/MisteryFog/MisteryFogSaveData.cs,CI/CD,13,12,0,0.0,1,0,0,0,0,0,1,8.33,0,0,0,0,0,1,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/MisteryFog/MisteryFog.cs,CI/CD,75,60,0,0.0,1,0,0,0,0,5,9,15.0,0,0,2,0,3,0,5,0,100.0,0,0,0,0,1,0,2,2
+Assets/GameMain/Scripts/RunTime/GamePlay/Entities/PlatformerGame/CameraOverride/CameraOverrideArea.cs,CI/CD,93,70,3,3.23,1,0,0,0,0,4,5,7.14,0,0,1,0,2,0,2,0,100.0,0,0,0,0,1,0,0,14
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/Checkpoint/CheckpointAnimTemp.cs,CI/CD,30,24,2,6.67,1,0,0,0,0,3,2,8.33,1,0,0,1,2,1,1,1,0.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/Checkpoint/MatCheckpointControl.cs,CI/CD,130,93,21,16.15,1,0,0,0,0,12,9,9.68,0,0,1,1,5,2,5,4,20.0,0,0,0,0,0,0,0,1
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/ThornPlatform/MatThornPlatformControl.cs,CI/CD,112,92,2,1.79,1,0,0,0,0,8,10,10.87,0,0,2,1,2,2,12,9,25.0,0,0,0,0,0,0,0,10
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/Vine/MatVineControl.cs,CI/CD,201,166,7,3.48,1,0,0,0,0,15,16,9.64,0,0,6,1,3,4,12,10,16.67,0,0,0,0,0,0,0,17
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/BeeControl/BeeMainControl.cs,CI/CD,435,347,29,6.67,1,0,0,1,0,34,45,12.97,1,0,1,2,6,18,9,6,33.33,0,0,0,0,0,0,0,26
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/BeeControl/BeeLdtkControl.cs,CI/CD,22,19,0,0.0,1,0,0,0,0,1,2,10.53,0,0,1,0,1,1,1,0,100.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/BeeControl/BeeRandomData.cs,CI/CD,53,43,3,5.66,1,0,0,0,0,3,5,11.63,1,0,0,0,2,2,0,0,100,0,0,0,0,0,0,0,5
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/BeeControl/BeeEvents.cs,CI/CD,22,19,0,0.0,1,0,0,0,0,2,3,15.79,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/BeeControl/BeeAnim.cs,CI/CD,26,21,2,7.69,1,0,0,0,0,2,1,4.76,1,0,0,1,2,0,2,2,0.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/Effect/ParticleEffectInstance.cs,CI/CD,84,58,14,16.67,1,0,0,0,0,5,9,15.52,1,0,0,1,2,1,4,4,0.0,0,0,0,0,0,0,0,1
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/Effect/EffectPoolManager.cs,CI/CD,99,74,14,14.14,1,0,0,0,0,3,5,6.76,0,0,0,0,2,3,0,0,100,0,0,0,0,0,1,0,2
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/WaveControl/WaveLife.cs,CI/CD,130,104,7,5.38,1,0,0,0,0,7,10,9.62,1,0,0,1,3,7,5,4,20.0,0,0,0,0,0,0,0,11
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/WaveControl/ZoneWaveControl.cs,CI/CD,72,52,7,9.72,1,0,0,0,0,4,3,5.77,1,0,0,1,3,7,3,3,0.0,0,0,0,0,0,0,0,9
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/WaveControl/WavePoolManager.cs,CI/CD,65,54,3,4.62,1,0,0,0,0,3,1,1.85,0,0,3,0,3,0,4,4,0.0,0,0,0,0,0,1,1,2
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerGrapplingHook/GrapplingRope.cs,CI/CD,140,114,9,6.43,1,0,0,0,0,4,13,11.4,1,0,0,2,3,14,4,0,100.0,0,0,0,0,0,0,0,4
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/PlayerGrapplingHook/Spring.cs,CI/CD,54,45,0,0.0,1,0,0,0,0,7,2,4.44,0,0,0,1,1,1,5,0,100.0,0,0,0,0,0,0,0,4
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/MatDoor/MatDoorControl.cs,CI/CD,132,105,5,3.79,1,0,0,0,0,8,12,11.43,0,0,6,1,2,0,13,10,23.08,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/Ore/MatOreControl.cs,CI/CD,218,174,15,6.88,1,0,0,0,0,15,24,13.79,0,0,3,1,3,6,9,8,11.11,0,2,0,0,0,0,0,18
+Assets/GameMain/Scripts/RunTime/GamePlay/PlayerControl/OrchidCollection/MatCollectionControl.cs,CI/CD,32,26,0,0.0,1,0,0,0,0,4,3,11.54,0,0,0,1,2,0,2,1,50.0,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/UI/SuperText/TextDevelopSceneScript.cs,CI/CD,19,18,0,0.0,1,0,0,0,0,1,3,16.67,1,0,0,1,1,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/UI/SuperText/ParseResult.cs,CI/CD,16,14,0,0.0,0,1,0,0,0,1,1,7.14,0,0,0,0,0,2,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/UI/SuperText/ICharacterEffect.cs,CI/CD,7,7,0,0.0,0,0,1,0,0,0,1,14.29,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/UI/SuperText/EffectSpan.cs,CI/CD,25,23,0,0.0,0,1,0,0,0,1,1,4.35,0,0,0,0,0,3,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/UI/SuperText/EffectTextRenderer.cs,CI/CD,471,417,0,0.0,1,1,0,0,0,17,62,14.87,1,0,3,1,3,0,14,0,100.0,0,0,2,0,1,0,2,17
+Assets/GameMain/Scripts/RunTime/UI/SuperText/CharacterEffectContext.cs,CI/CD,15,14,0,0.0,0,1,0,0,0,0,1,7.14,0,0,0,0,0,5,0,0,100,0,0,0,0,0,0,0,0
+Assets/GameMain/Scripts/RunTime/UI/SuperText/CharacterEffectRegistry.cs,CI/CD,29,25,0,0.0,1,0,0,0,0,3,2,8.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,1,0
+Assets/GameMain/Scripts/RunTime/UI/SuperText/ColorFlowEffect.cs,CI/CD,91,75,3,3.3,1,1,0,0,0,4,7,9.33,0,0,0,0,0,0,2,0,100.0,0,0,0,0,0,0,0,9
+Assets/GameMain/Scripts/RunTime/UI/SuperText/RichTextTagParser.cs,CI/CD,210,187,0,0.0,1,1,0,0,0,5,33,17.65,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,1,0
+Assets/GameMain/Scripts/RunTime/UI/SuperText/ShakeEffect.cs,CI/CD,82,74,0,0.0,1,1,0,0,0,3,7,9.46,0,0,0,0,0,0,2,0,100.0,0,0,0,0,0,0,0,11
+Assets/GameMain/LDtkProject/gm_ldtk_project/GmLDtkEnums.cs,Level Design,21,8,12,57.14,0,0,0,1,0,0,1,12.5,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Tests/PlayMode/SaveSystemPlayModeTests.cs,Tests,94,41,8,8.51,1,0,0,0,0,2,1,2.44,0,0,0,0,0,0,0,0,100,0,2,0,0,2,0,0,0
+Assets/Tests/Editor/SaveSystemTests.cs,Tests,298,0,238,79.87,0,0,0,0,0,0,1,100.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Tests/Editor/UI/SuperText/TypewriterScheduleTests.cs,UI,68,58,0,0.0,1,0,0,0,0,5,1,1.72,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,12
+Assets/Tests/Editor/UI/SuperText/RichTextTagParserTests.cs,UI,170,134,3,1.76,1,0,0,0,0,12,1,0.75,0,0,0,0,0,0,0,0,100,0,0,0,1,0,0,0,15
+Assets/Core/ConsoleUtilities/ConsoleCommands.Testing.cs,Code,27,24,0,0.0,1,0,0,0,0,2,1,4.17,1,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Logger/LogSystem.cs,Code,261,194,35,13.41,1,0,0,1,0,11,27,13.92,0,0,0,0,0,0,0,0,100,0,0,2,6,2,0,0,5
+Assets/Core/Logger/LogTag.cs,Code,100,89,3,3.0,1,0,0,0,0,1,4,4.49,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,2,2
+Assets/Core/Input/InputSettings.cs,Code,35,29,0,0.0,1,0,0,0,0,1,2,6.9,0,1,0,0,0,4,0,0,100,0,0,0,0,0,0,0,6
+Assets/Core/Input/InputEvents.cs,Code,155,127,0,0.0,4,1,0,0,0,15,17,13.39,0,0,0,0,0,3,1,1,0.0,0,0,0,0,0,0,0,2
+Assets/Core/Input/VgInputActions.cs,Code,805,546,238,29.57,0,1,1,0,0,15,9,1.65,0,0,0,0,0,3,14,0,100.0,0,2,0,0,0,0,0,0
+Assets/Core/Input/InputAction.cs,Code,29,27,0,0.0,0,0,0,3,0,0,1,3.7,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Input/VgInput.cs,Code,354,292,2,0.56,1,0,0,0,0,25,59,20.21,0,0,0,1,1,0,0,0,100,0,0,0,1,4,0,0,10
+Assets/Core/AddressableResourceLoader/AddressableResourceLoader.cs,Code,87,76,0,0.0,3,0,1,0,0,2,7,9.21,0,0,0,0,0,0,0,0,100,0,0,2,1,1,1,0,0
+Assets/Core/FP/Result.cs,Code,213,186,0,0.0,4,0,0,0,0,4,20,10.75,0,0,0,0,0,0,2,2,0.0,0,0,10,1,0,0,8,0
+Assets/Core/GameCore/GameCore.Editor.cs,Code,82,72,0,0.0,1,0,0,1,0,1,8,11.11,0,0,0,0,0,1,0,0,100,0,0,0,5,1,0,2,0
+Assets/Core/GameCore/GameIdentifiers.cs,Code,15,14,0,0.0,3,0,0,0,0,0,1,7.14,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCore/GameCore.Flow.cs,Code,207,186,0,0.0,1,0,0,0,0,12,10,5.38,0,0,0,0,0,1,3,0,100.0,0,0,11,0,0,0,4,0
+Assets/Core/GameCore/GameCore.UnityLifeCycles.cs,Code,40,34,0,0.0,1,0,0,0,0,4,2,5.88,0,0,0,1,7,0,0,0,100,0,0,2,0,0,0,0,0
+Assets/Core/GameCore/GameCore.cs,Code,43,37,1,2.33,1,0,0,0,0,2,5,13.51,0,0,0,0,0,0,0,0,100,0,0,3,0,0,0,2,1
+Assets/Core/Extensions/TransformExtension.cs,Code,28,24,3,10.71,1,0,0,0,0,1,2,8.33,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Extensions/UnityHelper.cs,Code,6,5,0,0.0,1,0,0,0,0,0,1,20.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Extensions/Vector2Extension.cs,Code,24,22,0,0.0,1,0,0,0,0,1,3,13.64,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Extensions/GameObjectExtension.cs,Code,73,65,0,0.0,1,0,0,0,0,4,10,15.38,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/CoreModule/CoreModuleManagerBase.cs,Code,21,20,0,0.0,1,0,0,0,0,1,2,10.0,0,0,0,0,2,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Container/PriorityQueue.cs,Code,156,130,3,1.92,1,0,0,0,0,9,14,10.77,0,0,0,0,0,0,2,2,0.0,0,2,0,2,0,0,0,0
+Assets/Core/Common/FramedFloat.cs,Code,48,43,0,0.0,0,1,0,0,0,0,1,2.33,0,0,0,0,0,0,2,2,0.0,0,0,0,0,0,0,0,1
+Assets/Core/Common/BuildVersionInfo.cs,Code,44,36,4,9.09,2,0,0,0,0,1,3,8.33,0,0,0,0,0,2,0,0,100,0,0,0,0,0,1,0,1
+Assets/Core/Common/Singleton.cs,Code,21,20,0,0.0,1,0,0,0,0,0,3,15.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/ParallaxBackground/ParallaxBackground.cs,Code,395,248,77,19.49,1,0,0,1,0,8,45,18.15,1,0,3,1,3,0,5,0,100.0,0,0,0,2,0,1,0,4
+Assets/Core/ParallaxBackground/ParallaxLayer.cs,Code,57,42,0,0.0,1,0,0,0,0,0,1,2.38,0,1,0,0,0,15,0,0,100,0,0,0,0,0,0,0,6
+Assets/Core/Mono/MonoSingletonPersistent.cs,Code,58,49,4,6.9,1,0,0,0,0,3,6,12.24,2,0,0,0,1,0,0,0,100,0,0,0,0,1,0,0,0
+Assets/Core/Mono/MonoSingletonLasy.cs,Code,38,31,4,10.53,1,0,0,0,0,0,3,9.68,2,0,0,0,0,0,0,0,100,0,0,0,0,1,0,0,0
+Assets/Core/Command/AbastractManagerCommand.cs,Code,30,25,0,0.0,1,0,0,0,0,3,1,4.0,0,0,0,0,0,0,1,1,0.0,0,0,0,0,0,0,0,0
+Assets/Core/Command/ICommand.cs,Code,50,26,19,38.0,0,0,5,0,0,0,1,3.85,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Command/IManagerCommand.cs,Code,12,11,0,0.0,0,0,1,0,0,0,1,9.09,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/EventSystem/MessageBroker.cs,Code,705,623,6,0.85,3,3,0,2,0,20,74,11.88,0,0,0,0,0,1,4,0,100.0,0,0,0,6,22,0,12,0
+Assets/Core/EventSystem/IEvent.cs,Code,8,7,0,0.0,0,0,1,0,0,0,1,14.29,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/ICoreModuleSystem.cs,Gameplay Code,13,10,0,0.0,0,0,1,0,0,0,1,10.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,2,0
+Assets/Core/GameCoreSystems/UI/VgUiManager.cs,UI,13,11,0,0.0,1,0,0,0,0,1,1,9.09,0,0,0,0,0,2,0,0,100,0,0,0,0,0,0,2,0
+Assets/Core/GameCoreSystems/Input/VgInputSystem.cs,Gameplay Code,223,192,0,0.0,2,0,0,0,0,6,22,11.46,0,0,1,1,1,6,7,0,100.0,0,0,4,1,4,0,7,8
+Assets/Core/GameCoreSystems/SaveSystem/SaveSlotEntrySaveData.cs,Gameplay Code,17,16,0,0.0,2,0,0,0,0,0,1,6.25,0,0,0,0,0,3,0,0,100,0,0,0,0,0,0,3,0
+Assets/Core/GameCoreSystems/SaveSystem/SaveMeta.cs,Gameplay Code,20,18,0,0.0,1,0,0,0,0,1,1,5.56,0,0,0,0,0,5,0,0,100,0,0,0,0,0,0,0,1
+Assets/Core/GameCoreSystems/SaveSystem/SaveContainer.cs,Gameplay Code,16,14,0,0.0,1,0,0,0,0,1,1,7.14,0,0,0,0,0,1,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/SaveSystem/VgSaveSystem.cs,Gameplay Code,449,385,0,0.0,1,0,0,2,0,17,40,10.39,0,0,1,0,0,6,13,0,100.0,0,0,29,2,0,0,14,8
+Assets/Core/GameCoreSystems/Camera/VgCameraManager.cs,Gameplay Code,339,278,8,2.36,1,2,0,0,0,10,40,14.39,0,0,10,0,0,12,15,0,100.0,0,0,2,0,0,0,5,8
+Assets/Core/GameCoreSystems/Audio/VgAudioSystem.cs,Gameplay Code,368,311,15,4.08,1,0,0,0,0,15,54,17.36,0,0,1,0,0,2,1,0,100.0,0,0,4,1,6,0,54,2
+Assets/Core/GameCoreSystems/Audio/AudioEventSheet.cs,Gameplay Code,15,14,0,0.0,1,0,0,0,0,0,1,7.14,0,1,0,0,0,1,0,0,100,0,0,0,0,0,0,1,0
+Assets/Core/GameCoreSystems/LoadingSplash/IProgressable.cs,Gameplay Code,23,18,0,0.0,1,0,1,0,0,1,1,5.56,1,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/LoadingSplash/VgSplashKey.cs,Gameplay Code,9,9,0,0.0,0,0,0,1,0,0,1,11.11,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/LoadingSplash/VgLoadingSplashManager.cs,Gameplay Code,148,126,0,0.0,2,0,0,0,0,5,18,14.29,0,0,2,0,0,4,4,0,100.0,0,0,5,0,2,0,14,0
+Assets/Core/GameCoreSystems/LoadingSplash/VgDefaultSplasher.cs,Gameplay Code,45,39,0,0.0,1,0,0,0,0,3,1,2.56,0,0,2,0,2,0,3,0,100.0,0,0,4,0,1,0,0,5
+Assets/Core/GameCoreSystems/LoadingSplash/VgSplasher.cs,Gameplay Code,112,99,0,0.0,1,0,0,0,0,8,11,11.11,2,0,0,0,1,0,2,0,100.0,0,0,6,0,3,0,2,1
+Assets/Core/GameCoreSystems/LoadingSplash/VgCircleWipeEffect.cs,Gameplay Code,61,50,0,0.0,1,0,0,0,0,8,3,6.0,0,0,0,0,1,0,1,0,100.0,0,0,0,0,1,0,0,3
+Assets/Core/GameCoreSystems/LoadingSplash/VgDissolveSplasher.cs,Gameplay Code,79,65,0,0.0,1,0,0,0,0,4,3,4.62,0,0,4,0,1,0,5,0,100.0,0,0,4,0,0,0,0,5
+Assets/Core/GameCoreSystems/Scene/SceneLoader.cs,Gameplay Code,125,112,0,0.0,1,0,0,0,0,6,13,11.61,0,0,0,0,0,0,2,0,100.0,0,0,18,0,0,0,2,0
+Assets/Core/GameCoreSystems/Scene/SceneLoadInfo.cs,Gameplay Code,85,78,0,0.0,1,0,0,1,0,5,5,6.41,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Scene/VgSceneManager.cs,Gameplay Code,28,25,0,0.0,1,0,0,0,0,2,3,12.0,0,0,0,0,0,2,1,0,100.0,0,0,3,0,0,0,3,0
+Assets/Core/GameCoreSystems/Stats/StatsManager.cs,Gameplay Code,199,177,0,0.0,1,0,0,0,1,15,23,12.99,0,0,1,1,3,0,3,0,100.0,0,0,0,3,0,0,0,0
+Assets/Core/GameCoreSystems/Stats/StatsSaveData.cs,Gameplay Code,10,9,0,0.0,1,0,0,0,0,0,1,11.11,0,0,0,0,0,1,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Stats/StatKeys.cs,Gameplay Code,11,11,0,0.0,1,0,0,0,0,0,1,9.09,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Stats/StatRecord.cs,Gameplay Code,26,24,0,0.0,1,0,0,1,0,1,2,8.33,0,0,0,0,0,4,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Audio/Config/FmodParameterPair.cs,Gameplay Code,11,10,0,0.0,0,1,0,0,0,0,1,10.0,0,0,0,0,0,2,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Audio/Config/ManagedConfig.cs,Gameplay Code,27,23,0,0.0,1,0,0,0,0,0,3,13.04,0,0,0,0,0,2,0,0,100,0,0,0,3,1,0,0,0
+Assets/Core/GameCoreSystems/Audio/Entry/DirectPlayManagedEntry.cs,Gameplay Code,30,27,0,0.0,1,0,0,0,0,1,4,14.81,0,0,0,0,0,1,0,0,100,0,0,0,0,1,0,6,0
+Assets/Core/GameCoreSystems/Audio/Entry/AudioParameterEntry.cs,Gameplay Code,29,24,0,0.0,1,0,0,0,0,1,4,16.67,0,0,0,0,0,1,0,0,100,0,0,0,0,1,0,4,0
+Assets/Core/GameCoreSystems/Audio/Entry/SetParameterEntry.cs,Gameplay Code,14,12,0,0.0,1,0,0,0,0,0,1,8.33,0,0,0,0,0,1,0,0,100,0,0,0,0,0,0,2,0
+Assets/Core/GameCoreSystems/Audio/Entry/SetParameterFromEventEntry.cs,Gameplay Code,34,30,0,0.0,1,0,0,0,0,1,5,16.67,0,0,0,0,0,1,0,0,100,0,0,0,0,2,0,5,0
+Assets/Core/GameCoreSystems/Audio/Entry/Audio3DAudioEntry.cs,Gameplay Code,34,30,0,0.0,1,0,0,0,0,1,5,16.67,0,0,0,0,0,0,0,0,100,0,0,0,0,2,0,6,0
+Assets/Core/GameCoreSystems/Audio/Entry/DirectPlay3DOneShotEntry.cs,Gameplay Code,27,25,0,0.0,1,0,0,0,0,1,4,16.0,0,0,0,0,0,0,0,0,100,0,0,0,0,1,0,6,0
+Assets/Core/GameCoreSystems/Audio/Entry/DirectPlayOneShotEntry.cs,Gameplay Code,27,25,0,0.0,1,0,0,0,0,1,4,16.0,0,0,0,0,0,0,0,0,100,0,0,0,0,1,0,6,0
+Assets/Core/GameCoreSystems/Audio/Entry/AudioPlayEntry.cs,Gameplay Code,19,16,0,0.0,1,0,0,0,0,0,1,6.25,0,0,0,0,0,3,0,0,100,0,0,0,0,0,0,2,0
+Assets/Core/GameCoreSystems/Audio/Entry/DefaultAudioEntry.cs,Gameplay Code,29,26,0,0.0,1,0,0,0,0,1,4,15.38,0,0,0,0,0,0,0,0,100,0,0,0,0,1,0,4,0
+Assets/Core/GameCoreSystems/Audio/Entry/StringManagedAudioEntry.cs,Gameplay Code,82,74,0,0.0,1,0,0,0,0,2,4,5.41,0,0,0,0,0,2,0,0,100,0,0,2,0,1,0,21,1
+Assets/Core/GameCoreSystems/Audio/Entry/DirectSetParameterEntry.cs,Gameplay Code,36,34,0,0.0,1,0,0,0,0,1,4,11.76,0,0,0,0,0,0,0,0,100,0,0,0,0,1,0,6,0
+Assets/Core/GameCoreSystems/Audio/Entry/CustomParameterUpdateEntry.cs,Gameplay Code,12,10,0,0.0,1,0,0,0,0,0,1,10.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,2,0
+Assets/Core/GameCoreSystems/Audio/Entry/CustomAudioEntry.cs,Gameplay Code,52,43,0,0.0,1,0,0,0,0,2,6,13.95,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,5,0
+Assets/Core/GameCoreSystems/Audio/Entry/AudioEntry.cs,Gameplay Code,27,23,0,0.0,1,0,0,0,0,0,3,13.04,0,0,0,0,0,2,0,0,100,0,0,0,3,1,0,1,0
+Assets/Core/GameCoreSystems/Audio/Enums/TriggerMode.cs,Gameplay Code,9,9,0,0.0,0,0,0,1,0,0,1,11.11,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Audio/Enums/AudioPlayMode.cs,Gameplay Code,8,8,0,0.0,0,0,0,1,0,0,1,12.5,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Audio/Interfaces/IFmodPositionEvent.cs,Gameplay Code,4,4,0,0.0,0,0,1,0,0,0,1,25.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Audio/Interfaces/IPositionEvent.cs,Gameplay Code,9,8,0,0.0,0,0,1,0,0,0,1,12.5,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Audio/Interfaces/IFmodOneShotEvent.cs,Gameplay Code,9,8,0,0.0,0,0,1,0,0,0,1,12.5,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Audio/Interfaces/IValueEvent.cs,Gameplay Code,12,11,0,0.0,0,0,2,0,0,0,1,9.09,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCoreSystems/Audio/Interfaces/IFmodParameterEvent.cs,Gameplay Code,9,9,0,0.0,0,0,1,0,0,0,1,11.11,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Events/SaveSystem/SaveSystemEvents.cs,Code,99,84,0,0.0,1,7,1,0,0,7,1,1.19,0,0,0,0,0,17,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Events/ConsoleManager/VgIngameConsoleManagerEvents.cs,Code,19,16,0,0.0,1,2,0,0,0,0,1,6.25,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Events/GameCore/GameCoreEvents.cs,Code,15,14,0,0.0,1,1,0,0,0,1,1,7.14,0,0,0,0,0,1,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Events/AudioManagerHelper/AudioManagerHelperEvents.cs,Code,56,43,3,5.36,1,5,0,0,0,2,5,11.63,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Events/Stats/StatsEvents.cs,Code,21,20,0,0.0,1,1,0,0,0,1,1,5.0,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Scene/AbTile/AbTile.cs,Code,133,105,11,8.27,1,0,0,2,0,6,13,12.38,0,1,0,0,0,4,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Command/Addressable/AddressableCommands.cs,Code,43,38,0,0.0,3,0,0,0,0,4,1,2.63,0,0,0,0,0,0,1,0,100.0,0,0,0,0,0,0,0,0
+Assets/Core/Command/AudioManagerHelper/AudioManagerHelperCommands.cs,Code,75,64,0,0.0,5,0,0,0,0,8,1,1.56,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Command/GameObject/GameObjectCommands.cs,Code,66,58,0,0.0,2,0,0,0,0,6,4,6.9,0,0,0,0,0,0,5,0,100.0,0,0,0,0,0,0,0,0
+Assets/Core/Common/StateMachine/StateMachine.cs,Code,736,574,49,6.66,2,0,1,1,0,18,65,11.32,7,0,0,0,0,1,7,7,0.0,0,14,0,0,17,0,5,1
+Assets/Core/Common/StateMachine/StateMachineRunner.cs,Code,89,64,13,14.61,1,0,0,0,0,5,10,15.62,3,0,0,3,3,0,1,1,0.0,0,1,0,0,0,0,0,0
+Assets/Core/Common/StateMachine/StateMapping.cs,Code,36,30,0,0.0,1,0,0,0,0,1,1,3.33,0,0,0,0,0,8,1,1,0.0,0,2,0,0,0,0,0,0
+Assets/Core/Common/SerializedScriptableObject/VgSerializedScriptableObject.cs,Code,25,22,0,0.0,1,0,0,0,0,0,1,4.55,0,2,0,0,0,0,1,1,0.0,0,0,0,0,0,0,0,0
+Assets/Core/Common/StateMachine/Drivers/StateDriverRunner.cs,Code,9,9,0,0.0,1,0,0,0,0,0,1,11.11,0,0,0,0,0,3,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Common/StateMachine/Drivers/StateDriverUnity.cs,Code,72,60,10,13.89,1,0,0,0,0,0,1,1.67,0,0,0,0,0,51,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Common/StateMachine/Events/StateEvent.cs,Code,110,92,3,2.73,3,0,0,0,0,9,10,10.87,0,0,0,0,0,0,8,8,0.0,0,0,0,0,0,0,0,0
+Assets/Core/CoreModule/GlobalConfiguration/GlobalConfigurationManager.cs,Code,15,11,2,13.33,1,0,0,0,0,2,1,9.09,1,0,0,1,2,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/CoreModule/ObjectPool/VgObjectPoolManager.cs,Code,8,7,0,0.0,1,0,0,0,0,0,1,14.29,1,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/CoreModule/Game/GameMonoModule.cs,Code,9,8,0,0.0,1,0,0,0,0,0,1,12.5,1,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/CoreModule/Game/GameSystemManager.cs,Code,9,8,0,0.0,1,0,0,0,0,0,1,12.5,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/CoreModule/PostProcessing/VgPostProcessingManager.cs,Code,15,11,2,13.33,1,0,0,0,0,2,1,9.09,1,0,0,1,2,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/CoreModule/Localization/VgLocalizationManager.cs,Code,8,7,0,0.0,1,0,0,0,0,0,1,14.29,1,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/CoreModule/Console/VgIngameConsoleManager.cs,Code,290,247,1,0.34,1,0,0,2,0,11,42,17.0,0,0,0,0,0,2,6,0,100.0,0,0,2,0,1,0,4,7
+Assets/Core/Exceptions/Load/LoadFailedException.cs,Code,19,16,0,0.0,1,0,0,0,0,3,1,6.25,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Exceptions/CoreModuleException/CoreModuleException.cs,Code,18,15,0,0.0,1,0,0,0,0,3,1,6.67,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/Exceptions/Command/CommandExcuteFailedException.cs,Code,19,16,0,0.0,1,0,0,0,0,3,1,6.25,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCore/GameFlow/GameFlowTrigger.cs,Code,11,11,0,0.0,0,0,0,1,0,0,1,9.09,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCore/GameFlow/LoadContext.cs,Code,31,27,0,0.0,0,1,0,0,0,1,1,3.7,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCore/GameFlow/IGameFlowCommand.cs,Code,10,9,0,0.0,0,0,1,0,0,0,1,11.11,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCore/GameFlow/GameFlowState.cs,Code,11,11,0,0.0,0,0,0,1,0,0,1,9.09,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,0,0
+Assets/Core/GameCore/Registry/CoreSystemRegistry.cs,Code,218,184,0,0.0,1,0,0,0,0,7,25,13.59,0,0,0,0,0,0,1,0,100.0,0,0,24,4,8,0,16,0
+Assets/Core/GameCore/Registry/IGameCoreHookRegistry.cs,Code,28,18,0,0.0,0,0,1,0,0,0,1,5.56,0,0,0,0,0,0,0,0,100,0,0,0,0,0,0,1,0
+Assets/Core/GameCore/GameFlow/Steps/ShowLogoStep.cs,Code,14,13,0,0.0,1,0,0,0,0,1,1,7.69,0,0,0,0,0,0,0,0,100,0,0,2,0,0,0,0,0
+Assets/Core/GameCore/GameFlow/Steps/LoadMainMenuSceneStep.cs,UI,23,20,0,0.0,1,0,0,0,0,1,1,5.0,0,0,0,0,0,0,0,0,100,0,0,2,0,0,0,0,0

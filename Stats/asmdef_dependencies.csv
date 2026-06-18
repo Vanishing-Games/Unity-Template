@@ -1,0 +1,205 @@
+from,to,from_path
+Core,d9149a4e0ef435c45b10905a79471258,Assets/Core/Core.asmdef
+Core,77221876cc6b8244180b96e320b1bcd4,Assets/Core/Core.asmdef
+Core,f51ebe6a0ceec4240a699833d6309b23,Assets/Core/Core.asmdef
+Core,5c01796d064528144a599661eaab93a6,Assets/Core/Core.asmdef
+Core,9e24947de15b9834991c9d8411ea37cf,Assets/Core/Core.asmdef
+Core,593a5b492d29ac6448b1ebf7f035ef33,Assets/Core/Core.asmdef
+Core,84651a3751eca9349aac36a66bba901b,Assets/Core/Core.asmdef
+Core,75469ad4d38634e559750d17036d5f7c,Assets/Core/Core.asmdef
+Core,4307f53044263cf4b835bd812fc161a4,Assets/Core/Core.asmdef
+Core,3de88c88fbbb8f944b9210d496af9762,Assets/Core/Core.asmdef
+Core,0c752da273b17c547ae705acf0f2adf2,Assets/Core/Core.asmdef
+Core,810f54f43f696374fb3b49d45b461274,Assets/Core/Core.asmdef
+Core,029c1c1b674aaae47a6841a0b89ad80e,Assets/Core/Core.asmdef
+Core,476f7c6c6dfeed041b063446a926e656,Assets/Core/Core.asmdef
+LDtkUnity.Runtime,Cinemachine,Assets/LDtkUnity/Runtime/LDtkUnity.Runtime.asmdef
+LDtkUnity.Runtime,b8626bb53c8d5124086bab42e695f7f6,Assets/LDtkUnity/Runtime/LDtkUnity.Runtime.asmdef
+Unity.InternalAPIEditorBridge.004,Unity.2D.Sprite.Editor,Assets/LDtkUnity/InternalBridge/InternalBridgeDef.asmdef
+LDtkUnity.Editor,LDtkUnity.Runtime,Assets/LDtkUnity/Editor/LDtkUnity.Editor.asmdef
+LDtkUnity.Editor,b8626bb53c8d5124086bab42e695f7f6,Assets/LDtkUnity/Editor/LDtkUnity.Editor.asmdef
+LDtkUnity.Editor,Unity.2D.Sprite.Editor,Assets/LDtkUnity/Editor/LDtkUnity.Editor.asmdef
+LDtkUnity.Editor,Unity.InternalAPIEditorBridge.004,Assets/LDtkUnity/Editor/LDtkUnity.Editor.asmdef
+LDtkUnity.Editor,Unity.2D.Aseprite.Editor,Assets/LDtkUnity/Editor/LDtkUnity.Editor.asmdef
+LDtkUnity.Editor,Unity.2D.Aseprite.Common,Assets/LDtkUnity/Editor/LDtkUnity.Editor.asmdef
+CharacterControllerDemo,198f161f050714b85981e87f526d009e,Assets/Demos/FunctionDev/CharacterControllerDemo/CharacterControllerDemo.asmdef
+CharacterControllerDemo,6381a94ed606c437eb5ab7a29799417a,Assets/Demos/FunctionDev/CharacterControllerDemo/CharacterControllerDemo.asmdef
+CharacterControllerDemo,77221876cc6b8244180b96e320b1bcd4,Assets/Demos/FunctionDev/CharacterControllerDemo/CharacterControllerDemo.asmdef
+FpDemo,198f161f050714b85981e87f526d009e,Assets/Demos/FunctionDev/FpDemo/FpDemo.asmdef
+RainRust.Rendering,df380645f10b7bc4b97d4f5eb6303d95,Assets/Rendering/RainRust/RainRust.Rendering.asmdef
+RainRust.Rendering,69257879134bba646869b21467b3338d,Assets/Rendering/RainRust/RainRust.Rendering.asmdef
+RainRust.Rendering,15fc0a57446b3144c949da3e2b9737a9,Assets/Rendering/RainRust/RainRust.Rendering.asmdef
+RainRust.Rendering,516a5277b8c3b4f4c8cc86b77b1591ff,Assets/Rendering/RainRust/RainRust.Rendering.asmdef
+RainRust.Rendering,198f161f050714b85981e87f526d009e,Assets/Rendering/RainRust/RainRust.Rendering.asmdef
+GameMain.RunTime,0c752da273b17c547ae705acf0f2adf2,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,198f161f050714b85981e87f526d009e,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,4307f53044263cf4b835bd812fc161a4,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,831b458ef8919c24ea12fb444fc41310,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,bf7e815dd89b4164880b6713ec250d60,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,77221876cc6b8244180b96e320b1bcd4,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,f51ebe6a0ceec4240a699833d6309b23,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,3de88c88fbbb8f944b9210d496af9762,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,6381a94ed606c437eb5ab7a29799417a,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.RunTime,Unity.TextMeshPro,Assets/GameMain/Scripts/RunTime/GameMain.RunTime.asmdef
+GameMain.Editor,66db064f84c5fb748acfe1e1aebe5538,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,831b458ef8919c24ea12fb444fc41310,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,198f161f050714b85981e87f526d009e,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,5f34f4219be7446d99f83220acdaa345,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,bf7e815dd89b4164880b6713ec250d60,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,4307f53044263cf4b835bd812fc161a4,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,ba8c092d026123a418fb4bfb797a7bd8,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,8baa6c306d68c4ee8939195933f31a33,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,df380645f10b7bc4b97d4f5eb6303d95,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,0c752da273b17c547ae705acf0f2adf2,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,aab3caaf43456d6449a3e035348ff798,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor,194213485063a984b98ce9410892267a,Assets/GameMain/Scripts/Editor/GameMain.Editor.asmdef
+GameMain.Editor.ConsoleUtilities,d8bb2cd7a27f644eda5255efef5e9d6b,Assets/GameMain/Scripts/Editor/ConsoleUtilities/GameMain.Editor.ConsoleUtilities.asmdef
+Test.PlayMode,UnityEngine.TestRunner,Assets/Tests/PlayMode/Test.PlayMode.asmdef
+Test.PlayMode,UnityEditor.TestRunner,Assets/Tests/PlayMode/Test.PlayMode.asmdef
+Test.PlayMode,Core,Assets/Tests/PlayMode/Test.PlayMode.asmdef
+Test.PlayMode,GameMain.RunTime,Assets/Tests/PlayMode/Test.PlayMode.asmdef
+Test.PlayMode,GameMain.LDtk,Assets/Tests/PlayMode/Test.PlayMode.asmdef
+Test.PlayMode,GameMain.RunTime.ConsoleUtilities,Assets/Tests/PlayMode/Test.PlayMode.asmdef
+Test.Editor,198f161f050714b85981e87f526d009e,Assets/Tests/Editor/Test.Editor.asmdef
+Test.Editor,5f34f4219be7446d99f83220acdaa345,Assets/Tests/Editor/Test.Editor.asmdef
+Test.Editor,UnityEngine.TestRunner,Assets/Tests/Editor/Test.Editor.asmdef
+Test.Editor,UnityEditor.TestRunner,Assets/Tests/Editor/Test.Editor.asmdef
+Test.Editor,R3.Unity,Assets/Tests/Editor/Test.Editor.asmdef
+Test.Editor,Newtonsoft.Json,Assets/Tests/Editor/Test.Editor.asmdef
+FMODUnity,Unity.Timeline,Assets/Plugins/FMOD/FMODUnity.asmdef
+FMODUnity,Unity.Addressables,Assets/Plugins/FMOD/FMODUnity.asmdef
+FMODUnity,Unity.ResourceManager,Assets/Plugins/FMOD/FMODUnity.asmdef
+FMODUnity,Unity.RenderPipelines.Universal.Runtime,Assets/Plugins/FMOD/FMODUnity.asmdef
+IngameDebugConsole.Runtime,Unity.InputSystem,Assets/Plugins/IngameDebugConsole/IngameDebugConsole.Runtime.asmdef
+IngameDebugConsole.Runtime,Unity.TextMeshPro,Assets/Plugins/IngameDebugConsole/IngameDebugConsole.Runtime.asmdef
+Sirenix.OdinInspector.Modules.Unity.Addressables,Unity.Addressables,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef
+Sirenix.OdinInspector.Modules.Unity.Addressables,Unity.Addressables.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef
+Sirenix.OdinInspector.Modules.Unity.Addressables,Sirenix.Serialization,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef
+Sirenix.OdinInspector.Modules.Unity.Addressables,Sirenix.OdinInspector.Attributes,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef
+Sirenix.OdinInspector.Modules.Unity.Addressables,Sirenix.OdinInspector.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef
+Sirenix.OdinInspector.Modules.Unity.Addressables,Sirenix.Utilities.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef
+Sirenix.OdinInspector.Modules.Unity.Addressables,Sirenix.Utilities,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef
+Sirenix.OdinInspector.Modules.Unity.Addressables,Sirenix.OdinValidator.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Addressables/Sirenix.OdinInspector.Modules.Unity.Addressables.asmdef
+Sirenix.OdinInspector.Modules.UnityMathematics,Unity.Mathematics,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics/Sirenix.OdinInspector.Modules.UnityMathematics.asmdef
+Sirenix.OdinInspector.Modules.UnityMathematics,Sirenix.OdinInspector.Attributes,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics/Sirenix.OdinInspector.Modules.UnityMathematics.asmdef
+Sirenix.OdinInspector.Modules.UnityMathematics,Sirenix.OdinInspector.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics/Sirenix.OdinInspector.Modules.UnityMathematics.asmdef
+Sirenix.OdinInspector.Modules.UnityMathematics,Sirenix.Utilities,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics/Sirenix.OdinInspector.Modules.UnityMathematics.asmdef
+Sirenix.OdinInspector.Modules.UnityMathematics,Sirenix.Utilities.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics/Sirenix.OdinInspector.Modules.UnityMathematics.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization,Unity.Localization,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Runtime/Sirenix.OdinInspector.Modules.UnityLocalization.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization,Sirenix.Serialization,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Runtime/Sirenix.OdinInspector.Modules.UnityLocalization.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization,Sirenix.Serialization.Config,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Runtime/Sirenix.OdinInspector.Modules.UnityLocalization.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization.Editor,Unity.Localization,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization.Editor,Sirenix.Serialization,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization.Editor,Sirenix.OdinInspector.Attributes,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization.Editor,Sirenix.OdinInspector.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization.Editor,Sirenix.Utilities.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization.Editor,Unity.Localization.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization.Editor,Sirenix.Utilities,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef
+Sirenix.OdinInspector.Modules.UnityLocalization.Editor,Unity.Addressables.Editor,Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization/Editor/Sirenix.OdinInspector.Modules.UnityLocalization.Editor.asmdef
+UniTask.Editor,UniTask,Assets/Plugins/UniTask/Editor/UniTask.Editor.asmdef
+UniTask.Linq,UniTask,Assets/Plugins/UniTask/Runtime/Linq/UniTask.Linq.asmdef
+UniTask.Addressables,UniTask,Assets/Plugins/UniTask/Runtime/External/Addressables/UniTask.Addressables.asmdef
+UniTask.Addressables,Unity.ResourceManager,Assets/Plugins/UniTask/Runtime/External/Addressables/UniTask.Addressables.asmdef
+UniTask.Addressables,Unity.Addressables,Assets/Plugins/UniTask/Runtime/External/Addressables/UniTask.Addressables.asmdef
+UniTask.TextMeshPro,UniTask,Assets/Plugins/UniTask/Runtime/External/TextMeshPro/UniTask.TextMeshPro.asmdef
+UniTask.TextMeshPro,Unity.TextMeshPro,Assets/Plugins/UniTask/Runtime/External/TextMeshPro/UniTask.TextMeshPro.asmdef
+UniTask.DOTween,UniTask,Assets/Plugins/UniTask/Runtime/External/DOTween/UniTask.DOTween.asmdef
+UniTask.DOTween,DOTween.Modules,Assets/Plugins/UniTask/Runtime/External/DOTween/UniTask.DOTween.asmdef
+IngameDebugConsole.Editor,IngameDebugConsole.Runtime,Assets/Plugins/IngameDebugConsole/Editor/IngameDebugConsole.Editor.asmdef
+Zenject-ReflectionBaking-Editor,Zenject,Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Zenject-ReflectionBaking-Editor.asmdef
+Zenject-ReflectionBaking-Editor,Zenject-Editor,Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Zenject-ReflectionBaking-Editor.asmdef
+Zenject-TestFramework,Zenject,Assets/Plugins/Zenject/OptionalExtras/TestFramework/Zenject-TestFramework.asmdef
+Zenject-PoolMonitor-Editor,Zenject,Assets/Plugins/Zenject/OptionalExtras/MemoryPoolMonitor/Editor/Zenject-PoolMonitor-Editor.asmdef
+Zenject-PoolMonitor-Editor,Zenject-Editor,Assets/Plugins/Zenject/OptionalExtras/MemoryPoolMonitor/Editor/Zenject-PoolMonitor-Editor.asmdef
+Zenject-Editor,Zenject,Assets/Plugins/Zenject/Source/Editor/Zenject-Editor.asmdef
+FMODUnityEditor,FMODUnity,Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef
+FMODUnityEditor,Unity.Timeline.Editor,Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef
+FMODUnityEditor,Unity.Timeline,Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef
+FMODUnityEditor,Unity.VisualScripting.Core,Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef
+FMODUnityEditor,Unity.VisualScripting.Core.Editor,Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef
+FMODUnityEditor,Unity.VisualScripting.Flow.Editor,Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef
+FMODUnityEditor,Unity.ScriptableBuildPipeline.Editor,Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef
+FMODUnityEditor,Unity.InputSystem,Assets/Plugins/FMOD/src/Editor/FMODUnityEditor.asmdef
+FMODUnityResonance,FMODUnity,Assets/Plugins/FMOD/addons/ResonanceAudio/Scripts/FMODUnityResonance.asmdef
+FMODUnityResonanceEditor,FMODUnityResonance,Assets/Plugins/FMOD/addons/ResonanceAudio/Editor/FMODUnityResonanceEditor.asmdef
+Unity.RenderPipelines.Universal.Runtime,df380645f10b7bc4b97d4f5eb6303d95,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,69257879134bba646869b21467b3338d,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,ab67fb10353d84448ac887a7367cbda8,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,7dbf32976982c98448af054f2512cb79,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,d8b63aba1907145bea998dd612889d6b,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,2665a8d13d1b3f18800f46e256720795,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,4fd6538c1c56b409fb53fdf0183170ec,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,86bc95e6fdb13ff43aa04316542905ae,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,d04eb9c554ad44ceab303cecf0c0cf82,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,214c0945bb158c940aada223f3223ee8,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipelines.Universal.Runtime,c49c619b6af2be941af9bcbca2641964,Packages/com.unity.render-pipelines.universal/Runtime/Unity.RenderPipelines.Universal.Runtime.asmdef
+Unity.RenderPipeline.Universal.ShaderLibrary,df380645f10b7bc4b97d4f5eb6303d95,Packages/com.unity.render-pipelines.universal/ShaderLibrary/Unity.RenderPipelines.Universal.ShaderLibrary.asmdef
+Unity.RenderPipelines.Universal.Editor,15fc0a57446b3144c949da3e2b9737a9,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,d60799ab2a985554ea1a39cd38695018,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,a35efad8797223d499f8c68b1f545dbc,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,df380645f10b7bc4b97d4f5eb6303d95,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,69257879134bba646869b21467b3338d,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,3eae0364be2026648bf74846acb8a731,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,2a69708d171a17043a9d0ad45f205cfe,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,be0903cd8e1546f498710afdc59db5eb,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,b75d3cd3037d383a8d1e2f9a26d73d8a,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,329b4ccd385744985bf3f83cfd77dfe7,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,9604b18aafdbc9346bceb5e19ac9c746,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,f9fe0089ec81f4079af78eb2287a6163,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,116a4d4dbf5c04973bbf517077a062a1,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,e40ba710768534012815d3193fa296cb,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,516a5277b8c3b4f4c8cc86b77b1591ff,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,4fd6538c1c56b409fb53fdf0183170ec,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,41524c21c95e5fe4dbc5b48bd21995a4,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.Editor,24bbfa70f4a5840c3ab7da95e6835815,Packages/com.unity.render-pipelines.universal/Editor/Unity.RenderPipelines.Universal.Editor.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,15fc0a57446b3144c949da3e2b9737a9,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,d60799ab2a985554ea1a39cd38695018,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,a35efad8797223d499f8c68b1f545dbc,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,df380645f10b7bc4b97d4f5eb6303d95,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,69257879134bba646869b21467b3338d,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,3eae0364be2026648bf74846acb8a731,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,2a69708d171a17043a9d0ad45f205cfe,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,be0903cd8e1546f498710afdc59db5eb,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,b75d3cd3037d383a8d1e2f9a26d73d8a,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,329b4ccd385744985bf3f83cfd77dfe7,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,9604b18aafdbc9346bceb5e19ac9c746,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,f9fe0089ec81f4079af78eb2287a6163,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,116a4d4dbf5c04973bbf517077a062a1,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,e40ba710768534012815d3193fa296cb,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,516a5277b8c3b4f4c8cc86b77b1591ff,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,4fd6538c1c56b409fb53fdf0183170ec,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+Unity.RenderPipelines.Universal.2D.Editor.Overrides,41524c21c95e5fe4dbc5b48bd21995a4,Packages/com.unity.render-pipelines.universal/Editor/2D/Overrides/Unity.RenderPipelines.Universal.2D.Editor.Overrides.asmdef
+PPv2URPConverters,c579267770062bf448e75eb160330b7f,Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2ToURPConvertersDefinition.asmdef
+PPv2URPConverters,a35efad8797223d499f8c68b1f545dbc,Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2ToURPConvertersDefinition.asmdef
+PPv2URPConverters,15fc0a57446b3144c949da3e2b9737a9,Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2ToURPConvertersDefinition.asmdef
+PPv2URPConverters,d60799ab2a985554ea1a39cd38695018,Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2ToURPConvertersDefinition.asmdef
+PPv2URPConverters,3eae0364be2026648bf74846acb8a731,Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2ToURPConvertersDefinition.asmdef
+PPv2URPConverters,df380645f10b7bc4b97d4f5eb6303d95,Packages/com.unity.render-pipelines.universal/Editor/Converter/PPv2/PPv2ToURPConvertersDefinition.asmdef
+SampleAssembly,Unity.InputSystem,Packages/com.unity.render-pipelines.universal/Samples~/URPPackageSamples/SharedAssets/Scripts/SampleAssembly.asmdef
+SampleAssembly,Unity.RenderPipelines.Core.Runtime,Packages/com.unity.render-pipelines.universal/Samples~/URPPackageSamples/SharedAssets/Scripts/SampleAssembly.asmdef
+SampleAssembly,Unity.RenderPipelines.Universal.Editor,Packages/com.unity.render-pipelines.universal/Samples~/URPPackageSamples/SharedAssets/Scripts/SampleAssembly.asmdef
+SampleAssembly,Unity.RenderPipelines.Universal.Runtime,Packages/com.unity.render-pipelines.universal/Samples~/URPPackageSamples/SharedAssets/Scripts/SampleAssembly.asmdef
+Unity.RenderPipelines.Universal.Runtime.Tests,15fc0a57446b3144c949da3e2b9737a9,Packages/com.unity.render-pipelines.universal/Tests/Runtime/Unity.RenderPipelines.Universal.Runtime.Tests.asmdef
+Unity.RenderPipelines.Universal.Runtime.Tests,27619889b8ba8c24980f49ee34dbb44a,Packages/com.unity.render-pipelines.universal/Tests/Runtime/Unity.RenderPipelines.Universal.Runtime.Tests.asmdef
+Unity.RenderPipelines.Universal.Runtime.Tests,0acc523941302664db1f4e527237feb3,Packages/com.unity.render-pipelines.universal/Tests/Runtime/Unity.RenderPipelines.Universal.Runtime.Tests.asmdef
+Unity.RenderPipelines.Universal.Runtime.Tests,516a5277b8c3b4f4c8cc86b77b1591ff,Packages/com.unity.render-pipelines.universal/Tests/Runtime/Unity.RenderPipelines.Universal.Runtime.Tests.asmdef
+Unity.RenderPipelines.Universal.Runtime.Tests,d8b63aba1907145bea998dd612889d6b,Packages/com.unity.render-pipelines.universal/Tests/Runtime/Unity.RenderPipelines.Universal.Runtime.Tests.asmdef
+Unity.RenderPipelines.Universal.Runtime.Tests,df380645f10b7bc4b97d4f5eb6303d95,Packages/com.unity.render-pipelines.universal/Tests/Runtime/Unity.RenderPipelines.Universal.Runtime.Tests.asmdef
+Unity.RenderPipelines.Universal.Runtime.Tests,41524c21c95e5fe4dbc5b48bd21995a4,Packages/com.unity.render-pipelines.universal/Tests/Runtime/Unity.RenderPipelines.Universal.Runtime.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,15fc0a57446b3144c949da3e2b9737a9,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,c579267770062bf448e75eb160330b7f,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,df380645f10b7bc4b97d4f5eb6303d95,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,27619889b8ba8c24980f49ee34dbb44a,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,0acc523941302664db1f4e527237feb3,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,516a5277b8c3b4f4c8cc86b77b1591ff,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,d8b63aba1907145bea998dd612889d6b,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,6e5480588ffa37d4f82fe96c45e8ce9c,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.Editor.Tests,3eae0364be2026648bf74846acb8a731,Packages/com.unity.render-pipelines.universal/Tests/Editor/Unity.RenderPipelines.Universal.Editor.Tests.asmdef
+Unity.RenderPipelines.Universal.2D.Runtime,df380645f10b7bc4b97d4f5eb6303d95,Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef
+Unity.RenderPipelines.Universal.2D.Runtime,d8b63aba1907145bea998dd612889d6b,Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef
+Unity.RenderPipelines.Universal.2D.Runtime,15fc0a57446b3144c949da3e2b9737a9,Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef
+Unity.RenderPipelines.Universal.2D.Runtime,ab67fb10353d84448ac887a7367cbda8,Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef
+Unity.RenderPipelines.Universal.2D.Runtime,41524c21c95e5fe4dbc5b48bd21995a4,Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef
+Unity.RenderPipelines.Universal.2D.Runtime,caccfbdb442cdc64fa722b4c5585521f,Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef
+Unity.RenderPipelines.Universal.2D.Runtime,2665a8d13d1b3f18800f46e256720795,Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef
+Unity.RenderPipelines.Universal.2D.Runtime,RenderAs2DModule,Packages/com.unity.render-pipelines.universal/Runtime/2D/Unity.RenderPipelines.Universal.2D.Runtime.asmdef

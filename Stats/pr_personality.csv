@@ -1,0 +1,99 @@
+number,title,author,topic,lead_time_hours,churn,changed_files,merged,personality
+120,Develop,Vanish,Other,,705761,2442,True,巨型迁移
+254,feat: 实现 FMOD 音频系统 (VgAudioManager),Vanish,Audio,,499119,2493,True,巨型迁移
+221,"Revert ""1 (#221)""",Vanish,Other,,345521,47,True,巨型迁移
+340,Make Urp Embeded and add new overlap operation mode: Use Max,Vanish,Other,,315182,2739,True,巨型迁移
+217,update,OriSYX,Other,,304435,220,True,巨型迁移
+74,[MILESTONE] 终于可以开始开发了,Vanish,Other,,275719,3340,True,巨型迁移
+250,咋这么多更改吓哭了,likoko,Other,,192327,1924,True,巨型迁移
+40,feat: import ase,消失,Other,,190264,1905,True,巨型迁移
+351,Stats,Vanish,Docs/Stats,,133754,44,True,巨型迁移
+173,171 room manager,Vanish,Other,,95161,964,True,巨型迁移
+342,5.20 project,OriSYX,Other,,90766,50,True,常规推进
+309,4.29 project,OriSYX,Other,,67732,265,True,常规推进
+5,Vanish/feature import odin,消失,Other,,49615,129,True,常规推进
+57,Develop [ADD BUILD][ADD DEPLOY],Vanish,Build/CI,,45515,464,True,常规推进
+93,Develop,Vanish,Other,,37422,925,True,巨型迁移
+284,4.17 project,OriSYX,Other,,32725,732,True,巨型迁移
+285,贪吃蛇,Vanish,Other,,30100,739,True,巨型迁移
+213,Oris/3.24 project,OriSYX,Other,,26943,63,True,常规推进
+53,Upgrade CodeUnfucker [SKIP CI],Vanish,Build/CI,,23082,197,True,常规推进
+314,Oris Update,Vanish,Other,,20342,79,True,常规推进
+311,Likoko/5.6,likoko,Other,,18713,43,True,常规推进
+45,Automation Pipeline,消失,Build/CI,,17305,200,True,常规推进
+251,Refactor Save System and Enhance LDtk Integration,Vanish,Refactor,,16553,89,True,常规推进
+138,Oris/3.4 project,OriSYX,Other,,16368,554,True,巨型迁移
+345,111,likoko,Other,,15029,6,True,常规推进
+263,feat: transition to RainRust project & refactor CI/CD/Core systems,Vanish,Refactor,,10755,171,True,常规推进
+290,4.26 new start,OriSYX,Assets/Art,,10138,100,True,常规推进
+320,333,OriSYX,Other,,9914,31,True,常规推进
+54,Add In Game Console [SKIP CI],Vanish,Build/CI,,9406,85,True,常规推进
+209,butify,Vanish,Other,,9227,98,True,常规推进
+198,197 camera,Vanish,Rendering,,8257,124,True,常规推进
+315,加了一些植物,likoko,Other,,7797,15,True,常规推进
+229,"Revert ""final after lfs installed (#229)""",Vanish,Other,,7313,11,True,常规推进
+225,"Revert ""update scene (#225)""",Vanish,Level/LDtk,,7313,11,True,常规推进
+227,"Revert ""update ldtk (#227)""",Vanish,Level/LDtk,,7130,1,True,常规推进
+118,Render Pipeline,Vanish,Rendering,,6926,166,True,常规推进
+294,4.26 project,OriSYX,Other,,5362,22,True,常规推进
+195,Oris/3.22 project [SKIP CICD],OriSYX,Build/CI,,5264,13,True,常规推进
+131,Oris/new movement1,Vanish,Gameplay,,3779,89,True,常规推进
+186,ruletile不显示的问题反馈,OriSYX,Level/LDtk,,2774,10,True,常规推进
+9,Develop,消失,Other,,2724,76,True,常规推进
+305,feat & refactor: 实现声纳阻挡系统、重构 Loading Splash 体系及优化玩家能力逻辑,Vanish,Refactor,,2106,84,True,常规推进
+316,Vanish/fuck unity,Vanish,Other,,1943,89,True,常规推进
+266,feat: WebGL 构建 + GitHub Pages 部署 + CI/CD 修复 (#266),Vanish,Build/CI,,1775,13,True,常规推进
+185,174 background,Vanish,Other,,1738,34,True,常规推进
+344,1,OriSYX,Other,,1554,12,True,常规推进
+328,Super Text,Vanish,Other,,1539,48,True,常规推进
+348,Vanish/menu UI,Vanish,UI,,1367,22,True,常规推进
+1,Add ConsolePro plugin and remove tutorial assets,消失,Assets/Art,,1349,24,True,常规推进
+215,Vanihs/lighting,Vanish,Rendering,,1075,32,True,常规推进
+55,Update and refactor CodeUnfucker Bridge,Vanish,Refactor,,992,7,True,常规推进
+312,Likoko/5.6,likoko,Other,,897,16,True,常规推进
+18,Develop,消失,Other,,780,27,True,常规推进
+201,update[SKIP CICD],Vanish,Build/CI,,775,5,True,常规推进
+199,"Revert ""update (#199)""",Vanish,Other,,770,3,True,常规推进
+331,RainRust 光照: 修复 alpha 语义不一致 + Debug 可视化,Vanish,Bug/Fix,,670,16,True,常规推进
+239,237 hybird lighting solution,Vanish,Rendering,,663,17,True,常规推进
+50,Vanish/fp rop core [SKIP CI],Vanish,Build/CI,,641,10,True,常规推进
+12,feat: Add demo scenes and unit tests for ThirdPersonController,消失,Tests,,590,25,True,常规推进
+337, 一些贪吃蛇数据加载,Vanish,Other,,545,20,True,常规推进
+242,Likoko/4.2bg,likoko,Other,,544,27,True,常规推进
+52,Integrate roslyn-lint configuration into pipeline,Vanish,Data/Save,,541,4,True,常规推进
+204,Vanish/fixing everything,Vanish,Bug/Fix,,416,18,True,常规推进
+223,update,Vanish,Other,,410,8,True,小刀快修
+110,Develop,Vanish,Other,,381,2,True,小刀快修
+274,add some lights,likoko,Rendering,,335,10,True,小刀快修
+21,Develop,消失,Other,,331,2,True,小刀快修
+46,环境配置脚本 [SKIP CI],消失,Build/CI,,301,3,True,小刀快修
+139,feat: 添加任务清理与回收工作流，优化逾期任务检测逻辑,Vanish,Other,,300,3,True,小刀快修
+134,feat: 添加CRT效果材质和着色器，更新渲染设置,Vanish,Other,,251,7,True,小刀快修
+279,修好了一个蠢bug,Vanish,Bug/Fix,,245,39,True,常规推进
+170,169 ab tile,Vanish,Level/LDtk,,227,11,True,常规推进
+196,178 level camera,Vanish,Rendering,,201,12,True,常规推进
+219,update,Vanish,Other,,157,4,True,小刀快修
+38,[Automation] feat: ci-pipeline (#38),消失,Build/CI,,145,1,True,小刀快修
+341,mistery fog,Vanish,Other,,119,7,True,小刀快修
+220,测试一下,likoko,Other,,98,7,True,小刀快修
+123,bugfix: 修复aciton,Vanish,Bug/Fix,,90,1,True,小刀快修
+172,RainRust渲染纹理尺寸,Vanish,Other,,85,2,True,小刀快修
+310,4.29 project,OriSYX,Other,,80,2,True,小刀快修
+319,"Add Lights""",Vanish,Rendering,,50,10,True,小刀快修
+236,update,Vanish,Other,,44,2,True,小刀快修
+350,Introduce shared game identifiers and standardize startup constants,Vanish,Assets/Art,,41,9,True,小刀快修
+235,done,Vanish,Other,,32,3,True,小刀快修
+4,Develop,消失,Other,,21,3,True,小刀快修
+334,change snake move mode,Vanish,Other,,21,1,True,小刀快修
+206,crt effect,Vanish,Other,,18,3,True,小刀快修
+135,fix: 更新Crt材质和场景文件的LFS引用,Vanish,Bug/Fix,,12,3,True,小刀快修
+280,增加了光源阻挡,Vanish,Other,,12,1,True,小刀快修
+3,feat: update default values and descriptions for deployment and build targets in CI/CD pipeline,消失,Build/CI,,12,1,True,小刀快修
+136,chore: 移除不再使用的com.boxqkrtm.ide.cursor依赖,Vanish,Other,,10,2,True,小刀快修
+13,feat: update default build targets for step 2 in CI/CD workflow,消失,Build/CI,,6,1,True,小刀快修
+202,update,Vanish,Other,,4,2,True,小刀快修
+64,"Revert ""[SKIP CICD]Update README.md""",Vanish,Docs/Stats,,4,1,True,小刀快修
+176,Update Scene,OriSYX,Level/LDtk,,2,1,True,小刀快修
+42,Vanish/automation pipeline,消失,Build/CI,,1,1,True,小刀快修
+41,Vanish/sample odin editor,消失,Other,,1,1,True,小刀快修
+7,Develop,消失,Other,,0,0,True,小刀快修

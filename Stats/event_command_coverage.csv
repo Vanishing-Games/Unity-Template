@@ -1,0 +1,13 @@
+assembly_dir,code_files,has_events_dir,event_files,has_commands_dir,command_files,events_per_code_file,commands_per_code_file
+Assets/Core,108,True,5,False,0,0.046,0.0
+Assets/Demos,20,False,0,False,0,0.0,0.0
+Assets/Demos/FunctionDev/CharacterControllerDemo,18,False,0,False,0,0.0,0.0
+Assets/Demos/FunctionDev/FpDemo,1,False,0,False,0,0.0,0.0
+Assets/Demos/FunctionDev/Sonar,1,False,0,False,0,0.0,0.0
+Assets/Rendering/RainRust,12,False,0,False,0,0.0,0.0
+Assets/GameMain/LDtkProject,1,False,0,False,0,0.0,0.0
+Assets/GameMain/Scripts/RunTime,90,True,6,True,3,0.067,0.033
+Assets/GameMain/Scripts/Editor,9,True,1,False,0,0.111,0.0
+Assets/GameMain/Scripts/Editor/ConsoleUtilities,0,False,0,False,0,0.0,0.0
+Assets/Tests/PlayMode,1,False,0,False,0,0.0,0.0
+Assets/Tests/Editor,3,False,0,False,0,0.0,0.0

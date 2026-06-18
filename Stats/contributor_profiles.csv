@@ -1,0 +1,4 @@
+canonical_author,commits,insertions,deletions,net_lines,churn,files_touched,unique_files_touched,current_bytes_touched,avg_churn_per_commit,top_domain,top_domain_churn,top_extension,top_extension_churn,preference,aliases
+Vanish,215,2351319,1127320,1223999,3478639,19597,12295,537059162,16179.72,Level Design,1106591,.cs,1133713,Level Design / .cs,"Vanish, Vanish0314, vanish, 消失"
+OriSYX,14,457168,116889,340279,574057,2075,1822,26889854,41004.07,Level Design,501753,.ldtk,491301,Level Design / .ldtk,OriSYX
+likoko,11,415982,165283,250699,581265,2096,2072,35737982,52842.27,Level Design,379768,.ldtk,377616,Level Design / .ldtk,likoko

@@ -1,0 +1,14 @@
+path,lines,bytes,game_objects,components,mono_behaviours,transforms,sprite_renderers,colliders_2d,rigidbodies_2d,guid_refs,unique_guid_refs,complexity_score
+Assets/GameMain/Scenes/Develop/GameLevel2.unity,83969,3959547,18,222,4,7,0,195,0,17839,16,137566
+Assets/_Recovery/0.unity,57926,2742587,22,171,3,38,1,83,0,11457,19,92357
+Assets/GameMain/Scenes/Develop/GameLevel1.unity,50604,2332121,98,277,15,20,11,179,11,10109,25,81231
+Assets/Demos/FunctionDev/AbTile/demo_abtile_scene.unity,7709,207874,26,31,0,7,0,0,0,18,9,7763
+Assets/Demos/RainRustRenderPipelineDemo/DemoScene_01.unity,7526,202877,28,33,2,7,0,0,0,17,9,7617
+Assets/Demos/FunctionDev/Background/demo_scene_background.unity,3347,90344,111,117,3,39,27,0,0,44,15,3539
+Assets/Demos/FunctionDev/CharacterControllerDemo/OriTest/Scene/PlayerControlTestScene.unity,2562,66742,78,84,6,18,11,12,11,50,13,2832
+Assets/Demos/FunctionDev/CharacterControllerDemo/CharacterControllerPlayground.unity,2292,59397,67,73,3,14,10,11,10,45,10,2487
+Assets/GameMain/Scenes/Develop/TextScene.unity,781,22864,25,30,10,8,0,0,0,27,12,1062
+Assets/Demos/RainRustRenderPipelineDemo/DemoScene_02.unity,592,16095,17,22,2,5,3,0,0,12,7,668
+Assets/Demos/FunctionDev/FpDemo/FpSampleScene.unity,385,10086,11,16,2,3,0,0,0,4,4,437
+Assets/GameMain/Scenes/Develop/UIScene.unity,333,9217,9,14,3,2,0,0,0,7,6,414
+Assets/_Recovery/0 (1).unity,125,3486,0,5,0,0,0,0,0,2,2,131
