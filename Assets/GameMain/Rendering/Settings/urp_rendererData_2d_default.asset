@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
   m_Name: FullScreenPassRendererFeature
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.FullScreenPassRendererFeature
-  m_Active: 0
+  m_Active: 1
   injectionPoint: 600
   fetchColorBuffer: 1
   requirements: 4
@@ -107,7 +107,8 @@ MonoBehaviour:
     jfaInitShader: {fileID: 4800000, guid: dd31d820cbe84594ab44e95677803384, type: 3}
     jfaShader: {fileID: 4800000, guid: 8eca780a8019b4342aaae937ef5ea113, type: 3}
     distanceShader: {fileID: 4800000, guid: e5b5c2dcbb8666748a8787686a9c2b44, type: 3}
-    unpremultiplyShader: {fileID: 4800000, guid: 529b71fe6af22c2448df2d9f0ed024d4, type: 3}
+    unpremultiplyShader: {fileID: 4800000, guid: 529b71fe6af22c2448df2d9f0ed024d4,
+      type: 3}
     rayTracingShader: {fileID: 4800000, guid: 86ce958f21ce23d4a8bb8b0d38411f75, type: 3}
     compositionShader: {fileID: 4800000, guid: a61490a2ecb36094599f34a4839eed3b, type: 3}
     blitShader: {fileID: 4800000, guid: c17132b1f77d20942aa75f8429c0f8bc, type: 3}
