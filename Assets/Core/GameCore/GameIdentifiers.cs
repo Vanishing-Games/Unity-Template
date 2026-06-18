@@ -4,7 +4,7 @@ namespace Core
     {
         public static class SavePoints
         {
-            public const string NewGame = "GameStartSavePoint";
+            public const string NewGame = "StartCheck";
         }
 
         public static class Chapters
